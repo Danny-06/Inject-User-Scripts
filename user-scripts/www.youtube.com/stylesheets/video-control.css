@@ -1,0 +1,50 @@
+.html5-video-player {
+  overflow: clip !important;
+}
+
+.html5-video-container {
+  height: 100%;
+}
+
+
+video,
+canvas#player {
+  transform:
+  scale( var(--scale, 1) )
+
+  translateX( var(--translateX, 0) )
+  translateY( var(--translateY, 0) )
+
+  rotateZ( var(--rotateZ, 0deg) )
+  ;
+}
+
+
+
+
+.ytp-panel {
+  overscroll-behavior: contain;
+}
+
+
+/* Borde sutil para el contenedor de los videos  */
+#ytd-player {
+  box-shadow: #333 0 0 0 1px !important;
+}
+
+video,
+canvas#player {
+  box-shadow: #fff 0px 0px 5px 0px;
+}
+
+/* Contenedor de subtitulos  */
+/* Permitir la pausa y play del video cuando se hace click en el contenedor */
+#ytp-caption-window-container {
+  pointer-events: none !important;
+}
+
+
+/*Evitar la contacto con la barra lateral en pantalla completa  */
+#player-theater-container {
+  z-index: 99999999;
+}

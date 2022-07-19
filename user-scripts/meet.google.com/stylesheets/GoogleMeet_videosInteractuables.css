@@ -1,0 +1,339 @@
+.NOT_VISIBLE {
+  display: none !important;
+}
+
+
+
+/* VIDEOS */
+
+@property --translateX {
+  syntax: '<resolution>';
+  initial-value: 0px;
+  inherits: false;
+}
+
+@property --translateY {
+  syntax: '<resolution>';
+  initial-value: 0px;
+  inherits: false;
+}
+
+@property --scale {
+  syntax: '<number>';
+  initial-value: 1;
+  inherits: false;
+}
+
+@property --scaleX {
+  syntax: '<number>';
+  initial-value: 1;
+  inherits: false;
+}
+
+@property --scaleY {
+  syntax: '<number>';
+  initial-value: 1;
+  inherits: false;
+}
+
+@property --rotateZ {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+
+video, iframe {
+  /* El orden de las funciones es importante */
+  transform:
+  scale( var(--scale, 1) )
+   
+/*   scaleX( var(--scaleX, 1) ) */
+/*   scaleY( var(--scaleY, 1) ) */
+  
+  translate( var(--translateX, 0px), var(--translateY, 0px) )
+  
+/*   translateX( var(--translateX, 0px) ) */
+/*   translateY( var(--translateY, 0px) ) */
+
+  rotateZ( var(--rotateZ, 0deg) )
+
+/*   scale( var(--scale, 1) ) */
+  scaleX( var(--scaleX, 1) )
+/*   scaleY( var(--scaleY, 1) ) */
+
+  !important;
+}
+
+
+.xsj2Ff.Zf0RDc.PoIECb.GskdZ.AwnI1b.vLRPrf [data-self-name="Tú"]::after {
+  content: ' y Danny';
+}
+
+body.HIDDEN [jscontroller="eZ1uA"] {
+  display: none !important;
+  visibility: hidden;
+  width: 0 !important;
+  max-width: 0 !important;
+  height: 0 !important;
+  max-height: 0 !important;
+}
+
+/* Solución de interación con los videos estrechos */
+.zWfAib:not([jsname="v2aOce"]) > * > * > .knW4sf.OvyUed {
+/*   width: 50% !important; */
+/*   margin: auto !important; */
+  pointer-events: none !important;
+}
+/* Arreglo de las fotos de perfil después del cambio aplicado de arriba */
+.zWfAib .uSECwd {
+/*   width: 80% !important; */
+}
+
+
+/* Añadir lineas de división a los video */
+.xsj2Ff.Zf0RDc.PoIECb::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow:inset #444 0 0 0 1px;
+  z-index: 999;
+  
+  pointer-events: none;
+}
+
+
+/* Color de Fondo para las presentaciones */
+.koV58.Zi94Db.S7urwe {
+/*   box-shadow: #fff 0 0 5px 0; */
+  background: #2229;
+}
+
+/* Clase que está en la webcam de uno mismo que invierte el video */
+.Gv1mTb-PVLJEc {
+  --scaleX: -1;
+}
+
+/* Evitar que al usar la manipulación de video aparezca el menu de botones de los videos */
+.koV58.Zi94Db.S7urwe:active +
+.P48BS.MSqqjf,
+
+.koV58.Zi94Db.S7urwe:active +
+* +
+.P48BS.MSqqjf {
+  display: none;
+}
+
+/* Nombre de los usuarios o presentaciones */
+/*.ZY8hPc.gtgjre.pZFrDd,
+.koV58.Zi94Db.S7urwe*/
+[jscontroller="HTP19d"] {
+  pointer-events: none
+}
+
+/* Mostrar siempre el contenedor de los video */
+.koV58.hS9zse .TPpRNe,
+.koV58:not(.S7urwe):not(.hS9zse) .TPpRNe {
+  opacity: 1 !important;
+}
+
+/* Mostrar icono del usuario incluso si tiene la webcam activada */
+.knW4sf.OvyUed {
+  display: flex !important;
+}
+
+
+/* Div, que contiene los botones superpuestos en los videos */
+/* Modificación de la altura para que no se superponga al video y
+solo se muestre al poner el ratón en la parte superior del video */
+[jscontroller="eZ1uA"] {
+  height: 40% !important;
+}
+
+/* Permitir la interacción con los videos de las camaras */
+video {
+  pointer-events: auto !important;
+}
+
+/* Interfaz de los videos (se sigue podiendo pausar con click y hacer pantalla completa con doble click) */
+/*video::-webkit-media-controls-enclosure {
+  display: none;
+}*/
+
+
+video::-webkit-media-controls {
+  display: none;
+}
+
+
+
+/* Deshabilitar la pantalla de carga de las presentaciones */
+[jsname="gIP2hf"] {
+  display: none !important;
+}
+
+
+
+
+
+
+
+/*
+!video::-internal-media-controls-loading-panel {
+    display: block !important;opacity: 1 !important;
+}*/
+
+/* Botón superior izquierda que no se puede usar*/
+/*!video::-internal-media-controls-overlay-cast-button {
+    display: block !important;opacity: 1 !important;
+}*/
+
+/*!video::-internal-media-interstitial {
+    display: flex !important;opacity: 1 !important;background: #000 !important;
+}*/
+
+/*!video::-internal-media-controls-loading-panel {
+    display: block !important;opacity: 1 !important;
+}*/
+
+
+/* Contenedor Archivos Adjuntos */
+.NB7HVd.Hf0AAb {
+  overflow: auto;
+}
+
+/* Popup de la información de la sala y los Archivos adjuntos */
+
+.TZFSLb.U9X0yc.O3KK7.qjTEB {
+  top: unset !important;
+  bottom: 100px !important;
+  min-height: 340px;
+  max-height: 340px;
+}
+
+.TZFSLb.U9X0yc.O3KK7.qjTEB > *:nth-child(1) {
+  min-height: 300px !important;
+  max-height: 300px !important;
+}
+
+.NB7HVd.Hf0AAb {
+/*   height: 290px !important; */
+}
+
+/* Sala de espera, capa superior e inferior que está en la previsualización de la webcam */
+.CpPRrf,
+.mWzGw {
+  pointer-events: none;
+}
+
+
+
+/* Codigo injectado desde el chat */
+
+.jsIndexed,
+[jsIndexed]
+[data-message-text^="javascript:"] {
+  color: #ff0 !important;
+  font-family: monospace !important;
+}
+
+.jsExecuted,
+[jsExecuted] {
+  color: #ff0 !important;
+  font-family: monospace !important;
+  
+  background: #ff0 !important;
+  user-select: none !important;
+}
+
+
+/* Ajustes Video miniatura */
+
+[jsname="uvGoWb"] {
+  outline: solid #666 2px;
+}
+
+
+
+
+
+/* Barra de progreso */
+
+label#file-name {
+  display: block;
+  margin: auto;
+  width: fit-content;
+  margin-bottom: 5px;
+  padding: 0 0.5rem;
+
+  font-size: 1rem;
+  font-family: Arial;
+  user-select: none;
+}
+
+progress#file-upload-progress {
+  display: block;
+  margin: auto;
+  width: 90%;
+  height: 8px;
+  border-width: 0;
+}
+
+progress#file-upload-progress[data-state="download"] {
+  --_progress-bar-background-color: #0f0;
+}
+
+progress {
+  all: unset;
+  display: inline-block;
+  /* This is the only value of this property that make it look the same in all browsers */
+  vertical-align: top;
+  overflow: hidden;
+
+  width: 10em;
+  height: 1em;
+
+  background-color: #444;
+  --_progress-bar-background-color: #09f;
+
+  border-radius: 1em;
+  border: solid #fff 2px;
+}
+
+progress::-webkit-progress-inner-element {
+  all: unset;
+  display: block;
+
+  width: 100%;
+  height: 100%;
+}
+
+
+progress::-webkit-progress-bar {
+  all: unset;
+  display: block;
+
+  width: 100%;
+  height: 100%;
+}
+
+progress::-webkit-progress-value {
+  all: unset;
+  display: block;
+
+  height: 100%;
+  background-color: var(--_progress-bar-background-color, #09f);
+}
+
+
+progress::-moz-progress-bar {
+  all: unset;
+  display: block;
+
+  background-color: var(--_progress-bar-background-color, #09f);
+  width: 100%;
+  height: 100%;
+}

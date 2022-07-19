@@ -1,0 +1,1274 @@
+@charset "UTF-8";
+
+
+img {
+    object-fit: cover;
+}
+
+body {
+  background: #222;
+  color: #fff;
+}
+
+img[src^="blob:"] + span {
+  display: none !important;
+}
+
+
+/* Texto del chat editable */
+.z38b6.CnDs7d.hPqowe {
+/*   -webkit-user-modify: read-write; */
+}
+
+/* Evitar que la hora se oculte al hacer Pantalla Completa con doble click */
+.xfd0yd {
+    display: flex !important;
+}
+
+html, body {
+  background: #111;
+}
+
+/* Color del texto del placeholder */
+textarea::-webkit-input-placeholder {
+  color: #999;
+}
+
+/* EASTER EGGS */
+
+/* Icono del botón de "Levantar la mano" */
+/* .OCZA0d {
+  position: relative;
+  top: 8px;
+} */
+
+.w5wUXb {
+  white-space: nowrap;
+}
+
+/* Texto del botón de "Levantar la mano" */
+.x4JyWe .sPXonc {
+  overflow: visible;
+  position: relative;
+  top: 50px;
+}
+
+/* Configuración para apartar el texto de "Levantar la mano" y poner el mio personalizado */
+.x4JyWe .sPXonc:before {
+  content: 'No levantes la mano';
+  content: 'Levantar la mano';
+  display: block;
+/*   color: #0ff; */
+  position: relative;
+  top: -42px;
+}
+
+
+
+[jscontroller="WFseLe"], /* Botón que banea a un usuario de la reunión */
+[jscontroller="K3UKRb"] /* Botón que silencia a un usuario */
+{
+/*   display: none; */
+/*   visibility: hidden; */
+}
+
+
+/*********************************************************************************/
+/* Ocultar botón de Subtitulos */
+.Q8K3Le {
+   display: none; 
+}
+
+/* Icono del botón de "Activar subtítulos" */
+.XFtqNb {
+  position: relative;
+  top: 8px;
+}
+
+/* Texto del botón de "Activar subtítulos" */
+.I98jWb {
+  overflow: visible;
+  position: relative;
+  top: 50px;
+}
+
+/* Configuración para apartar el texto de "Activar subtítulos" y poner el mio personalizado */
+.I98jWb:before {
+  content: 'Gonza te veo';
+  content: 'Activar subtitulos';
+  display: block;
+/*   color: #0ff; */
+  position: relative;
+  top: -42px;
+}
+
+/**************************************************************************************/
+
+/* Titulo de la pantalla compartida (Ej: Danny está presentando) */
+span.z1gyye.bGuvKd:after {
+  content:' porque Danny lo permite';
+  color: #0ff;
+}
+
+
+/*****************************************************************************************/
+
+body:after {
+    content: var(--content);
+    font-family: var(--fontFamily);
+    color: var(--color);
+    font-size: var(--fontSize);
+    
+    background: var(--background);
+    padding: var(--padding);
+    border-radius: var(--borderRadius);
+  
+    box-shadow: var(--boxShadow);
+    
+    position: fixed;
+    top: var(--top);
+    left: var(--left);
+    z-index: var(--zIndex);
+}
+
+
+/* Texto 'Tú' de la esquina superior derecha donde se muestra tu foto de perfil o cámara */
+.pUTHKf {
+  color: #fff !important;
+/*   background: #333a; */
+}
+
+.pUTHKf:after {
+/* 	content: ' y Danny'; */
+}
+
+
+
+
+
+/* Sección donde aparecen los participantes no visibles en el 'mosaico' */
+.Aa4Vd { /* Ancho fijo en lugar de variable según contenido */
+    width: 280px;
+}
+.Aa4Vd:nth-child(2):after /*.fIL7Pb.oJiCzd*/ {
+    content: '| Arriba España';
+    position: absolute;
+    top: 15px;
+    left: 65%;
+}
+
+
+
+
+
+/************************************************************************************************/
+/************************************************************************************************/
+/************************************************************************************************/
+
+
+/* NOTIFICACIONES FLOTANTES */
+
+/* Popup Izquierda */
+/*
+.Mh0NNb.Mp2Z0b.misTTe {
+	width: fit-content;
+	position: relative !important;
+	top: 70% !important;
+}
+*/
+
+/* Mensajes de Chat y notificación de Usuario entrante */
+/*.uArJ5e.UQuaGc.AeAAkf.BO1rpc.KQZr0e./*x8iLtd*/
+.NSvDmb.cM3h5d.Uir1pc,
+.NSvDmb.cM3h5d { /* jscontroller="u73V0c" */
+/* 	position: fixed !important; */
+/* 	top: 50% !important; */
+/*   height: 0 !important; */
+}
+
+/* Mensajes del chat */
+.uArJ5e.UQuaGc.AeAAkf.BO1rpc.KQZr0e.ZNiiKc {
+/* 	position: fixed !important; */
+/* 	top: 70% !important; */
+}
+
+/* .hPqowe::-webkit-scrollbar-thumb {
+	background: #0009 !important;
+} */
+
+
+
+
+/* Pantalla donde se crean las reuniones */
+header.gb_qa.gb_Wa.gb_Te.gb_Jc {
+  background: #222 !important;
+}
+.VdLOD.yUoCvf.fXx9Lc {
+  background: #333 !important;
+  color: #aaa !important;
+}
+
+.ws7pec.k3Pzib {
+  background: #333 !important;
+  border-color: #777 !important;
+}
+
+.Oh2Vvd,
+p,
+.g7TyUe {
+  color: #ccc !important;
+}
+
+.U3PPnd,
+.U2dFAf,
+.ZAi6cc {
+  color: #aaa !important;
+}
+
+.Ssc6Id.Dx8PDb.nulMpf.BvHyo {
+  border-color: #222 !important;
+}
+
+
+.VfPpkd-xl07Ob-XxIAqe.VfPpkd-xl07Ob.q6oraf.P77izf.IPsnnf.VfPpkd-xl07Ob-XxIAqe-OWXEXe-FNFY6c.VfPpkd-xl07Ob-XxIAqe-OWXEXe-uxVfW-FNFY6c-uFfGwd {
+  background: #333 !important;
+}
+
+.VfPpkd-xl07Ob-XxIAqe.VfPpkd-xl07Ob.q6oraf.P77izf.IPsnnf.VfPpkd-xl07Ob-XxIAqe-OWXEXe-FNFY6c.VfPpkd-xl07Ob-XxIAqe-OWXEXe-uxVfW-FNFY6c-uFfGwd > ul,
+.VfPpkd-xl07Ob-XxIAqe.VfPpkd-xl07Ob.q6oraf.P77izf.IPsnnf.VfPpkd-xl07Ob-XxIAqe-OWXEXe-FNFY6c.VfPpkd-xl07Ob-XxIAqe-OWXEXe-uxVfW-FNFY6c-uFfGwd > ul > li > span {
+  color: #aaa !important;
+}
+
+:not(.VfPpkd-rymPhb-ibnC6b-OWXEXe-OWB6Me).VfPpkd-rymPhb-ibnC6b:hover .VfPpkd-rymPhb-pZXsl::before, :not(.VfPpkd-rymPhb-ibnC6b-OWXEXe-OWB6Me).VfPpkd-rymPhb-ibnC6b.VfPpkd-ksKsZd-XxIAqe-OWXEXe-ZmdkE .VfPpkd-rymPhb-pZXsl::before {
+  opacity: 0.3 !important;
+}
+
+
+
+
+
+/* Videollamada Fondo */
+.crqnQb {
+  background: #000 !important;
+}
+
+.lvE3se {
+  box-shadow: -3px 1px 2px 0px #fff4,
+              -3px 2px 6px 2px #fff4 !important;
+}
+
+/* Barra de Llamada */
+.rG0ybd {
+    /*width: 100% !important;*/
+  transition: 0.5s !important;
+  transform: translate(0px, 50px) !important;
+  opacity: 0 !important;
+  border-top: solid 1px #444;
+}
+
+.rG0ybd:hover,
+.rG0ybd[hover],
+body.fijarBarraLlamada .rG0ybd,
+
+/* Mostrar barra cuando haya algún panel activo */
+.R3Gmyc.qwU8Me:not(.qdulke) ~ .rG0ybd {
+  transition: 0.2s !important;
+  transform: translate(0px,0px) !important;
+  opacity: 1 !important;
+}
+
+.rG0ybd,
+.NzPR9b,
+.L7osyb {
+	background: #222 !important;
+}
+
+.HhsXW,
+.RWK2Je,
+.gvnMbb {
+	background: #333 !important;
+}
+
+.foXzLb,
+.ibrYW,
+.ZiTobc,
+.z80M1,
+.QkKrhf,
+.UCVH3e,
+.DEWFbf,
+.eX03B,
+.zObG4c,
+.JjUzx,
+.TJk20c,
+.pnIJBe,
+.KH5Uve,
+.XFtqNb,
+.I98jWb,
+.lT9fV,
+.N1zGnc,
+.yiytvb,
+.mYl7qd,
+.c4Ysi,
+.QuP9wb .qRUolc, .p0nv6d,
+.IB12ec,
+.DwIq5e,
+.oFS10d,
+.CTmqKd,
+input.poFWNe.zHQkBf {
+	color: #aaa !important;
+}
+
+.CkXZgc,
+/* .OCZA0d, */
+.sPXonc,
+.YhIwSc,
+.c7fp5b,
+.L7osyb,
+.Jaex3d,
+.GsqdZ.K74C9e,
+.pKGwOc,
+.VA2JSc,
+.iI9wC,
+.VfPpkd-fmcmS-yrriRe-JZnCve-gmhCAd,
+.Jyj1Td,
+.KD4eUb,
+.dHFSie,
+.cMgZMe,
+.W0LGoe,
+.LCQ7g,
+.w29hZ,
+.okqcNc,
+.YpQfNc,
+.rH9mRb,
+.Q78Kdb,
+.qBrLkf,
+.kHC9yb .cIGbvc {
+	color: #aaa !important;
+}
+
+.Jyj1Td,
+.Yi3Cfd.Gp1oj,
+.ASy21.Duq0Bf,
+.nBky5e,
+.JeXi1b {
+    color: #aaa;
+}
+
+.Kx3qp.IOxzuf,
+.TVR08c,
+.VfPpkd-rOvkhd-TfeOUb-V67aGc {
+    color: #ccc !important;
+}
+
+.AmEdyd,
+.VTPC4c,
+.XB1gcc,
+.ctRwId {
+  color: #ccc !important;
+}
+
+/* Menu de inicio de preparación de llamada */
+.d7iDfe.NONs6c {
+  background: #111;
+  border-radius: 20px;
+}
+
+
+/* Iconos svg */
+.DPvwYc.o9fq9d svg.Hdh4hc.cIGbvc.NMm5M,
+.A00RE .bkbMM {
+  fill: #fff !important;
+}
+
+/* Microfono svg */
+/*.DPvwYc.cR8Azd.bkl1qf svg.Hdh4hc.cIGbvc {
+    fill: #fff !important;
+}*/
+
+.jO7h3c .x6Aw6b {
+  color: #aaa !important;
+}
+
+.ZPasfd {
+	background: #aaa;
+	border-color: transparent;
+}
+
+.kpROve.u3bW4e:not(.RDPZE), .kpROve:hover:not(.RDPZE) {
+	box-shadow: 0 1px 3px 0px rgb(253 254 255 / 30%),
+				      0 4px 8px 3px rgb(253 254 255 / 15%)
+}
+
+/* Botón inicio "Presentar" */
+.uArJ5e.UQuaGc.kCyAyd.QU4Gid.xKiqt.cd29Sd {
+  background: #222;
+	box-shadow: 0px 0px 15px #fff3,
+		          0px 1px 3px #fff1 !important;
+}
+
+/* Fondo del Chat */
+.mKBhCf, .ZHdB2e .kaAt2,
+.vvTMTb,
+.ZHdB2e,
+.ncFHed,
+.xTGfdf {
+  background-color: #333 !important;
+}
+
+.ncFHed .MocG8c.KKjvXb {
+	background: #555!important;
+}
+
+/* Emisor del mensaje */
+.YTbUzc, .XnKlKd .tL9Q4c,
+.c0XF8e.kaAt2:not(.KKjvXb),
+.c0XF8e.kaAt2:not(.KKjvXb) .VZhFab,
+.oIy2qc, .mKBhCf, .MuzmKe {
+  color: #ddd !important;
+}
+
+.c0XF8e.kaAt2.KKjvXb, .c0XF8e.kaAt2.KKjvXb .VZhFab {
+  color : #22918d !important ;
+}
+
+ .ZHdB2e .s7bIcf {
+  background: #22918d !important;
+ }
+ 
+ .edhGSc.RDPZE>.RpC4Ne>.z0oSpf {
+ 	border-bottom: 1px dotted #aaa;
+ }
+
+.ediA8b {
+  background-color: #777 !important;
+}
+
+.XfeBDf:not(.VfPpkd-fmcmS-yrriRe-OWXEXe-OWB6Me) .VfPpkd-NLUYnc-V67aGc,
+.XfeBDf:not(.VfPpkd-fmcmS-yrriRe-OWXEXe-OWB6Me)+.VfPpkd-fmcmS-yrriRe-W0vJo-RWgCYc .VfPpkd-fmcmS-yrriRe-W0vJo-fmcmS,
+.fmqdrc:not(.VfPpkd-fmcmS-yrriRe-OWXEXe-OWB6Me) .VfPpkd-NLUYnc-V67aGc {
+	color: #aaa !important;
+}
+
+.FQ4xm:not(.GDqYkf),
+.Uznuib,
+.RLK0jb,
+.zgiILc,
+.mXOlFb,
+.Ftnleb,
+.yFdtib,
+.BmZayb,
+.vCxTCb,
+.Ta1Npb:not(.GDqYkf),
+.xx5ROc,
+.ll0Ame,
+.eQb1tc,
+.wFLcYb,
+.vplCZe,
+.q80A9d,
+.H5bh5b {
+	color: #aaa !important;
+}
+
+.vyDMJf-SX9D7d text {
+	fill: #aaa !important;
+}
+
+.ke9kZe-Rgw69b {
+	background: #222 !important;
+	color: #aaa !important;
+	box-shadow: 0 1px 3px 0px #fff3,
+				0 4px 8px 3px #fff2 !important;
+}
+
+/* Mensajes y Hora de Mensaje*/
+.oIy2qc, .mKBhCf, .MuzmKe,
+.WAPtFd.jE2Fge .IEJ9Nd.snByac {
+  color: #aaa !important;
+}
+/* Linea Superior e Inferior*/
+.Bx7THd.PBWx0c .ZHdB2e .ZjAUM, .z38b6 {
+  border-bottom: 1px solid #666 !important;
+}
+
+/* Linea */
+.kCtYwe {
+	border-top: 1px solid #444;
+}
+
+.DLjNp.LlMNQd .Kx3qp, .Yi3Cfd {
+	color: #ccced6 !important;
+}
+
+.IEJ9Nd.snByac {
+	color: #000 !important;
+}
+
+/* enlaces chat */
+
+.oIy2qc .DbQRg {
+	color: #5dc3ff !important;
+}
+
+/* Aviso de microfono desactivado */
+.MvD9Jd {
+	display: none;
+}
+
+/* Botón "Añadir personas" y "Controles del organizador" */
+.vvTMTb .jE2Fge {
+	background: #444 !important;
+	color: #aaa !important;
+}
+.Bs3rEf {
+	background: #222 !important;
+}
+
+
+.Bs3rEf:hover:not(.u3bW4e) .CeoRYc {
+  opacity: 1 !important;
+}
+
+
+/* Mantener visible la hora que aparece en la barra de llamada al poner la pantalla completa programada */
+.D3cPG {
+  display: flex !important;
+}
+
+
+.GdrRqd,
+.cU0hbd .K74C9e,
+.cU0hbd .D0baBe,
+.D6kPY,
+.U9X0yc,
+.DX090c,
+.oYGn2e {
+	color: #aaa !important;
+}
+.is878e {
+	background: #333 !important;
+}
+
+/* Aviso cámara (correción de interferencia de estilos) */
+.mjANdc.vcug3d .g3VIld.B2Jb7d.Up8vH.hFEqNb.J9Nfi.iWO5td,
+.mjANdc.vcug3d .g3VIld {
+	background: transparent !important;
+}
+
+/* "Controles del organizador" y "Añadir personas" Popup Fondo */
+.TZFSLb, .g3VIld {
+	background: #222 !important;
+}
+
+.Bs3rEf:hover:not(.u3bW4e) .CeoRYc {
+	background: #fff;
+	opacity: 0.1;
+}
+
+/* Texto Popup*/
+.JY9hcf,
+.UNoX6b,
+.inWicd,
+.PNenzf,
+.MpY5pe,
+.PbnGhe.oJeWuf.fb0g6 {
+	color: #aaa !important;
+}
+/* Input */
+.duTsYc,
+.l1jYx {
+	background: #555 !important;
+}
+/*
+input {
+	color: #aaa !important;
+}*/
+
+input.whsOnd.zHQkBf {
+	color: #aaa !important;
+}
+
+input::placeholder {
+	color: #aaa !important;
+}
+
+/* Botón llamada Popup */
+.t9eThc.RDPZE,
+.NVUqMb,
+.clMRcc {
+	background: #888 !important;
+}
+
+.Hdh4hc.cIGbvc.NMm5M .Hdh4hc {
+	fill: #333 !important;
+}
+
+/* Popup inicio */
+.g3VIld {
+	box-shadow: 0 1px 3px 0px #fff4,
+				      0 4px 8px 3px #fff4 !important;
+}
+
+/* Popup */
+.hZ3uGe:not(:disabled) .VfPpkd-kBDsod,
+.hZ3uGe:not(:disabled) {
+	color: #777 !important;
+}
+
+/* .LjDxcd:hover:not(:disabled), */
+/* .LjDxcd:active:not(:disabled), */
+/* .LjDxcd:focus:not(:disabled), */
+/* .LjDxcd.VfPpkd-ksKsZd-mWPk3d-OWXEXe-AHe6Kc-XpnDCe:not(:disabled), */
+.MocG8c.DEh1R,
+.vRMGwf.oJeWuf,
+.ktANpb {
+	color: #aaa !important;
+}
+
+.hZ3uGe.KKjvXb:not(:disabled),
+.fKz7Od {
+	background: #444 !important;
+/* 	color: #222 !important; */
+}
+
+.Wrzqsf,
+.W5uYPc,
+.zW4Hye,
+.hHhDYc.snByac,
+.MslXUd .qRUolc,
+.RKkqi,
+.JiQUic,
+.lu9bwd .XUKGjd {
+	color: #aaa !important;
+}
+
+.YU5hLc {
+	background: #333 !important;
+}
+
+/* Menu desplegable */
+.JPdR6b {
+	background: #333 !important;
+}
+
+.VfPpkd-xl07Ob-XxIAqe {
+  background: #333 !important;
+}
+
+.z80M1.FwR7Pc {
+	background: #444;
+}
+
+.CIYi0d .jO7h3c {
+	color: #aaa !important;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #555;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #999;
+}
+
+
+div.Ufn6O:hover label span span {
+  border-color: #555 !important;
+}
+
+.ghIe8 {
+  background: #333 !important;
+  color: #aaa !important;
+  box-shadow: #fff9 0 0 10px !important;
+}
+.VfPpkd-LgbsSe:not(:disabled) {
+  color: var(--mdc-theme-primary,#6200ee) !important;
+}
+
+/* Pantalla inicial */
+.vgJExf::-webkit-scrollbar {
+   width: 0;
+}
+/* Menu que cambia el fondo que graba la webcam de la pantalla inicial */
+.ekIn3d.PBWx0c {
+  background: #222;
+}
+
+
+/* Notificación de Usuario entrante */
+.SMe06.OvyUed.Q6YqYd,
+.qx56Dd .OvyUed {
+  background: #111 !important;
+}
+.uArJ5e.UQuaGc.AeAAkf.BO1rpc.KQZr0e.x8iLtd {
+  box-shadow: #fff9 0 0 6px !important;
+}
+.KQZr0e {
+  background: #222 !important;
+}
+.BO1rpc:not(.RDPZE):hover,
+.BO1rpc.u3bW4e,
+.BO1rpc.qs41qe {
+  background: #444 !important;
+}
+
+/* Mensaje */
+.uArJ5e.UQuaGc.AeAAkf.BO1rpc.KQZr0e.ZNiiKc {
+  box-shadow: #fff9 0 0 6px !important;
+}
+
+
+.CO1lLb {
+  color: #fff8 !important;
+}
+
+/*.DPvwYc > svg > path {
+  fill: #000 !important;
+}*/
+
+.e2CuFe {
+  border-color: #aaa6 #0000 !important;
+}
+
+input.l1jYx {
+  color: #aaa !important;
+}
+
+.mKBhCf.qwU8Me.RlceJe.kjZr4 {
+    box-shadow: 0 1px 2px 0px #666,
+                0 1px 3px 1px #666 !important;
+}
+
+.c5VCdf {
+  color: #aaa !important;
+}
+
+.VfPpkd-LgbsSe.VfPpkd-LgbsSe-OWXEXe-k8QpJ.VfPpkd-LgbsSe-OWXEXe-dgl2Hf.nCP5yc.AjY5Oe.cjtUbb.Dg7t5c
+.VfPpkd-vQzf8d,
+.VfPpkd-LgbsSe.VfPpkd-LgbsSe-OWXEXe-k8QpJ.VfPpkd-LgbsSe-OWXEXe-dgl2Hf.nCP5yc.AjY5Oe.cjtUbb.Dg7t5c
+.google-material-icons.VfPpkd-kBDsod {
+  color: #000 !important;
+}
+
+/* Bontones Camara y Microfono e icono de micro de otros usuarios  */
+
+.uJNmj.FTMc0c,
+.JHK7jb.OGbUle, .JHK7jb.FTMc0c {
+  background: #f00;
+}
+
+
+/* Quitar capa invisible que tapa a los usuario (permite acceder a las fotos de perfil, pero la capa contine los videos por lo que luego no ves a las personas) */
+.p2hjYe.TPpRNe {
+/*     display: none !important; */
+}
+
+/* Botón "Comprobar audio y video " */
+.VfPpkd-XPtOyb.VfPpkd-XPtOyb-OWXEXe-dgl2Hf.P2wJPb.YfmZeb.KshDhe.MhRzze.EuHQ0d.X4PEqe.xKmApd,
+.RFZoDf {
+  background: #333;
+  color: #ccc;
+}
+.Ueqjm,
+.google-material-icons.VfPpkd-cTi5dd,
+.VfPpkd-uusGie-fmcmS,
+.VfPpkd-NLUYnc-V67aGc.VfPpkd-NLUYnc-V67aGc-OWXEXe-TATcMc-KLRBe,
+.Df9QNc,
+.VfPpkd-TfeOUb,
+.RFZoDf {
+  color: #ccc !important;
+}
+
+
+/* Pantalla Carga de la pantalla de preparación */
+.GN4RFc {
+  background: #222 !important;
+  color: #aaa !important;
+  border-radius: 20px;
+}
+
+
+
+/* Pantalla de Salida del Chat */
+.p2ZbV.zKHdkd {
+  background: #111 !important;
+}
+
+.CRFCdf {
+  color: #aaa !important;
+}
+
+.qrB73e {
+  background: #333 !important;
+  border: solid 1px #666 !important;
+}
+
+.BO1rpc:not(.RDPZE):hover, .BO1rpc.u3bW4e, .BO1rpc.qs41qe {
+  border: solid 1px #aaa !important
+}
+
+.q97Uuf:hover .CeoRYc, .QSuU7e:hover .CeoRYc {
+  background: #9efff4 !important;
+}
+
+/* Menu inicial del botón de salida de audio por movil */
+.OHZKt.vK2Ixe {
+  background: #333 !important;
+  color: #aaa !important;
+}
+.OHZKt.vK2Ixe [role="listbox"],
+.aCsJod.oJeWuf,
+.r5iSrd.Axoxm.SB5oOe,
+.ZDU1Ae {
+  background: #222 !important;
+}
+.Hktuv,
+.s8kOBc .VfPpkd-rymPhb-fpDzbe-fmcmS {
+  color: #aaa !important;
+}
+.NPEfkd.RveJvd.snByac,
+.ndJi5d.snByac {
+  color: #999;
+}
+.X5Sgtf.P2wJPb,
+.VfPpkd-WsjYwc.KC1dQ.BKdRne.uva68b,
+.VfPpkd-xl07Ob-XxIAqe.VfPpkd-xl07Ob-XxIAqe-OWXEXe-qbOKL.VfPpkd-xl07Ob.VfPpkd-YPmvEd.s8kOBc.dmaMHc.VfPpkd-xl07Ob-XxIAqe-OWXEXe-FNFY6c.VfPpkd-xl07Ob-XxIAqe-OWXEXe-uxVfW-FNFY6c-uFfGwd {
+  background: #444 !important;
+}
+.s8kOBc .VfPpkd-rymPhb .VfPpkd-rymPhb-ibnC6b.VfPpkd-rymPhb-ibnC6b-OWXEXe-gk6SMd {
+  background: #888;
+}
+.VfPpkd-xl07Ob-XxIAqe.VfPpkd-xl07Ob-XxIAqe-OWXEXe-qbOKL.VfPpkd-xl07Ob.VfPpkd-YPmvEd.s8kOBc.dmaMHc.VfPpkd-xl07Ob-XxIAqe-OWXEXe-FNFY6c.VfPpkd-xl07Ob-XxIAqe-OWXEXe-uxVfW-FNFY6c-uFfGwd > ul {
+  color: #ccc;
+}
+
+.VfPpkd-xl07Ob-XxIAqe.VfPpkd-xl07Ob-XxIAqe-OWXEXe-qbOKL.VfPpkd-xl07Ob.VfPpkd-YPmvEd.s8kOBc.dmaMHc.VfPpkd-xl07Ob-XxIAqe-OWXEXe-FNFY6c.VfPpkd-xl07Ob-XxIAqe-OWXEXe-uxVfW-FNFY6c-uFfGwd > ul > li:hover,
+.VfPpkd-StrnGf-rymPhb.DMZ54e {
+  background: #333;
+  color: #ccc;
+}
+
+.ZYf3qb:not(.RDPZE) .snByac,
+.uArJ5e.UQuaGc.kCyAyd.QU4Gid.xKiqt.cd29Sd .NPEfkd.RveJvd.snByac {
+/*   color: #00796b; */
+}
+
+.Y5sE8d .NPEfkd.RveJvd.snByac {
+  color: #fff !important;
+}
+
+/* Pantalla de valoración de llamada */
+.S6Idlc.pDxVd,
+.WtCEJc.KLHCqc.ftRkTe.KKjvXb {
+  background: #333;
+  color: #aaa;
+}
+
+.qpp46.iqsfZc,
+.qBrLkf,
+.yZ71kd {
+  color: #aaa !important;
+}
+
+.thP79c.nNi7jd.hFgAsc.zrw74d.UckXSd:hover {
+  background: #444;
+}
+
+/*.l4V7wb.Fxmcue {
+  background: #333;
+}
+
+.l4V7wb.Fxmcue:hover {
+  background: #444;
+}*/
+
+.F1pOBe.snByac,
+.S1BUyf.Is7Fhb,
+textarea.KHxj8b.tL9Q4c,
+[jsname="PIJwL"] {
+  color: #aaa;
+}
+
+
+/* Desplegar chat al 100% de altura cuando se ponga el ratón encima */
+[jsname="Yz8Ubc"] {
+  height: 84.5%;
+  transition: all 0.5s !important;
+}
+
+[jsname="Yz8Ubc"]/*:hover*/ {
+  height: 100%;
+}
+
+
+/* Texto del titulo "Google Meet" pero solo la parte de "Meet" la de Google es una imagen, Pantalla inicio */
+.gb_7d.gb_Xc {
+  display: none
+}
+
+#gb[role="banner"] {
+  background: #222 !important;
+}
+/* Panel de mensajes extra */
+.WUFI9b.sNVI5d,
+.HALYaf.rjRPVe.KKjvXb .mCzGT .WUFI9b.qvHzde {
+  background: #222 !important;
+}
+
+.VfPpkd-StrnGf-rymPhb-fpDzbe-fmcmS.WPeMgd {
+  color: #ccc !important;
+}
+
+.VfPpkd-StrnGf-rymPhb-L8ivfd-fmcmS.KrefDd {
+  color: #aaa !important;
+}
+
+.dmDFqb.P2wJPb {
+  background: #555 !important;
+}
+
+.nqXfHb {
+  background: #333 !important;
+  color: #ccc !important;
+}
+
+.mxZtNe,
+.ZDU1Ae {
+  color: #ccc !important;
+}
+
+[jsname="Syemte"]  .VfPpkd-TfeOUb[jsname="V67aGc"] {
+  color: #000 !important;
+}
+
+.ReCbLb:not(.VfPpkd-O1htCb-OWXEXe-OWB6Me):not(.VfPpkd-O1htCb-OWXEXe-XpnDCe) .VfPpkd-TkwUic:hover .VfPpkd-NSFCdd-i5vt6e .VfPpkd-NSFCdd-Brv4Fb, .ReCbLb:not(.VfPpkd-O1htCb-OWXEXe-OWB6Me):not(.VfPpkd-O1htCb-OWXEXe-XpnDCe) .VfPpkd-TkwUic:hover .VfPpkd-NSFCdd-i5vt6e .VfPpkd-NSFCdd-Ra9xwd, .ReCbLb:not(.VfPpkd-O1htCb-OWXEXe-OWB6Me):not(.VfPpkd-O1htCb-OWXEXe-XpnDCe) .VfPpkd-TkwUic:hover .VfPpkd-NSFCdd-i5vt6e .VfPpkd-NSFCdd-MpmGFe {
+  border-color: #444 !important;
+}
+
+
+
+.tWjBBb.KshDhe.u0pjoe {
+  background-color: #3a1f1d !important;
+}
+
+.VfPpkd-xl07Ob-XxIAqe.VfPpkd-xl07Ob-XxIAqe-OWXEXe-qbOKL.VfPpkd-xl07Ob.VfPpkd-YPmvEd.s8kOBc.dmaMHc.VfPpkd-xl07Ob-XxIAqe-OWXEXe-FNFY6c.VfPpkd-xl07Ob-XxIAqe-OWXEXe-uxVfW-FNFY6c-uFfGwd > ul > li:hover {
+  background: #555;
+}
+
+.s8kOBc .VfPpkd-StrnGf-rymPhb .VfPpkd-StrnGf-rymPhb-ibnC6b.VfPpkd-StrnGf-rymPhb-ibnC6b-OWXEXe-gk6SMd {
+  background: #464c58 !important;
+  color: #fff;
+}
+
+ul.VfPpkd-StrnGf-rymPhb.DMZ54e li:hover {
+  background: #292929;
+}
+
+.XfeBDf:not(.VfPpkd-fmcmS-yrriRe-OWXEXe-OWB6Me) .VfPpkd-fmcmS-wGMbrd {
+  color: #ccc;
+}
+
+.VfPpkd-fmcmS-yrriRe:not(.VfPpkd-fmcmS-yrriRe-OWXEXe-OWB6Me) .VfPpkd-fmcmS-TvZj5c-OWXEXe-M1Soyc,
+.VfPpkd-fmcmS-yrriRe:not(.VfPpkd-fmcmS-yrriRe-OWXEXe-OWB6Me) .VfPpkd-fmcmS-TvZj5c-OWXEXe-UbuQg {
+  color: #ccc;
+}
+
+
+/* Para que los Archivos adjuntos no se aplasten al almacenar una captura */
+.rhJUsd {
+  overflow: initial !important;
+}
+
+
+/* Botones de la sección de actividades para 'Empezar una nueva pizarra' o 'Seleccionar de Drive' */
+.PMlzhc {
+  background-color: #3c40431f !important;
+}
+
+.PMlzhc:hover {
+  background: #fff1 !important;
+}
+
+.hyNDH:not(:disabled):hover .VfPpkd-kBDsod {
+  color: #777 !important;
+}
+
+
+
+
+
+
+/*******************************************************************************/
+/*******************************************************************************/
+/*******************************************************************************/
+/*******************************************************************************/
+/*******************************************************************************/
+
+
+
+
+
+/* Nuevo Aspecto del Meet */
+
+:root body {
+  color: #ddd;
+}
+
+.ZCfERe {
+  color: #ccc;
+}
+
+/* Colita de popup */
+.Ssc6Id {
+  border-color: #0000 #222 #222 #0000;
+}
+
+
+/* Barra de informacion que te permite cambiar a la interfaz anterior del Meet hasta el 10 de Junio */
+
+.FayWyb {
+  background-color: #8092b1 !important;
+}
+
+/* Botón de para Salir de la Llamada */
+.Gt6sbf:not(:disabled) {
+  background-color: #f00 !important;
+}
+
+
+/* Botones de Cámara y Micrófono */
+.AAU0Jf.FTMc0c,
+.qIiG8c.FTMc0c,
+.P9KVBf .AAU0Jf.FTMc0c,
+.P9KVBf .qIiG8c.FTMc0c {
+  background-color: #f00 !important;
+}
+
+/* Subtexto de las opciones de la barra de llamada */
+.VfPpkd-StrnGf-rymPhb-L8ivfd-fmcmS {
+  color: #ccc !important;
+}
+
+/* Paneles de Chat, Actividades, Detalles de Reunión */
+
+
+/* Fondo */
+.R3Gmyc,
+.WUFI9b,
+.Zzlrzb {
+  background: #222 !important;
+}
+
+/* Cajita de informarción del Chat */
+.v8W0vf {
+  background: #444 !important;
+}
+
+/* Entrada de texto del Chat */
+.BC4V9b {
+  background: #444 !important;
+}
+
+
+
+/* Detalles de Reunión, texto del Álias de Reunión */
+.fER1Wd,
+.D6kPY {
+  white-space: normal !important;
+}
+
+
+/* Menu de Comprobación de Audio y Video */
+
+/* Fondo */
+.cC1eCc .VfPpkd-P5QLlc {
+  background-color: #222 !important;
+}
+
+/* Texto */
+.cC1eCc .VfPpkd-k2Wrsb,
+
+.VfPpkd-vQzf8d,
+.xo15nd {
+  color: #ccc !important;
+}
+
+
+.BXsjMc,
+.JdkU9c {
+  color: #aaa !important;
+}
+
+
+/* Iconos de pestañas */
+.WbUJNb:hover.VfPpkd-AznF2e-OWXEXe-auswjd .VfPpkd-jY41G-V67aGc, .WbUJNb:active.VfPpkd-AznF2e-OWXEXe-auswjd .VfPpkd-jY41G-V67aGc, .WbUJNb:not(.UMrnmb-AHmuwe-L6cTce):focus.VfPpkd-AznF2e-OWXEXe-auswjd .VfPpkd-jY41G-V67aGc, .WbUJNb.VfPpkd-ksKsZd-mWPk3d-OWXEXe-AHe6Kc-XpnDCe.VfPpkd-AznF2e-OWXEXe-auswjd .VfPpkd-jY41G-V67aGc,
+.WbUJNb:hover .VfPpkd-cfyjzb, .WbUJNb:active .VfPpkd-cfyjzb, .WbUJNb:not(.UMrnmb-AHmuwe-L6cTce):focus .VfPpkd-cfyjzb, .WbUJNb.VfPpkd-ksKsZd-mWPk3d-OWXEXe-AHe6Kc-XpnDCe .VfPpkd-cfyjzb,
+
+.WbUJNb:hover.VfPpkd-AznF2e-OWXEXe-auswjd .VfPpkd-jY41G-V67aGc, .WbUJNb:active.VfPpkd-AznF2e-OWXEXe-auswjd .VfPpkd-jY41G-V67aGc, .WbUJNb:not(.UMrnmb-AHmuwe-L6cTce):focus.VfPpkd-AznF2e-OWXEXe-auswjd .VfPpkd-jY41G-V67aGc, .WbUJNb.VfPpkd-ksKsZd-mWPk3d-OWXEXe-AHe6Kc-XpnDCe.VfPpkd-AznF2e-OWXEXe-auswjd .VfPpkd-jY41G-V67aGc,
+.WbUJNb:hover .VfPpkd-jY41G-V67aGc, .WbUJNb:active .VfPpkd-jY41G-V67aGc, .WbUJNb:not(.UMrnmb-AHmuwe-L6cTce):focus .VfPpkd-jY41G-V67aGc, .WbUJNb.VfPpkd-ksKsZd-mWPk3d-OWXEXe-AHe6Kc-XpnDCe .VfPpkd-jY41G-V67aGc {
+  color: #1a73e8;
+}
+
+/* Hacer ciertos botones más visibles */
+.ksBjEc .VfPpkd-Jh9lGc::before, .ksBjEc .VfPpkd-Jh9lGc::after {
+  opacity: 0.03;
+}
+
+/* Botones de la Pestaña de Audio y Video */
+.hqBSCb:not(.VfPpkd-O1htCb-OWXEXe-OWB6Me) .VfPpkd-TkwUic {
+  background-color: #333 !important;
+}
+
+.s8kOBc .VfPpkd-StrnGf-rymPhb {
+  color: #ccc !important;
+}
+
+/* Popup */
+.KC1dQ {
+  background-color: #333 !important;
+  box-shadow: #fff 0 0 5px 0 !important;
+}
+
+.cC1eCc .VfPpkd-cnG4Wd, .cC1eCc .VfPpkd-zMU9ub {
+  color: #ccc !important;
+}
+
+
+/* Panel de Participantes de la sala, botones del organizador */
+
+[jsname="Kzha2e"] {
+  box-shadow: #555 0 0 0 2px;
+}
+
+
+/* Valoración de la llamada */
+.dQO5xd,
+.fAf9Pb {
+  background: #333 !important;
+}
+
+.roSPhc,
+.eZYnye {
+  color: #ccc !important;
+}
+
+/* Input de la página principal del Meet */
+.cfWmIb:not(.VfPpkd-fmcmS-yrriRe-OWXEXe-OWB6Me) .VfPpkd-fmcmS-wGMbrd {
+  color: #ccc !important;
+}
+
+
+
+/* Icono de la Mano */
+
+.Gen1Z {
+  background-color: #666 !important;
+}
+
+[jsname="giiMnc"] .Hdh4hc {
+/*   fill: #fff !important; */
+}
+
+
+/* Iconos de la derecha de la barra de llamada */
+.N6lX9e .boDUxc .NtU4hc, .N6lX9e .boDUxc .Mwv9k,
+/* Iconos de su versión desplegable cuando la barra está reducida */
+.VfPpkd-xl07Ob .VfPpkd-StrnGf-rymPhb-IhFlZd, .VfPpkd-xl07Ob .VfPpkd-StrnGf-rymPhb-f7MjDc {
+  color: #ccc !important;
+}
+
+.P9KVBf .JsuyRc[aria-pressed="true"] .Mwv9k {
+  color: #8ab4f8 !important;
+}
+
+
+.P9KVBf .gFyGKf,
+.gFyGKf {
+  background-color: #5f6368 !important;
+}
+
+.uGOf1d {
+  color: #fff !important;
+}
+
+
+/* Fondo de los Botones del controlador */
+.e19J0b {
+  opacity: 0.06;
+}
+
+.UQuaGc:hover .e19J0b {
+  opacity: 0.15;
+}
+
+
+/* Icono Subtitulos */
+.V4jiNc.ACt4Tb.VfPpkd-StrnGf-rymPhb-ibnC6b.VfPpkd-rymPhb-ibnC6b-OWXEXe-tPcied-hXIJHe .Hdh4hc {
+  fill: #666 !important;
+}
+
+
+/* Botones y Texto de la sala de preparación de la llamada */
+.ZYf3qb:not(.RDPZE) .snByac {
+  color: #1a73e8;
+  display: flex;
+}
+
+.JjNyDe .cIGbvc {
+  fill: currentColor !important;
+}
+
+/* Botón sala de espera */
+.NPEfkd.RveJvd.snByac, .ndJi5d.snByac .DPvwYc {
+  color: #1a73e8 !important;
+}
+
+/* Información de los videos de la sala */
+.ZY8hPc.gtgjre.pZFrDd {
+  pointer-events: none;
+}
+
+
+/* Botón de "Volver a unirme" */
+.Ac0tsd {
+  background: #333 !important;
+}
+
+/* Botones de Cámara y Micrófono de la sala de espera  */
+.yBiuPb.FTMc0c,
+.CdgDHf.FTMc0c,
+.nJcgFc.FTMc0c {
+  background-color: #f00 !important;
+  border: 1px solid #f00 !important;
+}
+
+
+/* Controls del organizador */
+.bWc4ke {
+  color: #fff !important;
+}
+
+
+/* Forzar a que la hora se siga mostrando en pantalla completa */
+.jlGyUd {
+  display: flex !important;
+}
+
+
+/* Remove ugly fake outline of textarea chat */
+[jscontroller="bTi8wc"] {
+  display: none !important;
+}
+
+textarea {
+  caret-color: revert !important;
+}
+
+/* Input from main page */
+:not([jsname="vERSO"]) > [jsname="vhZMvf"] {
+  background-color: #222;
+}
+
+/* Botón sala de espera */
+.AJVfr.cd29Sd {
+  background-color: #444;
+}

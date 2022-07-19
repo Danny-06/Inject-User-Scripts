@@ -1,0 +1,8 @@
+{
+  "typeAcquisition": {
+    "include": ["chrome"]
+  },
+  "compilerOptions": {
+    "lib": ["ES2018", "DOM"]
+  }
+}

@@ -1,0 +1,22 @@
+/*CSS nuevo que fastidia el ajuste del chat y el footer*/
+
+@media screen and (max-height: 648px) {
+  .h70RQ {
+    min-height: 648px;
+  }
+}
+
+
+/*Solución*/
+
+
+/* Whatsapp Web */
+/* Minima altura del chat reducida a 0 para mayor adaptabilidad */
+#app > * > * {
+  min-height: 0 !important;
+  min-width: 0 !important;
+}
+
+.two {
+  min-width: 0 !important;
+}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=yes">
+        <meta name="theme-color" content="#444">
+        <meta name="color-scheme" content="dark">
+        <style>
+            /* Remove weird CSS code injected by Chrome to extension pages */
+            body {
+              font-family: unset;
+              font-size: unset;
+            }
+        </style>
+        <link rel="stylesheet" href="default.css">
+        <link rel="stylesheet" href="main.css">
+        <link rel="stylesheet" href="utility-classes.css">
+        <script type="module" src="main.js"></script>
+
+        <template data-js-create-rule-menu-template>
+            <div class="create-rule-menu">
+                <div class="id">
+                    <div class="header">ID</div>
+                    <div class="body">
+                        <input type="number" name="rule-id" min="{{nextRuleId}}" value="{{nextRuleId}}">
+                    </div>
+                </div>
+                <div class="action">
+                    <div class="header">Action</div>
+                    <div class="body">
+                        <div class="type">
+                            <div class="name">Type</div>
+                            <select>
+                                <option value="">-- Select an option --</option>
+                                <option [for]="actionType of DNR.RuleActionType" value="{{@actionType}}">{{@actionType}}</option>
+                            </select>
+                        </div>
+                        <div class="requestheaders">
+                            <div class="name">Request Headers</div>
+                            <button class="add-btn">+</button>
+                        </div>
+                        <div class="responseheaders">
+                            <div class="name">Response Headers</div>
+                            <button class="add-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="condition">
+                    <div class="header">Condition</div>
+                    <div class="body">
+                        <div class="domaintype">
+                            <div class="name">Domain Type</div>
+                            <select>
+                                <option value="">-- Select an option --</option>
+                                <option [for]="domain of DNR.DomainType" value="{{@domain}}">{{@domain}}</option>
+                            </select>
+                        </div>
+                        <div class="initiatordomains">
+                            <div class="name">Initiator Domains</div>
+                        </div>
+                        <div class="excludedinitiatordomains">
+                            <div class="nmae">Excluded Initiator Domains</div>
+                        </div>
+                        <div class="requestdomains">
+                            <div class="name">Request Domains</div>
+                        </div>
+                        <div class="excludedrequestdomains">
+                            <div class="name">Excluded Request Domains</div>
+                        </div>
+                        <div class="requestmethods">
+                            <div class="name">Request Methods</div>
+                        </div>
+                        <div class="excludedrequestmethods">
+                            <div class="name">Excluded Request Methods</div>
+                        </div>
+                        <div class="resourcetypes">
+                            <div class="name">Resource Types</div>
+                        </div>
+                        <div class="excludedresourcetypes">
+                            <div class="name">Excluded Resource Types</div>
+                        </div>
+                        <div class="urlfilter">
+                            <div class="name">URL Filter</div>
+                            <input type="text">
+                        </div>
+                        <div class="isurlfiltercasesensitive">
+                            <div class="name">isURLFilterCaseSensitive</div>
+                            <input type="checkbox">
+                        </div>
+                        <div class="regexfilter">
+                            <div class="name">Regex Filter</div>
+                            <input type="text">
+                        </div>
+                    </div>
+                </div>
+                <button class="submit" data-js-create-rule-btn>Create Rule</button>
+            </div>
+        </template>
+    </head>
+    <body>
+        <div id="app" class="_grid-overlay_">
+            <div id="app-content">
+                <button data-js-add-new-rule-btn>Add new DeclarativeNetRequest rule</button>
+            </div>
+            <div class="overlay-content" data-js-overlay-content></div>
+        </div>
+    </body>
+</html>

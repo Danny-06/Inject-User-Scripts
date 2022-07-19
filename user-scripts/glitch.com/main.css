@@ -1,0 +1,59 @@
+/* Solucionar error que genera que aumenta el scroll vertical
+al aumentar el scroll horizontal */
+.CodeMirror-lines {
+  padding-bottom: 75vh !important;
+}
+
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 5px;
+  background: #000;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #69327b;
+  border-radius: 10px;
+  box-shadow: inset #a35fb9 0 0 5px 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #471a56;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #250b2d;
+}
+
+::-webkit-scrollbar-button:single-button {
+  width: 20px;
+  height: 20px;
+  background: #681e80;
+  box-shadow: inset #aa32d2 0 0 5px 0;
+}
+
+::-webkit-scrollbar-button:hover {
+  background: #501863;
+}
+
+::-webkit-scrollbar-button:active {
+  background: #351041;
+}
+
+
+::-webkit-scrollbar-button:vertical:single-button:increment {
+  border-radius: 10px 10px 0 0;
+}
+
+::-webkit-scrollbar-button:vertical:single-button:decrement {
+  border-radius: 0 0 10px 10px;
+}
+
+::-webkit-scrollbar-button:horizontal:single-button:increment {
+  border-radius: 10px 0 0 10px;
+}
+
+::-webkit-scrollbar-button:horizontal:single-button:decrement {
+  border-radius: 0 10px 10px 0;
+}

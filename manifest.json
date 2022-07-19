@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "Inject User Scripts",
+  "version": "1.1",
+  "description": "Inject User Scripts inside the extension (Add Original Scrollbar of Devtools Dark Mode)",
+
+  "options_page": "pages/options/index.html",
+
+  "action": {
+    "default_popup": "pages/popup/index.html"
+  },
+
+  "devtools_page": "pages/devtools/index.html",
+
+  "chrome_url_overrides": {
+    "newtab": "pages/newtab/index.html"
+  },
+
+  "web_accessible_resources": [
+    {
+      "resources": ["user-scripts/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+
+  "host_permissions": ["<all_urls>"],
+
+  "permissions": [
+    "scripting",
+    "storage",
+    "webNavigation",
+    "webRequest",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback",
+    "contextMenus"
+  ],
+
+  "content_scripts": [
+    {
+      "js": ["content-script.js"],
+      "matches": ["<all_urls>"],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "background": {
+    "service_worker": "background-sw.js",
+    "type": "module"
+  }
+}

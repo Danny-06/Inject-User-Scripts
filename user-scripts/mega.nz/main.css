@@ -1,0 +1,5 @@
+
+/* Add padding to content to avoid download overlay hide the content */
+.megaList-content {
+  padding-bottom: 300px;
+}

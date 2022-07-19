@@ -1,0 +1,115 @@
+[class*="progress_bar--progressBarPageCover"] {
+  background-color: #555;
+}
+
+
+[class*="prototype--background"] {
+  zoom: 90%;
+}
+
+[class*="pages_panel--objectPanelContent"],
+[class*="left_panel--panelContainer"],
+[class*="pages_panel--tab"]::after,
+[class*="properties_panel--propertiesPanel"] {
+  background-color: #111;
+  color: #fff;
+}
+
+[class*="pages_panel--pageRow"] {
+  background-color: #222 !important;
+}
+
+[class*="pages_panel--objectPanelContent"],
+[class*="properties_panel--propertiesPanel"] {
+  background-color: #1c1c1c;
+  color: #fff;
+}
+
+[class*="object_row--row"],
+[class*="object_row--row"][class*="object_row--topLevel"] {
+  background-color: #1c1c1c;
+  color: #fff;
+  fill: #fff;
+  stroke: #fff;
+}
+
+[class*="option_button--_optionButton"],
+[class*="raw_components--base"],
+[class*="raw_components--_iconButton"],
+[class*="collapsible_property_panel--panelEmptyTitleRow"]:hover [class*="collapsible_property_panel--panelTitle"],
+[class*="object_row--row"][class*="object_row--frame"][class*="object_row--topLevel"]:not([class*="object_row--disabled"]) {
+  color: #fff;
+  fill: #fff;
+  background-color: #222;
+}
+
+[class*="object_row--row"][class*="object_row--frame"][class*="object_row--topLevel"][class*="object_row--selected"]:not([class*="object_row--disabled"]) {
+  color: #fff;
+  fill: #fff;
+  background-color: #444;
+}
+
+
+[class*="paint_panels--colorValueContainer"]:focus-within [class*="paint_panels--opacityInputContainer"]::before {
+  background-color: #444 !important;
+}
+
+[class*="object_row--row"][class*="object_row--topLevel"][class*="object_row--hovered"] {
+  background-color: #777;
+}
+
+[class*="object_row--row"][class*="object_row--topLevel"][class*="object_row--selected"] {
+  background-color: #666;
+}
+
+[class*="object_row--row"][class*="object_row--parentSelected"] {
+  background: #0000;
+}
+
+
+[class*="object_row--row"][class*="object_row--selected"],
+[class*="object_row--selected"] [class*="object_row--row"] {
+  background-color: #555;
+}
+
+
+[class*="raw_components--rowSelectedSecondary"],
+[class*="raw_components--rowSelectedSecondary"] [class*="raw_components--base"] {
+  background-color: #333;
+}
+
+
+
+[class*="paint_panels--colorValueContainer"]:focus-within {
+  background-color: transparent;
+}
+
+[class*="draggable_modal--frame"] {
+  background-color: #333;
+}
+
+[class*="chit--chit"] {
+  outline: solid 1px #fff;
+}
+
+
+[class*="raw_components--flushLeft"],
+[class*="code_inspection_panels--sidebarCodeScrollContainer"],
+[class*="image_settings_modal--colorAdjustLabel"],
+svg,
+[class*="frame_presets--name"] {
+  color: #fff;
+  fill: #aaa;
+}
+
+[class*="component_sidebar--container"],
+[class*="nav_container--section"],
+[class*="properties_panel--tabsHeader"] {
+  background-color: #222;
+}
+
+
+[class*="inspect_panels--propertyName"],
+[class*="inspect_panels--propertyValueText"] {
+  color: #ccc;
+}

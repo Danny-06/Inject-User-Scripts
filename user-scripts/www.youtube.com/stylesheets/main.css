@@ -1,0 +1,213 @@
+/* Hace que el video no se pueda seleccionar */
+#player {
+  user-select: none;
+}
+
+/* Botón de reproducción automática */
+[data-tooltip-target-id="ytp-autonav-toggle-button"] {
+  /* display: none !important; */
+}
+
+/* Ocultar icono de carga de los videos */
+ytd-player .ytp-spinner {
+  display: none !important;
+}
+
+/* Mostrar la parte de arriba de los videos al poner el ratón encima */
+.ytp-chrome-top, .ytp-gradient-top {
+  opacity: 0 !important;
+}
+.ytp-chrome-top:hover, .ytp-gradient-top:has(+ .ytp-chrome-top:hover) {
+  opacity: 1 !important;
+}
+
+
+/* Ocultar icono del canal procedented de las anotaciones de los videos */
+.ytp-iv-player-content .iv-branding {
+  display: none !important;
+}
+
+/* Evitar hacer scroll en los videos en pantalla completa */
+:fullscreen ytd-app {
+  overflow: hidden;
+}
+
+.ytp-fullerscreen-edu-button {
+  display: none !important;
+}
+
+
+#info {
+  flex-wrap: wrap;
+}
+
+/* Mostrar la fecha incluso cuando no haya suficiente espacio disponible */
+#info-text {
+  display: block !important;
+  max-height: unset !important;
+}
+
+#menu-container.ytd-video-primary-info-renderer {
+  margin: 0 auto;
+}
+
+
+/* Desactivar la selección del panel lateral */
+tp-yt-app-drawer #contentContainer {
+	user-select: none !important;
+}
+
+ytd-button-renderer,
+ytd-toggle-button-renderer {
+  user-select: none;
+}
+
+
+
+/* Ocultar botón de cerrar sesión */
+a[href*="/logout"] {
+	display: none !important;
+}
+
+
+/*
+Solución para los video de poco ancho para que el ancho del contenido
+no se vea afectado tambien
+*/
+/* Extender el ancho de la zona del video y los comentarios */
+#primary {
+	max-width: 100% !important;
+}
+
+/* Ocultar texto del botón "Compartir" para tener más espacio */
+/*ytd-menu-renderer.style-scope.ytd-video-primary-info-renderer
+.style-scope.ytd-menu-renderer:nth-child(3) yt-formatted-string {
+    display: none !important;
+}*/
+
+/* Eliminar popup de consentimiento */
+#consent-bump {
+	display: none !important;
+}
+
+iron-overlay-backdrop {
+	/*z-index: 0 !important;*/
+	display: none !important;
+}
+
+
+/*
+.ytp-play-button {
+	width: 36px !important;
+}
+.ytp-play-button {
+	height: 36px !important;
+}
+
+ytd-watch-flexy[fullscreen] .ytp-play-button {
+	width: 54px !important;
+}
+ytd-watch-flexy[fullscreen] .ytp-play-button {
+	height: 54px !important;
+}
+*/
+
+
+/* Video solo para miembros */
+.html5-ypc-endscreen {
+  display: none !important;
+}
+
+/* barra de reproducción en videos solo para miembros */
+.ytp-chrome-bottom, .ytp-gradient-bottom, .ytp-gradient-top{
+  /*display: block !important;*/
+}
+
+
+#scroll-container {
+  overflow-x: unset !important;
+}
+
+
+/* Scroll de los botones de los videos relacionados */
+#scroll-container::-webkit-scrollbar {
+	display: none;
+}
+
+
+
+/* Menu de notificaciones */
+/*
+ytd-multi-page-menu-renderer[menu-style=multi-page-menu-style-type-comments],
+ytd-multi-page-menu-renderer[menu-style=multi-page-menu-style-type-notifications] {
+  width: var(--) !important;
+  height: var(--) !important;
+  
+  max-width: 500px !important;
+  max-height: 550px !important;
+}
+*/
+.menu-container.ytd-multi-page-menu-renderer::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+#container.menu-container.style-scope.ytd-multi-page-menu-renderer::-webkit-scrollbar {
+  width: 8px;
+  height: 0px;
+}
+
+ytd-multi-page-menu-renderer[menu-style=multi-page-menu-style-type-comments],
+ytd-multi-page-menu-renderer[menu-style=multi-page-menu-style-type-notifications] {
+  /* height: ; */
+}
+
+*:focus {
+  outline: none !important;
+}
+/*
+ytd-popup-container.style-scope.ytd-app > paper-dialog {
+  display: none !important;
+}*/
+
+/* Miniatura de los videos que tienen al fondo */
+
+.ytp-cued-thumbnail-overlay-image {
+	display: none !important;
+}
+
+/* Caja de comentarios de las notificaciones */
+/* Ajueste de la altura para evitar la barra de scroll innecesaria
+y hacer visible la otra */
+ytd-multi-page-menu-renderer.style-scope.ytd-multi-page-menu-renderer {
+	height: 100% !important;
+}
+
+
+
+/* Texto al lado del botón descargar de Skyload */
+.style-scope.ytd-toggle-button-renderer.x-scope.paper-tooltip-3 {
+  display: none;
+}
+
+.ytd-toggle-button-renderer-1.yt-download__button iron-icon {
+  filter: invert(1);
+}
+
+
+
+.ytp-ce-element {
+  opacity: 0 !important;
+  transition: 1.5s;
+}
+
+.ytp-ce-element:hover {
+  opacity: 1 !important;
+  transition: 0.5s;
+}
+
+/* Ocultar cartel de "Quienes ven tal canal tambien ven este" */
+
+#hover-overlays {
+  display: none;
+}

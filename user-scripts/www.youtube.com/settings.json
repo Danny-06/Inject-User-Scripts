@@ -1,0 +1,19 @@
+{
+  "scripts": [
+    "scripts/main.mjs",
+    "scripts/video-poster.js",
+    "scripts/hide-video-ui.js",
+    "scripts/video-control.mjs",
+    "scripts/translate-search.mjs",
+    "scripts/video-volume-wheel.mjs",
+    "scripts/enlarge-avatar-thumbnails.mjs",
+    "scripts/display-channel-video-count.mjs",
+    "scripts/clone-yt-playlist.mjs",
+    "scripts/save-message-comment-onreload.mjs"
+  ],
+  "stylesheets": [
+    "stylesheets/magic-actions-for-youtube-dark-mode.css",
+    "stylesheets/main.css",
+    "stylesheets/video-control.css"
+  ]
+}

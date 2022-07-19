@@ -1,0 +1,80 @@
+body {
+  min-width: 0 !important;
+}
+
+
+header {
+	user-select: none;
+}
+
+/* iframe {
+  background-color: transparent !important;
+} */
+
+
+/* Menu desplegable de los Pen */
+.DropdownContent-module_root-17ztx.MenuAction-module_dialog-1MLaz,
+/* Version alterna */
+[aria-haspopup="true"] + div[role="menu"] > div:first-of-type {
+  background: #303444 !important;
+  color: #ccc !important;
+}
+
+.MenuActionButton-module_root-3PIt2:focus,
+.MenuActionButton-module_root-3PIt2:hover,
+/* Version alterna */
+[aria-haspopup="true"] + div[role="menu"] > div:first-of-type > button:hover,
+[aria-haspopup="true"] + div[role="menu"] > div:first-of-type > button:focus {
+  background: #47548a !important;
+  color: #fff !important;
+}
+
+[aria-haspopup="true"] + div[role="menu"] > div:first-of-type > button[data-test-id="item-action-delete"]:hover,
+[aria-haspopup="true"] + div[role="menu"] > div:first-of-type > button[data-test-id="item-action-delete"]:focus {
+  background: #ff3c41 !important;
+}
+
+.ItemActions_button-1IG6J[aria-expanded="true"] {
+  background: #474c58f5;
+}
+
+
+/* DropDown de los editores (Modo Oscuro) */
+.editor-dropdown {
+  background: #303444;
+}
+
+li.editor-dropdown-list-item > button {
+  background: #303444;
+  color: #ccc;
+}
+
+li.editor-dropdown-list-item > button:focus,
+li.editor-dropdown-list-item > button:hover {
+  background: #47548a;
+  color: #fff;
+}
+
+
+.link-list a.active, .link-list button.active {
+  background: #3e4664;
+}
+
+
+
+#bsa-footer,
+.FooterAd_root-xRhMw {
+	display: none;
+}
+
+#react-pen-footer {
+	user-select: none;
+}
+
+
+
+
+/* Scrollbar */
+::-webkit-scrollbar{width: 10px;height: 5px;background: #000}
+::-webkit-scrollbar-thumb{background: #444857}
+::-webkit-scrollbar-corner{background: #444857}

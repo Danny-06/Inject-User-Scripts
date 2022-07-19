@@ -1,0 +1,93 @@
+@charset "UTF-8";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:where(:not(:defined)) {
+  display: block;
+}
+
+:root {
+  --fit-content: fit-content;
+}
+
+@supports (width: -moz-fit-content) {
+  :root {
+    --fit-content: -moz-fit-content;
+  }
+}
+
+
+:root {
+  color: #fff;
+  font-family: Arial;
+  user-select: none;
+}
+
+html, body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+
+  background-color: #111;
+}
+
+/* Remove weird css injected by Chrome in extension pages */
+body {
+  font-size: unset;
+  font-family: unset;
+}
+
+#app, #app-content {
+  width: 100%;
+  height: 100%;
+
+  background-color: inherit;
+}
+
+#app-content {
+  position: relative;
+  padding: 1rem;
+
+  overflow: auto;
+}
+
+
+[hidden] {
+  display: none !important;
+}
+
+img, canvas, svg, video, iframe {
+  display: block;
+}
+
+iframe {
+  border: none;
+}
+
+
+:where(
+td,
+details, summary,
+span, a,
+blockquote, q, cite,
+li, dt, dd,
+dfn,
+ruby,
+abbr,
+bdi, bdo,
+data, time,
+figcaption,
+p, h1, h2, h3, h4, h5, h6,
+u, s,
+samp,
+b, strong, i, em, mark, small, ins, del, sub, sup,
+pre, code, var, kbd
+) {
+  user-select: text;
+}

@@ -1,0 +1,11 @@
+{
+  "scripts": [
+    "scripts/handle-resources-view.mjs",
+    "scripts/main.mjs",
+    "scripts/custom-scrollbar.mjs",
+    "scripts/handle-shortener-url-add-services.mjs"
+  ],
+  "stylesheets": [
+    "stylesheets/main.css"
+  ]
+}

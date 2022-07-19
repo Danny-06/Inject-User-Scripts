@@ -1,0 +1,124 @@
+:root {
+  background-color: #111;
+}
+
+/* Fix word wrap bug that makes grow the editor without any limitation */
+#content {
+  position: relative;
+}
+
+#editor {
+  position: absolute;
+  inset: 0;
+}
+
+
+/* Corregir ausencia de color al hacer pantalla completa en los paneles */
+.CodeMirror,
+.windowLabelCont {
+	background-color: #1f2227 !important;
+}
+
+/* Modificar el ancho del panel lateral para que entre mejor la
+zona del código en pantalla */
+#layout-container {
+	grid-template-columns: 165px 1fr !important;
+}
+
+/* Zona que muestra el tamaño de la previsualización */
+.resultsCont > .windowLabelCont {
+	background-color: #0000 !important;
+}
+
+nav {
+  user-select: none;
+}
+
+
+/* Eliminar consola */
+
+#console {
+	display: none !important;
+}
+
+.resultsPanel .resultsCont.consoleEnabled.minimized {
+  grid-template-rows: 1fr 0px !important;
+}
+
+
+
+
+
+/* Scrollbar */
+
+
+:root {
+  --thumb-color: #34373e;
+  --thumb-hover-color: #23242b;
+  --thumb-active-color: #14171b;
+  --thumb-box-shadow-color: #969696;
+  --track-color: #0b1115;
+  --button-color: #47484c;
+  --button-hover-color: #585d6b;
+  --button-active-color: #6a707f;
+  --button-box-shadow-color: #bfbfbf;
+  --corner-color: #6f6f6f;
+}
+
+
+::-webkit-scrollbar {
+  width:  var(--scrollbar-width, 10px);
+  height: var(--scrollbar-height, 5px);
+  background: var(--track-color, #0b1115);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--thumb-color, #32577b);
+  border-radius: 10px;
+  box-shadow: inset var(--thumb-box-shadow-color, #5f93b9) 0 0 5px 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--thumb-hover-color, #1a3854);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--thumb-active-color, #0b1e2f);
+}
+
+::-webkit-scrollbar-button:single-button {
+  width: 20px;
+  height: 20px;
+  background: var(--button-color, #1e4e80);
+  box-shadow: inset var(--button-box-shadow-color, #338ed2) 0 0 5px 0;
+}
+
+::-webkit-scrollbar-button:hover {
+  background: var(--button-hover-color, #183c63);
+}
+
+::-webkit-scrollbar-button:active {
+  background: var(--button-active-color, #102740);
+}
+
+
+::-webkit-scrollbar-button:vertical:single-button:increment {
+  border-radius: 10px 10px 0 0;
+}
+
+::-webkit-scrollbar-button:vertical:single-button:decrement {
+  border-radius: 0 0 10px 10px;
+}
+
+::-webkit-scrollbar-button:horizontal:single-button:increment {
+  border-radius: 10px 0 0 10px;
+}
+
+::-webkit-scrollbar-button:horizontal:single-button:decrement {
+  border-radius: 0 10px 10px 0;
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--corner-color, #27588a);
+}

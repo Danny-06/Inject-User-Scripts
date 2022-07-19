@@ -1,0 +1,167 @@
+@charset "UTF-8";
+
+:root {
+  box-sizing: border-box;
+}
+
+*:not(:root),
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+:where(:not(:defined)) {
+  display: block;
+}
+
+
+/* Remove all styles */
+:where(a, button) {
+  all: unset;
+}
+
+
+/* Normalize background-image */
+* {
+  background-repeat: no-repeat;
+}
+
+
+/*
+  Avoid autocalculation of `min-width` and `min-height` properties
+  of flex/grid items based on the intrinsic size of its content
+*/
+* {
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Normalize flex-items behavior */
+* {
+  flex-shrink: 0;
+}
+
+
+:root {
+  --fit-content: fit-content;
+}
+
+@supports (width: -moz-fit-content) {
+  :root {
+    --fit-content: -moz-fit-content;
+  }
+}
+
+
+
+:root {
+  background-color: #111;
+  color: #fff;
+
+  font-family: Arial;
+  user-select: none;
+
+  /* Remove highlight that appears on links or clickable elements on mobile */
+  -webkit-tap-highlight-color: transparent;
+}
+
+* {
+  user-select: inherit;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+}
+
+body, #app {
+  background-color: inherit;
+}
+
+#app, #app-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#app-content {
+  padding: 1rem;
+
+  overflow: auto;
+}
+
+
+
+[hidden] {
+  display: none !important;
+}
+
+a {
+  cursor: pointer;
+}
+
+img, canvas, svg, picture,
+video, audio,
+iframe, object, embed,
+input, select, textarea,
+button,
+progress, meter {
+  display: block;
+}
+
+fieldset, blockquote, figure {
+  margin: 0;
+}
+
+fieldset {
+  padding: 0.6rem 0.8rem;
+  border: solid 2px #c0c0c0;
+}
+
+legend {
+  border: none;
+  padding: 0.3em;
+}
+
+iframe {
+  border: none;
+}
+
+source {
+  display: none;
+}
+
+hr {
+  border: none;
+  background-color: #ccc;
+  height: 0.2em;
+  margin: 0.5em auto;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+td,
+details, summary,
+span, a,
+blockquote, q, cite,
+address
+li, dt, dd,
+dfn,
+ruby,
+abbr,
+bdi, bdo,
+data, time,
+figcaption,
+p, h1, h2, h3, h4, h5, h6,
+u, s,
+samp,
+b, strong, i, em, mark, small, ins, del, sub, sup,
+pre, code, var, kbd, output {
+  user-select: text;
+}

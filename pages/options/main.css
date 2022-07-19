@@ -1,0 +1,105 @@
+#app-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 1rem;
+}
+
+
+
+button {
+  all: unset;
+  background-color: #333;
+  padding: 0.5em;
+  border-radius: 1em;
+  cursor: pointer;
+}
+
+button:hover,
+button:active {
+  background-color: #555;
+}
+
+button:active {
+  background-color: #777;
+}
+
+
+.overlay-content {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 1rem;
+
+  opacity: 0;
+  pointer-events: none;
+
+  background-color: #0009;
+
+  overflow: auto;
+
+  transition: opacity 0.3s;
+}
+
+.overlay-content.-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.overlay-content > .create-rule-menu {
+  width: clamp(20ch, 100%, 30rem);
+}
+
+.create-rule-menu {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+
+  padding: 1rem;
+
+  border-radius: 1em;
+  background-color: #181818;
+
+  overflow: auto;
+}
+
+.create-rule-menu > .submit {
+  align-self: center;
+}
+
+.create-rule-menu > * {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+
+.create-rule-menu > * > .body {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+
+  padding-left: 1rem;
+}
+
+.create-rule-menu > * > .body > * {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+
+
+.add-btn {
+  display: grid;
+  place-items: center;
+
+  width: 1.3em;
+  aspect-ratio: 1;
+
+  padding: 0;
+
+  font-size: 1.8rem;
+}

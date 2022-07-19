@@ -1,0 +1,10 @@
+/* Fix subtitle dialog display */
+.nm-modal-underlay .nm-modal-dialog .sizing-wrapper,
+.NFPlayer.nf-player-container,
+.audio-subtitle-controller .track-list.scroll-gradient-list {
+  overflow: visible !important;
+}
+
+.nfp-popup-control .popup-content {
+  height: 400px;
+}

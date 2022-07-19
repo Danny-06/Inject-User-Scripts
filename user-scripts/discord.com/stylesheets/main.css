@@ -1,0 +1,378 @@
+
+:root {
+  /* Override background-color of :hover messages */
+  --background-message-hover: #0009;
+}
+
+
+/* Fondo de chat personalizado */
+:root {
+  --chat-bg-overlay-color: #000c;
+}
+
+[class|="messagesWrapper"] {
+  --chat-bg-overlay: linear-gradient(var(--chat-bg-overlay-color), var(--chat-bg-overlay-color));
+
+  background-image:
+  var(--chat-bg-overlay),
+  var(--chat-background)
+  ;
+
+  background-size: cover;
+  background-position: center;
+}
+
+
+
+/* Sidebar options menu */
+.sidebar-nqHbhN {
+  width: max-content;
+}
+
+
+.base-1x0h_U,
+.name-1jkAdW,
+[class*="guildNameText"],
+.name-3l27Hl,
+.headerTagUsernameNoNickname-2-Y5Ct,
+.username-2b1r56,
+.activityText-yGKsKm strong,
+.text-1y-e8- strong {
+  font-weight: normal;
+}
+
+
+/* Corregir problema the scroll en el modal de los perfiles */
+[class*="layerContainer"] [class*="root"] [class*="body"] {
+  flex-grow: 1;
+  min-height: 0;
+}
+
+
+
+/* Mostrar hora completa de los mensajes */
+
+.zalgo-26OfGz.cozy-VmLDNB .header-2jRmjb,
+.zalgo-26OfGz .messageContent-2t3eCI,
+.repliedTextPreview-1bvxun {
+  overflow: visible;
+}
+
+[id*="chat-messages"] [class*="header"]         > [class*="timestamp"] > time,
+[id*="chat-messages"] [class*="contents"]       > [class*="timestamp"] > time,
+[id*="chat-messages"] [class*="messageContent"] > [class*="timestamp"] > time {
+  position: relative;
+  color: transparent
+}
+
+/* [id*="chat-messages"] [class*="header"] > [class*="timestamp"] {} */
+
+[id*="chat-messages"] [class*="messageContent"] > [class*="timestamp"] {
+  display: block;
+  margin-top: 0.4rem;
+}
+
+[id*="chat-messages"] [class*="header"]         > [class*="timestamp"] > time::after,
+[id*="chat-messages"] [class*="contents"]       > [class*="timestamp"] > time::after,
+[id*="chat-messages"] [class*="messageContent"] > [class*="timestamp"] > time::after {
+  content: attr(aria-label);
+
+  display: block;
+  position: absolute;
+  top: -7px;
+  left: 0;
+
+  width: max-content;
+
+  padding: 0px 7px;
+
+  border-radius: 0.2em;
+  background-color: #444;
+  color: var(--text-muted);
+
+  font-size: 13px;
+  pointer-events: none;
+}
+
+[id*="chat-messages"] [class*="messageContent"] > [class*="timestamp"] > time::after {
+  content: '(' attr(aria-label) ')';
+  background-color: #444a;
+}
+
+[id*="chat-messages"] [class*="contents"]       > [class*="timestamp"] > time::after {
+  top: -220%;
+}
+
+
+
+
+[class*="popoutBanner"],
+[class*="popoutBannerPremium"] {
+  max-width: none;
+	width: 100% !important;
+}
+
+
+
+
+/* Discord Responsive con estructura de etiquetas */
+
+/* Discord Responsive con clases */
+
+[class*="content"] [class*="sidebar"],
+[class*="membersWrap"],
+[class*="membersWrap"] > [class*="members"] {
+	transition: width 0.5s, min-width 0.5s;
+}
+
+/* Ocultar panel lateral derecho (Usuarios Conectados) */
+@media screen and (max-width: 1100px) {
+  [class*="membersWrap"],
+  [class*="membersWrap"] > [class*="members"] {
+    width: 0 !important;
+    min-width: 0 !important;
+  }
+}
+
+/* Ocultar panel lateral izquierdo (Canales del servidor) */
+@media screen and (max-width: 800px) {
+ [class*="content"] [class*="sidebar"] {
+  	width: 0 !important;
+  }
+}
+
+/* Hacer que el panel de la izquierda sea visible cuando se ponga el ratón
+encima de él o al ponerlo encima de de la lista de servidores */
+[class*="content"] [class*="sidebar"]:hover,
+nav:hover + div [class|="sidebar"] {
+	width: 240px !important;
+}
+
+/* Hacer que el panel de miembros se muestre cuando
+se ponga el ratón encima del encabezado del canal
+(la barra de arriba donde se ve el nombre del canal) */
+section[class*="container"][class*="themed"]:hover
++ [class*="content"]
+:is([class*="membersWrap"], [class*="members"]),
+
+:is(aside[class*="membersWrap"], aside > [class*="members"]):hover {
+  width: 240px !important;
+}
+/* Barra de estado de amigos
+sobreescribir estilo que oculta la barra a cierto ancho */
+[class*="nowPlayingColumn"] {
+  /*display: flex !important;*/
+  min-width: 0 !important;
+}
+
+
+
+
+
+/* Chat Placeholder que aparece cuando se están cargando los mensajes */
+[class*="scrollerInner"] > [class*="wrapper"]:not( :is([class*="mentioned"], [class*="replying"]) ),
+[class*="scrollerInner"] > [class*="wrapper"] [class|="wrapper"][class*="cozy"]:not( :is([class*="mentioned"], [class*="replying"]) ) {
+  background: transparent;
+}
+
+
+
+/* Pantalla de carga o pantalla de carga cuando se va la conexión */
+[class*="container"][class*="fixClipping"] {
+  display: none;
+}
+
+/* Ventana de mensajes fijados */
+[class*="messagesPopoutWrap"] {
+  width: 600px;
+}
+
+
+
+/* Mostrar mensajes de texto o imágenes con spoiler */
+
+/* Fondo del texto */
+span[class*="spoilerText"][class*="hidden"] {
+  /*background: #ffffff1a !important;*/
+}
+/* El texto */
+span[class*="spoilerText"][class*="hidden"] > [class*="inlineContent"] {
+/*  opacity: 1 !important;*/
+/*  pointer-events: auto !important;*/
+/*  cursor: text !important;*/
+}
+
+/* Imágenes */
+[class*="spoiler"][class*="hiddenSpoilers"] {
+/*  filter: blur(0px) !important;*/
+}
+
+/* Botón que muestra la imagen oculta por el spoiler */
+[class*="spoilerWarning"] {
+/*  display: none !important;*/
+}
+
+
+
+
+
+
+/* Mostrar varias imagenes seguidas en linea en lugar de en bloque */
+.container-1ov-mD {
+  display: block;
+}
+
+.container-1ov-mD >
+a.anchor-3Z-8Bb.anchorUnderlineOnHover-2ESHQB.imageWrapper-2p5ogY.imageZoom-1n-ADA.clickable-3Ya1ho.embedWrapper-lXpS3L {
+  display: inline-block;
+  margin: 1rem;
+}
+
+
+
+/* Eliminar la barra de scroll de la lista de servidores de la lista de emojies */
+[class*="wrapper"][class*="categoryList"]::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+
+
+
+
+/* Barra de navegación de amigos */
+/* Darle una barra de deslizamiento oculta cuando no entre en la ventana */
+section[class*="container"][class*="themed"]
+> [class*="children"] {
+  overflow: auto !important;
+}
+
+section[class*="container"][class*="themed"]
+> [class*="children"]::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Quitar degradado molesto */
+section[class*="container"][class*="themed"]
+> [class*="children"]:after {
+  background: none !important;
+}
+
+
+
+/* Activar overflow en la vetana de información de un usuario */
+.body-r6_QPy {
+    overflow: auto;
+}
+
+
+/* Hacer que no aparezca la barra de deslizamiento en los propios resultados */
+#search-results > div > div {
+  overflow: hidden;
+}
+
+/* Popup de icono de usuario */
+[class|="userPopout"] {
+	width: 350px !important;
+}
+
+/* Cambiar color de nombres de usuario que se ve mal (morado) */
+[class|="roleColor"][style="color: rgb(98, 0, 255);"],
+[class|="username"][style="color: rgb(98, 0, 255);"] {
+  color: #95f !important;
+}
+
+[class*="roleColor"][style="color: rgb(0, 0, 1);"],
+[class*="username"][style="color: rgb(0, 0, 1);"]  {
+  color: #c3f !important;
+}
+
+[style="color: rgb(0, 0, 1);"] {
+	color: #fff !important;
+}
+
+[style="color: rgb(32, 30, 30);"],
+[style="color: rgb(17, 14, 14);"] {
+  color: #fff !important;
+}
+
+
+::selection {
+  background: #7347;
+}
+
+/*
+code ::selection,
+code::selection {
+  background: #0007;
+}*/
+
+/* Fecha y hora de mensajes */
+h2[class*="header"] [class*="timestamp"] {
+  color: #aaa !important
+}
+
+/* Hacer que el placeholder de la entrada de texto del chat desaparezca
+y convertirlo en pseudo-elemento en su lugar para que sea inseleccionable */
+
+/* Placeholder ocultado */
+[class*="placeholder"][class*="fontSize16Padding"] {
+  display: none;
+}
+
+
+
+/* Cuando se escribe cualquier texto en la entrada de texto
+aparece un estilo en linea con la propieda 'height'
+que nos sirve para identificar cuando se ha introducido texto
+permitiendonos ocultar el placeholder como el placeholder original */
+
+
+[class*="markup"][class*="slateTextArea"][class*="fontSize16Padding"]::before {
+  content: '';
+}
+
+/* Usar la etiqueta hermana del placeholder que tiene un atributo con el
+mismo texto que el placeholder y añadirl a la entrada de texto
+como pseudo elemento */
+[class*="placeholder"][class*="fontSize16Padding"]
++ [class*="markup"][class*="slateTextArea"][class*="fontSize16Padding"]::before {
+  content: attr(aria-label);
+  color: #72767d;
+  position: absolute;
+  pointer-events: none;
+}
+
+
+
+
+[class*="modal-3c3bKg"] {
+	padding: 20px !important;
+}
+
+/* Seccion amigos, navbar */
+[class*="tabBar"][class*="topPill"] {
+	overflow: auto !important;
+}
+[class*="tabBar"][class*="topPill"]::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+}
+
+form::before {
+  content: none !important;
+}
+
+[class*="embedWrapper"] {
+  margin-bottom: 1rem;
+}
+
+/* Arreglar efecto molesto cuando se hace click
+en la foto de un usuario para ver su perfil
+y hay mucho contenido por cargar por lo que no se ve
+y al quitarlo, se mueve la página de una forma molesta
+debido a que aumenta su altura por unos instantes */
+[class*="layerContainer"] [id*="popout"][class|="layer"] {
+  position: fixed !important
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>newtab</title>
+        <link rel="icon" href="data:image/x-icon," type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+        <meta name="theme-color" content="#444">
+        <meta name="color-scheme" content="light dark">
+        <style>
+            /* Remove weird CSS code injected by Chrome to extension pages */
+            body {
+              font-family: unset;
+              font-size: unset;
+            }
+        </style>
+        <link rel="stylesheet" href="default.css">
+        <link rel="stylesheet" href="main.css">
+        <link rel="stylesheet" href="utility-classes.css">
+        <script type="module" src="main.js"></script>
+    </head>
+    <body>
+        <div id="app" class="_grid-overlay_">
+            <div class="bg-container _grid-overlay_" aria-hidden="true" data-js-bg-container>
+                <img src="" alt data-js-bg-image>
+                <video autoplay muted loop data-js-bg-video></video>
+            </div>
+            <div id="app-content">
+                <div class="btn-upload-bg" data-js-upload-bg>
+                    <img src="assets/upload-bg.png" alt="upload background">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

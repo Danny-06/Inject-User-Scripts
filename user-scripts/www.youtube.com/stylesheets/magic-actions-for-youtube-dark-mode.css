@@ -1,0 +1,1863 @@
+/* Extension for Chrome - Magic Actions for YouTube™ - www.mycinema.pro - Copyright 2019 Vlad and Serge Strukoff - All Rights Reserved. */
+html.lqz3O #content .player-api {
+  background: none
+}
+
+/* Like button active color */
+ytd-toggle-button-renderer.style-default-active path {
+  fill: #5581c3;
+}
+
+html.lqz3O #player-api,html.lqz3O .html5-video-player,html.lqz3O button:focus {
+  outline: none!important;
+  box-shadow: none!important
+}
+
+html.lqz3O #movie_player .html5-info-bar,html.lqz3O .ytp-chrome-top,html.lqz3O .ytp-gradient-top,html.lqz3O #movie_player .ytp-button-playlist,html.lqz3O #theater-background,html.lqz3O #dftvp,html.lqz3O .yt-pl-thumb-overlay,html.lqz3O .yt-pl-thumb-overlay-content,html.lqz3O .watch-playlist-collapsed .playlist-tray,html.lqz3O .nvw {
+  display: none!important
+}
+
+html.lqz3O #content .yt-card:nth-of-type(1n) {
+  margin-top: 0!important
+}
+
+html.lqz3O .video-time,html.lqz3O .video-actions {
+  bottom: 5px!important
+}
+
+html.lqz3O .yt-uix-tooltip-tip-content {
+  font-weight: 400!important
+}
+
+html.lqz3O .yt-jobs-hero-background {
+  width: auto!important;
+  left: 0!important;
+  right: 0!important
+}
+
+html.lqz3O,html.lqz3O body,html.lqz3O #player,html.lqz3O #player-legacy {
+  background: #f1f1f1!important
+}
+
+html.lqz3O select {
+  -webkit-appearance: none!important;
+  border: 1px solid!important
+}
+
+html.lqz3O .html5-video-info-panel {
+  font-size: 16px;
+  background: #eff0f3!important;
+  color: #000!important
+}
+
+html.lqz3O::selection {
+  background: #ccc!important;
+  color: #000!important
+}
+
+html.lqz3O img::selection {
+  background: transparent!important
+}
+
+html.lqz3O body::-webkit-scrollbar,html.lqz3O #transcript-scrollbox::-webkit-scrollbar,html.lqz3O ul::-webkit-scrollbar,html.lqz3O ol::-webkit-scrollbar {
+  width: 10px!important;
+  height: 10px!important;
+  background: #e1e1e1!important;
+  border: 1px solid rgba(0,0,0,.12)!important
+}
+
+html:fullscreen body::-webkit-scrollbar,html.lqz3O body::-webkit-scrollbar-button,html.lqz3O #transcript-scrollbox::-webkit-scrollbar-button,html.lqz3O ul::-webkit-scrollbar-button,html.lqz3O ol::-webkit-scrollbar-button {
+  display: none!important
+}
+
+html.lqz3O body::-webkit-scrollbar-thumb,html.lqz3O #transcript-scrollbox::-webkit-scrollbar-thumb,html.lqz3O ul::-webkit-scrollbar-thumb,html.lqz3O ol::-webkit-scrollbar-thumb,html.lqz3O body::-webkit-scrollbar-track,html.lqz3O #transcript-scrollbox::-webkit-scrollbar-track,html.lqz3O ul::-webkit-scrollbar-track,html.lqz3O ol::-webkit-scrollbar-track {
+  border: 0!important;
+  box-shadow: none!important
+}
+
+html.lqz3O body::-webkit-scrollbar-thumb,html.lqz3O #transcript-scrollbox::-webkit-scrollbar-thumb,html.lqz3O ul::-webkit-scrollbar-thumb,html.lqz3O ol::-webkit-scrollbar-thumb {
+  min-height: 28px!important;
+  background: #b3b3b3!important
+}
+
+html.lqz3O body::-webkit-scrollbar-corner,html.lqz3O #transcript-scrollbox::-webkit-scrollbar-corner,html.lqz3O ul::-webkit-scrollbar-corner,html.lqz3O ol::-webkit-scrollbar-corner {
+  background: #ededed!important
+}
+
+html #content .player-api {
+  background: none
+}
+
+html #player-api,html .html5-video-player,html button:focus {
+  outline: none!important;
+  box-shadow: none!important
+}
+
+html #movie_player .html5-info-bar,html .ytp-chrome-top,html .ytp-gradient-top,html #movie_player .ytp-button-playlist,html #theater-background,html #dftvp,html .yt-pl-thumb-overlay,html .yt-pl-thumb-overlay-content,html .watch-playlist-collapsed .playlist-tray,html .appbar-guide-toggle .yt-uix-button-arrow,html .nvw {
+  /* display: none!important */
+}
+
+html #content .yt-card:nth-of-type(1n) {
+  margin-top: 0!important
+}
+
+html .video-time,html .video-actions {
+  bottom: 5px!important
+}
+
+html select {
+  -webkit-appearance: none!important;
+  border: 1px solid!important
+}
+
+html .lohp-blog-headline,html .guide-item,html #watch-discussion,html .watch-view-count,html .sorterbar th,html #watch-description,html .watch-extras-section .content,html .watch-extras-section .title,html #watch7-user-header .yt-user-name,html .video-list-item .title,html .view-count,html .shelf-item .channels-content-item .content-item-view-count,html .channels-content-item .content-item-detail,html .channels-content-item .content-item-detail .spf-nolink,html .branded-page-related-channels,html .branded-page-related-channels h2,html .branded-page-related-channels h2 a,html .epic-nav-item-dropdown li a,html .subscribable-content-username,html .yt-gb-preview-header-item.stats-item .stat-value,html .yt-lockup2,html .yt-badge:not(.standalone-ypc-badge-renderer-icon),html .search-header .num-results,html .search-header .num-results strong,html .search-header .yt-uix-button-content,html .filter-col-title,html #c4-about-tab,html #c4-about-tab .about-stats .about-stat,html .video-player-view-component .view-count .count,html .video-player-view-component,html .time-published,html .feed-item-content .yt-user-name,html .feed-item-container .feed-item-main,html .share-panel,html .yt-uix-clickcard-card-body,html .yt-uix-hovercard-card-body,html #watch7-sidebar .watch-sidebar-head,html #watch7-sidebar .watch-sidebar-foot a,html #yt-sidebar ul a,html .branded-page-v2-secondary-col .branded-page-related-channels-see-more a,html #masthead-expanded .playlist-data-section,html .playlist-data-item,html #masthead-expanded .masthead-expanded-menu-header,html .yt-dialog-fg-content,html .yt-uix-overlay-fg-content,html .c4-checklist-module .todo-item,html #yt-masthead-user-displayname,html #social-promo h4,html .feed-item-container .feed-item-header a,html .feed-item-container a.yt-user-name,html .feed-item-container:hover .feed-item-time,html .playlist-item:hover .item-duration,html h2.yt,html h3.yt,html h4.yt,html #yts-article,html #yts-article a.anchor,html .non-profit-number,html .exp-new-site-width #yts-nav .indented .sub-level a,html .yt-nav-item,html .yt-alert-naked .yt-alert-content,html .watch-actions-stats-rats .stats-bragbar .bragbar-metric,html .watch-actions-stats-rats .stats-bragbar .bragbar-metric-large,html #yt-microsite h4,html .yt-microsite-features strong,html .profile-view-module .user-profile-item .item-name,html #vm-video-actions-inner #vm-view-filter-label,html .vm-copyright-filter-wrapper,html .dashboard-stat-value,html .dashboard-stat-name,html .customize-dashboard-hint.guided-help-box,html .account-content,html .account-content label,html h3.account-section-header,html .yt-tile-static,html .upload-drag-drop-description,html #upload-sidebar *,html .yt-uix-form-legend,html .yt-uix-form-label,html .channel-header .secondary-header-contents *,html .ab-group-name,html .ab-contact,html #mid-title,html .buttonbar,html #ded,html .ml,html .guided-help-box,html .tabs .tab-header a,html .audio-ui-featured-row,html #player-and-info-pane #video-info dt,html #player-and-info-pane #video-info dd,html #audio-ui,html #insight *,html .popupContent *,html .yt-combobox-menu-item-main .item-name,html .yt-chip,html .tag,html .enable-monetization-field,html #watch-description-extra-info .metadata-info-title,html .charts .position,html body p,html .playlist-video-item .yt-user-name,html .header-stats,html .playlist-likes-dislikes,html .yt-creator-notifications .yt-creator-tip-list tr,html #oo,html .compose_header,html #vm-bulk-actions-editing-header,html .yt-uix-button-menu .yt-uix-button-menu-item.menu-subheading,html .tag-suggest-title,html .message.open td,html .yt-lockup,html .yt-lockup a,html .yt-creators-creator-benefits-table *:not(a),html .add-widget-menu-item,html .distiller-first-time-promo .text,html .watch-card,html .watch-card .yt-uix-tabs-selected,html #comment-settings .comment-settings-title,html #comment-settings .comment-settings-label,html #main-title,html #menu-tabs .menu-tab,html .menu-body li,html .track .title-container,html .yt-sidebar-link,html #creator-sidebar .creator-sidebar-channel-link a,html .creator-editor-title a,html .creator-editor-nav-tabs li a,html .iph-dialog-title,html .iph-dialog-content,html #ccd-promo,html .fans-table .comment-container .left-quote,html .beta-bar,html .menu-tab:hover,html .menu-tab.selected,html .enhance-effect .slider-readout,html .enhance-effect .property-title,html #playlist-title-section h2,html .epic-nav-item.selected,html #playlist-info,html #playlist-info .yt-uix-form-legend,html .tabbed-page .tab,html .tabbed-page .tab .title,html #creator-sidebar h3,html .pl-header-title,html .pl-video a,html .yt-masthead-picker-name,html .creator-subheader-help-text,html .yt-admin-h2,html .display-mode-text,html .yt-credits .yt-credits-header,html .yt-ui-menu-content *,html #creator-sidebar *,html .dashboard-widget *:not(a),html #creator-subheader h3,html .track-list *,html .yt-creator-notifications-header,html .upload-sidebar *,html .account-features-content,html .account-features-name-section,html #main-description,html #comment-settings label,html #verify-phone-page *:not(a),html .audio-title,html .mod-arrow,html .business-email-container,html .about-metadata-container,html .about-stat,html #advanced-search-dropdown *,html .comments .comment-footer-action,html .yt-commentbox-text,html .comments [class^=mod-list],html .comments .paginator,html .timeline-ruler .rulabel,html #creator-subheader h2,html .yt-consent-banner .yt-consent-content,html .yt-commentbox-text,html .yt-simplebox-text,html .comment-simplebox-text,html .yt-testtube-card-title,html .yt-testtube-card-content,html .yt-dialog-title,html [class^=account-feature],html [class*=yt-creator-hub-card] *,html #hamburger.yt-creator-hub-page,html .caption-queue *,html .yt-uix-button-link,html .account-header h1,html .comment-section-header-renderer,html .ypc-offer-title,html .guide-view-more,html #yt-masthead-notifications-title,html .standalone-collection-badge-renderer-text a,html .iv-card *,html .like-button-renderer-like-button span,html .like-button-renderer-dislike-button span,html paper-listbox * {
+  color: #909090!important
+}
+
+html .lohp-video-metadata,html .caption-line,html .lohp-video-metadata .yt-user-name,html .lohp-blog-attribution,html .message-display .unread,html .message-display .unread .subject,html .message-display .unread .msg-date,html #footer-links-primary a,html #footer-links-secondary a,html .action-panel-content a,html #eow-reuse,html #watch7-user-header .yt-user-videos,html .video-list-item .stat,html .shelf-item .channels-content-item .content-item-time-created,html .category-header .channel-count,html .yt-house-channel-label,html .yt-gb-preview-header-item.stats-item .stat-name,html .filter-sort.filter-selected,html .yt-lockup2-deemphasized-text,html .yt-lockup2.has-hover-effects a.yt-lockup2-deemphasized-text,html .yt-uix-button-menu .yt-uix-button-menu-item,html .feed-item-main .description,html .feed-item-container .feed-item-time,html .watch7-playlist-bar-left,html #playlist .watch7-playlist-bar-left .yt-user-name,html .signup-promo.guided-help-box,html #footer-secondary a,html #masthead-expanded-menu-email,html .yt-uix-button-link .yt-uix-button-content,html .playlist-item .item-duration,html #ftl a,html #co,html #vm-page-subheader .vm-separator,html .yt-creator-notifications .yt-creator-tip-list .inactive,html .yt-lockup-mini .yt-lockup-title,html .fans-table .fans-table-header,html .yt-masthead-picker-account-subtitle,html .comment-renderer-time a,html .comment-simplebox-text:empty:after,html .time a {
+  color: #646464!important
+}
+
+html a,html .lohp-video-link,html .action-panel-content:hover a,html #watch7-sidebar .video-list-item a:hover .title,html .branded-page-related-channels h3 a:hover,html .category-header .category-title:hover,html .category-header .channel-count:hover,html .subscribable-content-username:hover,html .feed-item-container:hover .feed-item-header a,html .feed-item-container:hover a.yt-user-name,html .popupContent a,html .playlist-video-item .video-title,html .yt-lockup-title a,html .yt-lockup:hover a,html .vl li b,html .yt-lockup-mini:hover .yt-lockup-title,html .pl-video:hover a,html .comment-renderer-like-count,html .yt-uix-expander-head:not(.guide-view-more),html .comment-replies-renderer-paginator .load-more-text,html .yt-picker-content strong,html .comments .comment-entry:hover .thumb-title,html .comments .comment-entry:hover .vis-inspect-link,html .iv-card:hover .iv-card-primary-link,html a.yt-simple-endpoint.ytd-toggle-button-renderer [aria-pressed="true"],html .yt-simple-endpoint #text.style-default-active {
+  /* color: #6783ab!important */
+}
+
+html .comment-renderer-author-comment-badge.creator .comment-author-text,html .comment-renderer.channel-owner .comment-author-text,html .comments .channel-owner .comment-header .user-name {
+  color: #222!important
+}
+
+html li.guide-section h3 a {
+  color: #cc181e!important
+}
+
+html .sbpqs_a {
+  color: #8c43d6!important
+}
+
+html .chart svg rect {
+  fill: #2e2e2e!important
+}
+
+html body,html input,html textarea,html .branded-page-module-title a,html .caption-line-highlight,html .channel-header .branded-page-header-title .spf-link,html .yt-house-channel-autogenerated-notice,html .branded-page-related-channels h3 a,html .category-header .category-title,html .epic-nav-item-heading,html .yt-gb-preview-header-item.description-item .title,html .yt-gb-preview-body .yt-gb-preview-video .yt-gb-preview-video-title,html .yt-lockup2-meta a,html .yt-lockup2-description a,html #playlist #watch7-playlist-bar-controls,html #playlist .watch7-playlist-bar-left .title,html #playlist .watch7-playlist-bar-notifications,html #yt-main-nav a,html #yt-microsite h2,html #yt-microsite h3,html body #masthead-expanded #howto-addto,html .yt-dialog-base .yt-dialog-header h2,html .yt-uix-overlay-base .yt-uix-overlay-header h2,html .c4-checklist-module-title,html .branded-page-module-title,html h1.yt,html #yts-nav ol li.top-level a,html .watch-actions-stats-rats .metric-label,html .watch-actions-stats-rats,html .yt-text h1,html .primary-pane h2,html .secondary-pane h2,html #vm-page-subheader h3,html #dashboard-header h1,html .account-header h2,html #upload-button-text,html #yt-admin-content,html #yt-admin-recommendations h2,html #vm-page-subheader,html h4,html .item-title,html .sharing-networks-label,html #player-and-info-pane #video-info h2,html #creator-sidebar .creator-sidebar-submenu h3,html .drag-to-begin-messa p,html .drag-to-begin-audio-message p,html body #masthead-expanded .masthead-expanded-menu-header,html #live-comments-input-field {
+  color: #a0a0a0!important
+}
+
+html .guide-item-selected *,html .guide-subscriptions-promo-tooltip,html #yt-sidebar li.selected a,html .exp-new-site-width #yts-nav ol.indented li .item-highlight,html .yt-uix-tooltip-tip-content,html #creator-sidebar .creator-sidebar-section.selected>a.selected,html #creator-sidebar .creator-sidebar-item.selected>a,html #creator-sidebar .creator-sidebar-single-section.selected a,html .yt-sidebar-title.yt-sidebar-selected a,html .yt-sidebar-link.yt-sidebar-selected,html .yt-uix-button-subscribe-branded span,html .subscriptions-wrapper p,html .yt-alert-message a,html #yt-creators-nav a,html #yt-main-nav a,html .iph-dialog a.iph-dialog-nav-button,html #creator-sidebar .selected a span {
+  color: #ddd!important
+}
+
+html,html body,html ytd-app,html ytd-playlist-sidebar-renderer,html #page,html .ytd-page-manager,html .branded-page-v2-primary-col,html .lohp-shelf-cell-container,html .sorterbar th,html #watch7-notification-area,html tr.ab-users:nth-child(odd),html .watch-editable:hover,html .primary-col,html .yt-dialog-bg,html .yt-uix-overlay-bg,html .overlay,html .watch-branded #watch7-sidebar,html #masthead-container,html #masthead,html #page.watch .google-checkout,html .exp-new-site-width #yts-article:after,html .nonprofit-download-playbook,html #page.watch #watch7-action-panels .google-checkout-learn-more,html #branded-page-body-container,html .hh #dashboard-header,html #main-content .starting-box,html .channel-header .secondary-header-contents,html .upload-item,html .hh.editor-content,html .audio-ui-featured-row,html .vm-label-item,html .vm-member-item,html #player,html #player-legacy,html .charts .position,html .charts .videos-count-container,html .playlist-video-item.odd,html .playlist-video-item:nth-child(odd),html .yt-creator-notifications .yt-creator-tip-list .inactive,html #vm-bulk-actions-editing-header,html #c4-about-tab .c4-module-is-editable,html .vl li a:hover,html .cardified-page .yt-card,html .picker.modal-dialog-bg,html #watch7-content,html #watch7-sidebar,html .yt-nav-dark,html #storyboard,html .yt-consent-banner,html #content.yt-creator-hub-page,html .yt-unlimited-background-container,html #yt-masthead-notifications-content .item-section>li>.yt-lockup-tile,html #yt-masthead-notifications-content .yt-ui-ellipsis,html .skeleton-bg-color,html .exp-kevlar-settings .account-page .account-container,html .sbsb_b li:hover,html ytcp-app #main {
+  background: #101010!important
+}
+
+.sbsb_d {
+  background: #333 !important;
+}
+
+html .yt-thumb,html #filter-dropdown,html .m_nohighlight,html #yt-picker-country-footer,html #yt-picker-language-footer,html #yt-picker-safetymode-footer,html .result-item-onebox,html .yt-dialog-fg,html tr.ab-users,html .yt-uix-overlay-fg,html .yt-gb-preview-header,html .comments-post-alert,html .yt-uix-button-menu,html ul.yt-uix-button-menu,html .yt-uix-button-menu-item:hover,html .yt-uix-clickcard-card-border,html .yt-uix-hovercard-card-border,html .yt-uix-form-input-select-element,html .yt-tile-static,html #yt-main-nav-container,html #yt-microsite-features .yt-microsite-spotlight,html .yt-creators-creatoracademy-benefits-banner,html body #masthead-expanded-container,html .c4-checklist-module,html .c4-checklist-module .todo-item,html .yt-uix-button-c4-view-action,html .feed-item-content-wrapper.playlist-promo,html .feed-item-content-wrapper.channel-lockup,html .yt-uix-overlay-actions,html .feed-promo,html .yt-uix-form-input-select-element option,html .channel-layout-two-column .tab-content-body,html .yt-js-calendar .yt-js-calendar-event:nth-child(odd),html #vm-video-actions-bar,html .verify-page,html .buttonbar,html .ab-midpane,html th.ab-users-head,html #yt-admin.hh #vm-pageheader-container h1,html .hh #vm-video-actions-inner,html .upload-header,html #annotator-div,html .yt-chip,html .tag,html #annotator-select-menu tr.yt-uix-button-menu-item,html .lohp-shelf-cell-container:hover,html #subscription-manager-container .even td,html .playlist-video-item.even,html .playlist-video-item:nth-child(even),html #results .ppv-promoted-videos,html #oo,html #de:hover,html .c4-checklist-module .checklist-item,html #masthead-appbar,html .vm-beauty-view .vm-video-item-content,html .vl .video-thumb,html .vl .t,html .watch-card-rhs,html #comment-settings .comment-settings-header,html .distiller-first-time-promo .content,html .social-connector,html .fans-table-item:nth-child(even),html #create-circle-lb .button-bar,html #non-appbar-vm-video-actions-bar .vm-video-actions-inner,html .channel-ad-fan-finder-banner,html .guide-flyout,html .create-channel-profile-box,html .page-use-google-profile .create-channel-footer,html .page-pluspage-confirm .create-channel-footer,html .watch-playlists-drawer .selected,html #suggested-edits-dialog .yt-dialog-header,html #appbar-guide-menu,html #yt-masthead-container,html body #footer-container,html .footer-container,html .site-center-aligned .yt-card,html .yt-uix-button-text:hover,html #watch7-user-header,html #watch7-headline,html .metadata-inline,html #watch7-action-panels #watch7-action-panel-footer,html #watch7-action-panels .yt-horizontal-rule,html .video-list-item a:hover,html .playlist-header,html #action-panel-transcript,html .caption-line,html .live-welcome-intro,html #dashboard-header,html .yt-alert-panel,html #vm-pagination,html .vm-list-view .vm-video-list li,html #yt-admin-content .yt-admin-h2,html .hh #yt-admin-content,html .account-container,html .metadata-editor-container .video-settings-form,html #inline-editor-main,html #bottom-notes-section,html .timedtext-content,html #insight td,html .GK5ROLOBNU li,html #watch-response,html .yt-dialog-footer,html .create-playlist-widget-form .create-playlist-bottom-section,html .related-channels-editor,html .yt-masthead-picker-footer,html .vm-list-view .vm-video-metrics a,html .video-dds .list,html .video-dds .list a,html .yt-admin-h2,html .tabbed-page .tab,html #insight ul,html #insight ul li,html .yt-uix-menu-trigger-selected .yt-ui-menu-item,html .yt-ui-menu-item:hover,html #creator-sidebar h3 a,html .hh #creator-page-content,html [class*=vm-video-item-content],html .dashboard-widget-content,html .dashboard-widget-view-all-link,html .dashboard-widget .dashboard-widget-config,html .dashboard-widget-header,html .dashboard-widget.notification,html .dashboard-widget-todos .todo-item,html .dashboard-widget-promos .promos-content-container,html .analytics-card>div,html .yt-dialog-header,html #yt-comments-sb-standin .box,html .yt-channel-msg-dialog .compose-message,html .advanced-search-footer,html .yt-commentbox-text,html .comments [class^=mod-list],html .comments .paginator,html .annotator-timeline,html .comments-wait,html .yt-commentbox-text,html .yt-simplebox-text,html .comment-simplebox,html .comment-simplebox-text,html .vm-list-view .vm-video-list .vm-video-item,html [class*=yt-creator-hub-card],html #nav.yt-creator-hub-page,html #menu.yt-creator-hub-page a.active,html .desktop-notifications .browser,html .HPHGCHB-F-j,html #yt-masthead-notifications-content .item-section>li>.yt-lockup-tile:hover,html #yt-masthead-notifications-content .yt-ui-ellips:hover,html .ytp-ce-expanding-overlay-background,html .iv-card,html #watch-sidebar-live-chat .yt-uix-expander-collapsed,html .exp-searchbox-redesign #masthead-search,html ytd-watch-card-rich-header-renderer,html #creator-page.account-page,html ytd-rich-metadata-renderer,html paper-dialog,html ytd-two-column-browse-results-renderer[page-subtype="history"] #secondary.ytd-two-column-browse-results-renderer,html #content-attachment.ytd-backstage-post-renderer ytd-video-renderer.ytd-backstage-post-renderer,html #merch-item-container.yt-simple-endpoint.ytd-merch-shelf-item-renderer:hover,html ytcp-navigation-drawer.ytcp-entity-page,html ytcp-header {
+  background: #1e1e1e!important
+}
+
+html .m_highlight,html .sorterbar th,html .epic-nav-item-dropdown .epic-nav-item-selected .yt-uix-button-menu-item,html .caption-line:hover,html .yt-tile-visible,html .ab-group-name:hover,html .ab-contact:hover,html .yt-tile-default:hover,html .subscription-list-item:hover,html .popupContent *,html .yt-combobox-menu-item:hover,html .charts .video-card,html #channel-subscription-promo-logged-out-top,html .yt-uix-button-menu .yt-uix-button-menu-item.menu-subheading,html .yt-creators-creator-benefits-table-status-verified-channels,html .iph-dialog,html #ccd-promo,html .welcome-promo .content,html .compact-shelf .yt-uix-button-shelf-slider-pager,html #watch-appbar-playlist .playlist-videos-list,html .playlist-video-item .playlist-video-item-handle,html .track-list li.track,html .stick-wings div,html .pl-video-list-editable .pl-video:hover .pl-video-handle,html .yt-uix-dragdrop-cursor-follower .pl-video-handle,html .pl-header-inlineedit .c4-module-is-editable:hover,html .c4-module-editor-form,html .not-watch8 .toggle-button,html .yt-ui-menu-content,html #creator-sidebar .creator-sidebar-section a:hover,html .info-popup,html .mod-button-content:hover,html .c4-module-is-editable:hover,html .guided-help-box,html .timeline-row,html [class^=account-feature] li,html #masthead.yt-creator-hub-page,html #content.yt-creator-hub-drawer,html #menu.yt-creator-hub-page a,html .yt-masthead-account-picker-option,html .comments .add-options-separator,html ytd-playlist-video-renderer:hover:not(.dragging),html .exp-kevlar-settings .account-page #creator-sidebar .creator-sidebar-item.selected>a,html .arrow.ytd-merch-shelf-renderer,html ytcp-app paper-icon-item.iron-selected.ytcp-navigation-drawer,html ytcp-app paper-icon-item:hover,html ytcp-app paper-icon-item.ytcp-navigation-drawer[submenu-open="true"] {
+  background: #2e2e2e!important
+}
+
+html body>iframe+table table,html #watch7-playlist-tray .playlist-bar-item-playing,html .non-profit-number,html .watch-actions-stats-rats .stats-chart-menu,html .channels-browse-filter.selected,html .video-settings-add-tag,html #audio-ui-search-input-field,html #or-divider-text,html .watch-playlists-drawer ul,html .share-email-preview-container,html .yt-creators-card-light,html .yt-creators-creator-benefits-table,html .howto-promo-container,html .beta-bar,html .yt-card-light,html #featured-tracks-header,html .track-list li.track:hover,html .stick-wings div:hover,html .media-list li:hover,html .notification-dismiss:hover,html .standalone-collection-badge-renderer-text a {
+  background: #3e3e3e!important
+}
+
+html .gssb_i td,html .html5-compatibility-table li,html .popupContent div[aria-selected=true],html .subscriptions-filter .filter-field-container {
+  background: #4e4e4e!important
+}
+
+html .comment-renderer-author-comment-badge.creator,html .comment-renderer.channel-owner .comment-author-text,html .comments .channel-owner .comment-header .user-name {
+  background: #68c!important
+}
+
+html .yt-uix-form-input-checkbox-container input:checked+.yt-uix-form-input-checkbox-element,html .yt-uix-form-input-radio-container input:checked+.yt-uix-form-input-radio-element {
+  box-shadow: inset 0 0 0 3px #101010!important;
+  background: #4e4e4e!important
+}
+
+html .feed-author-bubble,html hr.metadata-separator-line,html .message.open td,html a.yt-uix-button-primary .yt-uix-button-content,html #audio-ui-search-input-field input,html #identity-prompt-lb .specialized-identity-prompt-account-item,html .yt-advertise-cta-container,html #insight td div:not(.HPHGCHB-F-m):not(.HPHGCHB-F-j),html #insight tr,html #insight table,html .yt-ui-ellipsis,html .yt-uix-expander-ellipsis,html .c4-module-editor-actions,html .yt-card.yt-uix-flipwidget-back-side,html .all-comments,html .all-comments a {
+  background: transparent!important
+}
+
+html .branded-page-v2-primary-col,html .branded-page-v2-primary-col .branded-page-box,html .sorterbar th,html #guide-subscriptions-promo.default-promo,html #yt-masthead-container,html body #footer-container,html .footer-container,html .guide-section-separator,html .lohp-shelf-cell-container,html .lohp-newspaper-shelf,html .lohp-large-shelf-container,html .lohp-large-shelf-container .lohp-blog-headline,html #watch-discussion,html #watch7-headline,html #watch7-notification-area,html #watch7-user-header,html #watch7-action-buttons,html #watch7-action-panels,html #watch7-action-panels .yt-horizontal-rule,html #channel-subheader,html .c4-box,html #c4-header-bg-container,html .branded-page-v2-subnav-container,html .primary-col,html .search-header,html .yt-picker-header,html .yt-picker-hr,html #safety-form p.safety-submit,html .result-item-onebox,html .yt-lockup2-playlist-item,html .about-network-stat,html .about-subscriptions,html .other-channels-module,html .package-module,html .feed-item-container .feed-item-main,html .yt-dialog-fg,html .yt-uix-overlay-fg,html .yt-gb-preview-header,html .yt-gb-preview-thumb,html .yt-uix-button-default,html body .yt-uix-button-default[disabled],html .comments-post-alert,html .lohp-medium-shelves-container,html .yt-uix-button-menu,html .yt-uix-clickcard-card-border,html .yt-uix-hovercard-card-border,html #watch-response-content,html #watch-response-content-sort,html #masthead-container,html .yt-sidebar-border,html .yt-horizontal-rule,html .yt-tile-static,html .yt-creators-programs-nav li,html .feed-header,html body #masthead-expanded-container,html .yt-dialog-base .yt-dialog-header,html .yt-uix-overlay-base .yt-uix-overlay-header,html #c4-force-migrated-notification .yt-dialog-content,html .branded-page-v2-body #channel-feed-post-form,html .c4-checklist-module,html .c4-checklist-module .todo-item,html .yt-uix-button-c4-view-action,html .feed-item-content-wrapper.playlist-promo,html .feed-item-content-wrapper.channel-lockup,html .yt-uix-overlay-actions,html .feed-promo,html .exp-new-site-width #yts-article:after,html .nonprofit-download-playbook,html .exp-new-site-width #yts-nav,html .exp-new-site-width #yts-article #header,html .watch-actions-stats-rats .stats-bragbar-container,html .watch-actions-stats-rats .stats-chart-menu,html .watch-actions-stats-rats .stats-bragbar,html .watch-actions-stats-rats .stats-bragbar-filler,html .separator,html .with-separator,html .with-divider,html hr.yt-playbook-rule-simple,html .yt-playbook-tip-text,html hr.yt-playbook-overview-divider,html #subscription-manager-container .subscription-manager-header,html .collection-promo,html .subscriptions-filter .filter-field-container,html #vm-video-actions-inner,html .hh #yt-admin-content,html #creator-sidebar .creator-sidebar-section.selected,html .menu-item-top-divider,html .hh #dashboard-header,html .hh #dashboard-header-stats li,html .vm-list-view .vm-video-item-content,html .vm-list-view .vm-video-metrics,html .account-features-list tr,html .account-container,html .account-content .account-section.account-bordered-section,html #upload-prompt-box,html #main-content .starting-box,html .verify-page,html .channel-header .secondary-header-contents,html #yt-admin-content h2,html #yt-admin-content .yt-admin-h2,html .buttonbar,html .ab-main,html .ab-layout-table,html .ab-layout-table *,html #yt-admin-recommendations h2,html #vm-page-subheader,html .subscription-picker-header,html .subscription-list-item:hover,html #ft,html .upload-header,html .upload-item,html .metadata-editor-container .subnav,html #shared-addto-menu .playlists,html .creator-editor-nav,html #creator-editor-container,html .hh.editor-content,html .creator-editor-header,html .creator-editor-content #inline-editor-header,html #inline-editor-revert-container,html #enhance-advanced-body,html .audio-ui-featured-row,html #audio-ui-pagefold,html #annotator-div,html #annotator-add-div,html #annotator-select-div,html #bottom-notes-section,html .c,html #insight *:not(img),html #content,html #top-bar,html #advertising-note,html #storyboard,html .vm-label-item,html .vm-member-item,html .yt-combobox-menu .yt-combobox-menu-content-list,html .monetize-options-box,html hr.metadata-separator-line,html .yt-chip,html .tag,html .browse-container .charts hr,html .c4-welcome-primary-col,html .welcome.c4-spotlight-module-component,html #yts-article #header,html #channel-subscription-promo-logged-out-top,html #subscription-manager-container .even td,html .c4-welcome-secondary-col,html .playlist-pager,html .playlist-video-item,html .yt-creator-tip-list *,html #masthead-appbar,html #vm-bulk-actions-editing-header,html #vm-bulk-actions-editing-buttons,html .yt-uix-button-menu .yt-uix-button-menu-item.menu-subheading,html .vm-bulk-actions-editing-field,html #track-group-tabs,html .reply_bottom,html #annotator-sidebar li,html #annotator-sidebar div,html .yt-lockup-playlist-item,html .add-widget-menu-content li,html .compact-shelf-view-all-card,html .yt-gb-shelf-main-content,html .vl .video-thumb,html .vl .t,html .watch-card-list td,html .yt-dialog-fg-content,html #comment-settings,html #menu-tabs,html #menu-bodies,html .distiller-first-time-promo .content,html .iph-dialog,html .social-connector,html #ccd-promo,html .welcome-promo .content,html .fans-table .fans-table-header,html #identity-prompt-lb .specialized-identity-prompt-account-item,html #footer #google-cookie-alert,html #non-appbar-vm-video-actions-bar .vm-video-actions-inner,html .tab-container,html #enhance-footer,html .branded-page-box,html .cardified-page .feed-item-container,html .site-center-aligned .feed-item-container,html .site-center-aligned #creator-sidebar .creator-sidebar-section,html .site-center-aligned #creator-sidebar .creator-sidebar-section.selected,html .guide-flyout,html .yt-uix-button-menu li.yt-uix-button-menu-new-section-separator,html .compact-shelf .yt-uix-button-shelf-slider-pager,html .live-welcome-intro,html #playlist-editor-navigation-menu,html .playlist-video-items,html .playlist-video-item .playlist-video-item-handle,html .pl-video,html #dashboard-header,html #dashboard-header-stats li,html .menu-bodies.expanded,html #comment-settings *:not(textarea):not(.yt-uix-form-input-radio-element),html .pl-video-list-editable .pl-video:hover .pl-video-handle,html .yt-uix-dragdrop-cursor-follower .pl-video-handle,html .promoted-videos,html .yt-dialog-footer,html .display-message,html .channel-ad-description,html .yt-masthead-picker-header,html .video-dds .list,html .yt-admin-h2,html .tabbed-page .options-bar,html .tabbed-page .tabs-area,html .tabbed-page .tab,html .tabbed-page .tabs-wrapper,html #creator-subheader,html .top-menu,html .empty-message,html #subscription-manager-list tr,html .yt-gb-compact-shelf,html #verify-phone-page,html #comments-scroller,html #add-captions-section,html #video-settings-section,html .search-shelf,html .search-refinements,html .watch-sidebar-separation-line,html .search-exploratory-line,html .subscribers-table-header,html .subscribers-table td,html .comment-item:hover [class^='mod'],html [id^='fans'],html .fake-textbox,html .search-exploratory-line,html .comments .paginator,html .yt-lockup-tile,html .yt-consent-banner,html .about-metadata-label-border-top,html .comment-simplebox-renderer,html .ypc-offer-overlay-offer-group-list,html [class^=account-status],html .caption-queue *,html .desktop-notifications .browser,html #creator-sidebar-separator,html #content.yt-creator-hub-page *,html .yt-unlimited-faq-issue,html .yt-unlimited-faq-issue .yt-uix-button-text:hover,html .yt-unlimited-complex-feature-info-text.yt-unlimited-music-enabled,html .comment-replies-renderer,html .ytp-ce-channel-this .ytp-ce-channel-metadata,html .ytp-ce-element,html .iv-card-image,html .skeleton-light-border-bottom,html #captions-editor-nav {
+  border-color: #2e2e2e!important
+}
+
+html .yt-ui-menu-content,html .add-to-widget .playlists,html .info-popup,html #yt-comments-sb-standin .box,html .yt-channel-msg-dialog .compose-message,html .yt-commentbox-text,html .comments [class^=mod-list],html .comment-simplebox-renderer-collapsed-content,html .yt-commentbox-text,html .yt-simplebox-text,html .comment-simplebox-text,html #yt-masthead-user .sb-notif-on .yt-uix-button-content,html .account-features-v2-grid-item-title,html [class^=account-feature] li,html .project-menu-header,html .comment-simplebox-frame,html .HPHGCHB-s-g {
+  border-color: #3e3e3e!important
+}
+
+html .focus .comment-simplebox-frame {
+  border-color: #6783ab!important
+}
+
+html #footer-main,html .footer-main,html .caption-line,html .guided-help-box,html .watch-actions-stats-rats .stats-charts-container,html .channel-activity-feeds .feed-item-container:hover,html .dashboard-widget-todos .todo-item,html .dashboard-widget-todos .todo-description,html #share-panel-buttons .yt-uix-button,html .dashboard-widget:hover .dashboard-widget-display-title,html #mediapicker .editor-tab-container,html #video-media-filters input,html #cc-media-filters input,html #audio-media-filters input,html .charts .video-card .video-card-footer,html .yt-uix-legacy-slider.browse-collection .yt-uix-pager,html #yts-nav,html #annotator-select-menu .yt-uix-button-menu-item td,html .c4-checklist-module .checklist-item,html .message.open td,html .dashboard-widget.yt-uix-dragdrop-cursor-follower .dashboard-widget-header .dashboard-widget-header-controls,html #audio-ui-search-input-field input,html .yt-advertise-cta-container,html #featured-tracks-header,html #watch7-creator-bar,html .media-list li:hover,html .comment-thread-renderer {
+  border-color: transparent!important
+}
+
+html .gssb_e,html .yt-uix-form-input-radio-element,html .comment-renderer-linked-comment {
+  border: 1px solid #4e4e4e!important
+}
+
+html .tabbed-page .tab.active {
+  border-top-color: #d00!important
+}
+
+html .tabbed-page .tab.active,html .signup-promo.guided-help-box:after,html li.track {
+  border-bottom-color: #1e1e1e!important
+}
+
+html .distiller-first-time-promo .arrow {
+  border-bottom-color: #2e2e2e!important
+}
+
+html .yt-card .yt-uix-tabs {
+  border-bottom-color: #333!important
+}
+
+html .yt-uix-button-primary .yt-uix-button-arrow,html #watch8-action-buttons,html .yt-card .yt-uix-button-expander {
+  border-top-color: #333!important
+}
+
+html .yt-badge,html .yt-uix-form-input-checkbox-element,html .dashboard-widget.notification,html .dashboard-widget .dashboard-widget-content,html .dashboard-widget .dashboard-widget-config,html .dashboard-widget-analytics .section+.section,html .dashboard-widget-header:hover,html .dashboard-widget-header:hover .dashboard-widget-header-controls,html .dashboard-widget.yt-uix-dragdrop-cursor-follower .dashboard-widget-header,html .dashboard-widget.yt-uix-dragdrop-cursor-follower .dashboard-widget-display-title,html .ml,html #audio-ui-featured-table,html #audio-ui-search-input-field,html .popupContent *,html .watch-playlists-drawer ul,html .yt-creators-creator-benefits-table *,html .dashboard-widget-header:hover .dashboard-widget-overlay-icon,html .dashboard-widget-config .dashboard-widget-header {
+  border-color: #4e4e4e!important
+}
+
+html .yt-subscription-button-subscriber-count-branded-vertical:before,html .yt-subscription-button-subscriber-count-branded-vertical:after,html .yt-subscription-button-subscriber-count-unbranded-vertical:before,html .yt-subscription-button-subscriber-count-unbranded-vertical:after {
+  border-color: #555 transparent!important
+}
+
+html .yt-subscription-button-subscriber-count-branded-horizontal:before,html .yt-subscription-button-subscriber-count-branded-horizontal:after,html .yt-subscription-button-subscriber-count-unbranded-horizontal:before,html .yt-subscription-button-subscriber-count-unbranded-horizontal:after {
+  border-color: transparent #555!important
+}
+
+html .yt-uix-slider-next-arrow,html .up-next-nav .yt-uix-button-icon-up-next-next {
+  border-left-color: #777!important
+}
+
+html .yt-uix-slider-prev-arrow,html .up-next-nav .yt-uix-button-icon-up-next-prev {
+  border-right-color: #777!important
+}
+
+html .yt-gb-preview-thumb.selected {
+  border-color: #a22722!important
+}
+
+html #appbar-guide-menu {
+  border-right: 1px solid #2e2e2e!important
+}
+
+html [class^=account-feature] [class*=green] {
+  border-bottom-color: #42d916!important
+}
+
+html [class^=account-feature] [class*=red] {
+  border-bottom-color: #e62117!important
+}
+
+html .comment-renderer.channel-owner .comment-author-text,html .comments .channel-owner .comment-header .user-name {
+  font-size: 12px!important;
+  border-radius: 9px!important;
+  padding: 1px 6px!important;
+  vertical-align: middle!important
+}
+
+html #yt-microsite-header h2,html #yt-microsite h2,html #yt-microsite h3,html #yt-microsite h4,html #yt-microsite h5,html #footer-secondary li,html #yt-main-nav a,html .yt-nav-dark .yt-nav-item,html .watch-actions-stats-rats .metric-label,html .yt-text h1,html .channels-browse-filter,html #error-page-content p,html #dashboard-header h1,html .dashboard-stat-value,html .dashboard-stat-name,html .ab-group-name,html .ab-contact,html #insight *,html .popupContent *,html #dashboard-header h2,html #vm-bulk-actions-selection-link span,html .footer-secondary li,html .add-widget-button-label,html .dashboard-channel-link {
+  text-shadow: none!important
+}
+
+html .yt-tile-static,html #yt-microsite-features .yt-microsite-spotlight,html .feed-item-content-wrapper.playlist-promo,html .feed-item-content-wrapper.channel-lockup,html .html5-compatibility-table li,html .yt-tile-visible,html .ab-group-name,html .ab-contact,html #yt-admin-recommendations h2,html #vm-page-subheader,html .yt-tile-default:hover,html #audio-ui-search-input-field,html #video-media-filters input,html #cc-media-filters input,html #audio-media-filters input,html .monetize-options-box,html .yt-chip,html .tag,html .charts .video-card,html .watch-playlists-drawer ul,html #yt-admin-content .yt-admin-h2,html #compose-cell,html .vm-beauty-view .vm-video-item-content,html .yt-gb-shelf-main-content,html #audio-ui-search-input-field input,html .distiller-first-time-promo .content,html .welcome-promo .content,html .audio-ui-featured-row,html .track-list li.track,html .stick-wings div,html .info-popup,html .yt-gb-compact-shelf,html .media-list li:hover {
+  box-shadow: none!important
+}
+
+html .site-center-aligned .yt-card {
+  box-shadow: 0 1px 0 1px #2e2e2e!important
+}
+
+html .yt-uix-card-border-arrow,html .yt-uix-card-body-arrow,html #yt-creator-survey,html #yt-comments-sb-standin .callout,html .comment-simplebox-arrow,html .yt-simplebox-arrow {
+  display: none!important
+}
+
+html .yt-picker-grid img {
+  opacity: .75!important
+}
+
+html .creator-heart-big-unhearted {
+  opacity: .25!important
+}
+
+html #dashboard-no-videos-overlay,html .HPHGCHB-s-n {
+  background: rgba(51,51,51,.65)!important
+}
+
+html .yt-uix-tooltip-tip-content {
+  font-weight: 400!important
+}
+
+html #google-feedback-wizard,html .yt-copyright-index-anchors li,html .yt-creators-next,html #lg {
+  -webkit-filter: invert(90%) grayscale(100%)!important
+}
+
+html .yt-gb-shelf-paddle,html .yt-gb-preview .yt-uix-button-icon-next,html body .yt-gb-preview .yt-uix-button-icon-previous,html .yt-gb-preview .yt-uix-button-icon-previous,html body .yt-gb-preview .yt-uix-button-icon-next,html .compact-shelf .yt-uix-shelfslider-prev-arrow,html .compact-shelf .yt-uix-shelfslider-next-arrow,html .hitchhiker-enabled .addto-watch-later-button-sign-in img,html .yt-uix-button-icon-play-all,html .watch-pencil-icon .yt-uix-button-icon-pencil,html #creator-sidebar .creator-sidebar-bullet,html #masthead-search .search-btn-component .yt-uix-button-content,html .yt-uix-button-icon-comment-close,html .comment-action img,html .yt-uix-button-icon-comment-close,html .yt-uix-button-icon-action-panel-stats,html .yt-uix-button .yt-uix-button-icon-action-panel-transcript,html #hangout-popout-icon,html .yt-uix-button-arrow,html .yt-channel-title-autogenerated,html .channels-search .search-button .yt-uix-button-content,html .guide-management-plus-icon,html .yt-uix-button-subscribe-unbranded.ypc-enabled .yt-uix-button-icon-subscribe,html .lohp-blog-decoration,html #channel-search .show-search img,html #channel-search .yt-uix-button-icon-search,html .hitchhiker-enabled .yt-uix-button-icon-feed-item-action-menu,html #search-btn span,html .guide-management-settings-icon,html .yt-uix-button.guide-sort-button,html .yt-uix-button-icon-addto,html .yt-uix-button-icon-c4-editor-edit,html .nonprofit-download-playbook img,html .watch-actions-stats-rats .stats-chart-gviz,html .yt-uix-expander-arrow,html .dashboard-widget-handle,html .vm-list-view .vm-video-metrics img,html .yt-uix-button-icon-vm-beauty-view,html .yt-uix-button-icon-vm-beauty-view,html .yt-uix-button-icon-vm-list-view,html .vm-search-btn .yt-uix-button-content,html .channel-header .secondary-header-contents img,html #mid-title+img,html #vm-view-toggle .list-selected img,html #vm-view-toggle .grid img,html .yt-uix-button-icon-report-user,html .subscriptions-filter .filter-button .yt-uix-button-content,html #fl span,html #rd span,html #rl span,html .yt-uix-button-icon-upload-add,html .yt-uix-button-icon-upload-cancel,html .creator-editor-icon-captions,html .creator-editor-icon-annotate,html .creator-editor-icon-audio,html .creator-editor-icon-enhance,html .creator-editor-icon-edit,html img.audio-ui-add-audio,html .yt-search-field-search-button .yt-uix-button-content,html .yt-uix-button-icon-annotation-add,html .icon-annotation-add,html .yt-uix-button-icon-annotation-edit,html .icon-annotation-edit,html #watch7-subscription-container .channel-settings-link .yt-uix-button-icon-settings,html .video-likes-count img,html .video-dislikes-count img,html #insight button img,html #insight span img:not(.gwt-Image),html #quick-fixes-panel img,html #insight svg,html .dashboard-widget-analytics .section-sparkline img,html .GGNVMSPDGT,html img.storyboard-icon.video-icon,html img.storyboard-icon.audio-icon,html #storyboard .timeline-zoomslider .slider-icon,html .editor-tab-bar img,html button.project-menu-delete img,html .yt-creator-notifications .yt-creator-tip-status-icon .yt-creator-tip-status-icon-active,html .sharebox iframe,html #annotator-add-menu img,html .annotation-header img,html .yt-uix-button-icon-bell,html #comment-settings iframe,html .searchfield img.search-icon,html .track a:not(:hover) img,html .yt-uix-button-icon-gplus-message,html .iph-dialog-pointer-left,html .c4-button-opacity img,html .editor-tab-container img,html .subnav-flow-menu img,html li .gwt-Image,html .yt-uix-button-icon-gray_close,html .c4-checklist-module .checklist-item:hover .yt-close-img,html .ad-info-icon,html .pl-header-content img,html .addto-menu img,html .playlist-status,html #creator-sidebar [class*=icon]:not(.selected),html .add-widget-button,html .search-button .yt-uix-button-content,html .yt-uix-button-icon:not([class*=appbar]):not([class*=playlist]):not([class*=collection]):not([class*=promo]),html .search-icon,html .yt-help-icon,html #channel-header-view-as-link .header-action-icon,html .yt-uix-button-icon-action-panel-report,html .add-to-widget [class*=icon],html .yt-uix-button-icon-action-panel-transcript,html .subscription-manager-cell-header-icon,html .yt-uix-button-icon-privacy-private,html .autoplay-info-icon,html .sprite_delete,html .sprite_flag,html .sprite_approve,html .pl-header-title-icon,html .yt-uix-subscription-preferences-button:hover:before,html .action-panel-trigger:before,html .yt-uix-button:not([class*=subscribe]):not([class*=like-button-renderer-like-button-unclicked]):not([class*=like-button-renderer-like-button-clicked]):not(.yt-uix-playlistlike):before,html .like-button-renderer-like-button-unclicked:not(:active):before,html .comments .sprite_like,html .comments .sprite_dislike,html .comments .sprite_dropdown,html .sprite-like:not([data-action-on=""]),html .sprite-dislike:not([data-action-on=""]),html .vm-video-metric .yt-sprite,html .track-action-icon,html .comment-renderer-author-comment-badge.creator .yt-comment-author-verified-icon,html [class*="comment-replies-renderer-expander"]:after,html .yt-close-img,html .HPHGCHB-P-g a:not(:hover) img,html .creator-heart-big-unhearted,html .yt-uix-form-input-select-arrow {
+  -webkit-filter: invert(80%)!important
+}
+
+html .yt-uix-button-appbar,html #enhance-editor-link a,html #audio-ui-selection,html #insight button[role=button],html #insight button[role=listbox],html #audio-ui-featured-table-container thead td,html .vm-improve-video-close-button,html .vm-improve-video-button,html .vm-promote-video-close-button,html .vm-promote-video-button,html body .b,html .yt-uix-button-alert-info,html button.yt-uix-button-dark,html .watch-actions-stats-rats .stats-bragbar,html .watch-actions-stats-rats .stats-bragbar-filler,html body .yt-uix-button-default[disabled],html .yt-uix-button-primary,html .yt-uix-button-subscribe-unbranded,html .yt-uix-form-input-select,html select,html .yt-playall-link,html .flip.yt-uix-button-text:hover,html .yt-uix-button-subscribed-branded,html .site-center-aligned #masthead-positioner:hover #appbar-guide-button,html .yt-uix-button-panel:hover .creator-bar-item .yt-uix-button-text-dark,html .yt-uix-button-panel .creator-bar-item .yt-uix-button-text-dark:hover,html .yt-uix-button-default:not(.yt-dialog-close):not(.add-widget-button):not(.yt-uix-button-toggled):not(.yt-uix-button-link):not(.sprite-like):not(.sprite-dislike):not(#sb-button-notify),html .video-dds,html .topline {
+  background: linear-gradient(#404040,#202020),#303030!important;
+  border-color: #555 rgba(255,255,255,.1) #3e3e3e!important;
+  box-shadow: 0 0 1px 1px rgba(0,0,0,.2)!important
+}
+
+html #enhance-editor-link a:hover,html #insight button[role=button]:hover,html .yt-creator-notifications-action-bar button:hover,html .yt-uix-button-playlist-action:hover,html #watch-share-button:hover,html .vm-improve-video-button:hover,html .b:hover,html .yt-uix-button-alert-info:hover,html button.yt-uix-button-dark:hover,html .yt-uix-button-primary:hover,html .yt-uix-button-subscribe-unbranded:hover,html .yt-uix-form-input-select:hover,html .yt-uix-button-panel .yt-uix-button:hover:not(.yt-uix-button-expander):not(.yt-uix-button-player-controls):not(.action-panel-trigger):not([class*="share-panel"]):not(.yt-uix-button-toggled):not(.yt-uix-button-subscribe-branded),html select:hover,html .site-center-aligned #masthead-positioner #appbar-guide-button:hover,html .yt-uix-button-default:not(.yt-dialog-close):not(.add-widget-button):not(.yt-uix-button-toggled):not(.yt-uix-button-link):not(.sprite-like):not(.sprite-dislike):not(#sb-button-notify):hover,html .topline:hover {
+  background: linear-gradient(#474747,#2b2b2b),#3b3b3b!important;
+  border-color: #555!important;
+  box-shadow: inset 0 0 3px #676767,0 0 0 1px rgba(0,0,0,.2),0 1px 3px rgba(0,0,0,.3)!important
+}
+
+html #enhance-editor-link a:active,html #insight button[role=button]:active,html .yt-creator-notifications-action-bar:hover button:active,html .yt-uix-button-playlist-action:active,html .vm-improve-video-button:active,html .b:active,html .yt-uix-button-alert-info:active,html button.yt-uix-button-dark:active,html .yt-uix-button-panel .yt-uix-button-toggled:not(.yt-uix-button-player-controls):not(.action-panel-trigger):not([class*="share-panel"]):not(.yt-uix-button-subscribe-branded),html .yt-uix-button-panel .yt-uix-button:active:not(.yt-uix-button-expander):not(.yt-uix-button-player-controls):not(.action-panel-trigger):not([class*="share-panel"]):not(.yt-uix-button-toggled):not(.yt-uix-button-subscribe-branded),html #watch-share-button:active,html #watch-share-button.yt-uix-button-toggled,html .yt-uix-button-primary:active,html .yt-uix-button-subscribe-unbranded:active,html .yt-uix-form-input-select:active,html select:active,html .yt-uix-button-text.yt-uix-button-active,html .flip.yt-uix-button-active:hover,html .site-center-aligned #masthead-positioner #appbar-guide-button:active,html .yt-uix-button-default.yt-uix-button-toggled,html .yt-uix-button-default:not(.yt-dialog-close):not(.add-widget-button):not(.yt-uix-button-toggled):not(.yt-uix-button-link):not(.sprite-like):not(.sprite-dislike):not(#sb-button-notify):active,html .topline:active {
+  background: linear-gradient(#2b2b2b,#474747),#3b3b3b!important;
+  border-color: #444!important;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,.5),0 0 0 1px rgba(0,0,0,.2)!important
+}
+
+html .yt-uix-button-default,html .yt-uix-button:not(.comment-renderer-reply) .yt-uix-button-content,html .yt-uix-button-text,html .yt-uix-button-menu-item:hover,html .yt-uix-form-input-select,html select,html body>iframe+table table span,html body>iframe+table table span b,html .vm-improve-video-button a,html #audio-ui-selection * {
+  color: #b0b0b0!important;
+  text-shadow: 0 1px 0 #000!important;
+  text-decoration: none!important
+}
+
+html .yt-search-field,html #body-container #video-title,html #insight input[type=text],html #qe,html .yt-uix-form-input-text,html .yt-uix-form-input-textarea,html #masthead-search-terms,html label#masthead-search-term,html .yt-copyright-searchbox,html .yt-uix-button-subscribed-unbranded,html #yt-jobs-search-form .yt-jobs-searchbox,html #disco-search-term-splash {
+  background: #3e3e3e!important;
+  border: 1px solid #4e4e4e!important;
+  box-shadow: inset 0 1px 2px #2e2e2e!important
+}
+
+html .b,html .yt-subscription-button-subscriber-count-branded-horizontal,html .yt-subscription-button-subscriber-count-branded-vertical,html .yt-subscription-button-subscriber-count-unbranded-horizontal,html .yt-subscription-button-subscriber-count-unbranded-vertical {
+  color: #bbb!important;
+  background: #555!important;
+  border-color: #555!important
+}
+
+html .html5-video-info-panel {
+  font-size: 16px;
+  background: #eff0f3!important;
+  color: #000!important
+}
+
+html::selection {
+  background: #ccc!important;
+  color: #000!important
+}
+
+html img::selection {
+  background: transparent!important
+}
+
+html body::-webkit-scrollbar,html .scrollable-comment-list::-webkit-scrollbar,html .scroll-content::-webkit-scrollbar,html #transcript-scrollbox::-webkit-scrollbar,html ul::-webkit-scrollbar,html ol::-webkit-scrollbar,html .project-menu-chooser::-webkit-scrollbar,html #yt-masthead-notifications-content::-webkit-scrollbar {
+  width: 10px!important;
+  height: 10px!important;
+  background: #1e1e1e!important;
+  border: 1px solid #252525!important
+}
+
+html body::-webkit-scrollbar-button,html .scrollable-comment-list::-webkit-scrollbar-button,html .scroll-content::-webkit-scrollbar-button,html #transcript-scrollbox::-webkit-scrollbar-button,html ul::-webkit-scrollbar-button,html ol::-webkit-scrollbar-button,html .project-menu-chooser::-webkit-scrollbar-button,html #yt-masthead-notifications-content::-webkit-scrollbar-button {
+  display: none!important
+}
+
+html body::-webkit-scrollbar-thumb,html .scrollable-comment-list::-webkit-scrollbar-thumb,html .scroll-content::-webkit-scrollbar-thumb,html #transcript-scrollbox::-webkit-scrollbar-thumb,html ul::-webkit-scrollbar-thumb,html ol::-webkit-scrollbar-thumb,html body::-webkit-scrollbar-track,html #transcript-scrollbox::-webkit-scrollbar-track,html ul::-webkit-scrollbar-track,html ul::-webkit-scrollbar-track,html ol::-webkit-scrollbar-track,html .project-menu-chooser::-webkit-scrollbar-track,html #appbar-guide-menu::-webkit-scrollbar-track,html #yt-masthead-notifications-content::-webkit-scrollbar-track {
+  border: 0!important;
+  box-shadow: none!important
+}
+
+html body::-webkit-scrollbar-thumb,html .scrollable-comment-list::-webkit-scrollbar-thumb,html .scroll-content::-webkit-scrollbar-thumb,html #transcript-scrollbox::-webkit-scrollbar-thumb,html ul::-webkit-scrollbar-thumb,html ol::-webkit-scrollbar-thumb,html .yt-scrollbar::-webkit-scrollbar-thumb,html .project-menu-chooser::-webkit-scrollbar-thumb,html #appbar-guide-menu::-webkit-scrollbar-thumb,html #yt-masthead-notifications-content::-webkit-scrollbar-thumb {
+  min-height: 28px!important;
+  background: #4e4e4e!important
+}
+
+html body::-webkit-scrollbar-corner,html #lqDkPi1.scrollable-comment-list::-webkit-scrollbar-corner,html .scroll-content::-webkit-scrollbar-corner,html #transcript-scrollbox::-webkit-scrollbar-corner,html ul::-webkit-scrollbar-corner,html ol::-webkit-scrollbar-corner,html .watch-playlists-drawer ul::-webkit-scrollbar-track,html .project-menu-chooser::-webkit-scrollbar-track,html #yt-masthead-notifications-content::-webkit-scrollbar-track {
+  background: #1e1e1e!important
+}
+
+html body *:not(.paper-radio-button):not(--yt-searchbox-border-color):not(.yt-uix-form-input-select-arrow),html .sbdd_b {
+  border-color: hsl(0,0%,15%)!important
+}
+
+html body #spinnerContainer * {
+  border-color: hsl(0,0%,24%)!important
+}
+
+html:not([style-scope]):not(.style-scope) {
+  --primary-text-color:#ccc!important;--divider-color:#333!important;--yt-swatch-icon-color:var(--yt-icon-color)!important;--yt-swatch-primary:hsl(0,0%,8.8%)!important;--yt-swatch-primary-darker:rgb(43,43,43)!important;--yt-swatch-text:hsla(0,0%,75%,.4)!important;--yt-swatch-input-text:hsl(0,0%,75%)!important;--yt-swatch-textbox-bg:rgb(0,0,0)!important;}
+
+html *:not([style-scope]):not(.style-scope) {
+  --yt-primary-color:hsl(0,0%,70%)!important;--yt-primary-text-color:hsl(0,0%,65%)!important;--yt-hovered-text-color:hsla(0,0%,65%,.8)!important;--yt-secondary-text-color:hsla(0,0%,65%,.8)!important;--yt-disabled-text-color:hsla(0,0%,65%,0.3)!important;--yt-placeholder-text-color:hsla(0,0%,65%,.6)!important;--yt-border-color:hsl(0,0%,10%)!important;--yt-searchbox-border-color:hsla(0,0%,53.3%,.2)!important;--yt-icon-color:hsla(0,0%,65%,.4)!important;--yt-icon-hover-color:hsla(0,0%,65%,.8)!important;--yt-icon-disabled-color:hsla(0,0%,65%,.6)!important;--yt-icon-active-color:hsl(0,0%,65%)!important;--yt-expand-color:hsla(0,0%,65%,.6)!important;--yt-metadata-color:hsla(0,0%,65%,.6)!important;--yt-placeholder-text:hsla(0,0%,65%,.6)!important;--yt-autoplay-toggle:hsl(206.1,79.3%,52.7%)!important;--yt-playlist-background-header:hsl(0,0%,10%)!important;--yt-playlist-background-item:hsla(0,0%,10%,.6)!important;--yt-playlist-title-text:hsl(0,0%,65%)!important;--yt-playlist-message-text:hsla(0,0%,65%,.6)!important;--yt-subscribe-button-text-color:hsl(0,0%,100%)!important;--yt-brand-paper-button-color:hsl(3,81.8%,39%)!important;--yt-brand-color:hsl(3,81.8%,39%)!important;--yt-button-text-color:hsla(0,0%,65%,.6)!important;--yt-button-payment-text-color:hsl(0,0%,9%)!important;--yt-video-publish-date-color:hsla(0,0%,65%,.6)!important;--yt-copyright-text:hsla(0,0%,65%,.6)!important;--yt-guide-entry-hover-background-color:hsl(0,0%,14%)!important;--yt-badge-background:hsla(0,0%,10%,.6)!important;--yt-badge-disabled-color:hsla(0,0%,53.3%,.4)!important;--yt-collection-badge-color:hsla(0,0%,65%,.8)!important;--yt-owner-badge-color:hsla(0,0%,65%,.4)!important;--yt-simple-badge-color:hsla(0,0%,65%,.6)!important;--yt-simple-menu-header-background:hsl(0,0%,10%)!important;--yt-item-section-header-color:hsla(0,0%,65%,.6)!important;--yt-menu-hover-backgound-color:hsl(0,0%,10%)!important;--yt-app-background:hsl(0,0%,8.8%)!important;--yt-guide-background:hsl(0,0%,8.8%)!important;--yt-dialog-background:hsl(0,0%,8.8%)!important;--yt-searchbox-background:hsl(0,0%,13%)!important;--yt-channel-header-background:hsla(0,0%,10%,.6)!important;--paper-menu-background-color:hsl(0,0%,24%)!important;--ytd-searchbox-legacy-border-color:#222!important;--ytd-searchbox-legacy-border-shadow-color:#333!important;--ytd-searchbox-legacy-button-color:#1a1a1a!important;--ytd-searchbox-legacy-button-border-color:#3d3d3d!important;--ytd-searchbox-legacy-button-focus-color:#e9e9e9!important;--ytd-searchbox-legacy-button-hover-color:#2a2a2a!important;--ytd-searchbox-legacy-button-hover-border-color:#333!important;--ytd-searchbox-legacy-button-icon-color:#ccc!important;--ytd-comment-text-color:hsl(0,0%,65%)!important;--yt-main-app-background:hsl(0,0%,6%) !important; --yt-main-app-background-tmp:hsl(0,0%,6%) !important}
+
+html ytd-guide-entry-renderer[active] {
+  background-color: var(--yt-guide-entry-hover-background-color)
+}
+
+html body:not([yt-color]):not([dark]) #search,html ytd-app #video-title.yt-simple-endpoint.ytd-grid-video-renderer,html ytd-app #video-title.ytd-video-renderer,html ytd-app #endpoint.yt-simple-endpoint.ytd-guide-entry-renderer,html ytd-app #author-text.yt-simple-endpoint.ytd-comment-renderer,html #title a,html #name.ytd-author-comment-badge-renderer,html #content-text.ytd-comment-renderer,html ytd-app #owner-name.ytd-video-owner-renderer a,html ytd-app #button.ytd-button-renderer,html .sbfl_b:hover,html ytd-commentbox:not([is-backstage-post]) yt-formatted-string#contenteditable-textarea.ytd-commentbox,html yt-formatted-string.ytd-guide-signin-promo-renderer,html #account-name.ytd-active-account-header-renderer,html #email.ytd-active-account-header-renderer,html #card-title.ytd-search-refinement-card-renderer,html .account-page-header,html #account-page-header-title,html .description.ytd-toggle-item-renderer,html #title.ytd-rich-metadata-renderer,html #title.ytd-topic-channel-details-renderer,html #channel-title.ytd-c4-tabbed-header-renderer,html #title.ytd-movie-offer-module-renderer,html #title.ytd-shelf-renderer,html paper-tab.iron-selected.ytd-c4-tabbed-header-renderer,html paper-tab.ytd-c4-tabbed-header-renderer:hover,html .content.ytd-video-secondary-info-renderer,html yt-formatted-string.ytd-comments-header-renderer,html #upnext.ytd-compact-autoplay-renderer,html #header.ytd-action-companion-renderer,html .polymer.light .video-wall-top-text-container-v2,html .title.ytd-mini-channel-renderer,#more-text.ytd-comment-replies-renderer,html #less-text.ytd-comment-replies-renderer,html #description-container,html #details-container yt-formatted-string,html #links-container yt-formatted-string,html #right-column yt-formatted-string,html #title.ytd-profile-column-user-info-renderer,html #title.ytd-channel-featured-content-renderer,html yt-formatted-string.ytd-sub-feed-option-renderer,html .badge-style-type-collection.ytd-badge-supported-renderer,html .content.ytd-metadata-row-header-renderer,html .content.ytd-metadata-row-renderer,html #left-column.ytd-channel-about-metadata-renderer,html #title.ytd-merch-shelf-renderer,html #large-card-price.ytd-merch-shelf-item-renderer,html #large-card-title.ytd-merch-shelf-item-renderer,html ytd-feedback-elicitation-single-question-renderer *,html yt-formatted-string,html #label.ytd-toggle-theme-compact-link-renderer,html ytd-conversation-switcher-item-renderer *,html .title.ytd-guide-entry-renderer,html .expander-text.ytd-comment-moderation-panel-renderer,html #moderation-reason-text.ytd-comment-renderer,html #expander-icon.ytd-comment-moderation-panel-renderer,html #title.ytd-hotkey-dialog-renderer,html .input-content.paper-input-container > label,html #byline.ytd-playlist-panel-video-renderer {
+  color: var(--yt-primary-color)!important
+}
+
+.icon-container yt-formatted-string.style-scope.ytd-c4-tabbed-header-renderer {
+  color: #fff !important
+}
+
+html ytd-app #footer.ytd-guide-renderer #guide-links-primary a,html ytd-app #footer.ytd-guide-renderer #guide-links-secondary a,html ytd-app #buttons.ytd-masthead [is-icon-button].ytd-masthead,html yt-formatted-string[has-link-only_]:not([force-default-style]) a.yt-simple-endpoint.yt-formatted-string,html #content.ytd-channel-video-player-renderer {
+  color: var(--yt-copyright-text)!important
+}
+
+html ytd-app #youtube-paths path,html ytd-app #guide-icon.ytd-masthead {
+  fill: var(--yt-primary-color)!important
+}
+
+html ytd-app #container.ytd-searchbox {
+  background-color: var(--yt-searchbox-background)!important;
+  box-shadow: none!important
+}
+
+html ytd-app ytd-searchbox[has-focus] #container.ytd-searchbox {
+  border: 1px solid var(--yt-searchbox-border-color)!important
+}
+
+html ytd-app ytd-author-comment-badge-renderer.creator,html #endpoint.yt-simple-endpoint.ytd-guide-entry-renderer:hover,html #endpoint.yt-simple-endpoint.ytd-guide-entry-renderer:focus,html #endpoint.yt-simple-endpoint.ytd-guide-entry-renderer:active,/*html #items.yt-multi-page-menu-section-renderer > *.yt-multi-page-menu-section-renderer:hover,*/html ytd-button-renderer.style-primary[disabled][is-paper-button],html ytd-backstage-post-dialog-renderer[is-creation-dialog],html ytd-expander.ytd-comment-moderation-panel-renderer:hover,html ytd-app ytd-mini-guide-entry-renderer:hover,html ytd-playlist-panel-video-renderer:hover:not(.dragging),html ytd-playlist-panel-video-renderer[selected] {
+  background-color: var(--paper-menu-background-color)!important
+}
+
+html ytd-app #content-text.ytd-comment-renderer a,html ytd-app #link-list-container.ytd-channel-about-metadata-renderer yt-formatted-string.ytd-channel-about-metadata-renderer,html ytd-app #message.ytd-message-renderer a,html .description.ytd-video-secondary-info-renderer yt-formatted-string.ytd-video-secondary-info-renderer a,html .content.ytd-metadata-row-renderer a,html a.yt-simple-endpoint.yt-formatted-string,html #meta #content a.yt-simple-endpoint.yt-formatted-string,html ytd-merch-shelf-item-renderer:hover .large-card-merchant.ytd-merch-shelf-item-renderer,html ytd-merch-shelf-item-renderer:hover #small-card-merchant.ytd-merch-shelf-item-renderer {
+  color: hsl(215,29%,54%)!important
+}
+
+html .sbsb_a,html .sbsb_b,html .sbfl_b,html .badge-style-type-live-now.ytd-badge-supported-renderer,html paper-listbox,html ytd-comment-moderation-panel-renderer,html a.ytd-search-refinement-card-renderer,html .badge-style-type-simple.ytd-badge-supported-renderer,html ytd-app yt-alert-with-actions-renderer,html ytd-app ytd-multi-page-menu-renderer[background-color-update],html ytd-app ytd-alert-with-button-renderer[type="INFO"],html ytd-app ytd-alert-with-button-renderer[type="SUCCESS"],html ytd-app ytd-browse[background-color-update][page-subtype="playlist"] ytd-two-column-browse-results-renderer.ytd-browse,html .header.ytd-playlist-panel-renderer,html .playlist-items.ytd-playlist-panel-renderer {
+  background: hsl(0,0%,10%)!important
+}
+
+html .sbsb_d:hover,html ytd-active-account-header-renderer,html ytd-app yt-page-navigation-progress,html paper-toggle-button:not([checked]) .toggle-bar.paper-toggle-button,html ytd-app .arrow.yt-horizontal-list-renderer,html ytd-app #channel-container,html ytd-app #tabs-container {
+  background: hsl(0,0%,24%)!important
+}
+
+html ytd-app #masthead-container::after {
+  box-shadow: inset 0px 4px 8px -3px rgba(0,0,0,1)!important
+}
+
+html .yt-simple-endpoint,html #title.ytd-metadata-row-renderer,html ytd-app .date.ytd-video-secondary-info-renderer,html ytd-app yt-icon.ytd-badge-supported-renderer {
+  color: var(--yt-metadata-color)!important
+}
+
+html .unfocused-line.paper-input-container,html ytd-app ytd-subscribe-button-renderer[button-style="COMPACT_GRAY"] paper-button.ytd-subscribe-button-renderer,html paper-toggle-button:not([checked]) .toggle-button.paper-toggle-button,html paper-button[subscribed].ytd-subscribe-button-renderer,html .badge-style-type-medium-grey.ytd-badge-supported-renderer {
+  background: var(--yt-metadata-color)!important
+}
+
+html ytd-author-comment-badge-renderer.creator #icon.ytd-author-comment-badge-renderer {
+  stroke: var(--yt-metadata-color)!important
+}
+
+html .sbsb_c,html ytd-app a[is="yt-endpoint"].ytd-button-renderer,html ytd-app a[is="yt-endpoint"].ytd-topbar-menu-button-renderer,html ytd-app a[is="yt-endpoint"].ytd-notification-topbar-button-renderer,html ytd-app a[is="yt-endpoint"].ytd-toggle-button-renderer {
+  color: inherit!important
+}
+
+html ytd-app paper-icon-button[aria-pressed="true"] iron-icon {
+  fill: var(--yt-primary-color,currentcolor)!important
+}
+
+html ytd-app .description.ytd-video-secondary-info-renderer yt-formatted-string.ytd-video-secondary-info-renderer,html ytd-app .content-text.ytd-comment-renderer {
+  --yt-endpoint-color:hsl(215,29%,54%)!important}
+
+html ytd-app #alert-message.ytd-consent-bump-renderer,html ytd-app h1,html ytd-app h2,html ytd-app h3,html ytd-app h1.title,html ytd-app #video-title {
+  color: var(--yt-swatch-logo-override,hsl(0,0%,65%))!important
+}
+html ytd-app iron-icon {
+  fill: var(--yt-icon-color,currentcolor)!important
+}
+
+html ytd-app button#opt-out-button {
+  filter: invert(100%)!important
+}
+
+html ytd-app #tabs-inner-container,html .badge-style-type-ypc.ytd-badge-supported-renderer,html ytd-app #channel-header {
+  background: hsl(0,0%,18%)!important
+}
+
+html ytd-app #watch-card-header.ytd-generic-watch-card,html ytd-app #overlay-button.ytd-watch-card-collage-renderer {
+  background: var(--yt-brand-paper-button-color)!important
+}
+/* Por alguna razon este estilo ha empezado a tapar el fondo cuando se desplegaba el panel lateral */
+/*html [id*=guide]:not(app-drawer),*/
+html ytd-app ytd-mini-guide-renderer[background-color-update_],
+html ytd-app ytd-mini-guide-entry-renderer,
+#guide-content, /* Panel Lateral */
+#guide-skeleton /* Panel Lateral Base */ {
+  background: var(--yt-guide-background)!important
+}
+
+html ytd-app ytd-button-renderer.style-compact-gray[is-paper-button],html ytd-app ytd-toggle-button-renderer.style-compact-gray[is-paper-button] {
+  background: hsl(0,0%,20%)!important
+}
+
+html ytd-app #selectionBar.paper-tabs {
+  border-color: #777!important
+}
+
+html ytd-app ytd-button-renderer.style-suggestive[is-paper-button] {
+  border: 1px solid hsl(215,29%,54%)!important
+}
+
+html ytd-app ytd-sentiment-bar-renderer[activated_] #like-bar.ytd-sentiment-bar-renderer {
+  background: hsl(215,29%,54%)!important
+}
+
+html ytd-app ytd-button-renderer.style-suggestive[is-paper-button] * {
+  background-color: #333!important;
+  color: hsl(215,29%,54%)!important
+}
+
+html ytd-app ytd-button-renderer.style-destructive[is-paper-button],html ytd-app paper-button.ytd-subscribe-button-renderer {
+  background: var(--yt-brand-color)!important
+}
+
+html ytd-app yt-confirm-dialog-renderer,html ytd-app .underline * {
+  border: none!important;
+  background: #414141!important;
+  background-color: #414141
+}
+
+html ytd-app #confirm-button {
+  background-color: #1976d2!important
+}
+
+html ytd-app #confirm-button #text {
+  color: #f1f1f1!important
+}
+
+html.lqkP #masthead-positioner,html.lqkP #masthead-positioner-height-offset {
+  display: none!important
+}
+
+html.lqkP #placeholder-player,html.lqkP #placeholder-playlist,html.lqkP #player-playlist {
+  display: none!important
+}
+
+html.lqkP div.ytp-iv-video-content,html.lqkP .annotation {
+  display: none!important
+}
+
+html.lqkP #watch7-sidebar {
+  top: 0!important;
+  margin-top: 0!important
+}
+
+html.lqkP #player,html.lqkP #player-api,html.lqkP video,html.lqkP .webgl canvas {
+  width: 100vw!important;
+  height: 100vh!important;
+  left: 0!important;
+  top: 0!important;
+  margin: 0!important;
+  padding: 0!important
+}
+
+html.lqQV ytd-page-manager {
+  margin-top: 0!important
+}
+
+html.lqQV #masthead-container,html.lqQV .annotation,html.lqQV .ytp-iv-video-content {
+  display: none!important
+}
+
+html.lqQV ytd-watch {
+  align-items: left!important
+}
+
+html.lqQV ytd-watch > #top {
+  margin-top: 0!important;
+  width: 100%!important;
+  max-width: 100%!important
+}
+
+html.lqQV ytd-watch #player {
+  height: 100vh!important;
+  max-height: 100vh!important;
+  width: 100vw!important
+}
+
+html.lqQV ytd-watch video,html.lqQV ytd-watch .webgl canvas {
+  height: 100vh!important;
+  width: 100vw!important;
+  top: 0!important;
+  left: 0!important
+}
+
+html.lqQV ytd-watch #container {
+  margin-top: 0!important
+}
+
+html.lqQV ytd-watch #content-separator {
+  display: none!important
+}
+
+html.lqQV ytd-watch-flexy #player-theater-container {
+  height: 100vh!important;
+  max-height: inherit!important
+}
+
+html.lqn5 .ytp-chrome-top-buttons {
+  display: none!important
+}
+
+html.lqn5 .ytp-tooltip {
+  top: calc(100vh - 70px)!important;
+  left: calc(50vw - 100px)!important
+}
+
+html.lqn5 .ytp-preview {
+  top: calc(100vh - 140px)!important
+}
+
+html.lqn5 .ytp-chrome-bottom {
+  position: relative!important;
+  top: calc(100vh - 40px)!important;
+  left: 0!important;
+  margin: 0 auto!important
+}
+
+html.lqn5 .ytp-webgl-spherical-control,html.lqn5 .ytp-chrome-top,html.lqn5 .ytp-playlist-menu {
+  top: 48px!important
+}
+
+html.lqn5 body {
+  overflow-x: hidden!important
+}
+
+html.lqn5 ytp-size-button path,html.lqn5 .ytp-size-button path {
+  fill: yellow!important
+}
+
+@media (orientation: landscape) {
+  html.lqFewc div.html5-video-container {
+    position:relative!important
+  }
+
+  html.lqFewc video,html.lqFewc .webgl,html.lqFewc ytd-watch video,html.lqFewc ytd-watch .webgl,html.lqFewc ytd-watch-flexy video,html.lqFewc ytd-watch-flexy .webgl {
+    top: 0!important;
+    width: auto!important;
+    left: 50%!important;
+    transform: translateX(-50%)!important
+  }
+
+  html.lqFewc .webgl canvas,html.lqFewc ytd-watch .webgl canvas {
+    width: auto!important
+  }
+
+  html.lqhK0 video,html.lqhK0 .webgl,html.lqhC0 ytd-watch video,html.lqhC0 ytd-watch .webgl,html.lqhC0 ytd-watch-flexy video,html.lqhC0 ytd-watch-flexy .webgl {
+    height: 60vh!important;
+    margin-top: 20vh!important
+  }
+
+  html.lqhK0 .webgl canvas,html.lqhC0 ytd-watch .webgl canvas,html.lqhC0 ytd-watch-flexy .webgl canvas {
+    height: 60vh!important
+  }
+
+  html.lqhK1 video,html.lqhK1 .webgl,html.lqhC1 ytd-watch video,html.lqhC1 ytd-watch .webgl,html.lqhC1 ytd-watch-flexy video,html.lqhC1 ytd-watch-flexy .webgl {
+    height: 70vh!important;
+    margin-top: 15vh!important
+  }
+
+  html.lqhK1 .webgl canvas,html.lqhC1 ytd-watch .webgl canvas,html.lqhC1 ytd-watch-flexy .webgl canvas {
+    height: 70vh!important
+  }
+
+  html.lqhK2 video,html.lqhK2 .webgl,html.lqhC2 ytd-watch video,html.lqhC2 ytd-watch .webgl,html.lqhC2 ytd-watch-flexy video,html.lqhC2 ytd-watch-flexy .webgl {
+    height: 80vh!important;
+    margin-top: 10vh!important
+  }
+
+  html.lqhK2 .webgl canvas,html.lqhC2 ytd-watch .webgl canvas,html.lqhC2 ytd-watch-flexy .webgl canvas {
+    height: 80vh!important
+  }
+}
+
+@media (orientation: portrait) {
+  html.lqFewc div.html5-video-container {
+    position:relative!important
+  }
+
+  html.lqFewc video,html.lqFewc .webgl,html.lqFewc ytd-watch video,html.lqFewc ytd-watch .webgl,html.lqFewc ytd-watch-flexy video,html.lqFewc ytd-watch-flexy .webgl {
+    height: auto!important;
+    top: 50vh!important;
+    transform: translateY(-50%)!important
+  }
+
+  html.lqFewc .webgl canvas,html.lqFewc ytd-watch .webgl canvas,html.lqFewc ytd-watch-flexy .webgl canvas {
+    height: auto!important
+  }
+
+  html.lqhK0 video,html.lqhK0 #player .webgl,html.lqhC0 ytd-watch video,html.lqhC0 ytd-watch .webgl,html.lqhC0 ytd-watch-flexy video,html.lqhC0 ytd-watch-flexy .webgl {
+    width: 60vw!important;
+    margin-left: 20vw!important
+  }
+
+  html.lqhK0 .webgl canvas,html.lqhC0 ytd-watch .webgl canvas,html.lqhC0 ytd-watch-flexy .webgl canvas {
+    width: 60vw!important
+  }
+
+  html.lqhK1 video,html.lqhK1 #player .webgl,html.lqhC1 ytd-watch video,html.lqhC1 ytd-watch .webgl,html.lqhC1 ytd-watch-flexy video,html.lqhC1 ytd-watch-flexy .webgl {
+    width: 70vw!important;
+    margin-left: 15vw!important
+  }
+
+  html.lqhK1 .webgl canvas,html.lqhC1 ytd-watch .webgl canvas,html.lqhC1 ytd-watch-flexy .webgl canvas {
+    width: 70vw!important
+  }
+
+  html.lqhK2 video,html.lqhK2 #player .webgl,html.lqhC2 ytd-watch video,html.lqhC2 ytd-watch .webgl,html.lqhC2 ytd-watch-flexy video,html.lqhC2 ytd-watch-flexy .webgl {
+    width: 80vw!important;
+    margin-left: 10vw!important
+  }
+
+  html.lqhK2 .webgl canvas,html.lqhC2 ytd-watch .webgl canvas,html.lqhC2 ytd-watch-flexy .webgl canvas {
+    width: 80vw!important
+  }
+}
+
+#lqFewc {
+  display: none!important;
+  position: absolute!important;
+  top: 0!important;
+  left: 0!important;
+  width: 100vw!important;
+  height: 100vh!important
+}
+
+#lqC {
+  width: 100vw!important;
+  height: 100vh!important
+}
+
+html.lqFewc #lqFewc {
+  display: block!important;
+  transition: background-color 1s!important
+}
+
+html.lqFewc video {
+  transition: box-shadow .2s!important
+}
+
+#lqN {
+  display: none!important;
+  position: absolute!important;
+  top: 7px!important;
+  left: 7px!important;
+  z-index: 2147483647!important;
+  overflow: hidden!important;
+  background-repeat: no-repeat!important;
+  background-image: url('data:image/png;base64,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')!important
+}
+
+html.lqn5 #lqN {
+  display: block!important;
+  width: 112px!important;
+  height: 43px!important
+}
+
+html.lqFewc #lqN {
+  width: 168px!important
+}
+
+html.lqFewc #lqN[on] {
+  width: 224px!important;
+  height: 360px!important;
+  background-color: #222!important
+}
+
+.lqU {
+  display: inline-block!important;
+  width: 56px!important;
+  height: 43px!important;
+  cursor: pointer!important
+}
+
+.lqYqZ {
+  display: inline-block!important;
+  width: 55px!important;
+  height: 32px!important;
+  margin-top: 6px!important;
+  line-height: 32px!important;
+  color: #AAA!important;
+  border-style: solid!important;
+  border-color: #1a1a1a!important;
+  border-width: 1px 1px 0 0!important;
+  box-shadow: inset 0 16px 0 rgba(255,255,255,.05),inset 0 0 1px rgba(255,255,255,.15)!important;
+  cursor: pointer!important
+}
+
+.lqYqZ:hover {
+  background-color: #272727!important
+}
+
+.lqhh {
+  color: #FFF;
+  background-color: #1a1a1a!important;
+  box-shadow: inset 0 0 3px 1px #111!important
+}
+
+#lqw5 {
+  width: 224px!important;
+  background-color: #323232!important;
+  padding-top: 12px!important;
+  height: 300px!important;
+  text-align: center!important
+}
+
+.lqNV {
+  display: inline-block!important;
+  width: 26px!important;
+  height: 26px!important;
+  margin: 2px 5px!important;
+  border-radius: 50%!important;
+  cursor: pointer!important
+}
+
+.lqhxD {
+  border-radius: 0!important
+}
+
+.lqNV:hover {
+  transform: scale(1.2)!important;
+  transition: transform .1s!important
+}
+
+.lqA5w0 {
+  -webkit-filter: unset!important;
+  filter: unset!important
+}
+
+.lqA5w1 {
+  -webkit-filter: brightness(1.9) blur(48px)!important;
+  filter: brightness(1.9) blur(48px)!important
+}
+
+.lqA5w2 {
+  opacity: .12!important;
+  filter: invert(1)!important
+}
+
+.lqA5w3 {
+  opacity: .12!important;
+  filter: saturate(.3)!important
+}
+
+.lqDkPi1 {
+  filter: url(#lqDkPi1)!important
+}
+
+.lqDkPi2 {
+  filter: contrast(125%) brightness(125%)!important
+}
+
+.lqDkPi3 {
+  filter: grayscale(20%) contrast(150%) brightness(150%)!important
+}
+
+.lqDkPi4 {
+  filter: grayscale(1)!important
+}
+
+.lqDkPi5 {
+  filter: sepia(1)!important
+}
+
+.lqDkPi6 {
+  filter: url(#lqDkPi2)!important
+}
+
+.lqDkPi7 {
+  filter: url(#lqDkPi3)!important
+}
+
+.lqDkPi8 {
+  filter: url(#lqDkPi4)!important
+}
+
+.lqDkPi9 {
+  filter: url(#lqDkPi5)!important
+}
+
+.lqDkPi10 {
+  filter: url(#lqDkPi6)!important
+}
+
+.lqDkPi11 {
+  filter: url(#lqDkPi7)!important
+}
+
+.lqDkPi12 {
+  filter: url(#lqDkPi8)!important
+}
+
+.lqDkPi13 {
+  filter: url(#lqDkPi9)!important
+}
+
+.lqDkPi14 {
+  filter: url(#lqDkPi10)!important
+}
+
+.lqDkPi15 {
+  filter: url(#lqDkPi11)!important
+}
+
+.lqDkPi16 {
+  filter: url(#lqDkPi12)!important
+}
+
+.lqDkPi17 {
+  filter: url(#lqDkPi13)!important
+}
+
+.lqDkPi18 {
+  filter: invert(1)!important
+}
+
+@-webkit-keyframes lqJGq {
+  0% {
+    transform: rotate(0deg)
+  }
+
+  100% {
+    transform: rotate(360deg)
+  }
+}
+
+@media (orientation: landscape) {
+  @-webkit-keyframes lqOAhV {
+    0% {
+      transform:translateX(-50%) rotate(0deg)
+    }
+
+    100% {
+      transform: translateX(-50%) rotate(360deg)
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  @-webkit-keyframes lqOAhV {
+    0% {
+      transform:translateY(-50%) rotate(0deg)
+    }
+
+    100% {
+      transform: translateY(-50%) rotate(360deg)
+    }
+  }
+}
+
+@-webkit-keyframes DM {
+  0% {
+    transform: scale(1)
+  }
+
+  30% {
+    transform: scale(2.4) translateY(5%) rotate(12deg)
+  }
+
+  40% {
+    transform: scale(2.4) translateY(5%) rotate(-12deg)
+  }
+
+  100% {
+    transform: scale(1)
+  }
+}
+
+html:not(.lqFewc) video.lqPG521 {
+  -webkit-animation: lqJGq 7s linear infinite!important;
+  -webkit-clip-path: circle(33% at center)!important;
+  box-shadow: none!important
+}
+
+html.lqn5 video.lqPG521 {
+  -webkit-animation: lqJGq 7s linear infinite!important;
+  -webkit-clip-path: circle(33vh at center)!important;
+  box-shadow: none!important
+}
+
+html.lqFewc video.lqPG521 {
+  -webkit-animation: lqOAhV 7s linear infinite!important
+}
+
+video.lqPG522 {
+  -webkit-animation: lqJGq 7s linear infinite!important;
+  -webkit-clip-path: polygon(50% 0%,41% 28%,23% 34%,35% 58%,33% 90%,49% 77%,66% 90%,64% 58%,76% 34%,58% 28%)!important;
+  box-shadow: none!important
+}
+
+html.lqFewc video.lqPG522 {
+  -webkit-animation: lqOAhV 7s linear infinite!important
+}
+
+html:not(.lqn5) video.lqPG523 {
+  transform-origin: 50% 25%;
+  -webkit-animation: DM 7s linear infinite!important
+}
+
+html:not(.lqFewc) video.lqPG524 {
+  transform: rotateY(180deg)!important
+}
+
+@media (orientation: landscape) {
+  html.lqFewc video.lqPG524 {
+    transform:translateX(-50%) rotateY(180deg)!important
+  }
+}
+
+@media (orientation: portrait) {
+  html.lqFewc video.lqPG524 {
+    transform:translateY(-50%) rotateY(180deg)!important
+  }
+}
+
+html:not(.lqFewc) video.lqPG525 {
+  transform: rotateX(180deg)!important
+}
+
+@media (orientation: landscape) {
+  html.lqFewc video.lqPG525 {
+    transform:translateX(-50%) rotateX(180deg)!important
+  }
+}
+
+@media (orientation: portrait) {
+  html.lqFewc video.lqPG525 {
+    transform:translateY(-50%) rotateX(180deg)!important
+  }
+}
+
+#lqzH7 {
+  position: absolute!important;
+  z-index: 2147483647!important
+}
+
+html.lqn5 canvas#lqzH7 {
+  transform: translate(30px,30px)!important
+}
+
+#lqULmz {
+  position: absolute!important;
+  width: 100%!important;
+  height: 8px!important;
+  bottom: 0!important
+}
+
+html.lql2SP a #metadata-line {
+  pointer-events: none
+}
+
+html.lql2SP a #metadata-line::after {
+  content: '★';
+  pointer-events: auto;
+  font-size: 20px;
+  margin-left: 7px;
+  padding: 3px;
+  cursor: pointer
+}
+
+html.lql2SP .lqwvT {
+  z-index: 999;
+  width: 168px;
+  height: 3px;
+  border: solid #101010;
+  border-width: 1px 0;
+  background: #CC0000
+}
+
+html.lql2SP .lqKqa {
+  height: 3px;
+  background: #339900;
+  -webkit-transform: scaleX(0);
+  -webkit-transform-origin: 0 0;
+  -webkit-transition: all 1s
+}
+
+#lqEOg4 {
+  display: block!important;
+  position: fixed!important;
+  z-index: 2147483646!important;
+  top: 7px!important;
+  left: 3px!important;
+  width: 14px!important;
+  height: 34px!important;
+  background-image: url('data:image/png;base64,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')!important;
+  overflow: hidden!important
+}
+
+html #lqEOg4 {
+  background-position: -14px 0!important
+}
+
+html.lqn5 #lqEOg4,html:fullscreen #lqEOg4 {
+  display: none!important
+}
+
+.lqq9 {
+  z-index: 2147483648!important;
+  position: absolute!important;
+  background-color: #333!important;
+  border: 7px solid #333!important;
+  border-radius: 7px!important
+}
+
+.lqrhTq {
+  position: absolute;
+  top: 50%;
+  left: -17px;
+  margin-top: -10px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 10px 10px 0;
+  border-color: transparent #333
+}
+
+.lqq9Top {
+  position: absolute;
+  top: -17px;
+  left: 50%;
+  margin-left: -10px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 10px 10px;
+  border-color: #333 transparent
+}
+
+.lqa {
+  position: absolute;
+  top: 50%;
+  right: -17px;
+  margin-top: -10px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 0 10px 10px;
+  border-color: transparent #333
+}
+
+.lqq9Btm {
+  position: absolute;
+  bottom: -17px;
+  left: 50%;
+  margin-left: -10px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 10px 0;
+  border-color: #333 transparent
+}
+
+html.lqOH div.thumb-wrapper:hover {
+  transform-origin: left center;
+  transform: scale(1.6);
+  border: solid 3px rgb(115,115,114);
+  z-index: 2147483646;
+  transition-delay: .35s
+}
+
+html.lqOH div.yt-lockup-thumbnail:hover {
+  height: 109px;
+  width: auto;
+  transform-origin: top center;
+  transform: scale(1.6);
+  background-color: rgb(115,115,114);
+  border: solid 2px rgb(115,115,114);
+  box-sizing: border-box;
+  z-index: 2147483646;
+  transition-delay: .35s
+}
+
+html.lqOH li.yt-shelf-grid-item:first-child div.yt-lockup-thumbnail:hover {
+  transform-origin: left top
+}
+
+html.lqOH li.yt-shelf-grid-item:last-child div.yt-lockup-thumbnail:hover {
+  transform-origin: right top
+}
+
+html.lqOH #scroll-container:hover {
+  overflow-x: unset
+}
+
+html.lqOH ytd-thumbnail:hover,html.lqOH ytd-playlist-thumbnail:hover {
+  transform: scale(1.6);
+  border: solid 3px rgb(115,115,114);
+  z-index: 2147483646;
+  transition-delay: .35s
+}
+
+.lqOe {
+  position: fixed;
+  z-index: 2147483647;
+  bottom: 12px;
+  left: 50vw;
+  color: #4c7cad!important;
+  font-size: 12px;
+  cursor: pointer
+}
+
+html.lqugLX1 #yt-masthead-container,html.lqugLX1 #container.ytd-masthead {
+  display: none!important
+}
+
+html.lqugLX2 #watch7-sidebar-contents,html.lqugLX2 #related.ytd-watch,html.lqugLX2 #secondary.ytd-watch-flexy {
+  display: none!important
+}
+
+html.lqugLX3 #action-panel-details,html.lqugLX3 ytd-expander.ytd-video-secondary-info-renderer {
+  display: none!important
+}
+
+html.lqugLX3 #watch7-action-panels {
+  display: none!important
+}
+
+html.lqugLX4 #watch-discussion,html.lqugLX4 #comments.ytd-watch,html.lqugLX4 #comments.ytd-watch-flexy {
+  display: none!important
+}
+
+html.lqugLX5 #guide {
+  display: none!important
+}
+
+html.lqugLX5 #guide-button.ytd-masthead {
+  width: 0!important;
+  visibility: hidden!important
+}
+
+html.lqugLX6 #footer-container {
+  display: none!important
+}
+
+html.lqugLX7 #ticker,html.lqugLX7 #alerts,html.lqugLX7 .yt-consent,html.lqugLX7 #main.ytd-mealbar-promo-renderer {
+  display: none!important
+}
+
+html.lqugLX8 #watch7-user-header > a,html.lqugLX8 #watch7-user-header > span,html.lqugLX8 #watch8-action-buttons,html.lqugLX8 #info.ytd-video-primary-info-renderer,html.lqugLX8 ytd-video-secondary-info-renderer.ytd-watch-flexy #top-row {
+  display: none!important
+}
+
+html.lqugLX8 #watch-header {
+  min-height: inherit
+}
+
+html.lqugLX8 ytd-video-primary-info-renderer.ytd-watch-flexy,html.lqugLX8 ytd-video-secondary-info-renderer.ytd-watch-flexy,html.lqugLX3 ytd-video-secondary-info-renderer.ytd-watch-flexy {
+  border: none!important
+}
+
+html.lqTmJ ytd-comment-renderer #published-time-text,html.lqTmJ ytd-comments span#vote-count-left,html.lqTmJ ytd-comments ytd-button-renderer,html.lqTmJ ytd-comments ytd-toggle-button-renderer {
+  opacity: .25
+}
+
+html.lqTmJ ytd-comment-renderer #published-time-text:hover,html.lqTmJ ytd-comments span#vote-count-left:hover,html.lqTmJ ytd-comments ytd-button-renderer:hover,html.lqTmJ ytd-comments ytd-toggle-button-renderer:hover {
+  opacity: 1
+}
+
+html.lqTmJ .more-button.ytd-comment-replies-renderer,html.lqTmJ .less-button.ytd-comment-replies-renderer {
+  opacity: .2
+}
+
+html.lqTmJ .more-button.ytd-comment-replies-renderer:hover,html.lqTmJ .less-button.ytd-comment-replies-renderer:hover {
+  opacity: 1
+}
+
+html.lqTmJ span.ytd-comment-renderer,html.lqTmJ .more-button.ytd-comment-renderer,html.lqTmJ .less-button.ytd-comment-renderer {
+  color: #4c7cad
+}
+
+html.lqTmJ #content-text.ytd-comment-renderer {
+  font-size: 17px
+}
+
+ytd-video-primary-info-renderer {
+  padding-top: 3px!important
+}
+
+ytd-video-primary-info-renderer > #container {
+  padding-top: 12px!important
+}
+
+html.lqn5 div.video-ads {
+  display: none!important
+}
+
+div.paused-mode div.ytp-cued-thumbnail-overlay {
+  display: block!important
+}
+
+ytd-app[is-watch-page] #guide,#guide > div,.ytd-popup-container {
+  z-index: 2147483646
+}
+
+html.lqvrN div.ytp-load-progress {
+  background-color: #ff9601
+}
+
+html.lqn5 div.ad-container-single-media-element-annotations {
+  left: 50%!important;
+  bottom: 49px!important;
+  z-index: 33!important;
+  transform: translateX(-50%)!important
+}
+
+html.lqn5 div.watch-sidebar {
+  transition: none!important
+}
+
+/* Botón the Magic Actions for Youtube */
+#lqEOg4,
+/* Bóton de volver arriba del todo de Magic Actios for Youtube */
+.lqOe,
+/* Bóton de reproducción de los videos de Youtube */
+.ytp-large-play-button.ytp-button {
+    display: none !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Modo oscuro para Youtube Studio */
+
+ytcp-video-metadata-editor {
+  margin-top: 2%;
+}
+
+paper-icon-item[role="button"] iron-icon[slot="item-icon"],
+paper-icon-item[role="button"],
+#collapse-expand-icon,
+#entity-type,
+#entity-name,
+#help-icon,
+#create-icon,
+ytcp-ve .ytcp-content-section,
+.no-content .no-content-header,
+#footer-container #footer .ytcp-table-footer,
+iron-icon.ytcp-dropdown-trigger,
+.title-row.yta-entity-row,
+.header-text-common,
+#no-results-message,
+.first-paragraph.yta-chart-guide-tooltip,
+.header-text,
+.typical-performance-label,
+.typical-performance-value,
+ytcp-paper-tooltip-body iron-icon.ytcp-paper-tooltip-body,
+ytcp-paper-tooltip-body .ytcp-paper-tooltip-body,
+iron-icon.trend-icon.yta-column-anomaly-tooltip:not(.green):not(.red),
+.subtitle,
+.title-text.debug-dimension-value,
+.aplos-donut-center-content,
+#yta-donut-chart-hovercard-container #text,
+.value.debug-table-value,
+#header #subtitle,
+#discovery-title,
+iron-icon.yta-funnel,
+#impressions-title,
+#ctr-title,
+#views-title,
+#average-watch-time,
+#watch-time-title,
+.no-data-message {
+  color: #aaa !important;
+}
+
+yta-funnel polygon#tier1,
+yta-funnel polygon#tier3,
+yta-funnel polygon#tier5 {
+  fill: #333 !important;
+}
+
+yta-funnel polygon#tier2,
+yta-funnel polygon#tier4 {
+  fill: #555;
+}
+
+#create-icon {
+  border-color: #444 !important
+}
+
+input.search-input,
+yta-card-container .row.yta-top-performing-entities:hover,
+#yta-donut-chart-hovercard-container {
+  background: #333;
+}
+
+yta-card-container .caption.yta-top-performing-entities,
+yta-card-container .percentage.yta-top-performing-entities {
+  color: #aaa;
+}
+
+form[name="searchForm"] input#query-input,
+input#query-input::-webkit-input-placeholder,
+#results,
+#submenu ytd-simple-menu-header-renderer
+/*#container*/ {
+  background: #111 !important;
+  color: #bbb !important;
+}
+
+#results {
+  border: solid #444 2px !important;
+}
+
+:not(ytd-comments) > ytd-item-section-renderer#sections {
+  background: #161616 !important;
+}
+
+.thumbnail-wrapper.thumbnail-wrapper-channel.style-scope.ytcp-navigation-drawer {
+/*   box-shadow: #fff9 0 0 5px 0; */
+  border-bottom: solid 3px;
+}
+
+ytcp-content-section > .header,
+div[role="table"] > #header ytcp-filter-bar#filter-bar,
+ytcp-table-header > [role="columnheader"],
+ytcp-sticky-header/*#sticky-header*/ {
+  background: #222 !important;
+}
+
+ytcp-ve .ytcp-comments-section,
+#card-hint,
+.yta-line-chart-base,
+.dimension.yta-latest-activity-card,
+.metric.yta-latest-activity-card,
+.dimension-value.yta-latest-activity-card,
+#ytp-ce-website-title {
+  color: #aaa !important;
+}
+
+#card-start-line,
+paper-item:not(.iron-selected) #block-container {
+  background: #777 !important;
+}
+
+
+#textbox,
+#label,
+.ytcp-video-metadata-editor-basics,
+.ytcp-video-metadata-editor-basics .label,
+.ytcp-video-metadata-editor-basics .sublabel,
+.label-text,
+.dropdown-trigger-text,
+ytcp-audience-picker > *,
+paper-radio-button > *,
+.more-options-description,
+.ytcp-video-metadata-visibility,
+ytcp-video-info .label,
+ytcp-video-info #original-filename,
+#restrictions .ytcp-video-metadata-restrictions,
+.instant-premiere-container .ytcp-checkbox-lit.label,
+.ytcp-thumbnails-compact-editor-uploader,
+.no-items-message.style-scope.ytcp-checkbox-group,
+ytcp-ve #title,
+.card-subtitle.yta-latest-activity-card,
+#chart-container svg text,
+#entity-container #navigation,
+#search-box-text {
+  color: #aaa !important;
+  fill: #aaa !important;
+}
+
+#textbox::before {
+  color: #888 !important;
+}
+
+ytcp-entity-page-header,
+#first-container,
+#second-container,
+ytcp-badge .ytcp-badge,
+ytcp-paper-tooltip-placeholder #tooltip,
+.tab-content.yta-screen,
+ytcp-table-footer.ytcp-subscribers-table {
+  background: #333 !important;
+  color: #aaa !important;
+}
+
+ytcp-video-info .ytcp-video-info,
+tp-yt-paper-card,
+yta-explore-page #sticky {
+  background: #222 !important;
+  color: #aaa !important;
+}
+
+#checkbox,
+#search-box-container {
+  border-color: #aaa !important;
+}
+
+.mfk-infobox-container .infobox,
+ytcp-thumbnails-compact-editor-uploader[active] .upload-picker button.ytcp-thumbnails-compact-editor-uploader,
+#yta-hovercard-container {
+  background: #333 !important;
+  color: #aaa !important;
+}
+
+ytcp-table-header .header-name,
+ytcp-table-header .header-name iron-icon,
+iron-icon#filter-icon,
+iron-icon.remove-defaults,
+iron-icon.yta-audience-retention-chart-guide-container,
+iron-icon.divider-icon,
+.metric-label-title,
+[role="tooltip"],
+yta-hovercard #title,
+#yta-hovercard-container #title {
+  color: #aaa !important;
+  fill: #aaa !important;
+}
+
+ytcp-table-header #checkbox-container #checkbox,
+ytcp-text-dropdown-trigger#trigger ytcp-dropdown-trigger .container.ytcp-dropdown-trigger {
+  border-color: #555 !important;
+}
+
+ytcp-icon-button.ytcp-quick-actions,
+ytcp-ve.ytcp-checkbox-group li.row:hover,
+ytcp-video-player-controls#video-player,
+yta-entity-row.row:hover {
+  background: #333 !important;
+}
+
+ytcp-top-banner#chip-specific-feature-banner .container {
+  background: #333 !important;
+}
+
+ytcp-top-banner #message,
+iron-icon.banner-icon,
+ytcp-top-banner ytcp-button {
+  color: #ccc !important;
+}
+
+ytcd-basic-card,
+ytcd-basic-card .card-title,
+ytcd-basic-card .ytcd-help-center-issues-item,
+/* ytcd-basic-card #analytics-section, */
+ytcd-basic-card #metrics-table-title,
+ytcd-basic-card .table-row .table-cell,
+ytcd-basic-card .table-value,
+ytcd-basic-card iron-icon#ranking-icon,
+/* ytcd-basic-card .subscribers-title, */
+ytcd-basic-card .ytcd-channel-facts-item,
+
+ytcd-list-card-collapsible,
+ytcd-list-card-collapsible .card-title,
+ytcd-list-card-collapsible .ytcd-basic-item,
+
+ytcd-list-card,
+ytcd-list-card .title-text,
+ytcd-list-card .video-metrics,
+ytcd-list-card .ytcd-card-header-item,
+ytcd-list-card .ytcd-comments-snapshot-item,
+
+ytcd-subscriber-highlights-item .title,
+ytcd-subscriber-highlights-item .subscriber-name,
+ytcp-filter-bar#filter-bar,
+#footer yt-multi-page-menu-section-renderer.style-scope.ytd-multi-page-menu-renderer {
+  background: #222 !important;
+  color: #aaa !important;
+}
+
+ytcp-video-row #row-container,
+ytcp-video-row #row-container .style-scope {
+  background: #111 !important;
+  color: #aaa !important;
+}
+
+ytcd-list-card iron-icon,
+paper-icon-item .back-button-text,
+ytcp-audience-picker .ytcp-audience-picker,
+ytcp-audience-picker h3.ytcp-audience-picker,
+.metric-label,
+.metric-value,
+.comparison-label,
+#display.ytcp-media-timestamp-input,
+.ytcp-checkbox-lit.label {
+  color: #aaa !important;
+}
+
+g.dot-follow-group line {
+  stroke: #aaa !important;
+}
+
+ytcd-list-card #row-container.row-highlighted,
+ytcp-button#save[disabled],
+
+#container.yta-personalized-overview-bottom-card,
+yta-key-metric-block {
+  background: #383838 !important;
+}
+
+yta-section#right-side-bar {
+  background: #111 !important;
+}
+
+ytcp-button#save-button[disabled] {
+  background: #272727 !important;
+}
+
+ytcp-comment[highlighted],
+ytd-account-item-renderer.style-scope.ytd-account-item-section-renderer:hover,
+ytd-compact-link-renderer.yt-multi-page-menu-section-renderer[compact-link-style]:hover {
+  background: #333 !important;
+}
+
+
+ytcd-basic-card .vertical-section-double-spacing,
+yta-audience-retention-highlight-hovercard .yta-audience-retention-highlight-hovercard {
+  background: #333;
+}
+
+#scrim.yta-screen,
+ytve-control-bar.ytve-app,
+ytve-editor.ytve-app,
+ytgn-video-translations-section #no-language {
+  background: #222 !important;
+}
+
+#checkbox #checkmark {
+  border-color: #aaa !important;
+}
+
+ytcp-chip:not([selected]) {
+  background: #444 !important;
+  color: #aaa !important;
+}
+
+ytcp-chip[selected] {
+  background: #333 !important;
+  color: #aaa !important;
+}
+
+ytd-channel-name #container {
+  background: transparent !important;
+}
+
+#edit-buttons yt-formatted-string#text.ytd-button-renderer {
+  color: #fff !important;
+}
+
+.paper-item.style-scope.ytcp-text-menu:hover,
+tp-yt-paper-icon-item.ytcp-navigation-drawer:hover,
+tp-yt-paper-icon-item.iron-selected.ytcp-navigation-drawer {
+  background: #444 !important;
+}
+
+tp-yt-paper-icon-item.iron-selected.ytcp-navigation-drawer,
+tp-yt-paper-icon-item.iron-selected iron-icon.ytcp-navigation-drawer {
+  color: #f00 !important;
+}
+
+tp-yt-paper-icon-item.ytcp-navigation-drawer,
+iron-icon.ytcp-navigation-drawer {
+  color: #aaa !important;
+}
+
+paper-item[focused] {
+  background: #555 !important;
+}
+
+#header-container #menu-offset {
+  background: #333;
+}
+
+#plugin-timeline-surface > * > *,
+#container #sections.ytd-multi-page-menu-renderer  {
+  background: #222 !important;
+}
+
+ytve-timeline #surface,
+ytve-audio-waveform,
+#scrollbar.ytve-app {
+  background: #333 !important;
+}
+
+ytcp-playlist-row #row-container.row-highlighted:hover,
+ytcp-subscribers-table-row .row.ytcp-subscribers-table-row,
+.menu-item.remove-default-style.ytcp-navigation[selected],
+.menu-item.remove-default-style.ytcp-navigation:hover,
+ytcd-video-snapshot-upload .main-container.ytcd-video-snapshot-upload,
+ytcp-table-header#table-header[role="row"] {
+  background: #333 !important;
+}
+
+.body.style-scope.ytcp-subscribers-table {
+  background: #444 !important;
+}
+
+.playlist-title.ytcp-playlist-row,
+.description.ytcp-playlist-row,
+.visibility-label.ytcp-playlist-row,
+.icon-grey.ytcp-playlist-row,
+.last-time-updated-cell.ytcp-playlist-row,
+.videos-count-cell.ytcp-playlist-row,
+.subheader-text .ytcd-subscriber-list-dialog,
+.ytcp-subscribers-table-row:not(:hover) .subscriber-info-name.ytcp-subscribers-table-row,
+.subscriber-time-subscribed.ytcp-subscribers-table-row,
+.subscriber-sub-count.ytcp-subscribers-table-row,
+#currency-note,
+ytcp-settings-studio-default .ytcp-settings-studio-default,
+.menu-item.remove-default-style.ytcp-navigation .ytcp-navigation {
+  color: #aaa !important;
+}
+
+#views-metric-value.metric-value,
+#watch-time-metric-value.metric-value {
+  padding-right: 1%;
+}
+
+/* ScrollBar */
+
+:not(#guide-inner-content)::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: #171717;
+  border: solid #292929 1px
+}
+
+
+:not(#guide-inner-content)::-webkit-scrollbar-thumb,
+
+:not(#guide-inner-content)::-webkit-scrollbar-corner {
+  background: #444;
+  box-shadow: inset #fff4 0 0 3px 0;
+}
+
+#top-row paper-button yt-formatted-string#text,
+paper-button#button yt-formatted-string#text.style-primary,
+#container .yt-alert-renderer,
+yt-formatted-string#details-text {
+  color: #fff !important;
+}
+
+html yt-chip-cloud-chip-renderer[chip-style=STYLE_DEFAULT][selected],
+html yt-chip-cloud-chip-renderer[chip-style=STYLE_HOME_FILTER][selected] {
+  background: #777;
+}
+
+html yt-chip-cloud-chip-renderer[chip-style=STYLE_DEFAULT][selected]:hover,
+html yt-chip-cloud-chip-renderer[chip-style=STYLE_HOME_FILTER][selected]:hover,
+html yt-chip-cloud-chip-renderer[chip-style=STYLE_DEFAULT][selected]:focus,
+html yt-chip-cloud-chip-renderer[chip-style=STYLE_HOME_FILTER][selected]:focus {
+  background: #aaa;
+}
+
+html yt-chip-cloud-chip-renderer[chip-style=STYLE_DEFAULT][selected] #text,
+html yt-chip-cloud-chip-renderer[chip-style=STYLE_HOME_FILTER][selected] #text,
+ytd-button-renderer.style-primary[is-paper-button] #text,
+
+#content.yt-tooltip-renderer yt-formatted-string.yt-tooltip-renderer,
+#text.yt-tooltip-renderer yt-formatted-string.yt-tooltip-renderer,
+
+tp-yt-paper-button > yt-formatted-string#text {
+  color: #fff !important;
+}
+
+.ytp-ce-website-title {
+  color: #ccc !important;
+}
+
+/* Botón respuesta */
+#reply-button-end yt-formatted-string#text {
+  color: inherit !important;
+}
+
+/* Desplegable de respuestas */
+#replies #text {
+  color: inherit !important;
+}
+
+/* Botones de popup */
+#dismiss-button #text,
+#action-button #text {
+  /* color: inherit !important; */
+}
+
+/* Botón de la barra de busqueda */
+#search-icon-legacy.ytd-searchbox:focus {
+  background-color: #3a3a3a !important;
+}
+
+
+#submenu.ytd-multi-page-menu-renderer {
+  overflow-x: hidden;
+}
+
+input[type="text"] {
+  user-select: none !important;
+}
+
+#country-code {
+  user-select: none;
+}
+
+/* Corregir error repentino de superposición de las miniaturas de los videos al hacerles 'hover' */
+ytd-rich-item-renderer.style-scope.ytd-rich-grid-renderer:hover {
+/*   z-index: 99; */
+}
+
+/* Botón "Orderna Por" */
+#icon-label.yt-dropdown-menu,
+#label-icon.yt-dropdown-menu {
+  color: inherit !important;
+}
+
+
+html .overlay {
+  background-color: transparent !important;
+}
+
+
+/* Youtube Topbar icons color */
+ytd-notification-topbar-button-shape-renderer yt-icon svg g path,
+ytd-notification-topbar-button-renderer       yt-icon svg g path,
+ytd-topbar-menu-button-renderer               yt-icon svg g path,
+ytd-icon-badge-topbar-button-renderer         yt-icon svg g path {
+  fill: #a6a6a699;
+}
+
+tp-yt-paper-toast#toast {
+  background-color: #333;
+}
+
+
+ytd-button-renderer.style-primary[is-paper-button]:not([disabled]) #text {
+  color: #fff;
+}
+
+
+
+/* Darle contraste al area de escritura de comentarios */
+ytd-commentbox #contenteditable-root {
+  background-color: #151515;
+  padding: 0.5rem 1rem;
+}

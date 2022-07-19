@@ -1,0 +1,107 @@
+/* Eliminat recorte de imagenes verticales en Twitter */
+
+
+/*[role="link"] > div > div {*/
+/*  position: static !important;*/
+/*}*/
+
+
+/*[data-testid="tweetPhoto"] {*/
+/*  position: static !important;*/
+  /*height: fit-content !important;*/
+/*}*/
+
+/*[data-testid="tweetPhoto"] > img {*/
+/*  position: static !important;*/
+/*}*/
+
+/*
+ Si tiene margin-left o margin-right, no aplicar el efecto
+ (Lo cual significa que son imágenes horizontales)
+*/
+
+/*[data-testid="tweetPhoto"]:is([style*="margin-left"],[style*="margin-right"])*/
+/*> img {*/
+/*    position: absolute !important;*/
+/*}*/
+
+
+
+/* Scrollbar */
+
+
+:root {
+  --scrollbar-width:  10px;
+  --scrollbar-height: 5px;
+  --thumb-color:             #32577b;
+  --thumb-hover-color:       #1a3854;
+  --thumb-active-color:      #0b1e2f;
+  --thumb-box-shadow-color:  #5f93b9;
+
+  --track-color:             #000;
+
+  --button-color:            #1e4e80;
+  --button-hover-color:      #183c63;
+  --button-active-color:     #102740;
+  --button-box-shadow-color: #338ed2;
+
+  --corner-color:            #27588a;
+}
+
+
+::-webkit-scrollbar {
+  width:  var(--scrollbar-width, 10px);
+  height: var(--scrollbar-height, 5px);
+  background: var(--track-color, #0b1115);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--thumb-color, #32577b);
+  border-radius: 10px;
+  box-shadow: inset var(--thumb-box-shadow-color, #5f93b9) 0 0 5px 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--thumb-hover-color, #1a3854);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--thumb-active-color, #0b1e2f);
+}
+
+::-webkit-scrollbar-button:single-button {
+  width: 20px;
+  height: 20px;
+  background: var(--button-color, #1e4e80);
+  box-shadow: inset var(--button-box-shadow-color, #338ed2) 0 0 5px 0;
+}
+
+::-webkit-scrollbar-button:hover {
+  background: var(--button-hover-color, #183c63);
+}
+
+::-webkit-scrollbar-button:active {
+  background: var(--button-active-color, #102740);
+}
+
+
+::-webkit-scrollbar-button:vertical:single-button:increment {
+  border-radius: 10px 10px 0 0;
+}
+
+::-webkit-scrollbar-button:vertical:single-button:decrement {
+  border-radius: 0 0 10px 10px;
+}
+
+::-webkit-scrollbar-button:horizontal:single-button:increment {
+  border-radius: 10px 0 0 10px;
+}
+
+::-webkit-scrollbar-button:horizontal:single-button:decrement {
+  border-radius: 0 10px 10px 0;
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--corner-color, #27588a);
+}

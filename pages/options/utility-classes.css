@@ -1,0 +1,24 @@
+._max-z-index_ {
+  z-index: 2147483647;
+}
+
+
+._no-self-events_ {
+  pointer-events: none;
+}
+
+._no-self-events_ > * {
+  pointer-events: auto;
+}
+
+
+._grid-overlay_ {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "overlay";
+}
+
+._grid-overlay_ > * {
+  grid-area: overlay;
+}
