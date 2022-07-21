@@ -19,13 +19,6 @@ export class LocalDB {
       const localDB = new LocalDB(databaseName, LocalDB.#privateSymbolToCreateInstance)
 
       localDB.request.addEventListener('success', event => {
-        const db = event.target.result
-
-        if (db.objectStoreNames.length !== 1 || !db.objectStoreNames.contains(LocalDB.#objectStoreName)) {
-          reject(new Error(`This database is not compatible with this class`))
-          return
-        }
-
         resolve(localDB)
       })
       localDB.request.addEventListener('error', event => reject(event))
@@ -61,20 +54,22 @@ export class LocalDB {
     })
   }
 
-  getItem(key) {
+  getItem(key, objectStoreName = null) {
     this.#throwErrorIfDatabaseIsDeleted()
 
     return new Promise((resolve, reject) => {
       let transaction
 
+      const tableName = objectStoreName ? objectStoreName : LocalDB.#objectStoreName
+
       try {
-        transaction = this.database.transaction(LocalDB.#objectStoreName, 'readwrite')
+        transaction = this.database.transaction(tableName, 'readwrite')
       } catch (error) {
         reject(error)
         return
       }
 
-      const objectStore = transaction.objectStore(LocalDB.#objectStoreName)
+      const objectStore = transaction.objectStore(tableName)
       const request = objectStore.get(key)
 
       request.addEventListener('success', event => {
@@ -87,20 +82,22 @@ export class LocalDB {
     })
   }
 
-  setItem(key, value) {
+  setItem(key, value, objectStoreName = null) {
     this.#throwErrorIfDatabaseIsDeleted()
 
     return new Promise((resolve, reject) => {
       let transaction
 
+      const tableName = objectStoreName ? objectStoreName : LocalDB.#objectStoreName
+
       try {
-        transaction = this.database.transaction(LocalDB.#objectStoreName, 'readwrite')
+        transaction = this.database.transaction(tableName, 'readwrite')
       } catch (error) {
         reject(error)
         return
       }
 
-      const objectStore = transaction.objectStore(LocalDB.#objectStoreName)
+      const objectStore = transaction.objectStore(tableName)
       const request = objectStore.put(value, key)
 
       request.addEventListener('success', event => {
@@ -113,20 +110,22 @@ export class LocalDB {
     })
   }
 
-  removeItem(key) {
+  removeItem(key, objectStoreName = null) {
     this.#throwErrorIfDatabaseIsDeleted()
 
     return new Promise((resolve, reject) => {
       let transaction
 
+      const tableName = objectStoreName ? objectStoreName : LocalDB.#objectStoreName
+
       try {
-        transaction = this.database.transaction(LocalDB.#objectStoreName, 'readwrite')
+        transaction = this.database.transaction(tableName, 'readwrite')
       } catch (error) {
         reject(error)
         return
       }
 
-      const objectStore = transaction.objectStore(LocalDB.#objectStoreName)
+      const objectStore = transaction.objectStore(tableName)
       const request = objectStore.delete(key)
 
       request.addEventListener('success', event => {
@@ -139,21 +138,23 @@ export class LocalDB {
     })
   }
 
-  getAll(query = undefined, count = undefined) {
+  getAll(query = undefined, count = undefined, objectStoreName = null) {
     this.#throwErrorIfDatabaseIsDeleted()
 
     return new Promise((resolve, reject) => {
       let transaction
 
+      const tableName = objectStoreName ? objectStoreName : LocalDB.#objectStoreName
+
       try {
-        transaction = this.database.transaction(LocalDB.#objectStoreName, 'readwrite')
+        transaction = this.database.transaction(tableName, 'readwrite')
       } catch (error) {
         reject(error)
         return
       }
 
-      const objectStore = transaction.objectStore(LocalDB.#objectStoreName)
-      const request = objectStore.getAll()
+      const objectStore = transaction.objectStore(tableName)
+      const request = objectStore.getAll(query, count)
 
       request.addEventListener('success', event => {
         resolve(request.result)
@@ -165,21 +166,23 @@ export class LocalDB {
     })
   }
 
-  getAllKeys(query = undefined, count = undefined) {
+  getAllKeys(query = undefined, count = undefined, objectStoreName = null) {
     this.#throwErrorIfDatabaseIsDeleted()
 
     return new Promise((resolve, reject) => {
       let transaction
 
+      const tableName = objectStoreName ? objectStoreName : LocalDB.#objectStoreName
+
       try {
-        transaction = this.database.transaction(LocalDB.#objectStoreName, 'readwrite')
+        transaction = this.database.transaction(tableName, 'readwrite')
       } catch (error) {
         reject(error)
         return
       }
 
-      const objectStore = transaction.objectStore(LocalDB.#objectStoreName)
-      const request = objectStore.getAllKeys()
+      const objectStore = transaction.objectStore(tableName)
+      const request = objectStore.getAllKeys(query, count)
 
       request.addEventListener('success', event => {
         resolve(request.result)

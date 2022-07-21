@@ -1,7 +1,7 @@
 import {
   getAllElementsMapWithDataJSAttribute,
-  requestBgUrlAndSave,
   getStorageData,
+  requestBGFileAndSave,
   setStorageData
 } from './utils-module.js'
 
@@ -38,7 +38,7 @@ async function init() {
   }
 
   uploadBg.addEventListener('click', async event => {
-    const bgBlob = await requestBgUrlAndSave()
+    const bgBlob = await requestBGFileAndSave('image/*, video/*')
     setBgAppFromBlob(bgBlob)
   })
 }

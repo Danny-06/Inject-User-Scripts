@@ -1,10 +1,16 @@
-import { StorageHandler } from './libs/storage-handler.js'
 import { LocalDB } from './libs/localDB.js'
 
 
 const storageKey = 'appStorage'
 
 const storageManager = await LocalDB.createLocalDB('personal-storage')
+
+export async function requestBGFileAndSave() {
+  const file = await requestFile('image/*, video/*')
+  setBgFromStorage(file)
+
+  return file
+}
 
 export async function getStorageData() {
   return await storageManager.getItem(storageKey) ?? {}
@@ -21,22 +27,6 @@ export async function setBgFromStorage(bgBlob) {
   await setStorageData(storageData)
 }
 
-export async function requestBgUrlAndSave() {
-  const bgUrl = prompt(`Enter here the url of the image or video you want as your background.\nIt can be an online file or a local if you gave the extension the permission.`)
-
-  if (bgUrl == null || bgUrl === '') throw new Error('Invalid URL')
-
-  const [bgBlob, error] = await promiseWrapper(fetch(bgUrl).then(response => response.blob()))
-
-  if (error) {
-    alert(`The file couldn't be requested`)
-    throw new Error(`There was an error while fetching the file`)
-  }
-
-  await setBgFromStorage(bgBlob)
-
-  return bgBlob
-}
 
 
 
@@ -141,7 +131,7 @@ export function getAllElementsMapWithDataJSAttribute(node = document) {
  * 
  * @param {string} accept 
  * @param {boolean} multiple 
- * @returns {File | File[]}
+ * @returns {Promise<File|File[]>}
  */
 export function requestFile(accept = '*/*', multiple = false) {
 
@@ -160,6 +150,7 @@ export function requestFile(accept = '*/*', multiple = false) {
   })
 
 }
+
 
 /**
  * 
