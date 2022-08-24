@@ -8,6 +8,10 @@ ytd-toggle-button-renderer.style-default-active path {
   fill: #5581c3;
 }
 
+ytd-expander#expander {
+  overflow: visible;
+}
+
 html.lqz3O #player-api,html.lqz3O .html5-video-player,html.lqz3O button:focus {
   outline: none!important;
   box-shadow: none!important

@@ -13,6 +13,11 @@ ytd-player .ytp-spinner {
   display: none !important;
 }
 
+ytd-rich-item-renderer {
+  user-select: none;
+}
+
+
 /* Mostrar la parte de arriba de los videos al poner el ratón encima */
 .ytp-chrome-top, .ytp-gradient-top {
   opacity: 0 !important;

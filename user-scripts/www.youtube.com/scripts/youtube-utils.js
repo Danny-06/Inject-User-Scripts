@@ -1,4 +1,53 @@
-import { waitForSelector, delay, showPopup, generateOverlayIframe, promiseWrapper } from "../../@libs/utils-injection.js"
+import { waitForSelector, delay, showPopup, generateOverlayIframe, promiseWrapper, createElement } from "../../@libs/utils-injection.js"
+
+
+/**
+ * @typedef VideoContextMenuOptions
+ * @property {string} id
+ * @property {string} name
+ * @property {function} action
+ * @property {string} icon
+ */
+
+/**
+ * @param {VideoContextMenuOptions} options
+ */
+export async function addVideoContextMenuItem(options) {
+  if (document.querySelector(`.ytp-menuitem[data-id="${options.id}"]`)) return
+
+  const {name = 'No Name Defined', action, icon = '', id} = options
+
+  const contextMenuPopup = await waitForSelector('.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu')
+
+  const itemMenu = createElement('div', {
+    classes: ['ytp-menuitem'],
+    dataset: {source: 'Chrome Extension', id},
+    properties: {
+      role: 'menuitem',
+      tabindex: 0,
+      innerHTML: // html 
+      `
+        <div class="ytp-menuitem-icon">
+          ${icon}
+        </div>
+        <div class="ytp-menuitem-label">${name}</div>
+        <div class="ytp-menuitem-content"></div>
+      `
+    }
+  })
+
+  itemMenu.addEventListener('click', event => {
+    const ytContextMenu = itemMenu.closest('.ytp-popup.ytp-contextmenu')
+    if (ytContextMenu) ytContextMenu.style.display = 'none'
+
+    document.documentElement.click()
+
+    action?.(itemMenu)
+  })
+
+  contextMenuPopup.prepend(itemMenu)
+}
+
 
 /**
  * @typedef PlaylistMetadaOptions

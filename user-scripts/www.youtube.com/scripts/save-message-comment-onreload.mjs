@@ -27,7 +27,7 @@ async function main() {
 
   commentBoxContainer.addEventListener('keyup', event => {
     const commentBoxInput = commentBoxContainer.querySelector('#contenteditable-root')
-    const comment         = commentBoxInput.innerText.trim().replaceAll('\r', '')
+    const comment         = commentBoxInput.innerText.replaceAll('\r', '')
 
     updateCurrentCommentStorage(comment)
   })

@@ -59,10 +59,11 @@ async function main() {
       return
     }
 
-    showPopup(`Playlist cloned!!!`, 2000)
-
+    
     const data = await response.json()
     const {playlistId} = data
+    
+    showPopup(`Playlist cloned!!!`, 2000)
 
     if (playlistId) {
       showConfirmDialog(`Do you want to open the playlist in a new tab?`)

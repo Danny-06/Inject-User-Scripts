@@ -9,7 +9,9 @@ const filterDomainsForCustomScrollbar = [
   'www.facebook.com',
   'www.instagram.com',
   'www.w3schools.com',
-  'developer.mozilla.org'
+  'developer.mozilla.org',
+  'beta.crunchyroll.com',
+  'www.crunchyroll.com'
 ]
 
 

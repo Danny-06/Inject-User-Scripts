@@ -25,7 +25,7 @@ export function showAlertDialog(message) {
               position: fixed;
               top: 0;
               left: 0;
-              z-index: 999999999;
+              z-index: 2147483647;
 
               width: 100%;
               height: 100%;

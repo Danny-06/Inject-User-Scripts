@@ -10,12 +10,31 @@
 video,
 canvas#player {
   transform:
-  scale( var(--scale, 1) )
+  perspective( var(--perspective, none) )
 
   translateX( var(--translateX, 0) )
   translateY( var(--translateY, 0) )
+  translateZ( var(--translateZ, 0) )
+  translate3d( var(--translate3d, 0, 0, 0) )
 
+  scale( var(--scale, 1) )
+  scaleX( var(--scaleX, 1) )
+  scaleY( var(--scaleY, 1) )
+  scaleZ( var(--scaleZ, 1) )
+  scale3d( var(--scale3d, 1, 1, 1) )
+
+  rotateX( var(--rotateX, 0deg) )
+  rotateY( var(--rotateY, 0deg) )
   rotateZ( var(--rotateZ, 0deg) )
+  rotate3d( var(--rotate3d, 1, 1, 1, 0deg) )
+
+  skewX( var(--skewX, 0deg) )
+  skewY( var(--skewY, 0deg) )
+
+  /* matrix(scaleX, skewY, skewX, scaleY, translateX, translateY) */
+  matrix( var(--matrix, 1, 0, 0, 1, 0, 0) )
+  /* matrix3d(scaleX, skewY, 0, 0, skewX, scaleY, 0, 0, 0, 0, 0, translateX, translateY, translateZ, 0) */
+  matrix3d( var(--matrix3d, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1) )
   ;
 }
 

@@ -11,11 +11,13 @@ import { showConfirmDialog } from './libs/confirm-dialog.js'
 import { showAlertDialog } from './libs/alert-dialog.js'
 import { showPromptDialog } from './libs/prompt-dialog.js'
 import { LocalDB } from './libs/localDB.js'
+import { classMaker, cloneClass, createPrivateStore } from './libs/class-maker.js'
 
 
 export {
   MouseInfo, ScrollBox, StringConversion, StringImageConversion, StorageHandler,
-  ArrayN, ZipManager, showAlertDialog, showConfirmDialog, showPromptDialog, LocalDB
+  ArrayN, ZipManager, showAlertDialog, showConfirmDialog, showPromptDialog, LocalDB,
+  classMaker, createPrivateStore, cloneClass
 }
 
 /**
@@ -785,6 +787,8 @@ export function setStyleProperties(style, properties) {
       const propertyValue = priority ? value.replace(new RegExp(`!${priority}$`, 'i'), '') : value
 
       element.style.setProperty(property, propertyValue, priority)
+
+      return true
     }
   })
 }

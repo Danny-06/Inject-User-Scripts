@@ -1,4 +1,4 @@
-import { delay, waitForSelector, readFileAs, downloadFile, setStyleProperties, showPopup} from "../../@libs/utils-injection.js"
+import { delay, waitForSelector, readFileAs, downloadFile, setStyleProperties, showPopup, turnStringIntoTrustedHTML} from "../../@libs/utils-injection.js"
 
 try {
 
@@ -440,7 +440,7 @@ try {
 
     const fileLabel = document.createElement('label')
     fileLabel.id = 'file-name'
-    fileLabel.innerHTML = 'File: none'
+    fileLabel.innerHTML = turnStringIntoTrustedHTML('File: none')
     progressContainer.append(fileLabel)
 
     const progressInfo = document.createElement('div')
@@ -452,7 +452,7 @@ try {
       fontSize: '1rem',
       paddingBottom: '0.3rem'
     })
-    progressInfo.innerHTML = '(0 / 0)'
+    progressInfo.innerHTML = turnStringIntoTrustedHTML('(0 / 0)')
     progressInfo.min = 0
     progressInfo.value = 0
     progressInfo.max = 100
@@ -2148,9 +2148,9 @@ try {
 
     if(botonesPaneles.length) {
       botonesPaneles[0].insertAdjacentHTML('beforeend',
-      `<div jsaction="rcuQ6b:dWFD5d;qIX6cf:dWFD5d" class="gFyGKf BN1Lfc" jscontroller="SKibOb">
+      turnStringIntoTrustedHTML(`<div jsaction="rcuQ6b:dWFD5d;qIX6cf:dWFD5d" class="gFyGKf BN1Lfc" jscontroller="SKibOb">
         <div class="uGOf1d">${screenShotCollection.length ? screenShotCollection.length : 0}</div>
-      </div>`
+      </div>`)
       )
     }
 
