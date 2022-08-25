@@ -13,11 +13,13 @@ import { waitForSelector, delay, showPopup, generateOverlayIframe, promiseWrappe
  * @param {VideoContextMenuOptions} options
  */
 export async function addVideoContextMenuItem(options) {
-  if (document.querySelector(`.ytp-menuitem[data-id="${options.id}"]`)) return
+  if (document.querySelector(`.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu > .ytp-menuitem[data-id="${options.id}"]`)) return
 
   const {name = 'No Name Defined', action, icon = '', id} = options
 
   const contextMenuPopup = await waitForSelector('.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu')
+
+  if (document.querySelector(`.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu > .ytp-menuitem[data-id="${options.id}"]`)) return
 
   const itemMenu = createElement('div', {
     classes: ['ytp-menuitem'],
@@ -25,7 +27,7 @@ export async function addVideoContextMenuItem(options) {
     properties: {
       role: 'menuitem',
       tabindex: 0,
-      innerHTML: // html 
+      innerHTML: // html
       `
         <div class="ytp-menuitem-icon">
           ${icon}
@@ -46,6 +48,65 @@ export async function addVideoContextMenuItem(options) {
   })
 
   contextMenuPopup.prepend(itemMenu)
+}
+
+
+/**
+ * Función que selecciona la calidad 1080p (o le que haya disponible más alta si esta no estuviera)
+ * @param {HTMLVideoElement} video 
+ */
+export async function calidad1080pAutomatica(video) {
+
+  const player = video.closest('ytd-player')
+
+  // Esperara a que el botón del menu de ajustes esté disponible
+  const settingsButton = await waitForSelector('.ytp-settings-button', {node: player})
+  settingsButton.click();
+
+  const menuOpciones = player.querySelector('.ytp-settings-menu .ytp-panel-menu')
+
+  await delay(1000)
+
+  await waitForSelector('.ytp-settings-menu .ytp-panel-menu > :last-child:not(:first-child)', {node: player})
+
+  const botonCalidadVideo = menuOpciones.lastElementChild
+  botonCalidadVideo.click()
+
+
+  const menuOpcionesCalidad = player.querySelector('.ytp-quality-menu .ytp-panel-menu')
+
+
+  const opcionesCalidad = [...menuOpcionesCalidad.children]
+
+  const resoluciones = [
+    '1080p',
+    '720p',
+    '480p',
+    '360p',
+    '240p',
+    '144p'
+  ]
+
+  try {
+
+    opcionesCalidad.forEach(opcion => {
+
+      for (let i = 0; i < resoluciones.length; i++) {
+        if (opcion.textContent.includes(resoluciones[i])) {
+          opcion.click()
+          video.focus()
+
+          throw `'opcionesCalidad.forEach' cancelled`
+        }
+      }
+
+    })
+
+  } catch (error) {}
+
+  settingsButton.click()
+  settingsButton.click()
+
 }
 
 

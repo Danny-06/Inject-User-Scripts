@@ -66,7 +66,7 @@ try {
 
 
 
-    window.calidad1080pAutomatica = calidad1080pAutomatica
+    window.calidad1080pAutomatica = youtubeUtils.calidad1080pAutomatica
 
 
     Executer()
@@ -144,8 +144,8 @@ try {
   
           const blobWindow = window.open(url)
           const extensionScripts = document.querySelectorAll('[data-source="Chrome Extension - @all-urls"]')
-  
-          URL.revokeObjectURL(url)
+
+          blobWindow.addEventListener('beforeunload', event => URL.revokeObjectURL(url))
   
           await delay(0)
   
@@ -208,65 +208,6 @@ try {
     let orderButtonSelected = document.querySelector('tp-yt-paper-listbox#menu .iron-selected')
     orderButtonSelected.click();
   }
-
-
-
-
-
-
-
-  // Función que selecciona la calidad 1080p (o le que haya disponible más alta si esta no estuviera)
-  async function calidad1080pAutomatica(video) {
-
-    await delay(1000)
-
-    const player = video.closest('ytd-player')
-
-    // Esperara a que el botón del menu de ajustes esté disponible
-    const settingsButton = await waitForSelector('.ytp-settings-button', {node: player})
-    settingsButton.click();
-
-    const menuOpciones = player.querySelector('.ytp-settings-menu .ytp-panel-menu')
-
-    await waitForSelector('.ytp-settings-menu .ytp-panel-menu > :last-child:not(:first-child)', {node: player})
-
-    const botonCalidadVideo = menuOpciones.lastElementChild
-    botonCalidadVideo.click()
-
-
-    const menuOpcionesCalidad = player.querySelector('.ytp-quality-menu .ytp-panel-menu')
-
-
-    const opcionesCalidad = [...menuOpcionesCalidad.children]
-
-    const resoluciones = [
-      '1080p',
-      '720p',
-      '480p',
-      '360p',
-      '240p',
-      '144p'
-    ]
-
-    try {
-
-      opcionesCalidad.forEach(opcion => {
-
-        for (let i = 0; i < resoluciones.length; i++) {
-          if (opcion.textContent.includes(resoluciones[i])) {
-            opcion.click()
-            video.focus()
-
-            throw `'opcionesCalidad.forEach' cancelled`
-          }
-        }
-
-      })
-
-    } catch (error) { }
-
-  }
-
 
 } catch (error) {
   console.error(error)
