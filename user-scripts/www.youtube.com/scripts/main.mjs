@@ -12,16 +12,16 @@ try {
     window.addEventListener('click', event => {
       if (!location.pathname.includes('/shorts/')) return
       if (!event.ctrlKey) return
-    
+
       const target = event.target.closest('ytd-reel-video-renderer')
-    
+
       if (!target) return
-    
+
       const videoId = target.data.command.reelWatchEndpoint.videoId
-    
+
       window.open(`https://youtube.com/watch?v=${videoId}`)
     })
-    
+
 
     // Forzar audio de la nueva previsualización de videos en la pagina principal
     if (location.pathname === '/') {
@@ -56,14 +56,8 @@ try {
 
     // Eventos de navegación de Youtube para ejecutar el código
     // al cambiar de página (Youtube no recarga la página, la actualiza)
-    window.addEventListener("yt-navigate-start", Executer);
-    window.addEventListener("yt-navigate-finish", Executer);
-
-    window.addEventListener('mousedown', (event) => {
-      if (event.target.matches('ytd-watch-flexy video')) event.preventDefault()
-    });
-
-
+    window.addEventListener('yt-navigate-start', Executer);
+    window.addEventListener('yt-navigate-finish', Executer);
 
 
     window.calidad1080pAutomatica = youtubeUtils.calidad1080pAutomatica
@@ -133,29 +127,29 @@ try {
         action: async () => {
           const canvas = document.createElement('canvas')
           const ctx = canvas.getContext('2d')
-  
+
           canvas.width  = video.videoWidth
           canvas.height = video.videoHeight
-  
+
           ctx.drawImage(video, 0, 0)
-  
+
           const blob = await new Promise(resolve => canvas.toBlob(resolve))
           const url = URL.createObjectURL(blob)
-  
+
           const blobWindow = window.open(url)
           const extensionScripts = document.querySelectorAll('[data-source="Chrome Extension - @all-urls"]')
 
           blobWindow.addEventListener('beforeunload', event => URL.revokeObjectURL(url))
-  
+
           await delay(0)
-  
+
           extensionScripts.forEach(s => {
             if (s instanceof HTMLScriptElement)
               blobWindow.document.head.append(cloneScript(s))
             else
               blobWindow.document.head.append(s.cloneNode(true))
           })
-  
+
         }
       })
 

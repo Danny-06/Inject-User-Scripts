@@ -35,7 +35,8 @@ img {
   visibility: visible;
 }
 
-.bg-container > img {
+.bg-container > img,
+.bg-container > video {
   object-fit: cover;
 }
 

@@ -10,6 +10,7 @@ Executer().catch(console.error)
 document.addEventListener("yt-navigate-start", () => Executer().catch(console.error));
 document.addEventListener("yt-navigate-finish", () => Executer().catch(console.error));
 
+
 async function Executer() {
 
   if (location.pathname !== '/watch') return
@@ -62,23 +63,23 @@ async function Executer() {
     if (event.target.closest('.ytp-popup.ytp-settings-menu')) return
     event.preventDefault()
   })
-  player.addEventListener('mousedown', event => event.preventDefault())
 
-  videoOverlay.addEventListener('mousedown', function (event) {
+  player.addEventListener('mousedown', event => {
+    if (event.button !== 1) return
+    event.preventDefault()
+  })
 
+  videoOverlay.addEventListener('mousedown', function(event) {
     if (event.button !== 0) return
 
     this.isDown = true
-
   })
 
-  window.addEventListener('mouseup', function (event) {
-
+  window.addEventListener('mouseup', function(event) {
     videoOverlay.isDown = false
-
   })
 
-  document.addEventListener('mousemove', function (event) {
+  document.addEventListener('mousemove', function(event) {
 
     if (!event.ctrlKey) return
 
@@ -134,16 +135,14 @@ async function Executer() {
   })
 
   videoOverlay.addEventListener('mousedown', function (event) {
-    if (event.button === 1) {
+    if (event.button !== 1) return
 
-      video.forEach(v => {
-        v.style.setProperty('--translateX', '0px')
-        v.style.setProperty('--translateY', '0px')
-        v.style.setProperty('--scale', '1')
-        v.style.setProperty('--rotateZ', '0deg')
-      })
-
-    }
+    video.forEach(v => {
+      v.style.setProperty('--translateX', '0px')
+      v.style.setProperty('--translateY', '0px')
+      v.style.setProperty('--scale', '1')
+      v.style.setProperty('--rotateZ', '0deg')
+    })
   })
 
   window.addEventListener('keydown', function (event) {
