@@ -391,9 +391,9 @@ export function fillDeclarativeTemplate(template, obj) {
  * @param {{
  *  id: string,
  *  classes: string[],
- *  attributes: string[],
- *  dataset: string[],
- *  properties: {},
+ *  attributes: {[key: string]: string},
+ *  dataset: {[key: string]: string},
+ *  properties: {[key: string]: string},
  *  namespace: string,
  *  options: ElementCreationOptions
  * }} settings 
@@ -1766,6 +1766,27 @@ export function isInstanceOfAny(obj, parentObjects) {
   return false
 }
 
+/**
+ * 
+ * @param {EventTarget} target 
+ * @param {string} eventName
+ * @param {number} timeout 
+ * @returns 
+ */
+export function promisefyEvent(target, eventName, timeout = null) {
+  return new Promise(resolve => {
+    const abortController = new AbortController()
+
+    target.addEventListener(eventName, event => resolve(), {once: true, signal: abortController.signal})
+
+    if (typeof timeout === 'number') {
+      setTimeout(() => {
+        abortController.abort()
+        resolve()
+      }, timeout)
+    }
+  })
+}
 
 
 export function showPopup(message, time = 5000, bgColor = '#0009', userInteraction = true, callback = function() {}) {

@@ -1,4 +1,4 @@
-import { waitForSelector, delay, showPopup, generateOverlayIframe, promiseWrapper, createElement } from "../../@libs/utils-injection.js"
+import { waitForSelector, delay, showPopup, generateOverlayIframe, promiseWrapper, createElement, promisefyEvent } from "../../@libs/utils-injection.js"
 
 
 /**
@@ -56,6 +56,10 @@ export async function addVideoContextMenuItem(options) {
  * @param {HTMLVideoElement} video 
  */
 export async function calidad1080pAutomatica(video) {
+
+  // if (video.readyState !== video.HAVE_ENOUGH_DATA) {
+  //   await promisefyEvent(video, 'load')
+  // }
 
   const player = video.closest('ytd-player')
 

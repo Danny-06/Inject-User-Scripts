@@ -44,6 +44,7 @@ export function showConfirmDialog(message) {
               max-height: 27rem;
               white-space: pre-wrap;
               overflow: auto;
+              line-height: normal;
             }
 
             .buttons {

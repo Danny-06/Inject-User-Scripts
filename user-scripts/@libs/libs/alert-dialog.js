@@ -44,6 +44,7 @@ export function showAlertDialog(message) {
               max-height: 27rem;
               white-space: pre-wrap;
               overflow: auto;
+              line-height: normal;
             }
 
             .buttons {

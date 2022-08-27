@@ -62,6 +62,7 @@ export function showPromptDialog(message, defaultValue = '') {
               max-height: 27rem;
               white-space: pre-wrap;
               overflow: auto;
+              line-height: normal;
             }
 
             .buttons {

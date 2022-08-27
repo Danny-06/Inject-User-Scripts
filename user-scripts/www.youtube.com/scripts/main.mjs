@@ -1,5 +1,6 @@
 import { handleSelectorLifeCycle, waitForSelector, delay, createElement, cloneScript, cssInlinePropertiesProxyWrapper } from "../../@libs/utils-injection.js";
 import * as youtubeUtils from "./youtube-utils.js";
+import { addVideoContextMenuItem, calidad1080pAutomatica } from "./youtube-utils.js"
 
 
 window.youtubeUtils = youtubeUtils
@@ -60,9 +61,6 @@ try {
     window.addEventListener('yt-navigate-finish', Executer);
 
 
-    window.calidad1080pAutomatica = youtubeUtils.calidad1080pAutomatica
-
-
     Executer()
     async function Executer(event) {
 
@@ -106,13 +104,9 @@ try {
 
       calidad1080pAutomatica(video)
 
-
-      video.addEventListener('canplay', event => calidad1080pAutomatica(video), { once: true });
-
-
       // Capture video screenshot in contextmenu
 
-      youtubeUtils.addVideoContextMenuItem({
+      addVideoContextMenuItem({
         id: 'capture-screenshot',
         name: 'Capturar fotograma actual',
         icon: // html
@@ -157,7 +151,7 @@ try {
 
       videoStyle['--rotateY'] = '0deg'
 
-      youtubeUtils.addVideoContextMenuItem({
+      addVideoContextMenuItem({
         id: 'flip-video-horizontally',
         name: 'Voltear video horizontalmente',
         icon: // html
