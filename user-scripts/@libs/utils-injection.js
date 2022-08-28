@@ -775,7 +775,7 @@ export function setStyleProperties(style, properties) {
  * @param {HTMLElement} element 
  * @returns {Proxy}
  */
- export function cssInlinePropertiesProxyWrapper(element) {
+export function cssInlinePropertiesProxyWrapper(element) {
   return new Proxy(element, {
     get: (target, property, handler) => {
       const priority = element.style.getPropertyPriority(property)
@@ -921,12 +921,15 @@ export function turnStringIntoTrustedHTML(htmlString) {
   return trustedHTMLPolicy.createHTML(htmlString)
 }
 
+/**
+ * 
+ * @param {HTMLElement} hostElement 
+ * @returns {boolean} If `false` that means no <template> tag with 'shadowroot' attribute was found as the first child to generate the Shadow DOM in the host element else `true`
+ */
 export function turnTemplateFromHostElementIntoShadowDOM(hostElement) {
-  const template = hostElement.querySelector('template[shadowroot]')
+  const template = hostElement.querySelector(':scope > template[shadowroot]:first-child')
 
-  if (template == null) {
-    throw new Error(`No <template> tag with 'shadowroot' attribute was found to generate the Shadow DOM in the host element`)
-  }
+  const hasTemplate = template == null
 
   template.remove()
 
@@ -934,6 +937,8 @@ export function turnTemplateFromHostElementIntoShadowDOM(hostElement) {
 
   const shadowRoot = hostElement.attachShadow({mode})
   shadowRoot.append(template.content)
+
+  return hasTemplate
 }
 
 /**
@@ -1920,6 +1925,47 @@ export function showNativeCalculator() {
   window.addEventListener('blur', () => iframe.remove(), {once: true})
 }
 
+
+export function slideArray(arr, n = 1) {
+  if (n === 0 || arr.length === 0) return arr
+
+  n = n % arr.length
+
+  const slot = n > 0 ? arr.slice(-n) : arr.slice(0, -n)
+  let cursor
+
+  if (n > 0) {
+    for (let i = arr.length - 1; i >= 0; i--) {
+      cursor = i - n
+
+      if (cursor < 0) {
+        cursor = arr.length + cursor
+      }
+
+      arr[i] = arr[cursor]
+    }
+
+    for (let i = 0; i < slot.length; i++) {
+      arr[i] = slot[i]
+    }
+  } else {
+    for (let i = 0; i < arr.length; i++) {
+      cursor = i - n
+
+      if (cursor >= arr.length) {
+        cursor = cursor - arr.length
+      }
+
+      arr[i] = arr[cursor]
+    }
+
+    for (let i = 0; i < slot.length; i++) {
+      arr[arr.length - slot.length + i] = slot[i]
+    }
+  }
+
+  return arr
+}
 
 
 export function generateFloatingIframe() {
