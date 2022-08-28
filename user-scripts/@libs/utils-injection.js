@@ -1609,25 +1609,24 @@ export async function handleSelectorLifeCycle(selector, options) {
 }
 
 
+
+const checkTimeLabelMap = {}
+
 /**
  * Función que devuelve el tiempo que pasa desde que la función
  * es invocada la primera vez con una etiqueta hasta las demás veces que se invoca
  * Poner el segundo parámetro a 'true' hace que se termine de contar con la etiqueta especificada
  */
 export function checkTime(label, end = false) {
-  if (checkTime.time == null) checkTime.time = {}
-
-  if (checkTime.time[label] == null) {
-    checkTime.time[label] = performance.now()
+  if (checkTimeLabelMap[label] == null) {
+    checkTimeLabelMap[label] = performance.now()
     return 0
   }
 
-  if (checkTime.time[label]) {
-    const time = performance.now() - checkTime.time[label]
-    if(end) delete checkTime.time[label]
+  const time = performance.now() - checkTimeLabelMap[label]
+  if(end) delete checkTimeLabelMap[label]
 
-    return time
-  }
+  return time
 }
 
 

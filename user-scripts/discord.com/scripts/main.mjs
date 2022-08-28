@@ -49,6 +49,8 @@ async function init() {
         `,
         action: async item => {
           const color = await showPromptDialog(`Write the color you want for the overlay of the background chat`, '#000c')
+          if (color == null) return
+
           discordUtils.changeChatBgOverlayColor(color)
         }
       })
