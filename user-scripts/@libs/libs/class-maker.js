@@ -1,139 +1,136 @@
-/**
- * Returns a function which map objects to a private one to allow the use of private properties in objects and classes
- * @returns {(instance, constructor) => {}}
- */
-export function createPrivateStore() {
-  const privateInstances = new Map()
+export const classMaker = {
 
-  return function getPrivateInstance(instance, constructor) {
-    if (!privateInstances.has(instance)) {
-      const privateInstance = instance instanceof Function ? function() {} : (constructor ? Object.create(constructor.prototype) : {})
+  create(settings) {
+    const {privateStore, extends: extendsConstructor, constructor = function() {}, properties = {}, privateProperties = {}, staticProperties = {}, privateStaticProperties = {}} = settings
+    const $ = privateStore
 
-      privateInstances.set(instance, privateInstance)
+    const instaceMethods = Object.fromEntries(
+      Object.entries(properties).filter(([propertyName, objDescriptor]) => {
+        return objDescriptor.value instanceof Function
+      })
+    )
+
+    const privateInstaceMethods = Object.fromEntries(
+      Object.entries(privateProperties).filter(([propertyName, objDescriptor]) => {
+        return objDescriptor.value instanceof Function
+      })
+    )
+
+    const instanceProperties = Object.fromEntries(
+      Object.entries(properties).filter(([propertyName, objDescriptor]) => {
+        return !(objDescriptor.value instanceof Function)
+      })
+    )
+
+    const privateInstanceProperties = Object.fromEntries(
+      Object.entries(privateProperties).filter(([propertyName, objDescriptor]) => {
+        return !(objDescriptor.value instanceof Function)
+      })
+    )
+
+    let classFunction
+
+    // Computed function name with `eval`
+    try {
+      classFunction = eval(`(function ${constructor.name}(...args) {
+        Object.defineProperties(this, instanceProperties)
+
+        if (privateStore) {
+          const privateInstance = $(this, privateClassFunction)
+          Object.defineProperties(privateInstance, privateInstanceProperties)
+
+          Object.defineProperty(this, Symbol('Private Instance'), {
+            value: privateInstance,
+            writable: false,
+            configurable: false
+          })
+        }
+
+        constructor.call(this, ...args)
+      })`)
+    } catch(error) {
+      classFunction = function(...args) {
+        Object.defineProperties(this, instanceProperties)
+
+        if (privateStore) {
+          const privateInstance = $(this, privateClassFunction)
+          Object.defineProperties(privateInstance, privateInstanceProperties)
+
+          Object.defineProperty(this, Symbol('Private Instance'), {
+            value: privateInstance,
+            writable: false,
+            configurable: false
+          })
+        }
+
+        constructor.call(this, ...args)
+      }
     }
 
-    return privateInstances.get(instance)
-  }
-}
 
-export function cloneClass(classFunctionToModify, classFunction) {
-  const propertyDescriptors = Object.getOwnPropertyDescriptors(classFunction)
+    if (extendsConstructor instanceof Function) {
+      classFunction.prototype = Object.create(extendsConstructor.prototype)
+    }
 
-  propertyDescriptors.name.value = classFunctionToModify.name
+    classFunction.prototype.constructor = classFunction
 
-  return Object.defineProperties(classFunctionToModify, propertyDescriptors)
-}
-
-
-
-export function classMaker(settings) {
-  const {privateStore, extends: extendsConstructor, constructor = function() {}, properties = {}, privateProperties = {}, staticProperties = {}, privateStaticProperties = {}} = settings
-  const $ = privateStore
-
-  const instaceMethods = Object.fromEntries(
-    Object.entries(properties).filter(([propertyName, objDescriptor]) => {
-      return objDescriptor.value instanceof Function
+    Object.entries(instaceMethods).forEach(([name, objDescriptor]) => {
+      classFunction.prototype[name] = objDescriptor.value
     })
-  )
 
-  const privateInstaceMethods = Object.fromEntries(
-    Object.entries(privateProperties).filter(([propertyName, objDescriptor]) => {
-      return objDescriptor.value instanceof Function
-    })
-  )
+    Object.defineProperties(classFunction, staticProperties)
 
-  const instanceProperties = Object.fromEntries(
-    Object.entries(properties).filter(([propertyName, objDescriptor]) => {
-      return !(objDescriptor.value instanceof Function)
-    })
-  )
+    let privateClassFunction
+    if (privateStore) {
+      privateClassFunction = $(classFunction)
 
-  const privateInstanceProperties = Object.fromEntries(
-    Object.entries(privateProperties).filter(([propertyName, objDescriptor]) => {
-      return !(objDescriptor.value instanceof Function)
-    })
-  )
+      Object.defineProperty(classFunction, Symbol('Private Instance'), {
+        value: privateClassFunction,
+        writable: false,
+        configurable: false
+      })
 
-  let classFunction
+      Object.entries(privateInstaceMethods).forEach(([name, objDescriptor]) => {
+        privateClassFunction.prototype[name] = objDescriptor.value
+      })
 
-  // Computed function name with `eval`
-  try {
-    classFunction = eval(`(function ${constructor.name}(...args) {
-      Object.defineProperties(this, instanceProperties)
 
-      if (privateStore) {
-        const privateInstance = $(this, privateClassFunction)
-        Object.defineProperties(privateInstance, privateInstanceProperties)
+      Object.defineProperties(privateClassFunction, privateStaticProperties)
+    }
 
-        Object.defineProperty(this, Symbol('Private Instance'), {
-          value: privateInstance,
-          writable: false,
-          configurable: false
-        })
+    return classFunction
+  },
+
+  /**
+   * Returns a function which map objects to a private one to allow the use of private properties in objects and classes
+   * @returns {(instance, constructor) => {}}
+   */
+  createPrivateStore() {
+    const privateInstances = new Map()
+
+    return function getPrivateInstance(instance, constructor) {
+      if (!privateInstances.has(instance)) {
+        const privateInstance = instance instanceof Function ? function() {} : (constructor ? Object.create(constructor.prototype) : {})
+
+        privateInstances.set(instance, privateInstance)
       }
 
-      constructor.call(this, ...args)
-    })`)
-  } catch(error) {
-    classFunction = function(...args) {
-      Object.defineProperties(this, instanceProperties)
-
-      if (privateStore) {
-        const privateInstance = $(this, privateClassFunction)
-        Object.defineProperties(privateInstance, privateInstanceProperties)
-
-        Object.defineProperty(this, Symbol('Private Instance'), {
-          value: privateInstance,
-          writable: false,
-          configurable: false
-        })
-      }
-
-      constructor.call(this, ...args)
+      return privateInstances.get(instance)
     }
   }
 
-
-  if (extendsConstructor instanceof Function) {
-    classFunction.prototype = Object.create(extendsConstructor.prototype)
-  }
-
-  classFunction.prototype.constructor = classFunction
-
-  Object.entries(instaceMethods).forEach(([name, objDescriptor]) => {
-    classFunction.prototype[name] = objDescriptor.value
-  })
-
-  Object.defineProperties(classFunction, staticProperties)
-
-  let privateClassFunction
-  if (privateStore) {
-    privateClassFunction = $(classFunction)
-
-    Object.defineProperty(classFunction, Symbol('Private Instance'), {
-      value: privateClassFunction,
-      writable: false,
-      configurable: false
-    })
-
-    Object.entries(privateInstaceMethods).forEach(([name, objDescriptor]) => {
-      privateClassFunction.prototype[name] = objDescriptor.value
-    })
-
-
-    Object.defineProperties(privateClassFunction, privateStaticProperties)
-  }
-
-  return classFunction
 }
+
+
+
 
 /* Example
 
 const myClass = (function() {
 
-  const $ = createPrivateStore()
+  const $ = classMaker.createPrivateStore()
 
-  return classMaker({
+  return classMaker.create({
     privateStore: $,
 
     extends: null,

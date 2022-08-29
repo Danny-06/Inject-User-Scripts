@@ -11,13 +11,13 @@ import { showConfirmDialog } from './libs/confirm-dialog.js'
 import { showAlertDialog } from './libs/alert-dialog.js'
 import { showPromptDialog } from './libs/prompt-dialog.js'
 import { LocalDB } from './libs/localDB.js'
-import { classMaker, cloneClass, createPrivateStore } from './libs/class-maker.js'
+import { classMaker } from './libs/class-maker.js'
 
 
 export {
   MouseInfo, ScrollBox, StringConversion, StringImageConversion, StorageHandler,
   ArrayN, ZipManager, showAlertDialog, showConfirmDialog, showPromptDialog, LocalDB,
-  classMaker, createPrivateStore, cloneClass
+  classMaker
 }
 
 /**
@@ -79,8 +79,10 @@ export function getElementsByAttribute(attr, options = {}) {
  * @returns {Attr}
  */
 export function setAttribute(element, attrName, attrValue = '') {
+  const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
+
   const div = document.createElement('div')
-  div.innerHTML = `<div ${attrName}="${attrValue}"></div>`
+  div.innerHTML = trustedHTMLPolicy.createHTML(`<div ${attrName}="${attrValue}"></div>`)
 
   const attribute = div.children[0].attributes[attrName].cloneNode()
 
@@ -123,8 +125,10 @@ export function fillDeclarativeTemplate(template, obj) {
   }
 
   function setAttribute(element, attrName, attrValue = '') {
+    const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
+  
     const div = document.createElement('div')
-    div.innerHTML = `<div ${attrName}="${attrValue}"></div>`
+    div.innerHTML = trustedHTMLPolicy.createHTML(`<div ${attrName}="${attrValue}"></div>`)
   
     const attribute = div.children[0].attributes[attrName].cloneNode()
   
@@ -1876,6 +1880,8 @@ export function showPopup(message, time = 5000, bgColor = '#0009', userInteracti
     pointerEvents: userInteraction ? 'none' : 'auto'
   })
 
+  const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
+
   const alertPopupContainer = document.createElement('div')
   alertPopupContainer.className = 'alert-popup-container-2147483647'
   alertPopupContainer.dataset.message = message
@@ -1896,7 +1902,7 @@ export function showPopup(message, time = 5000, bgColor = '#0009', userInteracti
 
   const alertPopupContent = document.createElement('div')
   alertPopupContent.className = 'alert-popup-content-2147483647'
-  alertPopupContent.innerHTML = message
+  alertPopupContent.innerHTML = trustedHTMLPolicy.createHTML(message)
   alertPopup.append(alertPopupContent)
 
   setTimeout( () => alertPopup.classList.add('show'), 50)
