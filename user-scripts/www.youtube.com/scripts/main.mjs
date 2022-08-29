@@ -192,7 +192,7 @@ try {
       if (panels.querySelector(`[target-id="engagement-panel-macro-markers-description-chapters"]`) != null) {
         addVideoContextMenuItem({
           id: 'download-chapters-as-xml',
-          name: 'Download video chapters as XML',
+          name: 'Descargar capitulos como XML',
           icon: // xml
           `
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
