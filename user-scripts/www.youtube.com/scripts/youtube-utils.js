@@ -1,4 +1,4 @@
-import { waitForSelector, delay, showPopup, generateOverlayIframe, promiseWrapper, createElement, promisefyEvent } from "../../@libs/utils-injection.js"
+import { waitForSelector, delay, showPopup, generateOverlayIframe, promiseWrapper, createElement, promisefyEvent, parseXML } from "../../@libs/utils-injection.js"
 
 
 /**
@@ -450,17 +450,51 @@ export function ytChaptersToSimpleChapterFormat(chapters) {
   return chaptersTXT
 }
 
+export function ytChaptersToXML(chapters, lang = 'eng') {
+  let chaptersXML = ''
+
+  chapters.forEach((chapter, i) => {
+    const name = stringToValidInnerHTML(chapter.name)
+    const time = formatTime(chapter.time)
+
+    chaptersXML += // xml
+    `
+    <ChapterAtom>
+        <ChapterTimeStart>${time}</ChapterTimeStart>
+        <ChapterDisplay>
+            <ChapterString>${name}</ChapterString>
+            <ChapterLanguage>${lang}</ChapterLanguage>
+            <!--ChapLanguageIETF>es</ChapLanguageIETF-->
+        </ChapterDisplay>
+    </ChapterAtom>
+    `
+  })
+
+  const xmlData = // xml
+  `
+  <?xml version="1.0"?>
+  <!-- <!DOCTYPE Chapters SYSTEM "matroskachapters.dtd"> -->
+  <Chapters>
+      <EditionEntry>
+          ${chaptersXML}
+      </EditionEntry>
+  </Chapters>
+  `.trim()
+
+  return xmlData
+}
+
 export function simpleChapterFormatToXML(data, lang = 'eng') {
   const rows = data.split('\n')
 
-  let xmlChapters = ''
+  let chaptersXML = ''
   
 
   for (let i = 0; i < rows.length - 1; i += 2) {
-    const time = rows[i + 0].split('=')[1]
     const name = stringToValidInnerHTML(rows[i + 1].split('=')[1])
+    const time = rows[i + 0].split('=')[1]
 
-    xmlChapters += // xml
+    chaptersXML += // xml
     `
     <ChapterAtom>
         <ChapterTimeStart>${time}</ChapterTimeStart>
@@ -479,12 +513,34 @@ export function simpleChapterFormatToXML(data, lang = 'eng') {
   <!-- <!DOCTYPE Chapters SYSTEM "matroskachapters.dtd"> -->
   <Chapters>
       <EditionEntry>
-          ${xmlChapters}
+          ${chaptersXML}
       </EditionEntry>
   </Chapters>
   `.trim()
 
   return xmlData
+}
+
+export function xmlToSimpleChapterFormat(data) {
+  const entryNode = parseXML(data).querySelector('Chapters:root > EditionEntry')
+
+  if (entryNode == null) throw new Error(`Couldnt find node root node '<Chapters>'`)
+
+  const chapterNodes = [...entryNode.children]
+
+  let chaptersTXT = ''
+
+  chapterNodes.forEach((node, i) => {
+    const name = node.querySelector(':scope > ChapterDisplay > ChapterString')
+    const time = node.querySelector(':scope > ChapterTimeStart')
+
+    const chapterIndex = (i + 1 < 10 ? '00' : (i + 1 < 100 ? '0' : '')) + (i + 1)
+
+    chaptersTXT += `CHAPTER${chapterIndex}=${time}\n`
+    chaptersTXT += `CHAPTER${chapterIndex}NAME=${name}\n`
+  })
+
+  return chaptersTXT
 }
 
 
