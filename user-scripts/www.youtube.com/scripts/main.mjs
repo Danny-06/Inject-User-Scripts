@@ -1,6 +1,6 @@
-import { handleSelectorLifeCycle, waitForSelector, delay, createElement, cloneScript, cssInlinePropertiesProxyWrapper } from "../../@libs/utils-injection.js";
+import { handleSelectorLifeCycle, waitForSelector, delay, createElement, cloneScript, cssInlinePropertiesProxyWrapper, downloadFile } from "../../@libs/utils-injection.js";
 import * as youtubeUtils from "./youtube-utils.js";
-import { addVideoContextMenuItem, calidad1080pAutomatica } from "./youtube-utils.js"
+import { addVideoContextMenuItem, calidad1080pAutomatica, removeContextMenuItems } from "./youtube-utils.js"
 
 
 window.youtubeUtils = youtubeUtils
@@ -107,6 +107,9 @@ try {
 
       calidad1080pAutomatica(video)
 
+
+      await removeContextMenuItems()
+
       // Capture video screenshot in contextmenu
 
       addVideoContextMenuItem({
@@ -179,6 +182,35 @@ try {
           }
         }
       })
+
+
+      await delay(0)
+      const panels = await waitForSelector('ytd-watch-flexy #panels')
+
+      if (panels.querySelector(`[target-id="engagement-panel-macro-markers-description-chapters"]`) != null) {
+        addVideoContextMenuItem({
+          id: 'download-chapters-as-xml',
+          name: 'Download video chapters as XML',
+          icon: // xml
+          `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+              <g transform="translate(0.000000,511.000000) scale(0.100000,-0.100000)">
+                  <path fill="currentColor" d="M2540.6,4972.7c-370.8-88.6-674-366.2-816.3-746.3c-51.3-137.6-53.6-144.6-60.6-1844.8l-7-1709.6h457.1h454.8v1644.3v1644.3l67.6,74.6l67.6,77l1203.5,7l1203.5,7V3006.6c0-1044.9,2.3-1126.5,46.6-1264.1c107.3-354.5,382.5-627.4,746.3-748.7c144.6-49,198.2-51.3,1266.4-60.6l1112.5-9.3v-2306.6c0-2535.2,7-2404.6-139.9-2481.6c-60.6-30.3-382.5-35-2754.4-30.3l-2684.5,7l-67.6,77c-56,60.7-67.6,95.6-67.6,191.3v116.6h-457.1H1652l16.3-184.3c44.3-529.4,375.5-935.2,870-1063.5c202.9-53.6,5550.8-51.3,5756.1,0c417.5,107.3,730,417.5,839.6,830.3c30.3,107.3,35,599.4,35,3122.9v2997L7762.6,3606L6358.6,5010l-1842.5-2.3C3028.1,5005.3,2647.9,5000.7,2540.6,4972.7z M7216.9,1842.8c-795.3-4.7-1058.9,2.3-1098.5,23.3c-119,63-121.3,77-121.3,1201.1v1044.9l1131.2-1131.2l1131.2-1131.2L7216.9,1842.8z"></path>
+                  <path fill="currentColor" d="M1379.1,91.2c-205.2-63-405.8-242.5-496.8-440.8c-49-107.3-51.3-135.3-51.3-1065.9v-956.2l65.3-133c81.6-165.6,256.6-326.5,426.8-389.5c125.9-49,163.3-49,2726.4-49c2563.2,0,2600.5,0,2726.5,49c170.3,63,345.2,223.9,426.8,389.5l65.3,133v956.2c0,930.6-2.3,958.6-51.3,1065.9c-67.6,146.9-223.9,312.5-368.5,387.2l-116.6,63l-2647.2,4.7C2629.2,107.5,1411.8,100.5,1379.1,91.2z M2624.6-1035.3c86.3-158.6,121.3-205.2,135.3-179.6c11.7,18.7,67.6,114.3,125.9,214.6l105,179.6H3140c84,0,151.6-4.7,151.6-11.7c0-4.7-84-144.6-188.9-307.9c-102.6-160.9-188.9-300.8-191.2-310.2c-2.3-7,86.3-160.9,200.6-340.5c112-179.6,202.9-333.5,202.9-342.9c0-9.3-70-16.3-156.3-16.3h-158.6l-123.6,221.6c-67.6,121.3-126,221.6-130.6,221.6c-4.7,0-67.6-100.3-139.9-221.6L2473-2150.1H2319c-116.6,0-149.3,7-139.9,30.3c7,16.3,95.6,165.6,200.6,326.5c105,163.3,188.9,307.9,188.9,324.2c0,14-84,158.6-186.6,321.9C2279.4-984,2195.4-844,2195.4-834.7c0,7,70,14,158.6,14h156.3L2624.6-1035.3z M4005.3-1319.8c63-275.2,121.3-494.4,128.3-485.1c9.3,9.3,42,137.6,74.6,284.5c32.7,146.9,84,366.2,109.6,485.1l51.3,214.6H4565h195.9v-664.7v-664.7h-128.3h-128.3l-2.3,531.7l-2.3,529.4l-118.9-524.8l-121.3-524.8l-135.3-7c-72.3-4.7-132.9-2.3-132.9,2.3c0,28-237.9,1054.2-247.2,1063.5c-4.7,4.7-9.3-233.2-9.3-531.8v-541.1l-121.3,7l-123.6,7l-7,660l-4.7,657.7h205.2h205.2L4005.3-1319.8z M5297.4-1357.1v-536.4h326.5h326.5v-128.3v-128.3h-466.5h-466.4v664.7v664.7h139.9h139.9V-1357.1z"></path>
+              </g>
+          </svg>
+          `
+          ,
+          action: itemMenu => {
+            const ytChapters  = youtubeUtils.getYTChapters()
+            const chaptersXML = youtubeUtils.ytChaptersToXML(ytChapters)
+
+            const file = new File([chaptersXML], 'chapters', {type: 'text/xml'})
+
+            downloadFile(file)
+          }
+        })
+      }
 
     } // End Executer()
 

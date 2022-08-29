@@ -50,6 +50,12 @@ export async function addVideoContextMenuItem(options) {
   contextMenuPopup.prepend(itemMenu)
 }
 
+export async function removeContextMenuItems() {
+  const contextMenuPopup = await waitForSelector('.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu')
+
+  contextMenuPopup.querySelectorAll(`[data-source="Chrome Extension"]`).forEach(e => e.remove())
+}
+
 
 /**
  * Función que selecciona la calidad 1080p (o le que haya disponible más alta si esta no estuviera)
