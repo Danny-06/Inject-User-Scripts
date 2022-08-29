@@ -26,8 +26,8 @@ export async function initCustomContextMenuItems() {
       .options-content.ytp-panel-menu {
         visibility: hidden;
         position: absolute;
-        left: 100%;
-        background: rgba(28,28,28,.9);
+        left: 10%;
+        background: #111;
       }
 
       #group-custom-options > .ytp-menuitem-content {
