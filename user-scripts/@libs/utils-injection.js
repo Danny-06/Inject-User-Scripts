@@ -920,9 +920,23 @@ export function parseHTML(htmlString) {
   return template.content
 }
 
+export function parseXML(xmlString) {
+  return new DOMParser().parseFromString(xmlString, 'text/xml')
+}
+
 export function turnStringIntoTrustedHTML(htmlString) {
   const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
   return trustedHTMLPolicy.createHTML(htmlString)
+}
+
+export function stringToValidInnerHTML(string) {
+  const div = document.createElement('div')
+
+  const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
+
+  div.innerHTML = trustedHTMLPolicy.createHTML(string)
+
+  return div.innerHTML
 }
 
 /**

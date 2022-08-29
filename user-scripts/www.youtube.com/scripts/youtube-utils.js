@@ -385,6 +385,111 @@ export async function createPlaylist(options) {
 }
 
 
+
+export function getYTChapters() {
+  const container = document.querySelector('ytd-watch-flexy .ytd-macro-markers-list-renderer')
+
+  if (container == null) throw new Error(`Chapters container not found`)
+
+  const childNodes = [...container.children]
+
+  const chapters = []
+
+  childNodes.forEach(node => {
+    const name      = node.querySelector('#details > h4[title]')?.textContent
+    const time      = node.querySelector('#details > #time')?.textContent
+    const thumbnail = node.querySelector('#thumbnail > yt-img-shadow > img')?.src
+
+    chapters.push({name, time, thumbnail})
+  })
+
+  return chapters
+}
+
+function formatTime(time) {
+  const tokens = time.split(':').reverse()
+
+  let [
+    seconds = '00',
+    minutes = '00',
+    hours = '00'
+  ] = tokens
+
+  if (seconds.length === 1) seconds = '0' + seconds
+  if (minutes.length === 1) minutes = '0' + minutes
+  if (hours.length === 1) hours = '0' + hours
+
+  const newTime = `${hours}:${minutes}:${seconds}:000`
+
+  return newTime
+}
+
+function stringToValidInnerHTML(string) {
+  const div = document.createElement('div')
+
+  const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
+
+  div.innerHTML = trustedHTMLPolicy.createHTML(string)
+
+  return div.innerHTML
+}
+
+export function ytChaptersToSimpleChapterFormat(chapters) {
+  let chaptersTXT = ''
+
+  chapters.forEach((chapter, i) => {
+    const name = chapter.name
+    const time = formatTime(chapter.time)
+
+    const chapterIndex = (i + 1 < 10 ? '00' : (i + 1 < 100 ? '0' : '')) + (i + 1)
+
+    chaptersTXT += `CHAPTER${chapterIndex}=${time}\n`
+    chaptersTXT += `CHAPTER${chapterIndex}NAME=${name}\n`
+  })
+
+  return chaptersTXT
+}
+
+export function simpleChapterFormatToXML(data, lang = 'eng') {
+  const rows = data.split('\n')
+
+  let xmlChapters = ''
+  
+
+  for (let i = 0; i < rows.length - 1; i += 2) {
+    const time = rows[i + 0].split('=')[1]
+    const name = stringToValidInnerHTML(rows[i + 1].split('=')[1])
+
+    xmlChapters += // xml
+    `
+    <ChapterAtom>
+        <ChapterTimeStart>${time}</ChapterTimeStart>
+        <ChapterDisplay>
+            <ChapterString>${name}</ChapterString>
+            <ChapterLanguage>${lang}</ChapterLanguage>
+            <!--ChapLanguageIETF>es</ChapLanguageIETF-->
+        </ChapterDisplay>
+    </ChapterAtom>
+    `
+  }
+
+  const xmlData = // xml
+  `
+  <?xml version="1.0"?>
+  <!-- <!DOCTYPE Chapters SYSTEM "matroskachapters.dtd"> -->
+  <Chapters>
+      <EditionEntry>
+          ${xmlChapters}
+      </EditionEntry>
+  </Chapters>
+  `.trim()
+
+  return xmlData
+}
+
+
+
+
 /**
  * Currently there are some random playlists that for no reason always miss 1 or 2 videos after cloning 
  */

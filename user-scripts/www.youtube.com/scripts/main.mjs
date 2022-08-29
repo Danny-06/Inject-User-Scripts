@@ -9,6 +9,9 @@ try {
 
   (async function() {
 
+    // Remove elements with id copy
+    window.copy && [...window.copy].forEach(e => e.remove())
+
     // Open Youtube Shorts in an new tab doing Ctrl + click
     window.addEventListener('click', event => {
       if (!location.pathname.includes('/shorts/')) return
