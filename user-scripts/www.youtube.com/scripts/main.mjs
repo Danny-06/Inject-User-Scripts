@@ -1,6 +1,6 @@
 import { handleSelectorLifeCycle, waitForSelector, delay, createElement, cloneScript, cssInlinePropertiesProxyWrapper, downloadFile } from "../../@libs/utils-injection.js";
+import { addVideoContextMenuItem, calidad1080pAutomatica, removeContextMenuItems, initCustomContextMenuItems } from "./youtube-utils.js"
 import * as youtubeUtils from "./youtube-utils.js";
-import { addVideoContextMenuItem, calidad1080pAutomatica, removeContextMenuItems } from "./youtube-utils.js"
 
 
 window.youtubeUtils = youtubeUtils
@@ -60,8 +60,8 @@ try {
 
     // Eventos de navegación de Youtube para ejecutar el código
     // al cambiar de página (Youtube no recarga la página, la actualiza)
-    window.addEventListener('yt-navigate-start', Executer);
-    window.addEventListener('yt-navigate-finish', Executer);
+    window.addEventListener('yt-navigate-start', () => Executer().catch(console.error));
+    window.addEventListener('yt-navigate-finish', () => Executer().catch(console.error));
 
 
     Executer()
@@ -94,7 +94,7 @@ try {
       })();
 
 
-      if (event.type === 'yt-navigate-finish') window.removeEventListener('load', Executer);
+      if (event && event.type === 'yt-navigate-finish') window.removeEventListener('load', Executer);
 
       /**
        * @type {HTMLVideoElement}
@@ -109,6 +109,8 @@ try {
 
 
       await removeContextMenuItems()
+
+      await initCustomContextMenuItems()
 
       // Capture video screenshot in contextmenu
 

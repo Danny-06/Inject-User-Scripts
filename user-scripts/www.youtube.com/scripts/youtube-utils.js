@@ -1,6 +1,62 @@
 import { waitForSelector, delay, showPopup, generateOverlayIframe, promiseWrapper, createElement, promisefyEvent, parseXML } from "../../@libs/utils-injection.js"
 
 
+export async function initCustomContextMenuItems() {
+  const contextMenuPopup = await waitForSelector('.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu')
+
+  const style = createElement('style', {
+    id: 'context-menu-styles',
+    properties: {
+      innerHTML: // css
+      `
+      .ytp-popup.ytp-contextmenu,
+      .ytp-panel-menu,
+      .ytp-panel {
+        overflow: visible;
+      }
+
+      textarea.ytp-html5-clipboard {
+        display: none;
+      }
+
+      .ytp-menuitem.group-items:hover > .options-content.ytp-panel-menu {
+        visibility: visible;
+      }
+
+      .options-content.ytp-panel-menu {
+        visibility: hidden;
+        position: absolute;
+        left: 100%;
+        background: rgba(28,28,28,.9);
+      }
+
+      #group-custom-options > .ytp-menuitem-content {
+        font-size: 2.5rem;
+      }
+      `
+    }
+  })
+
+  document.body.append(style)
+
+  const groupItems = createElement('div', {
+    id: 'group-custom-options',
+    classes: ['ytp-menuitem', 'group-items'],
+    dataset: {source: 'Chrome Extension'},
+    properties: {
+      innerHTML: // html
+      `
+      <div class="ytp-menuitem-icon"></div>
+      <div class="ytp-menuitem-label">Custom Options</div>
+      <div class="ytp-menuitem-content">&gt;</div>
+      <div class="options-content ytp-panel-menu"></div>
+      `
+    }
+  })
+
+  contextMenuPopup.prepend(groupItems)
+}
+
 /**
  * @typedef VideoContextMenuOptions
  * @property {string} id
@@ -13,13 +69,11 @@ import { waitForSelector, delay, showPopup, generateOverlayIframe, promiseWrappe
  * @param {VideoContextMenuOptions} options
  */
 export async function addVideoContextMenuItem(options) {
-  if (document.querySelector(`.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu > .ytp-menuitem[data-id="${options.id}"]`)) return
+  if (document.querySelector(`body .ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu > #group-custom-options > .options-content > [data-id="${options.id}"]`)) return
 
   const {name = 'No Name Defined', action, icon = '', id} = options
 
-  const contextMenuPopup = await waitForSelector('.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu')
-
-  if (document.querySelector(`.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu > .ytp-menuitem[data-id="${options.id}"]`)) return
+  const contextMenuPopup = document.querySelector('body .ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu > #group-custom-options > .options-content')
 
   const itemMenu = createElement('div', {
     classes: ['ytp-menuitem'],
@@ -53,7 +107,7 @@ export async function addVideoContextMenuItem(options) {
 export async function removeContextMenuItems() {
   const contextMenuPopup = await waitForSelector('.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu')
 
-  contextMenuPopup.querySelectorAll(`[data-source="Chrome Extension"]`).forEach(e => e.remove())
+  contextMenuPopup.querySelector(`#group-custom-options`)?.remove()
 }
 
 
