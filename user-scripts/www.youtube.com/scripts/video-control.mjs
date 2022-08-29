@@ -1,5 +1,5 @@
 import { MouseInfo } from '../../@libs/libs/mouse-info.js';
-import { createElement, waitForSelector, setStyleProperties, delay, cutDecimals } from '../../@libs/utils-injection.js'
+import { createElement, waitForSelector, setStyleProperties, delay, cutDecimals, cssInlinePropertiesProxyWrapper } from '../../@libs/utils-injection.js'
 
 const mouse = new MouseInfo()
 
@@ -15,19 +15,21 @@ async function Executer() {
 
   if (location.pathname !== '/watch') return
 
-  let video = [await waitForSelector('ytd-watch-flexy video')];
+  let videos = [await waitForSelector('ytd-watch-flexy video')];
 
   if (document.querySelectorAll('video').length === 2) {
-    video = [document.querySelectorAll('video')[1]]
+    videos = [document.querySelectorAll('video')[1]]
   }
+
+  const videoStyles = videos.map(v => cssInlinePropertiesProxyWrapper(v))
 
   await delay(1000)
 
   const canvasPlayer = document.querySelector('canvas#player')
 
-  if (canvasPlayer) video.push(canvasPlayer)
+  if (canvasPlayer) videos.push(canvasPlayer)
 
-  video.forEach(v => {
+  videos.forEach(v => {
     setStyleProperties(v.style, {
       '--translateX': '0px',
       '--translateY': '0px',
@@ -85,21 +87,21 @@ async function Executer() {
 
     if (!videoOverlay.isDown) return
 
-    let scale = parseFloat(video[0].style.getPropertyValue('--scale')) ?? 1
+    let scale = parseFloat(videoStyles[0]['--scale']) ?? 1
     if (isNaN(scale)) scale = 1
 
 
     if (scale === 0) return
 
-    const tx = parseFloat(video[0].style.getPropertyValue('--translateX'))
-    const ty = parseFloat(video[0].style.getPropertyValue('--translateY'))
+    const tx = parseFloat(videoStyles[0]['--translateX'])
+    const ty = parseFloat(videoStyles[0]['--translateY'])
 
     const movementX = event.clientX - mouse.previousClientX
     const movementY = event.clientY - mouse.previousClientY
 
-    video.forEach(v => {
-      v.style.setProperty('--translateX', `${tx + movementX / scale}px`)
-      v.style.setProperty('--translateY', `${ty + movementY / scale}px`)
+    videoStyles.forEach(video => {
+      video['--translateX'] = `${tx + movementX}px`
+      video['--translateY'] = `${ty + movementY}px`
     })
 
   })
@@ -109,39 +111,39 @@ async function Executer() {
 
     // Rotar al presionar 'Shift'
     if (event.shiftKey) {
-      const rz = parseFloat(video[0].style.getPropertyValue('--rotateZ'))
+      const rz = parseFloat(videoStyles[0]['--rotateZ'])
 
       const angleSize = 10
       const sense = event.deltaY < 0 ? -1 : 1
 
       const finalRotate = rz + angleSize * sense
 
-      video.forEach(v => {
-        v.style.setProperty('--rotateZ', `${finalRotate}deg`)
+      videoStyles.forEach(video => {
+        video['--rotateZ'] = `${finalRotate}deg`
       })
 
       return
     }
 
-    let s = parseFloat(video[0].style.getPropertyValue('--scale'))
+    let s = parseFloat(videoStyles[0]['--scale'])
 
     if (s < 1) s = cutDecimals(s, 1)
 
     const scaleIncrement = s >= 1 ? s : 1
 
-    video.forEach(v => {
-      v.style.setProperty('--scale', `${s - (event.deltaY * scaleIncrement) / 1000}`)
+    videoStyles.forEach(video => {
+      video['--scale'] = `${s - (event.deltaY * scaleIncrement) / 1000}`
     })
   })
 
   videoOverlay.addEventListener('mousedown', function (event) {
     if (event.button !== 1) return
 
-    video.forEach(v => {
-      v.style.setProperty('--translateX', '0px')
-      v.style.setProperty('--translateY', '0px')
-      v.style.setProperty('--scale', '1')
-      v.style.setProperty('--rotateZ', '0deg')
+    videoStyles.forEach(video => {
+      video['--translateX'] = '0px'
+      video['--translateY'] = '0px'
+      video['--scale'] = '1'
+      video['--rotateZ'] = '0deg'
     })
   })
 
