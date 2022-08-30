@@ -1,4 +1,4 @@
-import { LocalDB, parseHTML, showConfirmDialog, showPopup, showPromptDialog, waitForSelector } from '../../@libs/utils-injection.js'
+import { LocalDB, parseHTML, showAlertDialog, showConfirmDialog, showPopup, showPromptDialog, waitForSelector } from '../../@libs/utils-injection.js'
 import { cloneCurrentPlaylist } from './youtube-utils.js'
 
 
@@ -55,7 +55,14 @@ async function main() {
     const response = await clonePlaylist()
 
     if (response.status !== 200) {
-      showPopup(`Something went wrong in the request. You may exceed your daily playlist creation.`)
+      showAlertDialog(
+        `
+        Something went wrong in the request.
+        You may exceed your daily playlist creation.
+
+        Or maybe your 'authorization' string is not valid anymore and you have to get it again.
+        `.trimIndent()
+      )
       return
     }
 
@@ -66,10 +73,12 @@ async function main() {
     showPopup(`Playlist cloned!!!`, 2000)
 
     if (playlistId) {
-      showConfirmDialog(`Do you want to open the playlist in a new tab?`)
+      const url = `https://www.youtube.com/playlist?list=${playlistId}`
+
+      showConfirmDialog(`Do you want to open the playlist in a new tab?\n\n<a href="${url}">${url}</a>`)
       .then(accept => {
         if (!accept) return
-        window.open(`https://www.youtube.com/playlist?list=${playlistId}`)
+        window.open(url)
       })
     }
   })

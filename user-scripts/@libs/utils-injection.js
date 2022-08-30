@@ -923,7 +923,7 @@ export async function printPage(url) {
  * @returns 
  */
 export function parseHTML(htmlString, options = {}) {
-  const { parseDeclarativeTemplateShadowDOM = false } = options.parseDeclarativeTemplateShadowDOM
+  const { parseDeclarativeTemplateShadowDOM = false } = options
 
   const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
 

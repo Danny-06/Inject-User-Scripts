@@ -19,6 +19,10 @@ export function showConfirmDialog(message) {
               box-sizing: border-box;
             }
 
+            a:link {
+              color: #06f;
+            }
+
             :host {
               font-size: initial;
 
