@@ -1,5 +1,7 @@
 export const classMaker = {
 
+  privateInstanceSymbol: Symbol('Private Instance'),
+
   create(settings) {
     const {privateStore, extends: extendsConstructor, constructor = function() {}, properties = {}, privateProperties = {}, staticProperties = {}, privateStaticProperties = {}} = settings
     const $ = privateStore
@@ -33,13 +35,15 @@ export const classMaker = {
     // Computed function name with `eval`
     try {
       classFunction = eval(`(function ${constructor.name}(...args) {
+        if (!new.target) throw new Error(\`Cannot invoke 'class' without 'new' operator\`)
+
         Object.defineProperties(this, instanceProperties)
 
         if (privateStore) {
           const privateInstance = $(this, privateClassFunction)
           Object.defineProperties(privateInstance, privateInstanceProperties)
 
-          Object.defineProperty(this, Symbol('Private Instance'), {
+          Object.defineProperty(this, classMaker.privateInstanceSymbol, {
             value: privateInstance,
             writable: false,
             configurable: false
@@ -50,13 +54,15 @@ export const classMaker = {
       })`)
     } catch(error) {
       classFunction = function(...args) {
+        if (!new.target) throw new Error(`Cannot invoke 'class' without 'new' operator`)
+
         Object.defineProperties(this, instanceProperties)
 
         if (privateStore) {
           const privateInstance = $(this, privateClassFunction)
           Object.defineProperties(privateInstance, privateInstanceProperties)
 
-          Object.defineProperty(this, Symbol('Private Instance'), {
+          Object.defineProperty(this, classMaker.privateInstanceSymbol, {
             value: privateInstance,
             writable: false,
             configurable: false
@@ -84,7 +90,13 @@ export const classMaker = {
     if (privateStore) {
       privateClassFunction = $(classFunction)
 
-      Object.defineProperty(classFunction, Symbol('Private Instance'), {
+      if (extendsConstructor instanceof Function) {
+        privateClassFunction.prototype = Object.create(extendsConstructor[classMaker.privateInstanceSymbol].prototype)
+      }
+
+      privateClassFunction.prototype.constructor = privateClassFunction
+
+      Object.defineProperty(classFunction, classMaker.privateInstanceSymbol, {
         value: privateClassFunction,
         writable: false,
         configurable: false

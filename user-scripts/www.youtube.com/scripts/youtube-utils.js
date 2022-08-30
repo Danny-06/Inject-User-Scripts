@@ -522,27 +522,27 @@ export function ytChaptersToXML(chapters, lang = 'eng') {
     const time = formatTime(chapter.time)
 
     chaptersXML += // xml
-    `
-    <ChapterAtom>
-        <ChapterTimeStart>${time}</ChapterTimeStart>
-        <ChapterDisplay>
-            <ChapterString>${name}</ChapterString>
-            <ChapterLanguage>${lang}</ChapterLanguage>
-            <!--ChapLanguageIETF>es</ChapLanguageIETF-->
-        </ChapterDisplay>
-    </ChapterAtom>
-    `
+`
+        <ChapterAtom>
+            <ChapterTimeStart>${time}</ChapterTimeStart>
+            <ChapterDisplay>
+                <ChapterString>${name}</ChapterString>
+                <ChapterLanguage>${lang}</ChapterLanguage>
+                <!--ChapLanguageIETF>es</ChapLanguageIETF-->
+            </ChapterDisplay>
+        </ChapterAtom>
+`
   })
 
   const xmlData = // xml
   `
-  <?xml version="1.0"?>
-  <!-- <!DOCTYPE Chapters SYSTEM "matroskachapters.dtd"> -->
-  <Chapters>
-      <EditionEntry>
-          ${chaptersXML}
-      </EditionEntry>
-  </Chapters>
+<?xml version="1.0"?>
+<!-- <!DOCTYPE Chapters SYSTEM "matroskachapters.dtd"> -->
+<Chapters>
+    <EditionEntry>
+${chaptersXML}
+    </EditionEntry>
+</Chapters>
   `.trim()
 
   return xmlData
@@ -559,27 +559,27 @@ export function simpleChapterFormatToXML(data, lang = 'eng') {
     const time = rows[i + 0].split('=')[1]
 
     chaptersXML += // xml
-    `
-    <ChapterAtom>
-        <ChapterTimeStart>${time}</ChapterTimeStart>
-        <ChapterDisplay>
-            <ChapterString>${name}</ChapterString>
-            <ChapterLanguage>${lang}</ChapterLanguage>
-            <!--ChapLanguageIETF>es</ChapLanguageIETF-->
-        </ChapterDisplay>
-    </ChapterAtom>
-    `
+`
+        <ChapterAtom>
+            <ChapterTimeStart>${time}</ChapterTimeStart>
+            <ChapterDisplay>
+                <ChapterString>${name}</ChapterString>
+                <ChapterLanguage>${lang}</ChapterLanguage>
+                <!--ChapLanguageIETF>es</ChapLanguageIETF-->
+            </ChapterDisplay>
+        </ChapterAtom>
+`
   }
 
   const xmlData = // xml
   `
-  <?xml version="1.0"?>
-  <!-- <!DOCTYPE Chapters SYSTEM "matroskachapters.dtd"> -->
-  <Chapters>
-      <EditionEntry>
-          ${chaptersXML}
-      </EditionEntry>
-  </Chapters>
+<?xml version="1.0"?>
+<!-- <!DOCTYPE Chapters SYSTEM "matroskachapters.dtd"> -->
+<Chapters>
+    <EditionEntry>
+        ${chaptersXML}
+    </EditionEntry>
+</Chapters>
   `.trim()
 
   return xmlData

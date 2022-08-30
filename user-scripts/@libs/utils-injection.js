@@ -911,11 +911,33 @@ export async function printPage(url) {
   winIframe.onafterprint = event => iframe.remove()
 }
 
-export function parseHTML(htmlString) {
+/**
+ * @typedef ParseHTMLOptions
+ * @property {boolean} [parseDeclarativeTemplateShadowDOM=false]
+ */
+
+/**
+ * 
+ * @param {string} htmlString 
+ * @param {ParseHTMLOptions} options 
+ * @returns 
+ */
+export function parseHTML(htmlString, options = {}) {
+  const { parseDeclarativeTemplateShadowDOM = false } = options.parseDeclarativeTemplateShadowDOM
+
   const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
 
   const template = document.createElement('template')
   template.innerHTML = trustedHTMLPolicy.createHTML(htmlString)
+
+  if (parseDeclarativeTemplateShadowDOM) {
+    template
+    .content
+    .querySelectorAll('template[shadowroot]:first-child')
+    .forEach(template => {
+      parseDeclarativeShadowDOM(template.parentElement)
+    })
+  }
 
   return template.content
 }
@@ -944,7 +966,7 @@ export function stringToValidInnerHTML(string) {
  * @param {HTMLElement} hostElement 
  * @returns {boolean} If `false` that means no <template> tag with 'shadowroot' attribute was found as the first child to generate the Shadow DOM in the host element else `true`
  */
-export function turnTemplateFromHostElementIntoShadowDOM(hostElement) {
+export function parseDeclarativeShadowDOM(hostElement) {
   const template = hostElement.querySelector(':scope > template[shadowroot]:first-child')
 
   const hasTemplate = template == null
