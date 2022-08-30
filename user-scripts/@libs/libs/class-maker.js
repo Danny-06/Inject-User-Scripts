@@ -8,25 +8,25 @@ export const classMaker = {
 
     const instaceMethods = Object.fromEntries(
       Object.entries(properties).filter(([propertyName, objDescriptor]) => {
-        return objDescriptor.value instanceof Function
+        return objDescriptor instanceof Function
       })
     )
 
     const privateInstaceMethods = Object.fromEntries(
       Object.entries(privateProperties).filter(([propertyName, objDescriptor]) => {
-        return objDescriptor.value instanceof Function
+        return objDescriptor instanceof Function
       })
     )
 
     const instanceProperties = Object.fromEntries(
       Object.entries(properties).filter(([propertyName, objDescriptor]) => {
-        return !(objDescriptor.value instanceof Function)
+        return !(objDescriptor instanceof Function)
       })
     )
 
     const privateInstanceProperties = Object.fromEntries(
       Object.entries(privateProperties).filter(([propertyName, objDescriptor]) => {
-        return !(objDescriptor.value instanceof Function)
+        return !(objDescriptor instanceof Function)
       })
     )
 
@@ -35,7 +35,7 @@ export const classMaker = {
     // Computed function name with `eval`
     try {
       classFunction = eval(`(function ${constructor.name}(...args) {
-        if (!new.target) throw new Error(\`Cannot invoke 'class' without 'new' operator\`)
+        if (!(this instanceof classFunction)) throw new Error(\`Cannot invoke 'class' with incompatible receiver\`)
 
         Object.defineProperties(this, instanceProperties)
 
@@ -46,7 +46,7 @@ export const classMaker = {
           Object.defineProperty(this, classMaker.privateInstanceSymbol, {
             value: privateInstance,
             writable: false,
-            configurable: false
+            configurable: true
           })
         }
 
@@ -54,7 +54,7 @@ export const classMaker = {
       })`)
     } catch(error) {
       classFunction = function(...args) {
-        if (!new.target) throw new Error(`Cannot invoke 'class' without 'new' operator`)
+        if (!(this instanceof classFunction)) throw new Error(`Cannot invoke 'class' with incompatible receiver`)
 
         Object.defineProperties(this, instanceProperties)
 
@@ -65,7 +65,7 @@ export const classMaker = {
           Object.defineProperty(this, classMaker.privateInstanceSymbol, {
             value: privateInstance,
             writable: false,
-            configurable: false
+            configurable: true
           })
         }
 
@@ -81,7 +81,7 @@ export const classMaker = {
     classFunction.prototype.constructor = classFunction
 
     Object.entries(instaceMethods).forEach(([name, objDescriptor]) => {
-      classFunction.prototype[name] = objDescriptor.value
+      classFunction.prototype[name] = objDescriptor
     })
 
     Object.defineProperties(classFunction, staticProperties)
@@ -103,7 +103,7 @@ export const classMaker = {
       })
 
       Object.entries(privateInstaceMethods).forEach(([name, objDescriptor]) => {
-        privateClassFunction.prototype[name] = objDescriptor.value
+        privateClassFunction.prototype[name] = objDescriptor
       })
 
 
