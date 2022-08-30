@@ -8,25 +8,25 @@ export const classMaker = {
 
     const instaceMethods = Object.fromEntries(
       Object.entries(properties).filter(([propertyName, objDescriptor]) => {
-        return objDescriptor instanceof Function
+        return objDescriptor.value instanceof Function
       })
     )
 
     const privateInstaceMethods = Object.fromEntries(
       Object.entries(privateProperties).filter(([propertyName, objDescriptor]) => {
-        return objDescriptor instanceof Function
+        return objDescriptor.value instanceof Function
       })
     )
 
     const instanceProperties = Object.fromEntries(
       Object.entries(properties).filter(([propertyName, objDescriptor]) => {
-        return !(objDescriptor instanceof Function)
+        return !(objDescriptor.value instanceof Function)
       })
     )
 
     const privateInstanceProperties = Object.fromEntries(
       Object.entries(privateProperties).filter(([propertyName, objDescriptor]) => {
-        return !(objDescriptor instanceof Function)
+        return !(objDescriptor.value instanceof Function)
       })
     )
 
@@ -81,7 +81,7 @@ export const classMaker = {
     classFunction.prototype.constructor = classFunction
 
     Object.entries(instaceMethods).forEach(([name, objDescriptor]) => {
-      classFunction.prototype[name] = objDescriptor
+      classFunction.prototype[name] = objDescriptor.value
     })
 
     Object.defineProperties(classFunction, staticProperties)
@@ -103,7 +103,7 @@ export const classMaker = {
       })
 
       Object.entries(privateInstaceMethods).forEach(([name, objDescriptor]) => {
-        privateClassFunction.prototype[name] = objDescriptor
+        privateClassFunction.prototype[name] = objDescriptor.value
       })
 
 
