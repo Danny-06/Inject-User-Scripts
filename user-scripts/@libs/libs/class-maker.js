@@ -6,26 +6,23 @@ export const classMaker = {
    * 
    * @param {PropertyDescriptor} propertyDescriptor 
    */
-  checkPropertyDescriptor(propertyDescriptor) {
+  checkPropertyDescriptor(propertyDescriptor, property) {
 
     const propertyDescriptorKeys = ['value', 'get', 'set', 'writable', 'configurable', 'enumerable']
 
     Object.keys(propertyDescriptor).forEach(key => {
       if (!propertyDescriptorKeys.includes(key)) {
-        console.error('Property Descriptor', propertyDescriptor)
-        throw new Error(`Unknown key '${key}' found.`)
+        throw new Error(`Unknown key '${key}' found.\nAt property '${property}'.`)
       }
     })
 
     if (propertyDescriptor.hasOwnProperty('value')) {
       if (propertyDescriptor.hasOwnProperty('get') || propertyDescriptor.hasOwnProperty('set')) {
-        console.error('Property Descriptor', propertyDescriptor)
-        throw new Error(`propertyDescriptor must be either a 'data property' ({value}) or a 'accesor property' ({get, set}) but never both.`)
+        throw new Error(`propertyDescriptor must be either a 'data property' ({value}) or a 'accesor property' ({get, set}) but never both.\nAt property '${property}'.`)
       }
     }
     else if (!propertyDescriptor.hasOwnProperty('get') && !propertyDescriptor.hasOwnProperty('set')) {
-      console.error('Property Descriptor', propertyDescriptor)
-      throw new Error(`propertyDescriptor must be either a 'data property' ({value}) or a 'accesor property' ({get, set})`)
+      throw new Error(`propertyDescriptor must be either a 'data property' ({value}) or a 'accesor property' ({get, set}).\nAt property '${property}'.`)
     }
 
   },
@@ -37,8 +34,8 @@ export const classMaker = {
     // Check property descriptors
     ;[properties, privateProperties, staticProperties, privateStaticProperties].forEach(propertyDescriptors => {
       Object
-      .values(propertyDescriptors)
-      .forEach(propertyDescriptor => this.checkPropertyDescriptor(propertyDescriptor))
+      .entries(propertyDescriptors)
+      .forEach(([property, propertyDescriptor]) => this.checkPropertyDescriptor(propertyDescriptor, property))
     })
 
     const instaceMethods = Object.fromEntries(
