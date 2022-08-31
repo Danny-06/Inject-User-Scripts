@@ -241,59 +241,64 @@ try {
         })
       }
 
-      addVideoContextMenuItem({
-        id: 'show-description-panel',
-        name: 'Mostrar panel de descripción',
-        icon: // xml
-        `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 460">
-            <path fill="currentColor" d="M123.39,391.952h17.284v3.476c0,31.932,28.304,57.902,63.093,57.902h27.983h133.544h12.006H388.6  c34.799,0,63.104-25.971,63.104-57.902V177.952c0-31.923-28.305-57.903-63.104-57.903h-17.283v-3.475  c0-31.935-28.295-57.904-63.094-57.904h-23.305H151.373H123.39c-34.789,0-63.093,25.97-63.093,57.904v217.474  C60.297,365.97,88.601,391.952,123.39,391.952z M388.6,139.004c23.445,0,42.445,17.438,42.445,38.948v217.476  c0,21.509-19,38.949-42.445,38.949h-11.299h-12.006H231.751h-27.983c-23.436,0-42.435-17.44-42.435-38.949v-3.476v-18.955V177.952  c0-21.511,18.999-38.948,42.435-38.948h27.983h118.917h14.627h6.021H388.6z M80.944,116.574c0-21.511,18.999-38.949,42.446-38.949  h27.983h133.545h23.305c23.447,0,42.445,17.438,42.445,38.949v3.475H231.751h-27.983c-34.789,0-63.093,25.98-63.093,57.903v195.045  H123.39c-23.447,0-42.446-17.449-42.446-38.949V116.574z"></path>
-            <path fill="currentColor" d="M196.708,198.035c-4.537,0-8.21,3.674-8.21,8.211c0,4.536,3.673,8.21,8.21,8.21h164.228c4.537,0,8.211-3.674,8.211-8.21  c0-4.537-3.674-8.211-8.211-8.211H196.708z"></path>
-            <path fill="currentColor" d="M222.655,262.036c0,4.537,3.685,8.211,8.222,8.211H384.77c4.537,0,8.223-3.674,8.223-8.211s-3.686-8.221-8.223-8.221  H230.877C226.34,253.815,222.655,257.499,222.655,262.036z"></path>
-            <path fill="currentColor" d="M349.153,317.815c0-4.537-3.676-8.21-8.211-8.21H196.708c-4.537,0-8.21,3.673-8.21,8.21c0,4.536,3.673,8.223,8.21,8.223  h144.234C345.477,326.038,349.153,322.351,349.153,317.815z"></path>
-            <path fill="currentColor" d="M384.77,365.395H249.61c-4.536,0-8.21,3.675-8.21,8.212c0,4.536,3.674,8.209,8.21,8.209h135.16  c4.537,0,8.223-3.673,8.223-8.209C392.992,369.07,389.307,365.395,384.77,365.395z"></path>
-        </svg>
-        `,
-        action: itemMenu => {
-          // Vibility attribute values
-          const HIDDEN  = 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN'
-          const VISIBLE = 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED'
+      if (document.querySelector(`[target-id="engagement-panel-structured-description"]`)) {
+        addVideoContextMenuItem({
+          id: 'show-description-panel',
+          name: 'Mostrar panel de descripción',
+          icon: // xml
+          `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 460">
+              <path fill="currentColor" d="M123.39,391.952h17.284v3.476c0,31.932,28.304,57.902,63.093,57.902h27.983h133.544h12.006H388.6  c34.799,0,63.104-25.971,63.104-57.902V177.952c0-31.923-28.305-57.903-63.104-57.903h-17.283v-3.475  c0-31.935-28.295-57.904-63.094-57.904h-23.305H151.373H123.39c-34.789,0-63.093,25.97-63.093,57.904v217.474  C60.297,365.97,88.601,391.952,123.39,391.952z M388.6,139.004c23.445,0,42.445,17.438,42.445,38.948v217.476  c0,21.509-19,38.949-42.445,38.949h-11.299h-12.006H231.751h-27.983c-23.436,0-42.435-17.44-42.435-38.949v-3.476v-18.955V177.952  c0-21.511,18.999-38.948,42.435-38.948h27.983h118.917h14.627h6.021H388.6z M80.944,116.574c0-21.511,18.999-38.949,42.446-38.949  h27.983h133.545h23.305c23.447,0,42.445,17.438,42.445,38.949v3.475H231.751h-27.983c-34.789,0-63.093,25.98-63.093,57.903v195.045  H123.39c-23.447,0-42.446-17.449-42.446-38.949V116.574z"></path>
+              <path fill="currentColor" d="M196.708,198.035c-4.537,0-8.21,3.674-8.21,8.211c0,4.536,3.673,8.21,8.21,8.21h164.228c4.537,0,8.211-3.674,8.211-8.21  c0-4.537-3.674-8.211-8.211-8.211H196.708z"></path>
+              <path fill="currentColor" d="M222.655,262.036c0,4.537,3.685,8.211,8.222,8.211H384.77c4.537,0,8.223-3.674,8.223-8.211s-3.686-8.221-8.223-8.221  H230.877C226.34,253.815,222.655,257.499,222.655,262.036z"></path>
+              <path fill="currentColor" d="M349.153,317.815c0-4.537-3.676-8.21-8.211-8.21H196.708c-4.537,0-8.21,3.673-8.21,8.21c0,4.536,3.673,8.223,8.21,8.223  h144.234C345.477,326.038,349.153,322.351,349.153,317.815z"></path>
+              <path fill="currentColor" d="M384.77,365.395H249.61c-4.536,0-8.21,3.675-8.21,8.212c0,4.536,3.674,8.209,8.21,8.209h135.16  c4.537,0,8.223-3.673,8.223-8.209C392.992,369.07,389.307,365.395,384.77,365.395z"></path>
+          </svg>
+          `,
+          action: itemMenu => {
+            // Vibility attribute values
+            const HIDDEN  = 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN'
+            const VISIBLE = 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED'
+  
+            const panelsContainer = document.querySelector('ytd-watch-flexy #panels')
+            const panels = [...panelsContainer.children]
+  
+            panels.forEach(e => e.setAttribute('visibility', HIDDEN))
+  
+            const chapterPanel = panelsContainer.querySelector(`[target-id="engagement-panel-structured-description"]`)
+  
+            chapterPanel?.setAttribute('visibility', VISIBLE)
+          }
+        })
+      }
 
-          const panelsContainer = document.querySelector('ytd-watch-flexy #panels')
-          const panels = [...panelsContainer.children]
+      if (document.querySelector(`[target-id="engagement-panel-comments-section"]`)) {
+        addVideoContextMenuItem({
+          id: 'show-comments-panel',
+          name: 'Mostrar panel de comentarios',
+          icon: // xml
+          `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 121.86 122.88">
+              <path fill="currentColor" d="M30.28,110.09,49.37,91.78A3.84,3.84,0,0,1,52,90.72h60a2.15,2.15,0,0,0,2.16-2.16V9.82a2.16,2.16,0,0,0-.64-1.52A2.19,2.19,0,0,0,112,7.66H9.82A2.24,2.24,0,0,0,7.65,9.82V88.55a2.19,2.19,0,0,0,2.17,2.16H26.46a3.83,3.83,0,0,1,3.82,3.83v15.55ZM28.45,63.56a3.83,3.83,0,1,1,0-7.66h53a3.83,3.83,0,0,1,0,7.66Zm0-24.86a3.83,3.83,0,1,1,0-7.65h65a3.83,3.83,0,0,1,0,7.65ZM53.54,98.36,29.27,121.64a3.82,3.82,0,0,1-6.64-2.59V98.36H9.82A9.87,9.87,0,0,1,0,88.55V9.82A9.9,9.9,0,0,1,9.82,0H112a9.87,9.87,0,0,1,9.82,9.82V88.55A9.85,9.85,0,0,1,112,98.36Z"></path>
+          </svg>
+          `,
+          action: itemMenu => {
+            // Vibility attribute values
+            const HIDDEN  = 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN'
+            const VISIBLE = 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED'
+  
+            const panelsContainer = document.querySelector('ytd-watch-flexy #panels')
+            const panels = [...panelsContainer.children]
+  
+            panels.forEach(e => e.setAttribute('visibility', HIDDEN))
+  
+            const chapterPanel = panelsContainer.querySelector(`[target-id="engagement-panel-comments-section"]`)
+  
+            chapterPanel?.setAttribute('visibility', VISIBLE)
+          }
+        })
+      }
 
-          panels.forEach(e => e.setAttribute('visibility', HIDDEN))
-
-          const chapterPanel = panelsContainer.querySelector(`[target-id="engagement-panel-structured-description"]`)
-
-          chapterPanel?.setAttribute('visibility', VISIBLE)
-        }
-      })
-
-      addVideoContextMenuItem({
-        id: 'show-comments-panel',
-        name: 'Mostrar panel de comentarios',
-        icon: // xml
-        `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 121.86 122.88">
-            <path fill="currentColor" d="M30.28,110.09,49.37,91.78A3.84,3.84,0,0,1,52,90.72h60a2.15,2.15,0,0,0,2.16-2.16V9.82a2.16,2.16,0,0,0-.64-1.52A2.19,2.19,0,0,0,112,7.66H9.82A2.24,2.24,0,0,0,7.65,9.82V88.55a2.19,2.19,0,0,0,2.17,2.16H26.46a3.83,3.83,0,0,1,3.82,3.83v15.55ZM28.45,63.56a3.83,3.83,0,1,1,0-7.66h53a3.83,3.83,0,0,1,0,7.66Zm0-24.86a3.83,3.83,0,1,1,0-7.65h65a3.83,3.83,0,0,1,0,7.65ZM53.54,98.36,29.27,121.64a3.82,3.82,0,0,1-6.64-2.59V98.36H9.82A9.87,9.87,0,0,1,0,88.55V9.82A9.9,9.9,0,0,1,9.82,0H112a9.87,9.87,0,0,1,9.82,9.82V88.55A9.85,9.85,0,0,1,112,98.36Z"></path>
-        </svg>
-        `,
-        action: itemMenu => {
-          // Vibility attribute values
-          const HIDDEN  = 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN'
-          const VISIBLE = 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED'
-
-          const panelsContainer = document.querySelector('ytd-watch-flexy #panels')
-          const panels = [...panelsContainer.children]
-
-          panels.forEach(e => e.setAttribute('visibility', HIDDEN))
-
-          const chapterPanel = panelsContainer.querySelector(`[target-id="engagement-panel-comments-section"]`)
-
-          chapterPanel?.setAttribute('visibility', VISIBLE)
-        }
-      })
 
     } // End Executer()
 
