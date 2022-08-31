@@ -946,6 +946,10 @@ export function parseXML(xmlString) {
   return new DOMParser().parseFromString(xmlString, 'text/xml')
 }
 
+export function removeCommentsInJSON(jsonString) {
+  return jsonString.replace(/\/\*[^]*?\*\//g, '').replace(/\/\/.*/g, '')
+}
+
 export function turnStringIntoTrustedHTML(htmlString) {
   const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
   return trustedHTMLPolicy.createHTML(htmlString)
