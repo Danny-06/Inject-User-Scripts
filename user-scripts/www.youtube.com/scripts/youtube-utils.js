@@ -33,6 +33,11 @@ export async function initCustomContextMenuItems() {
       #group-custom-options > .ytp-menuitem-content {
         font-size: 2.5rem;
       }
+
+      .ytp-menuitem-content {
+        position: static;
+        transform: none;
+      }
       `
     }
   })
