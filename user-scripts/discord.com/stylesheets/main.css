@@ -376,3 +376,17 @@ debido a que aumenta su altura por unos instantes */
 [class*="layerContainer"] [id*="popout"][class|="layer"] {
   position: fixed !important
 }
+
+
+/* Add a minimum size to videos */
+.spoilerText-27bIiA {
+  max-width: none !important;
+}
+.imageWrapper-oMkQl4 {
+  max-width: 300px !important;
+}
+.wrapper-1FP9YQ > video {
+  max-width: none !important;
+  max-height: none !important;
+  min-height: 200px;
+}
