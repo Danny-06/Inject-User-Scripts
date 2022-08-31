@@ -2,41 +2,48 @@ export const classMaker = {
 
   privateInstanceSymbol: Symbol('Private Instance'),
 
+  checkAllPropertyDescriptors(settings) {
+    const {properties, privateProperties, staticProperties, privateStaticProperties} = settings
+
+    Object.entries({properties, privateProperties, staticProperties, privateStaticProperties})
+    .forEach(([groupName, propertyDescriptors]) => {
+      Object
+      .entries(propertyDescriptors)
+      .forEach(([property, propertyDescriptor]) => this.checkPropertyDescriptor(propertyDescriptor, groupName, property))
+    })
+  },
+
   /**
    * 
    * @param {PropertyDescriptor} propertyDescriptor 
    */
-  checkPropertyDescriptor(propertyDescriptor, property) {
+  checkPropertyDescriptor(propertyDescriptor, groupName, property) {
 
     const propertyDescriptorKeys = ['value', 'get', 'set', 'writable', 'configurable', 'enumerable']
 
     Object.keys(propertyDescriptor).forEach(key => {
       if (!propertyDescriptorKeys.includes(key)) {
-        throw new Error(`Unknown key '${key}' found.\nAt property '${property}'.`)
+        throw new Error(`Unknown key '${key}' found.\nIn group '${groupName}' at property '${property}'.`)
       }
     })
 
     if (propertyDescriptor.hasOwnProperty('value')) {
       if (propertyDescriptor.hasOwnProperty('get') || propertyDescriptor.hasOwnProperty('set')) {
-        throw new Error(`propertyDescriptor must be either a 'data property' ({value}) or a 'accesor property' ({get, set}) but never both.\nAt property '${property}'.`)
+        throw new Error(`propertyDescriptor must be either a 'data property' ({value}) or a 'accesor property' ({get, set}) but never both.\nIn group '${groupName}' at property '${property}'.`)
       }
     }
     else if (!propertyDescriptor.hasOwnProperty('get') && !propertyDescriptor.hasOwnProperty('set')) {
-      throw new Error(`propertyDescriptor must be either a 'data property' ({value}) or a 'accesor property' ({get, set}).\nAt property '${property}'.`)
+      throw new Error(`propertyDescriptor must be either a 'data property' ({value}) or a 'accesor property' ({get, set}).\nIn group '${groupName}' at property '${property}'.`)
     }
 
   },
 
   create(settings) {
+    // Check property descriptors
+    this.checkAllPropertyDescriptors(settings)
+
     const {privateStore, extends: extendsConstructor, constructor = function() {}, properties = {}, privateProperties = {}, staticProperties = {}, privateStaticProperties = {}} = settings
     const $ = privateStore
-
-    // Check property descriptors
-    ;[properties, privateProperties, staticProperties, privateStaticProperties].forEach(propertyDescriptors => {
-      Object
-      .entries(propertyDescriptors)
-      .forEach(([property, propertyDescriptor]) => this.checkPropertyDescriptor(propertyDescriptor, property))
-    })
 
     const instaceMethods = Object.fromEntries(
       Object.entries(properties).filter(([propertyName, objDescriptor]) => {
