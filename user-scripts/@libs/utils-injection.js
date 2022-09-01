@@ -973,7 +973,9 @@ export function stringToValidInnerHTML(string) {
 export function parseDeclarativeShadowDOM(hostElement) {
   const template = hostElement.querySelector(':scope > template[shadowroot]:first-child')
 
-  const hasTemplate = template == null
+  const hasTemplate = template != null
+
+  if (!hasTemplate) return false
 
   template.remove()
 
@@ -982,7 +984,7 @@ export function parseDeclarativeShadowDOM(hostElement) {
   const shadowRoot = hostElement.attachShadow({mode})
   shadowRoot.append(template.content)
 
-  return hasTemplate
+  return true
 }
 
 /**
