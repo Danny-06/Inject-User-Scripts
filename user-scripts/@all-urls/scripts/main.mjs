@@ -14,6 +14,7 @@ import('../../@libs/utils-injection.js').then(module => {
 Object.defineProperties(String.prototype, {
 
   trimIndent: {
+    configurable: true,
     value: function() {
       // Get indent
       const splitNewLine = this.split('\n')
