@@ -2,7 +2,7 @@ export const classMaker = {
 
   privateInstanceSymbol: Symbol('Private Instance'),
 
-  checkAllPropertyDescriptors(settings) {
+  checkClassPropertyDescriptors(settings) {
     const {properties, privateProperties, staticProperties, privateStaticProperties} = settings
 
     Object.entries({properties, privateProperties, staticProperties, privateStaticProperties})
@@ -40,7 +40,7 @@ export const classMaker = {
 
   create(settings) {
     // Check property descriptors
-    this.checkAllPropertyDescriptors(settings)
+    this.checkClassPropertyDescriptors(settings)
 
     const {privateStore, extends: extendsConstructor, constructor = function() {}, properties = {}, privateProperties = {}, staticProperties = {}, privateStaticProperties = {}} = settings
     const $ = privateStore
@@ -168,6 +168,34 @@ export const classMaker = {
 
       return privateInstances.get(instance)
     }
+  },
+
+  createObject(settings) {
+    const settingKeysList = ['properties', 'privateProperties', 'privateStore']
+
+    const settingKeys = Object.keys(settings)
+
+    if (!settingKeys.includes(settingKeysList[0])) {
+      throw new Error(`Missing property '${settingKeysList[0]}' in settings object parameter.`)
+    }
+
+    settingKeys.forEach(key => {
+      if (!settingKeysList.includes(key)) throw new Error(`Unkown key '${key}' found in settings object parameter.`)
+    })
+
+    const {privateStore, properties = {}, privateProperties = {}} = settings
+    const $ = privateStore
+
+    const instance        = Object.assign({}, properties)
+    const privateInstance = Object.assign($(instance), privateProperties)
+
+    Object.defineProperty(instance, classMaker.privateInstanceSymbol, {
+      value: privateInstance,
+      writable: false,
+      configurable: true
+    })
+
+    return instance
   }
 
 }
