@@ -61,9 +61,3 @@ canvas#player {
 #ytp-caption-window-container {
   pointer-events: none !important;
 }
-
-
-/*Evitar la contacto con la barra lateral en pantalla completa  */
-#player-theater-container {
-  z-index: 99999999;
-}
