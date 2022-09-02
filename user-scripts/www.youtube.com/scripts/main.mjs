@@ -94,7 +94,7 @@ try {
       })();
 
 
-      if (event && event.type === 'yt-navigate-finish') window.removeEventListener('load', Executer);
+      if (event && event.type === 'yt-navigate-finish') window.removeEventListener('load', () => Executer().catch(console.error));
 
       /**
        * @type {HTMLVideoElement}
@@ -189,6 +189,34 @@ try {
       await delay(0)
       const panels = await waitForSelector('ytd-watch-flexy #panels')
 
+      if (panels.querySelector(`[target-id="engagement-panel-searchable-transcript"]`)) {
+        addVideoContextMenuItem({
+          id: 'show-transcription-panel',
+          name: 'Mostrar panel de transcripción',
+          icon: // xml
+          `
+          <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet">
+              <path fill="currentColor" d="M5,11h2v2H5V11z M15,15H5v2h10V15z M19,15h-2v2h2V15z M19,11H9v2h10V11z M22,6H2v14h20V6z M3,7h18v12H3V7z"></path>
+          </svg>
+          `
+          ,
+          action: itemMenu => {
+            // Vibility attribute values
+            const HIDDEN = 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN'
+            const VISIBLE     = 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED'
+
+            const panelsContainer = document.querySelector('ytd-watch-flexy #panels')
+            const panels = [...panelsContainer.children]
+
+            panels.forEach(e => e.setAttribute('visibility', HIDDEN))
+
+            const chapterPanel = panelsContainer.querySelector(`[target-id="engagement-panel-searchable-transcript"]`)
+
+            chapterPanel?.setAttribute('visibility', VISIBLE)
+          }
+        })
+      }
+
       if (panels.querySelector(`[target-id="engagement-panel-macro-markers-description-chapters"]`) != null) {
         addVideoContextMenuItem({
           id: 'download-chapters-as-xml',
@@ -228,14 +256,14 @@ try {
             // Vibility attribute values
             const HIDDEN = 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN'
             const VISIBLE     = 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED'
-  
+
             const panelsContainer = document.querySelector('ytd-watch-flexy #panels')
             const panels = [...panelsContainer.children]
-  
+
             panels.forEach(e => e.setAttribute('visibility', HIDDEN))
-  
+
             const chapterPanel = panelsContainer.querySelector(`[target-id="engagement-panel-macro-markers-description-chapters"]`)
-  
+
             chapterPanel?.setAttribute('visibility', VISIBLE)
           }
         })
@@ -259,14 +287,14 @@ try {
             // Vibility attribute values
             const HIDDEN  = 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN'
             const VISIBLE = 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED'
-  
+
             const panelsContainer = document.querySelector('ytd-watch-flexy #panels')
             const panels = [...panelsContainer.children]
-  
+
             panels.forEach(e => e.setAttribute('visibility', HIDDEN))
-  
+
             const chapterPanel = panelsContainer.querySelector(`[target-id="engagement-panel-structured-description"]`)
-  
+
             chapterPanel?.setAttribute('visibility', VISIBLE)
           }
         })
@@ -286,14 +314,14 @@ try {
             // Vibility attribute values
             const HIDDEN  = 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN'
             const VISIBLE = 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED'
-  
+
             const panelsContainer = document.querySelector('ytd-watch-flexy #panels')
             const panels = [...panelsContainer.children]
-  
+
             panels.forEach(e => e.setAttribute('visibility', HIDDEN))
-  
+
             const chapterPanel = panelsContainer.querySelector(`[target-id="engagement-panel-comments-section"]`)
-  
+
             chapterPanel?.setAttribute('visibility', VISIBLE)
           }
         })
