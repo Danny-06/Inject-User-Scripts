@@ -1,4 +1,4 @@
-import { parseJSONResponseWithComments, removeCommentsInJSON } from './utils-extension.js'
+import { parseJSONResponseWithComments } from './utils-extension.js'
 
 
 // Run only on page load when the content script send a message
