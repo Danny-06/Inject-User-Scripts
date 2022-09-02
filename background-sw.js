@@ -1,3 +1,6 @@
+import { parseJSONResponseWithComments, removeCommentsInJSON } from './utils-extension.js'
+
+
 // Run only on page load when the content script send a message
 chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
 
@@ -17,11 +20,11 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
 
     // Get 'settings.json' from the '@all-urls' folder
     const settingsAllUrl = `${extensionUrl}/user-scripts/@all-urls/settings.json`
-    const settingsAll    = await fetch(settingsAllUrl).then(response => response.json()).catch(reason => ({scripts: null, stylesheets: null}))
+    const settingsAll    = await fetch(settingsAllUrl).then(parseJSONResponseWithComments).catch(reason => ({scripts: null, stylesheets: null}))
 
     // Get 'settings.json' from the current domain folder
     const settingsDomainUrl = `${extensionUrl}/user-scripts/${domain}/settings.json`
-    const settingsDomain    = await fetch(settingsDomainUrl).then(response => response.json()).catch(reason => ({scripts: null, stylesheets: null}))
+    const settingsDomain    = await fetch(settingsDomainUrl).then(parseJSONResponseWithComments).catch(reason => ({scripts: null, stylesheets: null}))
 
 
     const injectionSettings = {

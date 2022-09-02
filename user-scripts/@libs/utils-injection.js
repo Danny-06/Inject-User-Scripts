@@ -947,8 +947,22 @@ export function parseXML(xmlString) {
   return new DOMParser().parseFromString(xmlString, 'text/xml')
 }
 
-export function removeCommentsInJSON(jsonString) {
+
+/**
+ * 
+ * @param {string} jsonString 
+ * @returns 
+ */
+ export function removeCommentsInJSON(jsonString) {
   return jsonString.replace(/\/\*[^]*?\*\//g, '').replace(/\/\/.*/g, '')
+}
+
+/**
+ * 
+ * @param {Response} response 
+ */
+export function parseJSONResponseWithComments(response) {
+  return response.text().then(text => removeCommentsInJSON(text)).then(text => JSON.parse(text))
 }
 
 export function turnStringIntoTrustedHTML(htmlString) {
