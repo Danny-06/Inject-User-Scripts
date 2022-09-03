@@ -34,7 +34,7 @@ export async function initCustomContextMenuItems() {
         font-size: 2.5rem;
       }
 
-      .ytp-menuitem-toggle-checkbox {
+      :not(.ytp-settings-menu) .ytp-menuitem-toggle-checkbox {
         position: static;
         transform: none;
       }
