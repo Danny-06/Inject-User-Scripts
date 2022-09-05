@@ -1,7 +1,7 @@
 class Node extends EventTarget {
 
   constructor() {
-    if (!new.target) throw new Error(`Cannot create an instance of an abstract class.`)
+    if (!new.target) throw new Error(`Cannot create an instance of an abstract class`)
   }
 
   static DOCUMENT_POSITION_DISCONNECTED            = 1
@@ -66,6 +66,8 @@ class Node extends EventTarget {
 
 
   // Public Methods
+
+  #childNodes = []
 
   appendChild(node) {
 
@@ -191,6 +193,57 @@ class Node extends EventTarget {
   }
 
   set textContent(value) {
+
+  }
+
+}
+
+class NodeList {
+
+  static #privateConstructorKey = Symbol('Constructor Key')
+
+  constructor() {
+    if (arguments[0] !== NodeList.#privateConstructorKey) {
+      throw new TypeError(`Illegal constructor`)
+    }
+
+    
+
+    Object.freeze(this)
+  }
+
+  [Symbol.iterator] = this.values()
+  [Symbol.toStringTag] = "NodeList"
+
+
+  // Public Methods
+
+  forEach(callback) {
+    
+  }
+
+  keys() {
+    
+  }
+
+  values() {
+    
+  }
+  
+  entries() {
+
+  }
+
+  item() {
+
+  }
+
+
+  // Public Accessors
+
+  #length
+
+  get length() {
 
   }
 

@@ -846,14 +846,20 @@ export function readFileAs(blob, mode, encoding = 'UTF-8') {
   return new Promise(resolve => reader.onloadend = () => resolve(reader.result));
 }
 
+/**
+ * 
+ * @param {[]} array 
+ * @param {function} splitter 
+ * @returns {[]}
+ */
 export function splitArray(array, splitter) {
 
   if (!array.forEach)   throw new TypeError('param 1 must be an array')
   if (splitter == null) throw new TypeError(`param 2 can't be ${splitter}`)
 
 
-  if (typeof(splitter) !== 'function') {
-    let element = splitter
+  if (typeof splitter !== 'function') {
+    const element = splitter
     splitter = el => el === element
   }
 

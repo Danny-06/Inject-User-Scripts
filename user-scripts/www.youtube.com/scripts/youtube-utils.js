@@ -16,7 +16,7 @@ export async function initCustomContextMenuItems() {
       }
 
       textarea.ytp-html5-clipboard {
-        display: none;
+        transform: scale(0);
       }
 
       .ytp-menuitem.group-items:hover > .options-content.ytp-panel-menu {
@@ -34,7 +34,7 @@ export async function initCustomContextMenuItems() {
         font-size: 2.5rem;
       }
 
-      :not(.ytp-settings-menu) .ytp-menuitem-toggle-checkbox {
+      .ytp-popup.ytp-contextmenu .ytp-menuitem-toggle-checkbox {
         position: static;
         transform: none;
       }
@@ -110,7 +110,7 @@ export async function addVideoContextMenuItem(options) {
     action?.(itemMenu)
   })
 
-  contextMenuPopup.prepend(itemMenu)
+  contextMenuPopup.append(itemMenu)
 }
 
 export async function removeContextMenuItems() {
@@ -561,7 +561,7 @@ export function simpleChapterFormatToXML(data, lang = 'eng') {
 
   for (let i = 0; i < rows.length - 1; i += 2) {
     const name = stringToValidInnerHTML(rows[i + 1].split('=')[1])
-    const time = rows[i + 0].split('=')[1]
+    const time = rows[i + 0].split('=')[1].replace('CHAPTER', '')
 
     chaptersXML += // xml
 `
