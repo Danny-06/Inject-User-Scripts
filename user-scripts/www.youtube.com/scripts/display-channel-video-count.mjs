@@ -8,12 +8,14 @@ promiseDocumentLoad(document)
 
 
 
-window.addEventListener('yt-navigate-start', async event => main())
+window.addEventListener('yt-navigate-start', event => main().catch(console.error))
 
-window.addEventListener('yt-navigate-finish', async event => main())
+window.addEventListener('yt-navigate-finish', event => main().catch(console.error))
 
 
 async function main() {
+  await delay(0)
+
   const ytdApp = document.querySelector('ytd-app')
   
   if (!ytdApp.data?.response?.metadata?.channelMetadataRenderer) return

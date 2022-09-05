@@ -114,7 +114,6 @@ try {
 
       await initCustomContextMenuItems()
 
-return
 
       await delay(0)
       const panels = await waitForSelector('ytd-watch-flexy #panels')  
@@ -129,8 +128,7 @@ return
         </svg>
         `,
         action: itemMenu => {
-          const videoId = ytInitialData?.currentVideoEndpoint?.watchEndpoint?.videoId ??
-                          new URL(location.href).searchParams.get('v')
+          const videoId = new URL(location.href).searchParams.get('v')
 
           if (videoId == null) {
             showPopup(`Copy URL to clipboard filed. URL couldnt be obtained`)
@@ -138,6 +136,31 @@ return
           }
 
           navigator.clipboard.writeText(`https://www.youtube.com/watch?v=${videoId}`)
+          .catch(() => {
+            showPopup(`Copy URL to clipboard filed.`)
+          })
+        }
+      })
+
+      addVideoContextMenuItem({
+        id: 'copy-video-url-time',
+        name: 'Copiar URL del video a partir del minuto actual',
+        icon: // xml
+        `
+        <svg height="100%" viewBox="0 0 36 36" width="100%">
+            <path fill="currentColor" d="M5.85 18.0c0.0-2.56 2.08-4.65 4.65-4.65h6.0V10.5H10.5c-4.14 .0-7.5 3.36-7.5 7.5s3.36 7.5 7.5 7.5h6.0v-2.85H10.5c-2.56 .0-4.65-2.08-4.65-4.65zM12.0 19.5h12.0v-3.0H12.0v3.0zm13.5-9.0h-6.0v2.85h6.0c2.56 .0 4.65 2.08 4.65 4.65s-2.08 4.65-4.65 4.65h-6.0V25.5h6.0c4.14 .0 7.5-3.36 7.5-7.5s-3.36-7.5-7.5-7.5z"></path>
+        </svg>
+        `,
+        action: itemMenu => {
+          const videoId = new URL(location.href).searchParams.get('v')
+          const time = Math.floor(video.currentTime)
+
+          if (videoId == null) {
+            showPopup(`Copy URL to clipboard filed. URL couldnt be obtained`)
+            return
+          }
+
+          navigator.clipboard.writeText(`https://www.youtube.com/watch?v=${videoId}&t=${time}s`)
           .catch(() => {
             showPopup(`Copy URL to clipboard filed.`)
           })
@@ -154,8 +177,7 @@ return
         </svg>
         `,
         action: itemMenu => {
-          const videoId = ytInitialData?.currentVideoEndpoint?.watchEndpoint?.videoId ??
-                          new URL(location.href).searchParams.get('v')
+          const videoId = new URL(location.href).searchParams.get('v')
 
           if (videoId == null) {
             showPopup(`Copy URL to clipboard filed. URL couldnt be obtained`)
@@ -163,6 +185,30 @@ return
           }
 
           navigator.clipboard.writeText(`https://www.youtube.com/embed/${videoId}`)
+          .catch(() => {
+            showPopup(`Copy URL to clipboard filed.`)
+          })
+        }
+      })
+
+      addVideoContextMenuItem({
+        id: 'copy-video-url-embed-nocookie',
+        name: 'Copiar URL del video embebido con no-cookie',
+        icon: // xml
+        `
+        <svg height="100%" viewBox="0 0 36 36" width="100%">
+            <path fill="currentColor" d="M5.85 18.0c0.0-2.56 2.08-4.65 4.65-4.65h6.0V10.5H10.5c-4.14 .0-7.5 3.36-7.5 7.5s3.36 7.5 7.5 7.5h6.0v-2.85H10.5c-2.56 .0-4.65-2.08-4.65-4.65zM12.0 19.5h12.0v-3.0H12.0v3.0zm13.5-9.0h-6.0v2.85h6.0c2.56 .0 4.65 2.08 4.65 4.65s-2.08 4.65-4.65 4.65h-6.0V25.5h6.0c4.14 .0 7.5-3.36 7.5-7.5s-3.36-7.5-7.5-7.5z"></path>
+        </svg>
+        `,
+        action: itemMenu => {
+          const videoId = new URL(location.href).searchParams.get('v')
+
+          if (videoId == null) {
+            showPopup(`Copy URL to clipboard filed. URL couldnt be obtained`)
+            return
+          }
+
+          navigator.clipboard.writeText(`https://www.youtube-nocookie.com/embed/${videoId}`)
           .catch(() => {
             showPopup(`Copy URL to clipboard filed.`)
           })
