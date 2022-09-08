@@ -435,7 +435,7 @@ export function createElement(name = 'div', settings = {}) {
 }
 
 export function promiseWrapper(promise) {
-  if (!('then' in promise)) throw new TypeError(`param 1 must be a thenable`)
+  if (typeof promise.then !== 'function') throw new TypeError(`param 1 must be a thenable`)
 
   return new Promise(resolve => {
     promise
