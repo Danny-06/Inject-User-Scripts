@@ -1,0 +1,4 @@
+#exampleModalCenter + .modal.fade.show[role="dialog"],
+.modal-backdrop.fade.show {
+  display: none !important;
+}

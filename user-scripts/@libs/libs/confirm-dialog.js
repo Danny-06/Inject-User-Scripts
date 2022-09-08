@@ -53,6 +53,7 @@ export function showConfirmDialog(message) {
 
             .buttons {
               display: flex;
+              justify-content: flex-end;
               column-gap: 1rem;
             }
 

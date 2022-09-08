@@ -53,6 +53,7 @@ export function showAlertDialog(message) {
 
             .buttons {
               display: flex;
+              justify-content: flex-end;
               column-gap: 1rem;
             }
 
@@ -102,7 +103,7 @@ export function showAlertDialog(message) {
           <div class="dialog-menu">
               <div class="message">${message ?? '(No message provided)'}</div>
               <div class="buttons">
-                  <button class="accept">Ok</button>
+                  <button class="accept">Accept</button>
               </div>
           </div>
       </template>

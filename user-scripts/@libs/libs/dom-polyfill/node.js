@@ -1,7 +1,13 @@
+const privateConstructorKey = Symbol('#<NodeList> Constructor Key')
+
 class Node extends EventTarget {
 
   constructor() {
-    if (!new.target) throw new Error(`Cannot create an instance of an abstract class`)
+    if (Object.getPrototypeOf(this) === Node.prototype) {
+      throw new Error(`Cannot create an instance of an abstract class`)
+    }
+
+    this.#childNodes = new NodeList({key: privateConstructorKey})
   }
 
   static DOCUMENT_POSITION_DISCONNECTED            = 1
@@ -10,7 +16,7 @@ class Node extends EventTarget {
   static DOCUMENT_POSITION_CONTAINS                = 8
   static DOCUMENT_POSITION_CONTAINED_BY            = 16
   static DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 32
-  
+
   static ELEMENT_NODE                              = 1
   static ATTRIBUTE_NODE                            = 2
   static TEXT_NODE                                 = 3
@@ -77,7 +83,7 @@ class Node extends EventTarget {
 
   }
 
-  compareDocumetnPosition(other) {
+  compareDocumentPosition(other) {
 
   }
 
@@ -200,20 +206,16 @@ class Node extends EventTarget {
 
 class NodeList {
 
-  static #privateConstructorKey = Symbol('Constructor Key')
-
   constructor() {
-    if (arguments[0] !== NodeList.#privateConstructorKey) {
+    const {key, collection} = settings
+
+    if (key !== privateConstructorKey) {
       throw new TypeError(`Illegal constructor`)
     }
-
-    
-
-    Object.freeze(this)
   }
 
-  [Symbol.iterator] = this.values()
-  [Symbol.toStringTag] = "NodeList"
+  [Symbol.iterator] = this.values
+  get [Symbol.toStringTag]() { return 'NodeList' }
 
 
   // Public Methods

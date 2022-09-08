@@ -396,32 +396,35 @@ export function fillDeclarativeTemplate(template, obj) {
  * @param {{
  *  id: string,
  *  classes: string[],
- *  attributes: {[key: string]: string},
+ *  style: {[key: string]: string},
  *  dataset: {[key: string]: string},
+ *  attributes: {[key: string]: string},
  *  properties: {[key: string]: string},
  *  namespace: string,
  *  options: ElementCreationOptions
  * }} settings 
- * @returns {Element}
+ * @returns {HTMLElement}
  */
 export function createElement(name = 'div', settings = {}) {
-  const {id, classes, attributes, dataset, properties, namespace, options} = settings
+  const {id, classes, style, dataset, attributes, properties, namespace, options} = settings
 
   const element = namespace != null ?
                   document.createElementNS(namespace, name, options) :
                   document.createElement(name, options)
 
   if (id != null)      element.id = id
-  if (classes != null) element.classList.add(...classes)
+  if (Array.isArray(classes)) element.classList.add(...classes)
 
-  for (const [property, value] of Object.entries(attributes ?? {})) {
-    element.setAttribute(property, value)
-  }
+  if (style != null) setStyleProperties(element.style, style)
 
   if (element.dataset != null) {
     for (const [property, value] of Object.entries(dataset ?? {})) {
       element.dataset[property] = value
     }
+  }
+
+  for (const [property, value] of Object.entries(attributes ?? {})) {
+    element.setAttribute(property, value)
   }
 
   for (const [property, value] of Object.entries(properties ?? {})) {
@@ -752,7 +755,7 @@ export const hyphenToLowerCase = string => string.split('-').map((str, index) =>
  * @param {{}} properties
  */
 export function setStyleProperties(style, properties) {
-  for (let property in properties) {
+  for (const property in properties) {
 
     let propertyName = property
 
