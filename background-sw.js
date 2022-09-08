@@ -18,20 +18,27 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
     const extensionUrl = location.origin // chrome.runtime.getURL('').slice(0, -1)
     const domain       = new URL(url).hostname
 
+    // File and folder names
+    const userScriptsFolder = 'user-scripts'
+    const allURLSFolder = '@all-urls'
+    const settingsJSON = 'settings.json'
+
     // Get 'settings.json' from the '@all-urls' folder
-    const settingsAllUrl = `${extensionUrl}/user-scripts/@all-urls/settings.json`
+    const settingsAllUrl = `${extensionUrl}/${userScriptsFolder}/${allURLSFolder}/${settingsJSON}`
     const settingsAll    = await fetch(settingsAllUrl).then(parseJSONResponseWithComments).catch(reason => ({scripts: null, stylesheets: null}))
 
     // Get 'settings.json' from the current domain folder
-    const settingsDomainUrl = `${extensionUrl}/user-scripts/${domain}/settings.json`
+    const settingsDomainUrl = `${extensionUrl}/${userScriptsFolder}/${domain}/${settingsJSON}`
     const settingsDomain    = await fetch(settingsDomainUrl).then(parseJSONResponseWithComments).catch(reason => ({scripts: null, stylesheets: null}))
 
 
     const injectionSettings = {
       target: {tabId},
 
-      args: [settingsDomain, settingsAll, extensionUrl, domain],
-      func: async function(settingsDomain, settingsAll, extensionUrl, domain) {
+      args: [{settingsDomain, settingsAll, extensionUrl, domain, userScriptsFolder, allURLSFolder}],
+      func: async function(params) {
+        const {settingsDomain, settingsAll, extensionUrl, domain, userScriptsFolder, allURLSFolder} = params
+
         // If the document is not an HTMLDocument (XMLDocument) then we need to create our own
         // to be able to create HTMLElements
         const doc = document instanceof HTMLDocument ? document : document.implementation.createHTMLDocument()
@@ -45,8 +52,8 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
           const stylesheet = doc.createElement('link')
 
           stylesheet.rel = 'stylesheet'
-          stylesheet.href = `${extensionUrl}/user-scripts/@all-urls/${stylesheetName}`
-          stylesheet.dataset.source = 'Chrome Extension - @all-urls'
+          stylesheet.href = `${extensionUrl}/${userScriptsFolder}/${allURLSFolder}/${stylesheetName}`
+          stylesheet.dataset.source = `Chrome Extension - ${allURLSFolder}`
 
           document.head ? document.head.append(stylesheet) : document.documentElement.append(stylesheet)
         })
@@ -58,8 +65,8 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
 
           if (scriptName.endsWith('.mjs')) script.type = 'module'
           script.defer = true
-          script.src = `${extensionUrl}/user-scripts/@all-urls/${scriptName}`
-          script.dataset.source = 'Chrome Extension - @all-urls'
+          script.src = `${extensionUrl}/${userScriptsFolder}/${allURLSFolder}/${scriptName}`
+          script.dataset.source = `Chrome Extension - ${allURLSFolder}`
 
           document.head ? document.head.append(script) : document.documentElement.append(script)
         })
@@ -72,7 +79,7 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
           const stylesheet = doc.createElement('link')
 
           stylesheet.rel = 'stylesheet'
-          stylesheet.href = `${extensionUrl}/user-scripts/${domain}/${stylesheetName}`
+          stylesheet.href = `${extensionUrl}/${userScriptsFolder}/${domain}/${stylesheetName}`
           stylesheet.dataset.source = 'Chrome Extension'
 
           document.head ? document.head.append(stylesheet) : document.documentElement.append(stylesheet)
@@ -85,7 +92,7 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
 
           if (scriptName.endsWith('.mjs')) script.type = 'module'
           script.defer = true
-          script.src = `${extensionUrl}/user-scripts/${domain}/${scriptName}`
+          script.src = `${extensionUrl}/${userScriptsFolder}/${domain}/${scriptName}`
           script.dataset.source = 'Chrome Extension'
 
           document.head ? document.head.append(script) : document.documentElement.append(script)

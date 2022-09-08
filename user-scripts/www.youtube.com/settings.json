@@ -1,7 +1,7 @@
 {
   "scripts": [
     "scripts/main.mjs",
-    "scripts/video-poster.js",
+    "scripts/video-poster.mjs",
     "scripts/hide-video-ui.js",
     "scripts/video-control.mjs",
     "scripts/translate-search.mjs",
