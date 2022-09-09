@@ -1,4 +1,4 @@
-import { createElement, handleSelectorLifeCycle, LocalDB, requestFile, showPromptDialog, StringConversion, waitForSelector } from '../../@libs/utils-injection.js'
+import { createElement, handleSelectorLifeCycle, LocalDB, parseHTML, requestFile, showPromptDialog, StringConversion, waitForSelector } from '../../@libs/utils-injection.js'
 import * as discordUtils from './discord-utils.js'
 import { findUser, initChatBg } from './discord-utils.js'
 
@@ -16,9 +16,11 @@ async function init() {
 
       ctxM.items.clear()
 
-      const group = createElement('div', {attributes: {role: 'group'}, style: {paddingBottom: '0.3rem'}})
+      const separator = parseHTML(`<div role="separator" class="separator-1So4YB"></div>`).firstChild
+      menu.lastChild.before(separator)
 
-      menu.append(group)
+      const group = createElement('div', {attributes: {role: 'group'}})
+      menu.lastChild.before(group)
 
       ctxM.createContextMenuItem({
         id: 'change-chat-bg',
@@ -91,7 +93,7 @@ async function init() {
         })
       }
 
-      group.append(...ctxM.items)
+      group.append(...ctxM.items, menu.lastChild)
 
       menu.style.width = [...ctxM.items].map(c => c.offsetWidth).sort((a, b) => b - a)[0] + 20 + 'px'
       group.style.position = 'absolute'
