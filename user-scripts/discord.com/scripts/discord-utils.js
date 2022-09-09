@@ -1,4 +1,4 @@
-import { appendMetaViewport, createElement, LocalDB, requestFile } from '../../@libs/utils-injection.js'
+import { createElement, LocalDB, requestFile } from '../../@libs/utils-injection.js'
 
 
 function setChatBackgroundFromBlob(blob) {
@@ -58,53 +58,112 @@ export async function initChatBg() {
  * @property {function} action
  */
 
-/**
- * 
- * @param {ContextMenuOptions} options 
- */
-export function createContextMenuItem(options) {
-  const {id, name = 'No name given', icon = '', action} = options
 
-  const item = createElement('div', {
-    id,
 
-    classes: ['item-1OdjEX', 'labelContainer-2vJzYL', 'colorDefault-CDqZdO'],
+export class ContextMenuManager {
 
-    properties: {
-      role: 'menuitem',
-      tabindex: -1,
-      innerHTML: // html
-      `
-      <div class="label-2gNW3x">${name}</div>
-      <div class="iconContainer-1-SsTR">
-          ${icon}
-      </div>
-      `
-    },
+  static items = []
 
-    dataset: {
-      menuItem: true
-    }
-  })
+  /**
+   * 
+   * @param {ContextMenuOptions} options 
+   */
+  static createContextMenuItem(options) {
+    const {id, name = 'No name given', icon = '', action} = options
+  
+    const item = createElement('div', {
+      id,
+  
+      classes: ['item-1OdjEX', 'labelContainer-2vJzYL', 'colorDefault-CDqZdO'],
+  
+      properties: {
+        role: 'menuitem',
+        tabindex: -1,
+        innerHTML: // html
+        `
+        <div class="label-2gNW3x">${name}</div>
+        <div class="iconContainer-1-SsTR">
+            ${icon}
+        </div>
+        `
+      },
+  
+      dataset: {
+        menuItem: true
+      }
+    })
+  
+    item.addEventListener('click', event => {
+      item.closest(`#message[role="menu"] > *:first-child`).remove()
+  
+      action?.(item)
+    })
+  
+    item.addEventListener('mouseenter', event => {
+      item
+      .closest(`#message[role="menu"]`)
+      .querySelector('.focused-3qFvc8')
+      ?.classList.remove('focused-3qFvc8')
+  
+      item.classList.add('focused-3qFvc8')
+    })
+  
+    item.addEventListener('mouseleave', event => item.classList.remove('focused-3qFvc8'))
 
-  item.addEventListener('click', event => {
-    item.closest(`#message[role="menu"] > *:first-child`).remove()
+    this.items.push(item)
+  
+    return item
+  }
 
-    action?.(item)
-  })
+}
 
-  item.addEventListener('mouseenter', event => {
-    item
-    .closest(`#message[role="menu"]`)
-    .querySelector('.focused-3qFvc8')
-    ?.classList.remove('focused-3qFvc8')
 
-    item.classList.add('focused-3qFvc8')
-  })
+export async function getServerIcon() {
+  const serverImg = document.querySelector(`[data-list-id="guildsnav"] .listItem-3SmSlK .blobContainer-ikKyFs.selected-3c78Ai img`)
 
-  item.addEventListener('mouseleave', event => item.classList.remove('focused-3qFvc8'))
+  if (!serverImg) return null
 
-  return item
+  const serverImgURL = new URL(serverImg.src)
+  serverImgURL.searchParams.set('size', '2048')
+
+  if (!serverImgURL.pathname.endsWith('.gif')) {
+    const animatedIconURL = new URL(serverImgURL.href)
+
+    animatedIconURL.pathname = animatedIconURL.pathname.replace(/\.[a-z]*/i, '.gif')
+
+    await fetch(animatedIconURL.href)
+    .then(response => {
+      if (response.status !== 200) return
+
+      serverImgURL.href = animatedIconURL.href
+    })
+  }
+
+  return serverImgURL.href
+}
+
+export async function getServerBanner() {
+  const serverBanner = document.querySelector(`.sidebar-1tnWFu .bannerImage-ubW8K- img`)
+
+  if (!serverBanner) return null
+
+  const serverBannerURL = new URL(serverBanner.src)
+  serverBannerURL.searchParams.set('size', '600')
+
+  if (!serverBannerURL.pathname.endsWith('.gif')) {
+    const animatedIconURL = new URL(serverBannerURL.href)
+
+    animatedIconURL.pathname = animatedIconURL.pathname.replace(/\.[a-z]*/i, '.gif')
+
+    await fetch(animatedIconURL.href)
+    .then(response => {
+      if (response.status !== 200) return
+
+      serverBannerURL.href = animatedIconURL.href
+    })
+  }
+
+  return serverBannerURL.href
 }
 
 

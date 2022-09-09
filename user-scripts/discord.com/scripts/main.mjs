@@ -12,11 +12,13 @@ async function init() {
 
   handleSelectorLifeCycle(`#message[role="menu"] > *:first-child`, {
     onExist: menu => {
+      const ctxM = discordUtils.ContextMenuManager
+
       const group = createElement('div', {attributes: {role: 'group'}})
 
       menu.append(group)
 
-      const bgChatBtn = discordUtils.createContextMenuItem({
+      ctxM.createContextMenuItem({
         id: 'change-chat-bg',
         name: 'Change Chat Background',
         icon: // html
@@ -34,7 +36,7 @@ async function init() {
         }
       })
 
-      const bgOverlayChatBtn = discordUtils.createContextMenuItem({
+      ctxM.createContextMenuItem({
         id: 'change-chat-bg-overlay-color',
         name: 'Change Chat BG Overlay Color',
         icon: // html
@@ -55,7 +57,38 @@ async function init() {
         }
       })
 
-      group.append(bgChatBtn, bgOverlayChatBtn)
+      ctxM.createContextMenuItem({
+        id: 'get-server-icon',
+        name: 'Open server icon in a new tab',
+        icon: // html
+        `
+        `,
+        action: async item => {
+          const serverIconURL = await discordUtils.getServerIcon().catch(() => null)
+          if (!serverIconURL) return
+
+          window.open(serverIconURL)
+        }
+      })
+
+      ctxM.createContextMenuItem({
+        id: 'get-server-banner',
+        name: 'Open server banner in a new tab',
+        icon: // html
+        `
+        `,
+        action: async item => {
+          const serverBannerURL = await discordUtils.getServerBanner().catch(() => null)
+          if (!serverBannerURL) return
+
+          window.open(serverBannerURL)
+        }
+      })
+
+      group.append(...ctxM.items)
+
+      menu.style.width = ctxM.items.map(c => c.offsetWidth).sort((a, b) => b - a)[0] + 20 + 'px'
+      group.style.position = 'absolute'
     }
   })
 }
