@@ -59,33 +59,37 @@ async function init() {
         }
       })
 
-      ctxM.createContextMenuItem({
-        id: 'get-server-icon',
-        name: 'Open server icon in a new tab',
-        icon: // html
-        `
-        `,
-        action: async item => {
-          const serverIconURL = await discordUtils.getServerIcon().catch(() => null)
-          if (!serverIconURL) return
+      if (document.querySelector(`[data-list-id="guildsnav"] .listItem-3SmSlK .blobContainer-ikKyFs.selected-3c78Ai img`)) {
+        ctxM.createContextMenuItem({
+          id: 'get-server-icon',
+          name: 'Open server icon in a new tab',
+          icon: // html
+          `
+          `,
+          action: async item => {
+            const serverIconURL = await discordUtils.getServerIcon().catch(() => null)
+            if (!serverIconURL) return
+  
+            window.open(serverIconURL)
+          }
+        })
+      }
 
-          window.open(serverIconURL)
-        }
-      })
-
-      ctxM.createContextMenuItem({
-        id: 'get-server-banner',
-        name: 'Open server banner in a new tab',
-        icon: // html
-        `
-        `,
-        action: async item => {
-          const serverBannerURL = await discordUtils.getServerBanner().catch(() => null)
-          if (!serverBannerURL) return
-
-          window.open(serverBannerURL)
-        }
-      })
+      if (document.querySelector(`.sidebar-1tnWFu .bannerImage-ubW8K- img`)) {
+        ctxM.createContextMenuItem({
+          id: 'get-server-banner',
+          name: 'Open server banner in a new tab',
+          icon: // html
+          `
+          `,
+          action: async item => {
+            const serverBannerURL = await discordUtils.getServerBanner().catch(() => null)
+            if (!serverBannerURL) return
+  
+            window.open(serverBannerURL)
+          }
+        })
+      }
 
       group.append(...ctxM.items)
 
