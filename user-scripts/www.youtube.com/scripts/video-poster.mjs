@@ -1,13 +1,13 @@
-import { waitForSelector } from '../../@libs/utils-injection'
+import { waitForSelector } from '../../@libs/utils-injection.js'
 
-window.addEventListener('load', Executer)
-window.addEventListener('yt-navigate-start', Executer)
-window.addEventListener('yt-navigate-finish', Executer)
+window.addEventListener('load', init)
+window.addEventListener('yt-navigate-start', init)
+window.addEventListener('yt-navigate-finish', init)
 
 
-async function Executer(event) {
+async function init(event) {
 
-  if (event.type === 'load') window.removeEventListener('yt-navigate-finish', Executer)
+  if (event.type === 'load') window.removeEventListener('yt-navigate-finish', init)
 
   const thumbnails = ytInitialPlayerResponse?.videoDetails?.thumbnail?.thumbnails
 

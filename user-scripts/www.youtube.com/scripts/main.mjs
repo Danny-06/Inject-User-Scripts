@@ -61,12 +61,12 @@ try {
 
     // Eventos de navegación de Youtube para ejecutar el código
     // al cambiar de página (Youtube no recarga la página, la actualiza)
-    window.addEventListener('yt-navigate-start', () => Executer().catch(console.error));
-    window.addEventListener('yt-navigate-finish', () => Executer().catch(console.error));
+    window.addEventListener('yt-navigate-start', () => init().catch(console.error));
+    window.addEventListener('yt-navigate-finish', () => init().catch(console.error));
 
 
-    Executer()
-    async function Executer(event) {
+    init()
+    async function init(event) {
 
       if (location.pathname !== '/watch') {
         if (location.pathname === '/') {
@@ -95,7 +95,7 @@ try {
       })();
 
 
-      if (event && event.type === 'yt-navigate-finish') window.removeEventListener('load', () => Executer().catch(console.error));
+      if (event && event.type === 'yt-navigate-finish') window.removeEventListener('load', () => init().catch(console.error));
 
       /**
        * @type {HTMLVideoElement}
@@ -152,7 +152,7 @@ try {
       addVideoContextMenuItem(ctxMenu.copyVideoURLEmbedNoCookie)
 
 
-    } // End Executer()
+    } // End init()
 
   })() // End IIFE
 
