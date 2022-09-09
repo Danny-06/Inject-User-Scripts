@@ -118,6 +118,8 @@ try {
       const panels = await waitForSelector('ytd-watch-flexy #panels')  
 
 
+      // Context Menu Options
+
       addVideoContextMenuItem(ctxMenu.captureScreenshot)
 
       addVideoContextMenuItem(ctxMenu.flipVideoHorizontally)
