@@ -64,6 +64,8 @@ export async function initCustomContextMenuItems() {
   })
 
   contextMenuPopup.prepend(groupItems)
+
+  await delay(0)
 }
 
 /**
