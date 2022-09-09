@@ -14,6 +14,8 @@ async function init() {
     onExist: menu => {
       const ctxM = discordUtils.ContextMenuManager
 
+      ctxM.items.clear()
+
       const group = createElement('div', {attributes: {role: 'group'}})
 
       menu.append(group)
@@ -87,7 +89,7 @@ async function init() {
 
       group.append(...ctxM.items)
 
-      menu.style.width = ctxM.items.map(c => c.offsetWidth).sort((a, b) => b - a)[0] + 20 + 'px'
+      menu.style.width = [...ctxM.items].map(c => c.offsetWidth).sort((a, b) => b - a)[0] + 20 + 'px'
       group.style.position = 'absolute'
     }
   })

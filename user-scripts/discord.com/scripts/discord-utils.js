@@ -62,7 +62,7 @@ export async function initChatBg() {
 
 export class ContextMenuManager {
 
-  static items = []
+  static items = new Set()
 
   /**
    * 
@@ -110,7 +110,7 @@ export class ContextMenuManager {
   
     item.addEventListener('mouseleave', event => item.classList.remove('focused-3qFvc8'))
 
-    this.items.push(item)
+    this.items.add(item)
   
     return item
   }
