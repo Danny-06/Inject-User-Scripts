@@ -94,6 +94,8 @@ let promiseDelay
 window.addEventListener('mouseover', async event => {
   promiseDelay?.reject('')
 
+  if (!document.hasFocus()) return
+
   /**
    * @type {HTMLImageElement}
    */
