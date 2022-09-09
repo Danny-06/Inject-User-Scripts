@@ -16,7 +16,7 @@ async function init() {
 
       ctxM.items.clear()
 
-      const group = createElement('div', {attributes: {role: 'group'}})
+      const group = createElement('div', {attributes: {role: 'group'}, style: {paddingBottom: '0.3rem'}})
 
       menu.append(group)
 
