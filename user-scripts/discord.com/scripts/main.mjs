@@ -17,7 +17,7 @@ async function init() {
 
       ctxM.items.clear()
 
-      const separator = parseHTML(`<div role="separator" class="separator-1So4YB"></div>`).firstChild
+      const separator = parseHTML(`<div role="separator" class="separator-1So4YB"></div>`)
       menu.lastChild.before(separator)
 
       const group = createElement('div', {attributes: {role: 'group'}})
@@ -41,7 +41,7 @@ async function init() {
 
       group.append(...ctxM.items, menu.lastChild)
 
-      menu.style.width = [...ctxM.items].map(c => c.offsetWidth).sort((a, b) => b - a)[0] + 20 + 'px'
+      menu.style.width = [...menu.children].map(c => c.offsetWidth).sort((a, b) => b - a)[0] + 20 + 'px'
       group.style.position = 'absolute'
     }
   })
