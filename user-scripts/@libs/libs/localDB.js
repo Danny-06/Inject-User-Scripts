@@ -4,7 +4,13 @@ export class LocalDB {
 
   static #privateSymbolToCreateInstance = Symbol('createInstance')
 
+  /**
+   * @type {IDBDatabase}
+   */
   database
+  /**
+   * @type {IDBOpenDBRequest}
+   */
   request
 
   #isDeleted = false
