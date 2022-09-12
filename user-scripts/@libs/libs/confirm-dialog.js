@@ -13,6 +13,10 @@ export function showConfirmDialog(message) {
   <div class="dialog-menu-overlay">
       <template shadowroot="open">
           <style>
+            :host {
+              all: revert;
+            }
+
             *,
             *::before,
             *::after {
