@@ -24,10 +24,18 @@ export async function initCustomContextMenuItems() {
       }
 
       .options-content.ytp-panel-menu {
+        display: block;
+        height: 296px;
+        overflow: auto;
+
         visibility: hidden;
         position: absolute;
         left: 10%;
-        background: #111;
+        background-color: #111;
+      }
+
+      :fullscreen .options-content.ytp-panel-menu {
+        height: 356px;
       }
 
       #group-custom-options > .ytp-menuitem-content {

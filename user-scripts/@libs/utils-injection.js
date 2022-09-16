@@ -13,12 +13,13 @@ import { showPromptDialog } from './libs/prompt-dialog.js'
 import { LocalDB } from './libs/localDB.js'
 import { classMaker } from './libs/class-maker.js'
 import { showPopup } from './libs/show-popup.js'
+import { asyncObjectWrapper } from './libs/proxy-libs.js'
 
 
 export {
   MouseInfo, ScrollBox, StringConversion, StringImageConversion, StorageHandler,
   ArrayN, ZipManager, showAlertDialog, showConfirmDialog, showPromptDialog, LocalDB,
-  classMaker, showPopup
+  classMaker, showPopup, asyncObjectWrapper
 }
 
 /**

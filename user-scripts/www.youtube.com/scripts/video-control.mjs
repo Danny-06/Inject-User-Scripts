@@ -61,10 +61,10 @@ async function Executer() {
   const player = await waitForSelector('#ytd-player')
 
   videoOverlay.addEventListener('keydown', event => event.preventDefault())
-  player.addEventListener('wheel', event => {
-    if (event.target.closest('.ytp-popup.ytp-settings-menu')) return
-    event.preventDefault()
-  })
+  // player.addEventListener('wheel', event => {
+  //   if (event.target.closest('.ytp-popup.ytp-settings-menu')) return
+  //   event.preventDefault()
+  // })
 
   player.addEventListener('mousedown', event => {
     if (event.button !== 1) return

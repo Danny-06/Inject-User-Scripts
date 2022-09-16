@@ -1745,15 +1745,19 @@ ytcp-settings-studio-default .ytcp-settings-studio-default,
   width: 10px;
   height: 10px;
   background: #171717;
-  border: solid #292929 1px
+  border: solid #292929 1px;
 }
 
+:not(#guide-inner-content)::-webkit-scrollbar-track {
+  background-color: transparent;
+}
 
 :not(#guide-inner-content)::-webkit-scrollbar-thumb,
 
 :not(#guide-inner-content)::-webkit-scrollbar-corner {
-  background: #444;
+  background-color: #444;
   box-shadow: inset #fff4 0 0 3px 0;
+  border-radius: 0;
 }
 
 #top-row paper-button yt-formatted-string#text,
