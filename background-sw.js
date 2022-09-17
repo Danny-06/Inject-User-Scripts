@@ -131,7 +131,9 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
       }
 
       const dynaminRules = await chrome.declarativeNetRequest.getDynamicRules()
-      const id = Math.max(...dynaminRules.map(rule => rule.id)) + 1
+      let id = Math.max(...dynaminRules.map(rule => rule.id)) + 1
+
+      if (!isFinite(id)) id = 1
 
       await chrome.declarativeNetRequest.updateDynamicRules({addRules: [{...rule, id}]})
 

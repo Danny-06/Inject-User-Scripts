@@ -27,6 +27,7 @@ export async function initCustomContextMenuItems() {
         display: block;
         height: 296px;
         overflow: auto;
+        overscroll-behavior: contain;
 
         visibility: hidden;
         position: absolute;
