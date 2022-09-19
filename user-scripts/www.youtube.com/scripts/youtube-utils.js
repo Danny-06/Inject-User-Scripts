@@ -1,139 +1,161 @@
 import { waitForSelector, delay, showPopup, generateOverlayIframe, promiseWrapper, createElement, promisefyEvent, parseXML } from "../../@libs/utils-injection.js"
 
 
-export async function initCustomContextMenuItems() {
-  const contextMenuPopup = await waitForSelector('.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu')
+export class ContextMenuManager {
 
-  const style = createElement('style', {
-    id: 'context-menu-styles',
-    properties: {
-      innerHTML: // css
-      `
-      .ytp-popup.ytp-contextmenu,
-      .ytp-panel-menu,
-      .ytp-panel {
-        overflow: visible;
+  static items = new Set()
+
+  /**
+   * 
+   * @returns {Promise<HTMLDivElement>} Container for the custom ContextMenu items
+   */
+  static async initCustomContextMenuItems() {
+    const contextMenuPopup = await waitForSelector('.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu')
+
+    const style = createElement('style', {
+      id: 'context-menu-styles',
+      properties: {
+        innerHTML: // css
+        `
+        .ytp-popup.ytp-contextmenu,
+        .ytp-panel-menu,
+        .ytp-panel {
+          overflow: visible;
+        }
+
+        textarea.ytp-html5-clipboard {
+          transform: scale(0);
+        }
+
+        .ytp-menuitem.group-items:hover > .options-content.ytp-panel-menu {
+          visibility: visible;
+        }
+
+        .options-content.ytp-panel-menu {
+          display: block;
+          height: 296px;
+          overflow: auto;
+          overscroll-behavior: contain;
+
+          visibility: hidden;
+          position: absolute;
+          left: 10%;
+          background-color: #111;
+        }
+
+        :fullscreen .options-content.ytp-panel-menu {
+          height: 356px;
+        }
+
+        #group-custom-options > .ytp-menuitem-content {
+          font-size: 2.5rem;
+        }
+
+        .ytp-popup.ytp-contextmenu .ytp-menuitem-toggle-checkbox {
+          position: static;
+          transform: none;
+        }
+        `
       }
+    })
 
-      textarea.ytp-html5-clipboard {
-        transform: scale(0);
-      }
-
-      .ytp-menuitem.group-items:hover > .options-content.ytp-panel-menu {
-        visibility: visible;
-      }
-
-      .options-content.ytp-panel-menu {
-        display: block;
-        height: 296px;
-        overflow: auto;
-        overscroll-behavior: contain;
-
-        visibility: hidden;
-        position: absolute;
-        left: 10%;
-        background-color: #111;
-      }
-
-      :fullscreen .options-content.ytp-panel-menu {
-        height: 356px;
-      }
-
-      #group-custom-options > .ytp-menuitem-content {
-        font-size: 2.5rem;
-      }
-
-      .ytp-popup.ytp-contextmenu .ytp-menuitem-toggle-checkbox {
-        position: static;
-        transform: none;
-      }
-      `
+    if (!document.querySelector('#context-menu-styles')) {
+      document.body.append(style)
     }
-  })
 
-  document.body.append(style)
-
-  const groupItems = createElement('div', {
-    id: 'group-custom-options',
-    classes: ['ytp-menuitem', 'group-items'],
-    dataset: {source: 'Chrome Extension'},
-    properties: {
-      innerHTML: // html
-      `
-      <div class="ytp-menuitem-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 32.055 32.055" style="pointer-events: auto;" xml:space="preserve">
-              <path fill="currentColor" d="M3.968,12.061C1.775,12.061,0,13.835,0,16.027c0,2.192,1.773,3.967,3.968,3.967c2.189,0,3.966-1.772,3.966-3.967   C7.934,13.835,6.157,12.061,3.968,12.061z M16.233,12.061c-2.188,0-3.968,1.773-3.968,3.965c0,2.192,1.778,3.967,3.968,3.967   s3.97-1.772,3.97-3.967C20.201,13.835,18.423,12.061,16.233,12.061z M28.09,12.061c-2.192,0-3.969,1.774-3.969,3.967   c0,2.19,1.774,3.965,3.969,3.965c2.188,0,3.965-1.772,3.965-3.965S30.278,12.061,28.09,12.061z"></path>
-          </svg>
-      </div>
-      <div class="ytp-menuitem-label">Opciones Extras</div>
-      <div class="ytp-menuitem-content">&gt;</div>
-      <div class="options-content ytp-panel-menu"></div>
-      `
-    }
-  })
-
-  contextMenuPopup.prepend(groupItems)
-
-  await delay(0)
-}
-
-/**
- * @typedef VideoContextMenuOptions
- * @property {string} id
- * @property {string} name
- * @property {function} action
- * @property {string} icon
- */
-
-/**
- * @param {VideoContextMenuOptions} options
- */
-export async function addVideoContextMenuItem(options) {
-  if (document.querySelector(`body .ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu > #group-custom-options > .options-content > [data-id="${options.id}"]`)) return
-
-  const {name = 'No Name Defined', action, icon = '', id} = options
-
-  const contextMenuPopup = document.querySelector('body .ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu > #group-custom-options > .options-content')
-
-  const itemMenu = createElement('div', {
-    classes: ['ytp-menuitem'],
-    dataset: {source: 'Chrome Extension', id},
-    properties: {
-      role: 'menuitem',
-      tabindex: 0,
-      innerHTML: // html
-      `
+    const groupItems = createElement('div', {
+      id: 'group-custom-options',
+      classes: ['ytp-menuitem', 'group-items'],
+      dataset: {source: 'Chrome Extension'},
+      properties: {
+        innerHTML: // html
+        `
         <div class="ytp-menuitem-icon">
-          ${icon}
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 32.055 32.055" style="pointer-events: auto;" xml:space="preserve">
+                <path fill="currentColor" d="M3.968,12.061C1.775,12.061,0,13.835,0,16.027c0,2.192,1.773,3.967,3.968,3.967c2.189,0,3.966-1.772,3.966-3.967   C7.934,13.835,6.157,12.061,3.968,12.061z M16.233,12.061c-2.188,0-3.968,1.773-3.968,3.965c0,2.192,1.778,3.967,3.968,3.967   s3.97-1.772,3.97-3.967C20.201,13.835,18.423,12.061,16.233,12.061z M28.09,12.061c-2.192,0-3.969,1.774-3.969,3.967   c0,2.19,1.774,3.965,3.969,3.965c2.188,0,3.965-1.772,3.965-3.965S30.278,12.061,28.09,12.061z"></path>
+            </svg>
         </div>
-        <div class="ytp-menuitem-label">${name}</div>
-        <div class="ytp-menuitem-content"></div>
-      `
-    }
-  })
+        <div class="ytp-menuitem-label">Opciones Extras</div>
+        <div class="ytp-menuitem-content">&gt;</div>
+        <div class="options-content ytp-panel-menu"></div>
+        `
+      }
+    })
 
-  itemMenu.addEventListener('click', event => {
-    const ytContextMenu = itemMenu.closest('.ytp-popup.ytp-contextmenu')
-    if (ytContextMenu) ytContextMenu.style.display = 'none'
+    contextMenuPopup.prepend(groupItems)
 
-    document.documentElement.click()
+    await delay(0)
 
-    action?.(itemMenu)
-  })
+    return groupItems.querySelector(':scope > .options-content')
+  }
 
-  contextMenuPopup.append(itemMenu)
-}
+  /**
+   * @typedef VideoContextMenuOptions
+   * @property {string} id
+   * @property {string} name
+   * @property {function} action
+   * @property {string} icon
+   */
 
-export async function removeContextMenuItems() {
-  const contextMenuPopup = await waitForSelector('.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu')
+  /**
+   * @param {VideoContextMenuOptions} options
+   */
+  static addVideoContextMenuItem(options) {
+    if (options == null) return
 
-  contextMenuPopup.querySelector(`#group-custom-options`)?.remove()
+    const {name = 'No Name Defined', action, icon = '', id} = options
+
+    const itemMenu = createElement('div', {
+      classes: ['ytp-menuitem'],
+      dataset: {source: 'Chrome Extension', id},
+      properties: {
+        role: 'menuitem',
+        tabindex: 0,
+        innerHTML: // html
+        `
+          <div class="ytp-menuitem-icon">
+            ${icon}
+          </div>
+          <div class="ytp-menuitem-label">${name}</div>
+          <div class="ytp-menuitem-content"></div>
+        `
+      }
+    })
+
+    itemMenu.addEventListener('click', event => {
+      const ytContextMenu = itemMenu.closest('.ytp-popup.ytp-contextmenu')
+      if (ytContextMenu) ytContextMenu.style.display = 'none'
+
+      document.documentElement.click()
+
+      action?.(itemMenu)
+    })
+
+    this.items.add(itemMenu)
+  }
+
+  /**
+   * 
+   * @param {VideoContextMenuOptions[]} optionsCollection 
+   */
+  static addVideoContextMenuItems(optionsCollection) {
+    optionsCollection.forEach(option => this.addVideoContextMenuItem(option))
+  }
+
+  static async removeContextMenuItems() {
+    const contextMenuPopup = await waitForSelector('.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu')
+
+    contextMenuPopup.querySelector(`#group-custom-options`)?.remove()
+
+    this.items.clear()
+  }
+
 }
 
 
 /**
  * Función que selecciona la calidad 1080p (o le que haya disponible más alta si esta no estuviera)
- * @param {HTMLVideoElement} video 
+ * @param {HTMLVideoElement} video
  */
 export async function calidad1080pAutomatica(video) {
 
@@ -196,7 +218,7 @@ export async function calidad1080pAutomatica(video) {
 
 /**
  * @typedef PlaylistMetadaOptions
- * @property {boolean} getCurrentData If set to `true` the function will return the available data instead of throwing an error 
+ * @property {boolean} getCurrentData If set to `true` the function will return the available data instead of throwing an error
  */
 
 /**
@@ -205,11 +227,11 @@ export async function calidad1080pAutomatica(video) {
  * @param {PlaylistMetadaOptions} options
  */
 export function getCurrentPlaylistMetadata(options = {}) {
-  const {getCurrentData = false} = options
+  const {getCurrentData = false, doc = document} = options
 
-  const playlistSidebar = document.querySelector('ytd-playlist-sidebar-renderer')
-  const playlistContainer = document.querySelector('ytd-playlist-video-list-renderer')
-  const ytdBrowse = document.querySelector('ytd-browse')
+  const playlistSidebar = doc.querySelector('ytd-playlist-sidebar-renderer')
+  const playlistContainer = doc.querySelector('ytd-playlist-video-list-renderer')
+  const ytdBrowse = doc.querySelector('ytd-browse')
 
   const {data: data1} = playlistSidebar
   const {data: data2} = playlistContainer
@@ -289,26 +311,31 @@ export function getCurrentPlaylistMetadata(options = {}) {
       id:   videoData.shortBylineText?.runs[0].navigationEndpoint.browseEndpoint.browseId ?? null
     }
 
-    videos.push({title, url, videoId, length, thumbnails, owner})
+    videos.push({title, url, id: videoId, length, thumbnails, owner})
   }
 
   return playlist
 }
 
 
+/**
+ *
+ * @param {string} authorization
+ * @returns
+ */
 export function cloneCurrentPlaylist(authorization) {
   const playlistData = getCurrentPlaylistMetadata()
 
   return createPlaylist({
     authorization: authorization,
     title: playlistData.title,
-    videoIds: playlistData.videos.map(v => v.videoId)
+    videoIds: playlistData.videos.map(v => v.id)
   })
 }
 
 /**
- * 
- * @param {{authorization: string, videoIds: string[]}} options 
+ *
+ * @param {{authorization: string, videoIds: string[]}} options
  */
 export async function appendVideosToCurrentPlaylist(options) {
   const {authorization, videoIds} = options
@@ -338,7 +365,98 @@ export async function appendVideosToCurrentPlaylist(options) {
 }
 
 /**
- * @typedef EditPlaylistOptios
+ *
+ * @param {string} src
+ * @returns {Promise<HTMLIFrameElement>}
+ */
+function createAndAppendIframe(src) {
+  return new Promise((resolve, reject) => {
+    const iframe = document.createElement('iframe')
+    iframe.src = src
+    iframe.style.width = '100vw'
+    iframe.style.height = '100vh'
+    iframe.style.visibility = 'hidden'
+    iframe.style.position = 'fixed'
+
+    document.body.append(iframe)
+
+    iframe.addEventListener('load', event => {
+      resolve(iframe)
+    })
+  })
+}
+
+export async function getPlaylistMetadata(options = null) {
+  if (options == null) {
+    options = {}
+
+    if (options.playlistId == null) {
+      options = {
+        get playlistId() {
+          throw new Error(`A 'playlistId' must be specified`)
+        }
+      }
+    }
+  }
+
+  const {playlistId} = options
+
+  const iframe = await createAndAppendIframe(`https://www.youtube.com/playlist?list=${playlistId}`)
+  await delay(2000)
+
+
+  const win = iframe.contentWindow
+  const doc = iframe.contentDocument
+
+  const dropdown = doc.querySelector('#button.dropdown-trigger > button')
+  dropdown.click()
+
+  await delay(0)
+
+  const showHiddenVideosBtn = doc.querySelector(
+    `ytd-popup-container.ytd-app .ytd-menu-popup-renderer ytd-menu-navigation-item-renderer a[href="/playlist?list=${playlistId}"]`
+  )
+  showHiddenVideosBtn?.click()
+
+  await delay(0)
+
+  // const playlistSidebar = doc.querySelector('ytd-playlist-sidebar-renderer')
+  const playlistContainer = doc.querySelector('ytd-playlist-video-list-renderer')
+  const contents = playlistContainer.querySelector('#contents')
+
+  // const playlistLength = parseInt(playlistSidebar.data.items[0].playlistSidebarPrimaryInfoRenderer.stats[0].runs[0].text)
+
+  const listIsFinished = () => !contents.querySelector('ytd-playlist-video-list-renderer ytd-continuation-item-renderer')
+  const html = doc.documentElement
+
+  while (!listIsFinished()) {
+    html.scrollTop = html.scrollHeight
+
+    await delay(1000)
+
+    console.log(listIsFinished())
+  }
+
+  const data = getCurrentPlaylistMetadata({doc: doc})
+
+  iframe.remove()
+
+  return data
+}
+
+export async function clonePlaylist(options) {
+  const {authorization, playlistId} = options
+
+  const data = await getPlaylistMetadata({playlistId})
+  const videoIds = data.videos.map(v => v.id)
+
+  return createPlaylist({authorization, videoIds})
+}
+
+
+
+/**
+ * @typedef EditPlaylistOptions
  * @property {string} authorization The `authorization` value can be got using devtools network tab where you can see the `authorization` value from Request Headers after making a request like making click on the `add to playlist option` or adding or removing a video from a playlist
  * @property {string} videoId
  * @property {string} playlistId
@@ -346,9 +464,9 @@ export async function appendVideosToCurrentPlaylist(options) {
  */
 
 /**
- * 
- * @param {EditPlaylistOptios} options 
- * @returns 
+ *
+ * @param {EditPlaylistOptions} options
+ * @returns
  */
 export function editPlaylist(options) {
   const {authorization, videoId, playlistId, method = 'ADD'} = options
@@ -420,6 +538,18 @@ export function editPlaylist(options) {
 
 }
 
+/**
+ * @typedef CreatePlaylistOptions
+ * @property {string} authorization
+ * @property {string} title
+ * @property {string[]} videoIds
+ */
+
+/**
+ *
+ * @param {CreatePlaylistOptions} options
+ * @returns
+ */
 export async function createPlaylist(options) {
   const date  = new Date()
   const day   = date.getDate() + 1
@@ -568,7 +698,7 @@ export function simpleChapterFormatToXML(data, lang = 'eng') {
   const rows = data.split('\n')
 
   let chaptersXML = ''
-  
+
 
   for (let i = 0; i < rows.length - 1; i += 2) {
     const name = stringToValidInnerHTML(rows[i + 1].split('=')[1])
@@ -627,7 +757,7 @@ export function xmlToSimpleChapterFormat(data) {
 
 
 /**
- * Currently there are some random playlists that for no reason always miss 1 or 2 videos after cloning 
+ * Currently there are some random playlists that for no reason always miss 1 or 2 videos after cloning
  */
 // export async function cloneCurrentPlaylist() {
 //   const playlistSidebar = document.querySelector('ytd-playlist-sidebar-renderer')

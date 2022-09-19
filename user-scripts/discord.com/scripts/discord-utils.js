@@ -1,4 +1,4 @@
-import { createElement, LocalDB, requestFile } from '../../@libs/utils-injection.js'
+import { createElement, LocalDB, requestFile, StringConversion } from '../../@libs/utils-injection.js'
 
 
 function setChatBackgroundFromBlob(blob) {
@@ -65,17 +65,19 @@ export class ContextMenuManager {
   static items = new Set()
 
   /**
-   * 
-   * @param {ContextMenuOptions} options 
+   *
+   * @param {ContextMenuOptions} options
    */
   static createContextMenuItem(options) {
+    if (options == null) return null
+
     const {id, name = 'No name given', icon = '', action} = options
-  
+
     const item = createElement('div', {
       id,
-  
+
       classes: ['item-1OdjEX', 'labelContainer-2vJzYL', 'colorDefault-CDqZdO'],
-  
+
       properties: {
         role: 'menuitem',
         tabindex: -1,
@@ -87,32 +89,40 @@ export class ContextMenuManager {
         </div>
         `
       },
-  
+
       dataset: {
         menuItem: true
       }
     })
-  
+
     item.addEventListener('click', event => {
       item.closest(`#message[role="menu"] > *:first-child`).remove()
-  
+
       action?.(item)
     })
-  
+
     item.addEventListener('mouseenter', event => {
       item
       .closest(`#message[role="menu"]`)
       .querySelector('.focused-3qFvc8')
       ?.classList.remove('focused-3qFvc8')
-  
+
       item.classList.add('focused-3qFvc8')
     })
-  
+
     item.addEventListener('mouseleave', event => item.classList.remove('focused-3qFvc8'))
 
     this.items.add(item)
-  
+
     return item
+  }
+
+  /**
+   *
+   * @param {ContextMenuOptions[]} optionsCollection
+   */
+  static createContextMenuItems(optionsCollection) {
+    return optionsCollection.map(option => this.createContextMenuItem(option))
   }
 
 }
@@ -192,7 +202,7 @@ export function findUser(userID) {
 
     // Si la ID de usuario no coincide
     if (!isUser) continue
-  
+
 
     // Introducir el mensaje detectado del usuario en el array
     userMessagesArray.push(messageUser);
@@ -222,4 +232,25 @@ export function findUser(userID) {
 
   // Devolver array
   return userMessagesArray;
+}
+
+
+// Validador de Base64
+const base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/
+
+/**
+ *
+ * @param {HTMLDivElement} message
+ * @returns
+ */
+export function decodeBase64Message(message) {
+  const messageNode = message?.childNodes[0]
+
+  if (!messageNode?.nodeValue) return
+
+  if (!messageNode.nodeValue.startsWith('#|') || !messageNode.nodeValue.endsWith('|#'))
+  if (!base64regex.test(messageNode.nodeValue.slice(2, -2))) return
+
+  messageNode.nodeValue = StringConversion.base64ToString(messageNode.nodeValue.slice(2,-2))
+  message.style.background = '#222c'
 }

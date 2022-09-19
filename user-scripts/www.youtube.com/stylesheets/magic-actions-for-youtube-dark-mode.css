@@ -437,7 +437,7 @@ html ytd-app #content-text.ytd-comment-renderer a,html ytd-app #link-list-contai
   color: hsl(215,29%,54%)!important
 }
 
-html .sbsb_a,html .sbsb_b,html .sbfl_b,html .badge-style-type-live-now.ytd-badge-supported-renderer,html paper-listbox,html ytd-comment-moderation-panel-renderer,html a.ytd-search-refinement-card-renderer,html .badge-style-type-simple.ytd-badge-supported-renderer,html ytd-app yt-alert-with-actions-renderer,html ytd-app ytd-multi-page-menu-renderer[background-color-update],html ytd-app ytd-alert-with-button-renderer[type="INFO"],html ytd-app ytd-alert-with-button-renderer[type="SUCCESS"],html ytd-app ytd-browse[background-color-update][page-subtype="playlist"] ytd-two-column-browse-results-renderer.ytd-browse,html .header.ytd-playlist-panel-renderer,html .playlist-items.ytd-playlist-panel-renderer {
+html .sbsb_a, html .sbsb_b, html .sbdd_b, html .sbfl_b, html .badge-style-type-live-now.ytd-badge-supported-renderer, html paper-listbox, html ytd-comment-moderation-panel-renderer, html a.ytd-search-refinement-card-renderer, html .badge-style-type-simple.ytd-badge-supported-renderer, html ytd-app yt-alert-with-actions-renderer, html ytd-app ytd-multi-page-menu-renderer[background-color-update], html ytd-app ytd-alert-with-button-renderer[type="INFO"], html ytd-app ytd-alert-with-button-renderer[type="SUCCESS"], html ytd-app ytd-browse[background-color-update][page-subtype="playlist"] ytd-two-column-browse-results-renderer.ytd-browse, html .header.ytd-playlist-panel-renderer, html .playlist-items.ytd-playlist-panel-renderer {
   background: hsl(0,0%,10%)!important
 }
 

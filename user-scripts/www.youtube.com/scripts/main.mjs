@@ -1,10 +1,20 @@
-import { handleSelectorLifeCycle, waitForSelector, delay, createElement, cloneScript, cssInlinePropertiesProxyWrapper, downloadFile, showPopup } from '../../@libs/utils-injection.js'
-import { addVideoContextMenuItem, calidad1080pAutomatica, removeContextMenuItems, initCustomContextMenuItems } from './youtube-utils.js'
+import { handleSelectorLifeCycle, waitForSelector, delay } from '../../@libs/utils-injection.js'
+import { calidad1080pAutomatica, ContextMenuManager as ctxM } from './youtube-utils.js'
 import * as youtubeUtils from './youtube-utils.js'
 import * as ctxMenu  from './resource-data/context-menu-options.js'
 
 
 window.youtubeUtils = youtubeUtils
+
+
+const query = selector => document.querySelector(selector)
+const getValueIfSelectorMatch = (selector, value) => {
+  if (query(selector)) {
+    return value
+  } else {
+    return Array.isArray(value) ? [] : null
+  }
+}
 
 try {
 
@@ -111,46 +121,40 @@ try {
 
       // Context Menu
 
-      await removeContextMenuItems()
+      await ctxM.removeContextMenuItems()
 
-      await initCustomContextMenuItems()
+      const ctxMContainer = await ctxM.initCustomContextMenuItems()
 
       const panels = await waitForSelector('ytd-watch-flexy #panels')  
 
+      ctxM.addVideoContextMenuItems([
+        ctxMenu.captureScreenshot,
+        ctxMenu.flipVideoHorizontally,
 
-      // Context Menu Options
+        getValueIfSelectorMatch(
+          `[target-id="engagement-panel-comments-section"]`,
+          ctxMenu.showCommentsPanel
+        ),
+        getValueIfSelectorMatch(
+          `[target-id="engagement-panel-structured-description"]`,
+          ctxMenu.showDescriptionPanel
+        ),
+        ...getValueIfSelectorMatch(
+          `[target-id="engagement-panel-macro-markers-description-chapters"]`,
+          [ctxMenu.showChaptersPanel, ctxMenu.downloadChaptersAsXML]
+        ),
+        getValueIfSelectorMatch(
+          `[target-id="engagement-panel-searchable-transcript"]`,
+          ctxMenu.showTranscriptionPanel
+        ),
 
-      addVideoContextMenuItem(ctxMenu.captureScreenshot)
+        ctxMenu.copyVideoURL,
+        ctxMenu.copyVideoURLTime,
+        ctxMenu.copyVideoURLEmbed,
+        ctxMenu.copyVideoURLEmbedNoCookie
+      ])
 
-      addVideoContextMenuItem(ctxMenu.flipVideoHorizontally)
-
-
-      if (document.querySelector(`[target-id="engagement-panel-comments-section"]`)) {
-        addVideoContextMenuItem(ctxMenu.showCommentsPanel)
-      }
-
-      if (document.querySelector(`[target-id="engagement-panel-structured-description"]`)) {
-        addVideoContextMenuItem(ctxMenu.showDescriptionPanel)
-      }
-
-      if (panels.querySelector(`[target-id="engagement-panel-macro-markers-description-chapters"]`)) {
-        addVideoContextMenuItem(ctxMenu.showChaptersPanel)
-
-        addVideoContextMenuItem(ctxMenu.downloadChaptersAsXML)
-      }
-
-      if (panels.querySelector(`[target-id="engagement-panel-searchable-transcript"]`)) {
-        addVideoContextMenuItem(ctxMenu.showTranscriptionPanel)
-      }
-
-      addVideoContextMenuItem(ctxMenu.copyVideoURL)
-
-      addVideoContextMenuItem(ctxMenu.copyVideoURLTime)
-
-      addVideoContextMenuItem(ctxMenu.copyVideoURLEmbed)
-
-      addVideoContextMenuItem(ctxMenu.copyVideoURLEmbedNoCookie)
-
+      ctxMContainer.append(...ctxM.items)
 
     } // End init()
 

@@ -1,10 +1,18 @@
-import { createElement, handleSelectorLifeCycle, parseHTML, showPromptDialog, StringConversion } from '../../@libs/utils-injection.js'
+import { createElement, handleSelectorLifeCycle, parseHTML } from '../../@libs/utils-injection.js'
 import * as discordUtils from './discord-utils.js'
 import { findUser, initChatBg } from './discord-utils.js'
 import * as ctxMenu from './resource-data/context-menu-options.js'
 
 window.discordUtils = discordUtils
 
+const query = selector => document.querySelector(selector)
+const getValueIfSelectorMatch = (selector, value) => {
+  if (query(selector)) {
+    return value
+  } else {
+    return Array.isArray(value) ? [] : null
+  }
+}
 
 
 init()
@@ -26,18 +34,20 @@ async function init() {
 
       // Context Menu Options
 
-      ctxM.createContextMenuItem(ctxMenu.changeChatBackground)
+      ctxM.createContextMenuItems([
+        ctxMenu.changeChatBackground,
+        ctxMenu.changeChatBgOverlayColor,
 
-      ctxM.createContextMenuItem(ctxMenu.changeChatBgOverlayColor)
+        getValueIfSelectorMatch(
+          `[data-list-id="guildsnav"] .listItem-3SmSlK .blobContainer-ikKyFs.selected-3c78Ai img`,
+          ctxMenu.getServerIcon
+        ),
 
-      if (document.querySelector(`[data-list-id="guildsnav"] .listItem-3SmSlK .blobContainer-ikKyFs.selected-3c78Ai img`)) {
-        ctxM.createContextMenuItem(ctxMenu.getServerIcon)
-      }
-
-      if (document.querySelector(`.sidebar-1tnWFu .bannerImage-ubW8K- img`)) {
-        ctxM.createContextMenuItem(ctxMenu.getServerBanner)
-      }
-
+        getValueIfSelectorMatch(
+          `.sidebar-1tnWFu .bannerImage-ubW8K- img`,
+          ctxMenu.getServerBanner
+        )
+      ])
 
       group.append(...ctxM.items, menu.lastChild)
 
@@ -60,39 +70,32 @@ requestAnimationFrame(function selectUser() {
   requestAnimationFrame(selectUser)
 
   // Difunar los mensajes del usuario seleccionado
-  for (const u of findUser(david)) {
-    if (u.matches('[class*="repliedMessage"]')) continue
+  findUser(david).forEach(e => {
+    if (e.matches('[class*="repliedMessage"]')) return
 
-    u.style.filter = "blur(10px)";
-    u.style.pointerEvents = "none";
-  }
+    e.style.filter = "blur(10px)";
+    e.style.pointerEvents = "none";
+  })
 
-  for (const u of findUser(Inklingboi)) {
-    if (u.matches('[class*="repliedMessage"]')) continue
+  findUser(Inklingboi).forEach(e => {
+    if (e.matches('[class*="repliedMessage"]')) return
 
-    if (u.className.includes('mentioned') ) {
-      u.style.background = "#07f7";
+    if (e.className.includes('mentioned') ) {
+      e.style.background = "#07f7";
     } else {
-      u.style.background = "#07f4";
+      e.style.background = "#07f4";
     }
-  }
+  })
 
-  for (const u of findUser(Angelo)) {
-    if (u.matches('[class*="repliedMessage"]')) continue
+  findUser(Angelo).forEach(e => {
+    if (e.matches('[class*="repliedMessage"]')) return
 
-    if (u.className.includes('mentioned') ) {
-      u.style.background = "#561ea077";
+    if (e.className.includes('mentioned') ) {
+      e.style.background = "#561ea077";
     } else {
-      u.style.background = "#561ea044";
+      e.style.background = "#561ea044";
     }
-  }
-
-  for (const u of findUser("780871539825573918")) {
-    if (u.matches('[class*="repliedMessage"]')) continue
-
-    u.style.filter = "blur(20px)";
-    u.style.pointerEvents = "none";
-  }
+  })
 });
 
 
@@ -103,23 +106,19 @@ requestAnimationFrame(function selectUser() {
 // setInterval(() => replaceWord(/Alexelcapo/i, 'Elise'), 1000)
 
 function replaceWord(find, replaceWith) {
-
-  let tags = document.querySelectorAll("a, div, span:not([data-slate-string])");
-  for(let i = 0; i < tags.length; i++) {
+  const tags = document.querySelectorAll("a, div, span:not([data-slate-string])");
+  tags.forEach(tag => {
 
     // In Chrome 100 'search' method has really bad performance
-    if(tags[i].innerText.search(find) >= 0 && tags[i].childElementCount == 0) {
-      tags[i].innerText = tags[i].innerText.replace(find, replaceWith);
+    if(tag.innerText.search(find) >= 0 && tag.childElementCount == 0) {
+      tag.innerText = tag.innerText.replace(find, replaceWith);
     }
 
-  }
-
+  })
 }
 
 
 
-// Validador de Base64
-const base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/
 
 
 
@@ -127,28 +126,11 @@ const base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}
 
 requestAnimationFrame(codeChatBase64ToText);
 
-// Función que convierte los mensajes Base64 a texto si empiezan en #|' y acaban en '|#' 
+// Función que convierte los mensajes Base64 a texto si empiezan en #|' y acaban en '|#'
 function codeChatBase64ToText() {
   requestAnimationFrame(codeChatBase64ToText)
 
   const textChat = document.querySelectorAll('main [data-list-id="chat-messages"] [id*="message-content"]');
 
-  if (textChat == null) return
-  
-  for(let i = 0; i < textChat.length; i++) {
-
-    const message = textChat[i]
-    const messageNode = textChat[i]?.childNodes[0]
-
-    if (!message || !messageNode?.nodeValue) continue
-
-    if(messageNode.nodeValue.slice(0,2) == '#|' && messageNode.nodeValue.slice(-2) == '|#') {
-      if(base64regex.test(messageNode.nodeValue.slice(2,-2))) {
-        messageNode.nodeValue = StringConversion.base64ToString(messageNode.nodeValue.slice(2,-2));
-        message.style.background = '#222c';
-      }
-    }
-  
-  }
-  
+  textChat?.forEach(discordUtils.decodeBase64Message)
 }
