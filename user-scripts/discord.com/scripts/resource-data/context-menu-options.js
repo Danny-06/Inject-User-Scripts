@@ -1,3 +1,4 @@
+import { showPromptDialog } from '../../../@libs/utils-injection.js'
 import * as discordUtils from '../discord-utils.js'
 
 export const changeChatBackground = {

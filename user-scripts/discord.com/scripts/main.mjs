@@ -6,7 +6,7 @@ import * as ctxMenu from './resource-data/context-menu-options.js'
 window.discordUtils = discordUtils
 
 const query = selector => document.querySelector(selector)
-const getValueIfSelectorMatch = (selector, value) => {
+const getValueIfSelectorMatches = (selector, value) => {
   if (query(selector)) {
     return value
   } else {
@@ -38,12 +38,12 @@ async function init() {
         ctxMenu.changeChatBackground,
         ctxMenu.changeChatBgOverlayColor,
 
-        getValueIfSelectorMatch(
+        getValueIfSelectorMatches(
           `[data-list-id="guildsnav"] .listItem-3SmSlK .blobContainer-ikKyFs.selected-3c78Ai img`,
           ctxMenu.getServerIcon
         ),
 
-        getValueIfSelectorMatch(
+        getValueIfSelectorMatches(
           `.sidebar-1tnWFu .bannerImage-ubW8K- img`,
           ctxMenu.getServerBanner
         )

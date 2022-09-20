@@ -8,7 +8,7 @@ window.youtubeUtils = youtubeUtils
 
 
 const query = selector => document.querySelector(selector)
-const getValueIfSelectorMatch = (selector, value) => {
+const getValueIfSelectorMatches = (selector, value) => {
   if (query(selector)) {
     return value
   } else {
@@ -131,19 +131,19 @@ try {
         ctxMenu.captureScreenshot,
         ctxMenu.flipVideoHorizontally,
 
-        getValueIfSelectorMatch(
+        getValueIfSelectorMatches(
           `[target-id="engagement-panel-comments-section"]`,
           ctxMenu.showCommentsPanel
         ),
-        getValueIfSelectorMatch(
+        getValueIfSelectorMatches(
           `[target-id="engagement-panel-structured-description"]`,
           ctxMenu.showDescriptionPanel
         ),
-        ...getValueIfSelectorMatch(
+        ...getValueIfSelectorMatches(
           `[target-id="engagement-panel-macro-markers-description-chapters"]`,
           [ctxMenu.showChaptersPanel, ctxMenu.downloadChaptersAsXML]
         ),
-        getValueIfSelectorMatch(
+        getValueIfSelectorMatches(
           `[target-id="engagement-panel-searchable-transcript"]`,
           ctxMenu.showTranscriptionPanel
         ),
