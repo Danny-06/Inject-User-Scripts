@@ -248,7 +248,7 @@ export function decodeBase64Message(message) {
 
   if (!messageNode?.nodeValue) return
 
-  if (!messageNode.nodeValue.startsWith('#|') || !messageNode.nodeValue.endsWith('|#'))
+  if (!messageNode.nodeValue.startsWith('#|') || !messageNode.nodeValue.endsWith('|#')) return
   if (!base64regex.test(messageNode.nodeValue.slice(2, -2))) return
 
   messageNode.nodeValue = StringConversion.base64ToString(messageNode.nodeValue.slice(2,-2))
