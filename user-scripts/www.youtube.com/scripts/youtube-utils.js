@@ -17,11 +17,18 @@ export class ContextMenuManager {
       properties: {
         innerHTML: // css
         `
+        /*# sourceURL=custom-context-menu.css */
         .ytp-popup.ytp-contextmenu,
         .ytp-panel-menu,
         .ytp-panel {
           overflow: visible;
         }
+
+        .ytp-popup.ytp-contextmenu > .ytp-panel {}
+
+        .ytp-popup.ytp-contextmenu,
+        .ytp-popup.ytp-contextmenu > .ytp-panel,
+        .ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu {}
 
         textarea.ytp-html5-clipboard {
           transform: scale(0);

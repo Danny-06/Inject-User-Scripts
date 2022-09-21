@@ -272,10 +272,18 @@ section[class*="container"][class*="themed"]
   overflow: hidden;
 }
 
-/* Popup de icono de usuario */
+/* Popup del perfil de usuario */
 [class|="userPopout"] {
 	width: 350px !important;
 }
+
+/* Ajuste del icono del perfil de usuario */
+.headerNormal-3Zn_yu svg.bannerSVGWrapper-qc0szY > mask > circle {
+  r: 40;
+  cx: 53.5;
+  cy: 48;
+}
+
 
 /* Cambiar color de nombres de usuario que se ve mal (morado) */
 [class|="roleColor"][style="color: rgb(98, 0, 255);"],
