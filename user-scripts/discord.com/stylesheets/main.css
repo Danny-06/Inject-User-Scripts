@@ -278,10 +278,17 @@ section[class*="container"][class*="themed"]
 }
 
 /* Ajuste del icono del perfil de usuario */
-.headerNormal-3Zn_yu svg.bannerSVGWrapper-qc0szY > mask > circle {
+.headerNormal-3Zn_yu svg.bannerSVGWrapper-qc0szY
+> mask > circle {
   r: 40;
   cx: 53.5;
   cy: 48;
+}
+
+/* Ajuste para banner personalizado */
+.headerNormal-3Zn_yu svg.bannerSVGWrapper-qc0szY:has(.popoutBannerPremium-3i5EEI)
+> mask > circle {
+  cy: 100;
 }
 
 
