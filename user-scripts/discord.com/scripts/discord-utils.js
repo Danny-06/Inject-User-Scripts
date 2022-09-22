@@ -251,6 +251,6 @@ export function decodeBase64Message(message) {
   if (!messageNode.nodeValue.startsWith('#|') || !messageNode.nodeValue.endsWith('|#')) return
   if (!base64regex.test(messageNode.nodeValue.slice(2, -2))) return
 
-  messageNode.nodeValue = StringConversion.base64ToString(messageNode.nodeValue.slice(2,-2))
+  messageNode.nodeValue = StringConversion.base64ToText(messageNode.nodeValue.slice(2,-2))
   message.style.background = '#222c'
 }

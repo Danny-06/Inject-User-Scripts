@@ -76,9 +76,18 @@ export class StorageHandler {
 
     const storageValue = this.storage.getItem(key)
     const value = (storageValue === '' || storageValue == null) ? null : storageValue
-    const data = JSON.parse(value)
+
+    const data = this.#try(() => JSON.parse(value), value)
 
     return data
+  }
+
+  #try(callback, returnValueIfCatch = undefined) {
+    try {
+      return callback()
+    } catch (error) {}
+
+    return returnValueIfCatch
   }
 
 }

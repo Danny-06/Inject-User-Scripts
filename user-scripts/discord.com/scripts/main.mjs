@@ -70,12 +70,12 @@ requestAnimationFrame(function selectUser() {
   requestAnimationFrame(selectUser)
 
   // Difunar los mensajes del usuario seleccionado
-  findUser(david).forEach(e => {
-    if (e.matches('[class*="repliedMessage"]')) return
+  // findUser(david).forEach(e => {
+  //   if (e.matches('[class*="repliedMessage"]')) return
 
-    e.style.filter = "blur(10px)";
-    e.style.pointerEvents = "none";
-  })
+  //   e.style.filter = "blur(10px)";
+  //   e.style.pointerEvents = "none";
+  // })
 
   findUser(Inklingboi).forEach(e => {
     if (e.matches('[class*="repliedMessage"]')) return

@@ -387,8 +387,43 @@ export function fillDeclarativeTemplate(template, obj) {
 }
 
 
+export function createPublicPromise() {
+  let resolve
+  let reject
 
+  const promise = new Promise((resolveFunction, rejectFunction) => {
+    resolve = resolveFunction
+    reject = rejectFunction
+  })
 
+  const publicPromise = {
+    resolve,
+    reject,
+
+    then(onFulfilled, onRejected) {
+      return promise.then(onFulfilled, onRejected)
+    },
+    catch(onRejected) {
+      return promise.catch(onRejected)
+    },
+    finally(onFinally) {
+      return promise.finally(onFinally)
+    },
+
+    mixResult() {
+      return new Promise((resolve, reject) => {
+        this.then(
+          value => resolve([value, null]),
+          reason => reject([null, reason])
+        )
+      })
+    },
+
+    [Symbol.toStringTag]: 'PublicPromise'
+  }
+
+  return publicPromise
+}
 
 
 /**
