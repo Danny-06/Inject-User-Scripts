@@ -411,12 +411,14 @@ export function createPublicPromise() {
     },
 
     mixResult() {
-      return new Promise((resolve, reject) => {
-        this.then(
-          value => resolve([value, null]),
-          reason => reject([null, reason])
-        )
-      })
+      const mixedPromise = this.createPublicPromise()
+
+      this.then(
+        value => mixedPromise.resolve([value, null]),
+        reason => mixedPromise.resolve([null, reason])
+      )
+
+      return mixedPromise
     },
 
     [Symbol.toStringTag]: 'PublicPromise'
@@ -882,7 +884,15 @@ export function readFileAs(blob, mode, encoding = 'UTF-8') {
   const reader = new FileReader();
   reader[readerMode](blob, encoding);
 
-  return new Promise(resolve => reader.onloadend = () => resolve(reader.result));
+  return new Promise(resolve => {
+    reader.onloadend = event => {
+      resolve(reader.result)
+    }
+
+    reader.onerror = event => {
+      reject(reader.error)
+    }
+  });
 }
 
 /**

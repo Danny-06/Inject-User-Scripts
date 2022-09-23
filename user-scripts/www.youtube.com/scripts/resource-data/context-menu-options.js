@@ -12,7 +12,7 @@ export const copyVideoURL =  {
       <path fill="currentColor" d="M5.85 18.0c0.0-2.56 2.08-4.65 4.65-4.65h6.0V10.5H10.5c-4.14 .0-7.5 3.36-7.5 7.5s3.36 7.5 7.5 7.5h6.0v-2.85H10.5c-2.56 .0-4.65-2.08-4.65-4.65zM12.0 19.5h12.0v-3.0H12.0v3.0zm13.5-9.0h-6.0v2.85h6.0c2.56 .0 4.65 2.08 4.65 4.65s-2.08 4.65-4.65 4.65h-6.0V25.5h6.0c4.14 .0 7.5-3.36 7.5-7.5s-3.36-7.5-7.5-7.5z"></path>
   </svg>
   `,
-  action: itemMenu => {
+  action: ctxItem => {
     const videoId = new URL(location.href).searchParams.get('v')
 
     if (videoId == null) {
@@ -36,7 +36,7 @@ export const copyVideoURLTime = {
       <path fill="currentColor" d="M5.85 18.0c0.0-2.56 2.08-4.65 4.65-4.65h6.0V10.5H10.5c-4.14 .0-7.5 3.36-7.5 7.5s3.36 7.5 7.5 7.5h6.0v-2.85H10.5c-2.56 .0-4.65-2.08-4.65-4.65zM12.0 19.5h12.0v-3.0H12.0v3.0zm13.5-9.0h-6.0v2.85h6.0c2.56 .0 4.65 2.08 4.65 4.65s-2.08 4.65-4.65 4.65h-6.0V25.5h6.0c4.14 .0 7.5-3.36 7.5-7.5s-3.36-7.5-7.5-7.5z"></path>
   </svg>
   `,
-  action: itemMenu => {
+  action: ctxItem => {
     const videoId = new URL(location.href).searchParams.get('v')
     const time = Math.floor(video.currentTime)
 
@@ -61,7 +61,7 @@ export const copyVideoURLEmbed = {
       <path fill="currentColor" d="M5.85 18.0c0.0-2.56 2.08-4.65 4.65-4.65h6.0V10.5H10.5c-4.14 .0-7.5 3.36-7.5 7.5s3.36 7.5 7.5 7.5h6.0v-2.85H10.5c-2.56 .0-4.65-2.08-4.65-4.65zM12.0 19.5h12.0v-3.0H12.0v3.0zm13.5-9.0h-6.0v2.85h6.0c2.56 .0 4.65 2.08 4.65 4.65s-2.08 4.65-4.65 4.65h-6.0V25.5h6.0c4.14 .0 7.5-3.36 7.5-7.5s-3.36-7.5-7.5-7.5z"></path>
   </svg>
   `,
-  action: itemMenu => {
+  action: ctxItem => {
     const videoId = new URL(location.href).searchParams.get('v')
 
     if (videoId == null) {
@@ -85,7 +85,7 @@ export const copyVideoURLEmbedNoCookie = {
       <path fill="currentColor" d="M5.85 18.0c0.0-2.56 2.08-4.65 4.65-4.65h6.0V10.5H10.5c-4.14 .0-7.5 3.36-7.5 7.5s3.36 7.5 7.5 7.5h6.0v-2.85H10.5c-2.56 .0-4.65-2.08-4.65-4.65zM12.0 19.5h12.0v-3.0H12.0v3.0zm13.5-9.0h-6.0v2.85h6.0c2.56 .0 4.65 2.08 4.65 4.65s-2.08 4.65-4.65 4.65h-6.0V25.5h6.0c4.14 .0 7.5-3.36 7.5-7.5s-3.36-7.5-7.5-7.5z"></path>
   </svg>
   `,
-  action: itemMenu => {
+  action: ctxItem => {
     const videoId = new URL(location.href).searchParams.get('v')
 
     if (videoId == null) {
@@ -153,20 +153,8 @@ export const flipVideoHorizontally = {
         <path fill="#fff" d="M25,13C13.44,13,1,16.442,1,24c0,6.689,9.745,10.152,20,10.86v6.185L32.629,32L21,22.955v5.893C11.799,28.141,7,25.131,7,24 c0-1.285,6.189-5,18-5s18,3.715,18,5c0,0.553-1.579,2.211-6.272,3.538L36,27.743v6.174l1.24-0.307C44.823,31.734,49,28.321,49,24 C49,16.442,36.56,13,25,13z"/>
     </svg>
   `,
-  action: itemMenu => {
-    const itemContent = itemMenu.querySelector('.ytp-menuitem-content')
-
-    if (videoStyle['--rotateY'] === '0deg') {
-      videoStyle['--rotateY'] = '180deg'
-
-      itemMenu.ariaChecked = true
-      itemContent.innerHTML = `<div class="ytp-menuitem-toggle-checkbox"></div>`
-    } else {
-      videoStyle['--rotateY'] = '0deg'
-
-      itemMenu.ariaChecked = false
-      itemContent.innerHTML = ''
-    }
+  action: ctxItem => {
+    videoStyle['--rotateY'] = ctxItem.toogleCheck() ? '180deg' : '0deg'
   }
 }
 
@@ -179,7 +167,7 @@ export const showCommentsPanel = {
       <path fill="currentColor" d="M30.28,110.09,49.37,91.78A3.84,3.84,0,0,1,52,90.72h60a2.15,2.15,0,0,0,2.16-2.16V9.82a2.16,2.16,0,0,0-.64-1.52A2.19,2.19,0,0,0,112,7.66H9.82A2.24,2.24,0,0,0,7.65,9.82V88.55a2.19,2.19,0,0,0,2.17,2.16H26.46a3.83,3.83,0,0,1,3.82,3.83v15.55ZM28.45,63.56a3.83,3.83,0,1,1,0-7.66h53a3.83,3.83,0,0,1,0,7.66Zm0-24.86a3.83,3.83,0,1,1,0-7.65h65a3.83,3.83,0,0,1,0,7.65ZM53.54,98.36,29.27,121.64a3.82,3.82,0,0,1-6.64-2.59V98.36H9.82A9.87,9.87,0,0,1,0,88.55V9.82A9.9,9.9,0,0,1,9.82,0H112a9.87,9.87,0,0,1,9.82,9.82V88.55A9.85,9.85,0,0,1,112,98.36Z"></path>
   </svg>
   `,
-  action: itemMenu => {
+  action: ctxItem => {
     // Vibility attribute values
     const HIDDEN  = 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN'
     const VISIBLE = 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED'
@@ -208,7 +196,7 @@ export const showDescriptionPanel = {
       <path fill="currentColor" d="M384.77,365.395H249.61c-4.536,0-8.21,3.675-8.21,8.212c0,4.536,3.674,8.209,8.21,8.209h135.16  c4.537,0,8.223-3.673,8.223-8.209C392.992,369.07,389.307,365.395,384.77,365.395z"></path>
   </svg>
   `,
-  action: itemMenu => {
+  action: ctxItem => {
     // Vibility attribute values
     const HIDDEN  = 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN'
     const VISIBLE = 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED'
@@ -235,7 +223,7 @@ export const showChaptersPanel = {
       <path fill="currentColor" d="M982.2,729.8c-7.1-9.2-16.2-15.1-25.8-19.9C935.2,699.4,844,656.6,844,656.6c-21.7,10.6-43.2,21.1-64.9,31.7c-2.1,1.1-4.3,2.1-6.3,3.1l126.8,58.8c0,0-254.1,123.9-334.9,163.8c-19.7,9.7-41,14.7-67,14.7h-3.2h-0.5c-21,0-43.3-6.8-76.8-23.3c-78.9-39-316.8-155.2-316.8-155.2c11.8-5.8,126.6-58.7,126.6-58.7s-49.7-24.3-71.2-34.9c0,0-90.9,42.8-113.2,53.9c-9.1,4.5-17.5,10.2-24.3,18.7c-10.6,13.2-11,27-0.9,40.9c7.5,10.3,17.6,16.5,28.2,21.7C160.5,848,275.4,903.7,390,960.4c33.4,16.5,67.2,29.6,103.9,29.6c1.4,0,3,0,4.4-0.1c32.3-0.3,63.4-6.1,93.5-20.9c120.7-59.5,241.8-118.2,362.8-177.4c10.8-5.4,21.2-11.7,28.8-22.5C992.5,755.6,992,742.6,982.2,729.8z"/>
   </svg>
   `,
-  action: itemMenu => {
+  action: ctxItem => {
     // Vibility attribute values
     const HIDDEN = 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN'
     const VISIBLE     = 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED'
@@ -264,7 +252,7 @@ export const downloadChaptersAsXML = {
   </svg>
   `
   ,
-  action: itemMenu => {
+  action: ctxItem => {
     const ytChapters  = youtubeUtils.getYTChapters()
     const chaptersXML = youtubeUtils.ytChaptersToXML(ytChapters)
 
@@ -284,7 +272,7 @@ export const showTranscriptionPanel = {
   </svg>
   `
   ,
-  action: itemMenu => {
+  action: ctxItem => {
     // Vibility attribute values
     const HIDDEN = 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN'
     const VISIBLE     = 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED'

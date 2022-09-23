@@ -96,11 +96,12 @@ export class ContextMenuManager {
     return groupItems.querySelector(':scope > .options-content')
   }
 
+
   /**
    * @typedef VideoContextMenuOptions
    * @property {string} id
    * @property {string} name
-   * @property {function} action
+   * @property {(ctxItem) => void} action
    * @property {string} icon
    */
 
@@ -129,13 +130,37 @@ export class ContextMenuManager {
       }
     })
 
+    const itemContent = itemMenu.querySelector('.ytp-menuitem-content')
+
+    const ctxItemInterface = {
+      element: itemMenu,
+
+      toogleCheck() {
+        return this.checked = !this.checked
+      },
+      get checked() {
+        return this.element.ariaChecked === 'true'
+      },
+      set checked(value) {
+        if (typeof value !== 'boolean') throw new Error(`Value must be a boolean`)
+
+        if (value) {
+          itemContent.innerHTML = `<div class="ytp-menuitem-toggle-checkbox"></div>`
+          this.element.ariaChecked = true
+        } else {
+          itemContent.innerHTML = ''
+          this.element.ariaChecked = false
+        }
+      }
+    }
+
     itemMenu.addEventListener('click', event => {
       const ytContextMenu = itemMenu.closest('.ytp-popup.ytp-contextmenu')
       if (ytContextMenu) ytContextMenu.style.display = 'none'
 
       document.documentElement.click()
 
-      action?.(itemMenu)
+      action?.(ctxItemInterface)
     })
 
     this.items.add(itemMenu)
