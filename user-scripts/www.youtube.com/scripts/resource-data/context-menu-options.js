@@ -155,6 +155,7 @@ export const flipVideoHorizontally = {
   `,
   action: ctxItem => {
     videoStyle['--rotateY'] = ctxItem.toogleCheck() ? '180deg' : '0deg'
+    console.log(ctxItem)
   }
 }
 

@@ -121,8 +121,6 @@ try {
 
       // Context Menu
 
-      await ctxM.removeContextMenuItems()
-
       const ctxMContainer = await ctxM.initCustomContextMenuItems()
 
       const panels = await waitForSelector('ytd-watch-flexy #panels')  
@@ -154,7 +152,7 @@ try {
         ctxMenu.copyVideoURLEmbedNoCookie
       ])
 
-      ctxMContainer.append(...ctxM.items)
+      ctxMContainer.append(...ctxM.elementItems)
 
     } // End init()
 

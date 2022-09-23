@@ -1,15 +1,29 @@
-import { waitForSelector, delay, showPopup, generateOverlayIframe, promiseWrapper, createElement, promisefyEvent, parseXML } from "../../@libs/utils-injection.js"
+import { waitForSelector, delay, showPopup, generateOverlayIframe, promiseWrapper, createElement, promisefyEvent, parseXML, turnStringIntoTrustedHTML } from "../../@libs/utils-injection.js"
 
 
 export class ContextMenuManager {
 
-  static items = new Set()
+  static ctxItems = new Set()
+
+  static get elementItems() {
+    return [...this.ctxItems].map(ctxItem => ctxItem.element)
+  }
+
+  static async #removeContextMenuItems() {
+    const contextMenuPopup = await waitForSelector('.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu')
+
+    contextMenuPopup.querySelector(`#group-custom-options`)?.remove()
+
+    this.ctxItems.clear()
+  }
 
   /**
    * 
    * @returns {Promise<HTMLDivElement>} Container for the custom ContextMenu items
    */
   static async initCustomContextMenuItems() {
+    await this.#removeContextMenuItems()
+
     const contextMenuPopup = await waitForSelector('.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu')
 
     const style = createElement('style', {
@@ -130,10 +144,38 @@ export class ContextMenuManager {
       }
     })
 
+    const itemIcon    = itemMenu.querySelector('.ytp-menuitem-icon')
+    const itemLabel   = itemMenu.querySelector('.ytp-menuitem-label')
     const itemContent = itemMenu.querySelector('.ytp-menuitem-content')
 
     const ctxItemInterface = {
       element: itemMenu,
+
+      get icon() {
+        return itemIcon.firstElementChild
+      },
+      set icon(value) {
+        switch (typeof value) {
+          case 'string':
+            itemIcon.innerHTML = value
+          break
+
+          case 'object':
+            if (value != null && value instanceof Element) {
+              itemIcon.firstElementChild.replaceWith(value)
+            }
+          break
+
+          default:
+        }
+      },
+
+      get name() {
+        return itemLabel.innerHTML
+      },
+      set name(value) {
+        itemLabel.innerHTML = turnStringIntoTrustedHTML(value)
+      },
 
       toogleCheck() {
         return this.checked = !this.checked
@@ -163,7 +205,7 @@ export class ContextMenuManager {
       action?.(ctxItemInterface)
     })
 
-    this.items.add(itemMenu)
+    this.ctxItems.add(ctxItemInterface)
   }
 
   /**
@@ -172,14 +214,6 @@ export class ContextMenuManager {
    */
   static addVideoContextMenuItems(optionsCollection) {
     optionsCollection.forEach(option => this.addVideoContextMenuItem(option))
-  }
-
-  static async removeContextMenuItems() {
-    const contextMenuPopup = await waitForSelector('.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu')
-
-    contextMenuPopup.querySelector(`#group-custom-options`)?.remove()
-
-    this.items.clear()
   }
 
 }
