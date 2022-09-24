@@ -170,6 +170,7 @@ export class ContextMenuManager {
         }
       },
 
+      originalName: itemLabel.innerHTML,
       get name() {
         return itemLabel.innerHTML
       },

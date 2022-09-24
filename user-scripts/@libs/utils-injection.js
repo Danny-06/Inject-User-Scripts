@@ -14,12 +14,22 @@ import { LocalDB } from './libs/localDB.js'
 import { classMaker } from './libs/class-maker.js'
 import { showPopup } from './libs/show-popup.js'
 import { asyncObjectWrapper } from './libs/proxy-libs.js'
+import { drawMediaInCanvas, getImageFromCanvas, getMediaAsBlob, getMediaAsDataURL, getMediaAsImageData } from './libs/canvas-utils.js'
+
+
+const canvasUtils = {
+  drawMediaInCanvas,
+  getMediaAsBlob,
+  getMediaAsImageData,
+  getImageFromCanvas,
+  getMediaAsDataURL
+}
 
 
 export {
   MouseInfo, ScrollBox, StringConversion, StringImageConversion, StorageHandler,
   ArrayN, ZipManager, showAlertDialog, showConfirmDialog, showPromptDialog, LocalDB,
-  classMaker, showPopup, asyncObjectWrapper
+  classMaker, showPopup, asyncObjectWrapper, canvasUtils
 }
 
 /**

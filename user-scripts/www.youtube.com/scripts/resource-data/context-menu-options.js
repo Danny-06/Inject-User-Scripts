@@ -1,3 +1,4 @@
+import { getMediaAsBlob } from '../../../@libs/libs/canvas-utils.js'
 import { cssInlinePropertiesProxyWrapper, waitForSelector } from '../../../@libs/utils-injection.js'
 
 const video = await waitForSelector('ytd-watch-flexy video')
@@ -113,15 +114,7 @@ export const captureScreenshot = {
   `
   ,
   action: async () => {
-    const canvas = document.createElement('canvas')
-    const ctx = canvas.getContext('2d')
-
-    canvas.width  = video.videoWidth
-    canvas.height = video.videoHeight
-
-    ctx.drawImage(video, 0, 0)
-
-    const blob = await new Promise(resolve => canvas.toBlob(resolve))
+    const blob = await getMediaAsBlob(video)
     const url = URL.createObjectURL(blob)
 
     const blobWindow = window.open(url)
@@ -137,7 +130,6 @@ export const captureScreenshot = {
       else
         blobWindow.document.head.append(s.cloneNode(true))
     })
-
   }
 }
 
@@ -155,7 +147,6 @@ export const flipVideoHorizontally = {
   `,
   action: ctxItem => {
     videoStyle['--rotateY'] = ctxItem.toogleCheck() ? '180deg' : '0deg'
-    console.log(ctxItem)
   }
 }
 

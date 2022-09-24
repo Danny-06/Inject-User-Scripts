@@ -75,7 +75,7 @@ try {
     window.addEventListener('yt-navigate-finish', () => init().catch(console.error));
 
 
-    init()
+    init().catch(console.error)
     async function init(event) {
 
       if (location.pathname !== '/watch') {
@@ -123,7 +123,7 @@ try {
 
       const ctxMContainer = await ctxM.initCustomContextMenuItems()
 
-      const panels = await waitForSelector('ytd-watch-flexy #panels')  
+      const panels = await waitForSelector('ytd-watch-flexy #panels')
 
       ctxM.addVideoContextMenuItems([
         ctxMenu.captureScreenshot,
@@ -156,7 +156,7 @@ try {
 
     } // End init()
 
-  })() // End IIFE
+  })().catch(console.error) // End IIFE
 
   document.addEventListener("keydown", refreshComments);
 
