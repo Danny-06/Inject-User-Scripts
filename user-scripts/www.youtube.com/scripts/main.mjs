@@ -16,9 +16,29 @@ const getValueIfSelectorMatches = (selector, value) => {
   }
 }
 
-try {
 
-  (async function() {
+document.addEventListener("keydown", refreshComments);
+
+// Función que actualiza los comentarios
+function refreshComments(event) {
+  const constrains = [
+    event.ctrlKey,
+    event.key.toUpperCase() === 'Q'
+  ]
+
+  if (constrains.includes(false)) return
+
+  // Selecciona la opción del menu desplegable que esté elegida (Mejores comenetario, Más recientes primero)
+  const orderButtonSelected = document.querySelector('tp-yt-paper-listbox#menu .iron-selected')
+  orderButtonSelected.click();
+}
+
+
+init().catch(console.error)
+
+async function init() {
+
+  ;(async function() {
 
     // Remove elements with id copy
     window.copy && [...window.copy].forEach(e => e.remove())
@@ -53,15 +73,15 @@ try {
     // });
 
     // Ocultar el primer video de recomendados si es un anuncio
-    (async function() {
+    ;(async function() {
 
       if (location.href !== 'https://www.youtube.com/') return
 
-      const addVideo = await waitForSelector('ytd-display-ad-renderer').then(addContent => addContent.closest('ytd-rich-item-renderer'))
+      const addVideo = await waitForSelector('ytd-rich-item-renderer:has(ytd-display-ad-renderer)')
 
       addVideo.style.setProperty('display', 'none', 'important');
 
-    })();
+    })()
 
 
     // Set Scroll Padding equal to navbar height
@@ -71,12 +91,11 @@ try {
 
     // Eventos de navegación de Youtube para ejecutar el código
     // al cambiar de página (Youtube no recarga la página, la actualiza)
-    window.addEventListener('yt-navigate-start', () => init().catch(console.error));
-    window.addEventListener('yt-navigate-finish', () => init().catch(console.error));
+    window.addEventListener('yt-navigate-start', event => initNavigation(event).catch(console.error));
+    // window.addEventListener('yt-navigate-finish', event => initNavigation(event).catch(console.error));
 
-
-    init().catch(console.error)
-    async function init(event) {
+    initNavigation().catch(console.error)
+    async function initNavigation(event) {
 
       if (location.pathname !== '/watch') {
         if (location.pathname === '/') {
@@ -88,7 +107,7 @@ try {
       }
 
       // Scroll to selected item in playlist
-      (async function() {
+      ;(async function() {
 
         const ytdWatchFlexy = document.querySelector('ytd-watch-flexy')
 
@@ -105,7 +124,9 @@ try {
       })();
 
 
-      if (event && event.type === 'yt-navigate-finish') window.removeEventListener('load', () => init().catch(console.error));
+      if (event && event.type === 'yt-navigate-finish') {
+        // window.removeEventListener('load', () => initNavigation().catch(console.error));
+      }
 
       /**
        * @type {HTMLVideoElement}
@@ -154,26 +175,8 @@ try {
 
       ctxMContainer.append(...ctxM.elementItems)
 
-    } // End init()
+    } // End initNavigation()
 
   })().catch(console.error) // End IIFE
 
-  document.addEventListener("keydown", refreshComments);
-
-  // Función que actualiza los comentarios
-  function refreshComments(event) {
-    const constrains = [
-      event.ctrlKey,
-      event.key.toUpperCase() === 'Q'
-    ]
-
-    if (constrains.includes(false)) return
-
-    // Selecciona la opción del menu desplegable que esté elegida (Mejores comenetario, Más recientes primero)
-    const orderButtonSelected = document.querySelector('tp-yt-paper-listbox#menu .iron-selected')
-    orderButtonSelected.click();
-  }
-
-} catch (error) {
-  console.error(error)
 }
