@@ -127,6 +127,9 @@ export class Interval {
 
   #auxCallback
 
+  #promise
+  #currentValue
+
   constructor(options = {}) {
     const {callback, args = [], timeout = 0} = options
 
@@ -138,17 +141,48 @@ export class Interval {
     this.#args = args
     this.#timeout = timeout
 
-    this.#auxCallback = (...args) => {
-      this.#callback(...args)
-      this.#id = setTimeout(this.#auxCallback, this.#timeout, ...this.#args)
-    }
+    this.#promise = new Promise((resolve, reject) => {
 
-    this.#id = setTimeout(this.#auxCallback, this.#timeout, ...this.#args)
+      this.#id = setTimeout(
+        (...args) => {
+          this.#auxCallback(...args)
+          resolve(this.#currentValue)
+        },
+        this.#timeout,
+        ...this.#args
+      )
+
+    })
+
+    this.#auxCallback = (...args) => {
+      this.#promise = new Promise((resolve, reject) => {
+        this.#currentValue = this.#callback(...args)
+
+        this.#id = setTimeout(
+          (...args) => {
+            this.#auxCallback(...args)
+            resolve(this.#currentValue)
+          },
+          this.#timeout,
+          ...this.#args
+        )
+      })
+    }
   }
 
   abort() {
     clearTimeout(this.id)
     this.#aborted = true
+  }
+
+  toPromise() {
+    return this.#promise.then()
+  }
+
+  async *[Symbol.asyncIterator]() {
+    while (!this.#aborted) {
+      yield this.toPromise()
+    }
   }
 
 }
