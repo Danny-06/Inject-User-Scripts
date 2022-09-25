@@ -14,7 +14,7 @@
   --chat-bg-overlay: linear-gradient(var(--chat-bg-overlay-color), var(--chat-bg-overlay-color));
 
   background-image:
-  var(--chat-bg-overlay),
+  var(--chat-bg-overlay, url()),
   var(--chat-background)
   ;
 

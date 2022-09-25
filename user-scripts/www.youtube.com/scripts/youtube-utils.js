@@ -151,6 +151,7 @@ export class ContextMenuManager {
     const ctxItemInterface = {
       element: itemMenu,
 
+      originalIcon: itemIcon.firstElementChild,
       get icon() {
         return itemIcon.firstElementChild
       },

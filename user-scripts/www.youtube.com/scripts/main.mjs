@@ -34,6 +34,43 @@ function refreshComments(event) {
 }
 
 
+async function initCustomContextMenu() {
+  // Context Menu
+
+  const ctxMContainer = await ctxM.initCustomContextMenuItems()
+
+  const panels = await waitForSelector('ytd-watch-flexy #panels')
+
+  ctxM.addVideoContextMenuItems([
+    ctxMenu.captureScreenshot,
+    ctxMenu.flipVideoHorizontally,
+
+    getValueIfSelectorMatches(
+      `[target-id="engagement-panel-comments-section"]`,
+      ctxMenu.showCommentsPanel
+    ),
+    getValueIfSelectorMatches(
+      `[target-id="engagement-panel-structured-description"]`,
+      ctxMenu.showDescriptionPanel
+    ),
+    ...getValueIfSelectorMatches(
+      `[target-id="engagement-panel-macro-markers-description-chapters"]`,
+      [ctxMenu.showChaptersPanel, ctxMenu.downloadChaptersAsXML]
+    ),
+    getValueIfSelectorMatches(
+      `[target-id="engagement-panel-searchable-transcript"]`,
+      ctxMenu.showTranscriptionPanel
+    ),
+
+    ctxMenu.copyVideoURL,
+    ctxMenu.copyVideoURLTime,
+    ctxMenu.copyVideoURLEmbed,
+    ctxMenu.copyVideoURLEmbedNoCookie
+  ])
+
+  ctxMContainer.append(...ctxM.elementItems)
+}
+
 init().catch(console.error)
 
 async function init() {
@@ -83,6 +120,10 @@ async function init() {
 
     })()
 
+    if (location.pathname === '/watch') {
+      initCustomContextMenu()
+    }
+
 
     // Set Scroll Padding equal to navbar height
     waitForSelector('#masthead-container').then(navbar => {
@@ -92,7 +133,7 @@ async function init() {
     // Eventos de navegación de Youtube para ejecutar el código
     // al cambiar de página (Youtube no recarga la página, la actualiza)
     window.addEventListener('yt-navigate-start', event => initNavigation(event).catch(console.error));
-    // window.addEventListener('yt-navigate-finish', event => initNavigation(event).catch(console.error));
+    window.addEventListener('yt-navigate-finish', event => initNavigation(event).catch(console.error));
 
     initNavigation().catch(console.error)
     async function initNavigation(event) {
@@ -125,7 +166,7 @@ async function init() {
 
 
       if (event && event.type === 'yt-navigate-finish') {
-        // window.removeEventListener('load', () => initNavigation().catch(console.error));
+        window.removeEventListener('load', () => initNavigation().catch(console.error));
       }
 
       /**
@@ -138,42 +179,6 @@ async function init() {
       .then(video => video.src = '')
 
       calidad1080pAutomatica(video)
-
-
-      // Context Menu
-
-      const ctxMContainer = await ctxM.initCustomContextMenuItems()
-
-      const panels = await waitForSelector('ytd-watch-flexy #panels')
-
-      ctxM.addVideoContextMenuItems([
-        ctxMenu.captureScreenshot,
-        ctxMenu.flipVideoHorizontally,
-
-        getValueIfSelectorMatches(
-          `[target-id="engagement-panel-comments-section"]`,
-          ctxMenu.showCommentsPanel
-        ),
-        getValueIfSelectorMatches(
-          `[target-id="engagement-panel-structured-description"]`,
-          ctxMenu.showDescriptionPanel
-        ),
-        ...getValueIfSelectorMatches(
-          `[target-id="engagement-panel-macro-markers-description-chapters"]`,
-          [ctxMenu.showChaptersPanel, ctxMenu.downloadChaptersAsXML]
-        ),
-        getValueIfSelectorMatches(
-          `[target-id="engagement-panel-searchable-transcript"]`,
-          ctxMenu.showTranscriptionPanel
-        ),
-
-        ctxMenu.copyVideoURL,
-        ctxMenu.copyVideoURLTime,
-        ctxMenu.copyVideoURLEmbed,
-        ctxMenu.copyVideoURLEmbedNoCookie
-      ])
-
-      ctxMContainer.append(...ctxM.elementItems)
 
     } // End initNavigation()
 
