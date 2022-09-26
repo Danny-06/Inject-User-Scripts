@@ -107,6 +107,8 @@ async function Executer() {
   })
 
   videoOverlay.addEventListener('wheel', function (event) {
+    event.preventDefault()
+
     if (!event.ctrlKey) return
 
     // Rotar al presionar 'Shift'

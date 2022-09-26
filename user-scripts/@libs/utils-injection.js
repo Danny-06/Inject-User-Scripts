@@ -1656,7 +1656,7 @@ export function downloadFile(file, name = null) {
 
   const a = document.createElement('a')
   a.href = urlFile
-  a.download = name ?? file.name ?? `file.${file.type}`
+  a.download = name ?? file.name ?? `file.${file.type.split('/')[1] ?? 'unknown'}`
   a.click()
 
   URL.revokeObjectURL(urlFile)
@@ -1691,12 +1691,12 @@ export function removeTokenFromDOMStringMapProperty(settings) {
 /**
  * Takes a selector as a parameter and return a Promise that resolves in the element when it exists in the DOM
  * @param {string} selector
- * @param {{node?: Element, checkOpposite?: boolean, useSetTimeout?: boolean}} options
+ * @param {{node?: Element, checkOpposite?: boolean, useSetTimeout?: boolean, timeout?: number}} options
  * @returns {Promise<Element>}
  */
 export function waitForSelector(selector, options = {}) {
 
-  const {node = document, checkOpposite = false, useSetTimeout = false} = options
+  const {node = document, checkOpposite = false, useSetTimeout = false, timeout} = options
 
   const callAsynchronously = useSetTimeout ?
                              callback => setTimeout(callback, 1000 / 60) :
@@ -1704,9 +1704,13 @@ export function waitForSelector(selector, options = {}) {
 
   const checkElement = checkOpposite ? element => !element : element => element
 
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
 
-    (function queryElement(selector, resolve) {
+    if (typeof timeout === 'number') {
+      setTimeout(reject, timeout, new Error(`Wait for selector operation cancelled. Timeout of ${timeout}ms finished`))
+    }
+
+    ;(function queryElement(selector, resolve) {
       const element = node.querySelector(selector)
 
       if (checkElement(element)) return resolve(element)
