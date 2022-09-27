@@ -16,6 +16,7 @@ import { showPopup } from './libs/show-popup.js'
 import { asyncObjectWrapper } from './libs/proxy-libs.js'
 import { drawMediaInCanvas, getImageFromCanvas, getMediaAsBlob, getMediaAsDataURL, getMediaAsImageData } from './libs/canvas-utils.js'
 import { Interval, Timeout } from './libs/timeout-interval.js'
+import { Binary } from './libs/binary.js'
 
 const canvasUtils = {
   drawMediaInCanvas,
@@ -25,11 +26,11 @@ const canvasUtils = {
   getMediaAsDataURL
 }
 
-
 export {
   MouseInfo, ScrollBox, StringConversion, StringImageConversion, StorageHandler,
   ArrayN, ZipManager, showAlertDialog, showConfirmDialog, showPromptDialog, LocalDB,
-  classMaker, showPopup, asyncObjectWrapper, canvasUtils, Timeout, Interval
+  classMaker, showPopup, asyncObjectWrapper, canvasUtils, Timeout, Interval,
+  Binary
 }
 
 /**

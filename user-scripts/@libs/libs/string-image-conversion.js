@@ -129,7 +129,7 @@ export class StringImageConversion {
 
   static stringToImageDataUTF8(text = '') {
 
-    const width = Math.ceil( Math.sqrt(text.length) )
+    const width  = Math.ceil( Math.sqrt(text.length) )
     const height = Math.ceil( Math.sqrt(text.length) )
 
     const imageData = new ImageData(width, height)
@@ -141,9 +141,9 @@ export class StringImageConversion {
 
       const charCode = text[t].charCodeAt()
 
-      imageData.data[d + 0] =          charCode %   256
-      imageData.data[d + 1] = parseInt(charCode /   256) % 256
-      imageData.data[d + 2] = parseInt(charCode / 65536)
+      imageData.data[d + 0] =            charCode %   2 ** 8
+      imageData.data[d + 1] = Math.floor(charCode /   2 ** 8) % 2 ** 8
+      imageData.data[d + 2] = Math.floor(charCode /   2 ** 16)
       imageData.data[d + 3] = 255
 
     }
@@ -165,8 +165,8 @@ export class StringImageConversion {
 
       const charCode = String.fromCharCode(
           imageData.data[d + 0]
-        + imageData.data[d + 1] *   256
-        + imageData.data[d + 2] * 65536
+        + imageData.data[d + 1] * 2 ** 8
+        + imageData.data[d + 2] * 2 ** 16 
       )
 
       if(charCode === nullCharacter) continue

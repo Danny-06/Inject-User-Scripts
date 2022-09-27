@@ -1,3 +1,5 @@
+import { Binary } from './binary.js'
+
 export class StringConversion {
 
   constructor() {
@@ -64,36 +66,14 @@ export class StringConversion {
     let padding = 3 - (bytes.length % 3)
     if (padding === 3) padding = 0
 
+    const blockOf8Bits = [...bytes, ...new Array(padding).fill(0)]
 
-    // 3 groups of 8 bits
-
-    const block3Bytes = []
-
-    for (let i = 0; i < bytes.length; i += 3) {
-      block3Bytes.push([bytes[i], bytes[i + 1] ?? 0, bytes[i + 2] ?? 0])
-    }
-
-
-    // 4 groups of 6 bits
-
-    const block4Of6Bits = []
-
-    for (let i = 0; i < block3Bytes.length; i++) {
-      const int6Bits = block3Bytes[i].map(n => this.numberToBinary(n, 8)).join('').match(/.{1,6}/g).map(n => parseInt(n , 2))
-
-      block4Of6Bits.push(...int6Bits)
-    }
+    const blockOf6Bits = new Binary(blockOf8Bits).getAsChunksOf(6)
 
 
     // Turn resulting 6 bits into corresponding printable character
 
-    let result = ''
-
-    for (let i = 0; i < block4Of6Bits.length - padding; i++) {
-      result += this.base64CharsetMap[block4Of6Bits[i]]
-    }
-
-    result += '='.repeat(padding)
+    const result = this.blockOf6BitsToText(blockOf6Bits, padding)
 
     return result
   }
@@ -105,37 +85,49 @@ export class StringConversion {
     else if (text.endsWith('=')) padding = 1
 
 
-    // 4 groups of 6 bits
+    const blockOf6Bits = this.base64ToByteArray(text)
 
-    const block4Of6Bits = []
-
-    for (let i = 0; i < text.length; i += 4) {
-      const n1 = this.base64CharsetMap.indexOf(text[i])
-      const n2 = this.base64CharsetMap.indexOf(text[i + 1])
-      const n3 = this.base64CharsetMap.indexOf(text[i + 2])
-      const n4 = this.base64CharsetMap.indexOf(text[i + 3])
-
-      block4Of6Bits.push([n1, n2, n3 === -1 ? 0 : n3, n4 === -1 ? 0 : n4])
-    }
-
-    // 3 groups of 8 bitss
-
-    const block3Bytes = []
-
-    for (let i = 0; i < block4Of6Bits.length; i++) {
-      const int8Bits = block4Of6Bits[i].map(n => this.numberToBinary(n, 6)).join('').match(/.{1,8}/g).map(n => parseInt(n , 2))
-
-      block3Bytes.push(int8Bits[0], int8Bits[1], int8Bits[2])
-    }
+    const blockOf8Bits = new Binary(blockOf6Bits, 6).getAsChunksOf(8)
 
     if (padding === 0) padding = undefined
     else padding *= -1
 
-    const result = new TextDecoder().decode(new Uint8Array(block3Bytes.slice(0, padding)))
+    const result = new TextDecoder().decode(new Uint8Array(blockOf8Bits.slice(0, padding)))
 
     return result
   }
 
+  static base64ToByteArray(text) {
+    let padding = 0
+
+    if (text.endsWith('=='))     padding = 2
+    else if (text.endsWith('=')) padding = 1
+
+    const byteArray = new Array(text.length)
+
+    for (let i = 0; i < text.length - padding; i++) {
+      const byte = this.base64CharsetMap.indexOf(text[i])
+      byteArray[i] = byte
+    }
+
+    for (let i = padding; i > 0; i--) {
+      byteArray[text.length - i] = 0
+    }
+
+    return byteArray
+  }
+
+  static blockOf6BitsToText(blockOf6Bits, padding) {
+    let result = ''
+
+    for (let i = 0; i < blockOf6Bits.length - padding; i++) {
+      result += this.base64CharsetMap[blockOf6Bits[i]]
+    }
+
+    result += '='.repeat(padding)
+
+    return result
+  }
 
   static textToRadix(text, radix, addSpaceBetweenCharacters = false) {
     let result = ''
