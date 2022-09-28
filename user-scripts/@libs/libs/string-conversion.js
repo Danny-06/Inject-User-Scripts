@@ -77,14 +77,14 @@ export class StringConversion {
     return result
   }
 
-  static base64ToText(text) {
+  static base64ToText(base64) {
     let padding = 0
 
-    if (text.endsWith('=='))     padding = 2
-    else if (text.endsWith('=')) padding = 1
+    if (base64.endsWith('=='))     padding = 2
+    else if (base64.endsWith('=')) padding = 1
 
 
-    const blockOf6Bits = this.base64ToByteArray(text)
+    const blockOf6Bits = this.base64ToByteArray(base64)
 
     const blockOf8Bits = new Binary(blockOf6Bits, 6).getAsChunksOf(8)
 
@@ -96,21 +96,21 @@ export class StringConversion {
     return result
   }
 
-  static base64ToByteArray(text) {
+  static base64ToByteArray(base64) {
     let padding = 0
 
-    if (text.endsWith('=='))     padding = 2
-    else if (text.endsWith('=')) padding = 1
+    if (base64.endsWith('=='))     padding = 2
+    else if (base64.endsWith('=')) padding = 1
 
-    const byteArray = new Array(text.length)
+    const byteArray = new Array(base64.length)
 
-    for (let i = 0; i < text.length - padding; i++) {
-      const byte = this.base64CharsetMap.indexOf(text[i])
+    for (let i = 0; i < base64.length - padding; i++) {
+      const byte = this.base64CharsetMap.indexOf(base64[i])
       byteArray[i] = byte
     }
 
     for (let i = padding; i > 0; i--) {
-      byteArray[text.length - i] = 0
+      byteArray[base64.length - i] = 0
     }
 
     return byteArray
