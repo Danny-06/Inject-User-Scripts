@@ -155,7 +155,7 @@ export class StringConversion {
     list = list.filter(str => str !== '')
 
     for (let i = 0; i < list.length; i++) {
-      result += Text.fromCodePoint(parseInt(list[i], radix))
+      result += String.fromCodePoint(parseInt(list[i], radix))
     }
 
     return result
