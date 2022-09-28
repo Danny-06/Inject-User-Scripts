@@ -24,7 +24,7 @@ export class Binary {
 
       case 'object':
         if (Array.isArray(data)) {
-          this.#data = data
+          this.#data = [...data]
         }
       break
 
