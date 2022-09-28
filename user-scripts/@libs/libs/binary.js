@@ -1,47 +1,35 @@
 export class Binary {
 
   #data
+  get data() {
+    return this.#data
+  }
+
+  #bitSize
+  get bitSize() {
+    return this.#bitSize
+  }
 
   constructor(data, sourceBitSize = 8) {
+    this.#bitSize = sourceBitSize
+
     switch (typeof data) {
       case 'string':
+        this.#data = Binary.binaryStringToBitArray(data, this.#bitSize)
       break
 
       case 'number':
+        this.#data = Binary.numberToBitArray(data, this.#bitSize)
       break
 
       case 'object':
-        if (Array.isArray(data) || data instanceof Uint8Array || data instanceof Uint8ClampedArray) {
-          this.#data = Binary.#getDataAs(data, 8, sourceBitSize)
+        if (Array.isArray(data)) {
+          this.#data = data
         }
       break
 
       default:
     }
-  }
-
-  getAsChunksOf(chunkSize = 8, splitInGroupsOf = null) {
-    const length = Math.ceil(this.#data.length * 8 / chunkSize)
-
-    if (splitInGroupsOf != null) {
-      if (typeof splitInGroupsOf !== 'number') {
-        throw new Error(`param 2 must be a number`)
-      }
-
-      if (length % splitInGroupsOf !== 0) {
-        throw new Error(`Data cannot be divided in groups of ${splitInGroupsOf}`)
-      }
-    }
-
-    const data = Binary.#getDataAs(this.#data, chunkSize)
-
-    if (splitInGroupsOf != null) {
-      const groupedData = Binary.#getDataAsGroupOf(data, splitInGroupsOf)
-
-      return groupedData
-    }
-
-    return data
   }
 
   static #getDataAs(arr, bitSize, sourceBitSize = 8) {
@@ -62,6 +50,16 @@ export class Binary {
     return string.match(new RegExp(`.{1,${bitSize}}`, 'g')).map(str => str.padStart(bitSize, '0'))
   }
 
+  static numberToBitArray(n, bitSize) {
+    const binaryString = n.toString(2)
+    return Binary.binaryStringToBitArray(binaryString, bitSize)
+  }
+
+  static binaryStringToBitArray(string, bitSize) {
+    const stringChunks = Binary.splitBinaryStringIntoChunks(string, bitSize)
+    return Binary.stringChunksToBitArray(stringChunks)
+  }
+
   static stringChunksToBitArray(chunks) {
     return chunks.map(str => parseInt(str, 2))
   }
@@ -76,12 +74,54 @@ export class Binary {
     return groupedData
   }
 
-  toString() {
+  [Symbol.toStringTag]() {
+    return 'Binary'
+  }
 
+  toString() {
+    return JSON.stringify(this.#data)
   }
 
   valueOf() {
-    // return this.#data.reduce((acc, val, index, arr) => acc + val << ((arr.length - 1) - index), 0)
+    return parseInt(this.toBinary(), 2)
+  }
+
+  do(callback) {
+    return callback(this)
+  }
+
+  getAsChunksOf(chunkSize = 8, splitInGroupsOf = null) {
+    const length = Math.ceil(this.#data.length * 8 / chunkSize)
+
+    if (splitInGroupsOf != null) {
+      if (typeof splitInGroupsOf !== 'number') {
+        throw new Error(`param 2 must be a number`)
+      }
+
+      if (length % splitInGroupsOf !== 0) {
+        throw new Error(`Data cannot be divided in groups of ${splitInGroupsOf}`)
+      }
+    }
+
+    const data = Binary.#getDataAs(this.#data, chunkSize, this.#bitSize)
+
+    if (splitInGroupsOf != null) {
+      const groupedData = Binary.#getDataAsGroupOf(data, splitInGroupsOf)
+
+      return groupedData
+    }
+
+    return data
+  }
+
+  toBinary(split = false) {
+    const string = Binary.bitArrayToBinaryString(this.#data, this.#bitSize)
+
+    if (split) {
+      return Binary.splitBinaryStringIntoChunks(string, this.#bitSize)
+    }
+
+    return string
   }
 
 }
