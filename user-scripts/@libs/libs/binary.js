@@ -90,6 +90,10 @@ export class Binary {
     return callback(this)
   }
 
+  *[Symbol.iterator]() {
+    yield* this.#data
+  }
+
   getAsChunksOf(chunkSize = 8, splitInGroupsOf = null) {
     const length = Math.ceil(this.#data.length * 8 / chunkSize)
 
