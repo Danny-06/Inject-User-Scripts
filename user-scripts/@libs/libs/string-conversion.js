@@ -70,10 +70,9 @@ export class StringConversion {
 
     const blockOf6Bits = new Binary(blockOf8Bits).getAsChunksOf(6)
 
-
     // Turn resulting 6 bits into corresponding printable character
 
-    const result = this.blockOf6BitsToText(blockOf6Bits, padding)
+    const result = this.blockOf6BitsToBase64(blockOf6Bits, padding)
 
     return result
   }
@@ -89,8 +88,8 @@ export class StringConversion {
 
     const blockOf8Bits = new Binary(blockOf6Bits, 6).getAsChunksOf(8)
 
-    if (padding === 0) padding = undefined
-    else padding *= -1
+
+    padding = padding === 0 ? undefined : -padding
 
     const result = new TextDecoder().decode(new Uint8Array(blockOf8Bits.slice(0, padding)))
 
@@ -117,7 +116,7 @@ export class StringConversion {
     return byteArray
   }
 
-  static blockOf6BitsToText(blockOf6Bits, padding) {
+  static blockOf6BitsToBase64(blockOf6Bits, padding) {
     let result = ''
 
     for (let i = 0; i < blockOf6Bits.length - padding; i++) {

@@ -2,7 +2,7 @@ export class Binary {
 
   #data
 
-  constructor(data, sourceNumberOfBits = 8) {
+  constructor(data, sourceBitSize = 8) {
     switch (typeof data) {
       case 'string':
       break
@@ -12,7 +12,7 @@ export class Binary {
 
       case 'object':
         if (Array.isArray(data) || data instanceof Uint8Array || data instanceof Uint8ClampedArray) {
-          this.#data = Binary.#getDataAs(data, 8, sourceNumberOfBits)
+          this.#data = Binary.#getDataAs(data, 8, sourceBitSize)
         }
       break
 
@@ -35,9 +35,6 @@ export class Binary {
 
     const data = Binary.#getDataAs(this.#data, chunkSize)
 
-    // const value = this.#data.reduce((acc, val, index, arr) => acc + val * 2 ** (8 * ((arr.length - 1) - index)), 0)
-    // const value = Binary.getValue(this.#data, 8)
-
     if (splitInGroupsOf != null) {
       const groupedData = Binary.#getDataAsGroupOf(data, splitInGroupsOf)
 
@@ -47,28 +44,26 @@ export class Binary {
     return data
   }
 
-  static getBitsValue(arr, numberOfBits) {
-    const value = arr.reduce((acc, val, index, arr) => acc + val * 2 ** (numberOfBits * ((arr.length - 1) - index)), 0)
-    return value
-  }
+  static #getDataAs(arr, bitSize, sourceBitSize = 8) {
+    const binaryStringRepresentation = Binary.bitArrayToBinaryString(arr, sourceBitSize)
 
-  static #getDataAs(arr, numberOfBits, sourceNumberOfBits = 8) {
-    const length = Math.ceil(arr.length * sourceNumberOfBits / numberOfBits)
+    const stringChunks = Binary.splitBinaryStringIntoChunks(binaryStringRepresentation, bitSize) 
 
-    const data = new Array(length)
-
-    const value = Binary.getBitsValue(arr, sourceNumberOfBits)
-
-    const mask = 2 ** numberOfBits - 1
-
-    for (let i = 0; i < data.length - 1; i++) {
-      const chunk = value / (2 ** (numberOfBits * (data.length - 1 - i)))
-      data[i] = chunk & mask
-    }
-
-    data[data.length - 1] = value & mask
+    const data = Binary.stringChunksToBitArray(stringChunks)
 
     return data
+  }
+
+  static bitArrayToBinaryString(arr, bitSize = 8) {
+    return arr.map(n => n.toString(2).padStart(bitSize, '0')).join('')
+  }
+
+  static splitBinaryStringIntoChunks(string, bitSize) {
+    return string.match(new RegExp(`.{1,${bitSize}}`, 'g')).map(str => str.padStart(bitSize, '0'))
+  }
+
+  static stringChunksToBitArray(chunks) {
+    return chunks.map(str => parseInt(str, 2))
   }
 
   static #getDataAsGroupOf(data, splitInGroupsOf) {
