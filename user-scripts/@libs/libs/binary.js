@@ -47,7 +47,7 @@ export class Binary {
   }
 
   static splitBinaryStringIntoChunks(string, bitSize) {
-    string = string.replace(/^0*/, '')
+    string = string.replace(new RegExp(`^0{1,${bitSize - 1}}`), '')
 
     let padding = bitSize - (string.length % bitSize)
     if (padding === bitSize) padding = 0
