@@ -65,11 +65,17 @@ export class Binary {
   }
 
   static #getDataAsGroupOf(data, splitInGroupsOf) {
-    const groupedData = new Array(data.length / splitInGroupsOf)
+    const length = Math.ceil(data.length / splitInGroupsOf)
+    const groupedData = new Array(length)
 
-    for (let i = 0; i < groupedData.length; i++) {
-      groupedData[i] = data.slice(i, i + splitInGroupsOf)
+    let padding = splitInGroupsOf - data.length % splitInGroupsOf
+    if (padding === splitInGroupsOf) padding = 0
+
+    for (let i = 0, j = 0; i < groupedData.length; i++, j += splitInGroupsOf) {
+      groupedData[i] = data.slice(j, j + splitInGroupsOf)
     }
+
+    groupedData[groupedData.length - 1].push(...new Array(padding).fill(0))
 
     return groupedData
   }
@@ -102,9 +108,9 @@ export class Binary {
         throw new Error(`param 2 must be a number`)
       }
 
-      if (length % splitInGroupsOf !== 0) {
-        throw new Error(`Data cannot be divided in groups of ${splitInGroupsOf}`)
-      }
+      // if (length % splitInGroupsOf !== 0) {
+      //   throw new Error(`Data cannot be divided in groups of ${splitInGroupsOf}`)
+      // }
     }
 
     const data = Binary.#getDataAs(this.#data, chunkSize, this.#bitSize)
