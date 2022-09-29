@@ -47,8 +47,10 @@ export class Binary {
   }
 
   static splitBinaryStringIntoChunks(string, bitSize, removeFirstChunkIfNull = true) {
-    string = string.padStart(string.length + bitSize - (string.length % bitSize), '0')
-    const stringBinaryChunks = string.match(new RegExp(`.{1,${bitSize}}`, 'g')).map(str => str.padStart(bitSize, '0'))
+    const bitsLength = string.length + bitSize - (string.length % bitSize)
+
+    string = string.padStart(bitsLength, '0')
+    const stringBinaryChunks = string.match(new RegExp(`.{1,${bitSize}}`, 'g'))
 
     if (removeFirstChunkIfNull) {
       if (!stringBinaryChunks[0].includes('1')) stringBinaryChunks.splice(0, 1)
@@ -108,8 +110,6 @@ export class Binary {
   }
 
   getAsChunksOf(chunkSize = 8, splitInGroupsOf = null) {
-    const length = Math.ceil(this.#data.length * 8 / chunkSize)
-
     if (splitInGroupsOf != null && typeof splitInGroupsOf !== 'number') {
       throw new Error(`param 2 must be a number`)
     }
