@@ -103,14 +103,8 @@ export class Binary {
   getAsChunksOf(chunkSize = 8, splitInGroupsOf = null) {
     const length = Math.ceil(this.#data.length * 8 / chunkSize)
 
-    if (splitInGroupsOf != null) {
-      if (typeof splitInGroupsOf !== 'number') {
-        throw new Error(`param 2 must be a number`)
-      }
-
-      // if (length % splitInGroupsOf !== 0) {
-      //   throw new Error(`Data cannot be divided in groups of ${splitInGroupsOf}`)
-      // }
+    if (splitInGroupsOf != null && typeof splitInGroupsOf !== 'number') {
+      throw new Error(`param 2 must be a number`)
     }
 
     const data = Binary.#getDataAs(this.#data, chunkSize, this.#bitSize)
