@@ -47,7 +47,8 @@ export class Binary {
   }
 
   static splitBinaryStringIntoChunks(string, bitSize) {
-    return string.match(new RegExp(`.{1,${bitSize}}`, 'g')).map(str => str.padStart(bitSize, '0'))
+    string = string.padStart(string.length + bitSize - (string.length % bitSize), '0')
+    return string.match(new RegExp(`.{1,${bitSize}}`, 'g')).map(str => str.padStart(bitSize, '0')).filter(b => b.includes('1'))
   }
 
   static numberToBitArray(n, bitSize) {

@@ -89,9 +89,9 @@ export class StringConversion {
     const blockOf8Bits = new Binary(blockOf6Bits, 6).getAsChunksOf(8)
 
 
-    padding = padding === 0 ? undefined : -padding
+    const sliceEnd = padding === 0 ? undefined : -padding
 
-    const result = new TextDecoder().decode(new Uint8Array(blockOf8Bits.slice(0, padding)))
+    const result = new TextDecoder().decode(new Uint8Array(blockOf8Bits.slice(0, sliceEnd)))
 
     return result
   }
