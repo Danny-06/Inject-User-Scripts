@@ -46,9 +46,15 @@ export class Binary {
     return arr.map(n => n.toString(2).padStart(bitSize, '0')).join('')
   }
 
-  static splitBinaryStringIntoChunks(string, bitSize) {
+  static splitBinaryStringIntoChunks(string, bitSize, removeFirstChunkIfNull = true) {
     string = string.padStart(string.length + bitSize - (string.length % bitSize), '0')
-    return string.match(new RegExp(`.{1,${bitSize}}`, 'g')).map(str => str.padStart(bitSize, '0')).filter(b => b.includes('1'))
+    const stringBinaryChunks = string.match(new RegExp(`.{1,${bitSize}}`, 'g')).map(str => str.padStart(bitSize, '0'))
+
+    if (removeFirstChunkIfNull) {
+      if (!stringBinaryChunks[0].includes('1')) stringBinaryChunks.splice(0, 1)
+    }
+
+    return stringBinaryChunks
   }
 
   static numberToBitArray(n, bitSize) {
