@@ -2,6 +2,21 @@ export const extensionId = import.meta.url.match(/(?<=(chrome-extension:\/\/))[a
 
 /**
  * 
+ * @param {string} path 
+ * @returns {string}
+ */
+export function getURL(path) {
+  if (path.startsWith('./')) {
+    path = path.replace('./', '')
+  }
+
+  const url = `chrome-extension://${extensionId}/user-scripts/${path}`
+
+  return url
+}
+
+/**
+ * 
  * @param {{message: any, timeId: number}} message 
  * @returns 
  */
@@ -26,4 +41,17 @@ export function sendMessage(message, timeIdParam) {
     }, {signal: abortController.signal})
 
   })
+}
+
+/**
+ * Allows cross origin requests with 'fetch' by setting temporaly the 'Access-Control-Allow-Origin' header to '*'
+ */
+ export async function crossFetch(url, options = null) {
+  const {timeId} = await sendMessage({type: 'cross-fetch-start'})
+
+  const response = await fetch(url, options).catch(() => null)
+
+  sendMessage({type: 'cross-fetch-end'}, timeId)
+
+  return response
 }

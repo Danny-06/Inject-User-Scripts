@@ -1,4 +1,4 @@
-import { extensionId, sendMessage } from './chrome-extension-utils.js'
+import { extensionId, getURL, crossFetch } from './chrome-extension-utils.js'
 
 import { MouseInfo } from './libs/mouse-info.js'
 import { StringConversion } from './libs/string-conversion.js'
@@ -26,26 +26,18 @@ const canvasUtils = {
   getMediaAsDataURL
 }
 
+const chromeExtension = {
+  extensionId,
+  getURL,
+  crossFetch
+}
+
 export {
   MouseInfo, ScrollBox, StringConversion, StringImageConversion, StorageHandler,
   ArrayN, ZipManager, showAlertDialog, showConfirmDialog, showPromptDialog, LocalDB,
   classMaker, showPopup, asyncObjectWrapper, canvasUtils, Timeout, Interval,
-  Binary
+  Binary, chromeExtension
 }
-
-/**
- * Allows cross origin requests with 'fetch' by setting temporaly the 'Access-Control-Allow-Origin' header to '*'
- */
-export async function crossFetch(url, options = null) {
-  const {timeId} = await sendMessage({type: 'cross-fetch-start'})
-
-  const response = await fetch(url, options).catch(() => null)
-
-  sendMessage({type: 'cross-fetch-end'}, timeId)
-
-  return response
-}
-
 
 export function getValueFromPropertyPath(obj, propertyPath) {
   if (propertyPath == null) return obj
@@ -461,6 +453,8 @@ export function createElement(name = 'div', settings = {}) {
                   document.createElementNS(namespace, name, options) :
                   document.createElement(name, options)
 
+const tp = trustedTypes.createPolicy('', {createHTML: e => e, createScriptURL: e => e })
+
   if (id != null)      element.id = id
   if (Array.isArray(classes)) element.classList.add(...classes)
 
@@ -468,15 +462,39 @@ export function createElement(name = 'div', settings = {}) {
 
   if (element.dataset != null) {
     for (const [property, value] of Object.entries(dataset ?? {})) {
+      if (value === 'undefined') continue
+
       element.dataset[property] = value
     }
   }
 
   for (const [property, value] of Object.entries(attributes ?? {})) {
+    if (value === 'undefined') continue
+
+    if (['src', 'href'].includes(property)) {
+      element.setAttribute(property, tp.createScriptURL(value))
+
+      continue
+    }
+
     element.setAttribute(property, value)
   }
 
   for (const [property, value] of Object.entries(properties ?? {})) {
+    if (value === 'undefined') continue
+
+    if (['innerHTML', 'outerHTML', 'innerText', 'outerText', 'textContent'].includes(property)) {
+      element[property] = tp.createHTML(value)
+
+      continue
+    }
+
+    if (['src', 'href'].includes(property)) {
+      element[property] = tp.createScriptURL(value)
+
+      continue
+    }
+
     element[property] = value
   }
 
@@ -705,6 +723,7 @@ export function cloneScript(script) {
 //   })
 
 // }
+
 
 export function cutDecimals(number, numberOfDecimalsToKeep) {
   if (number == null || typeof number !== 'number') throw new TypeError('argument 1 must be a number')

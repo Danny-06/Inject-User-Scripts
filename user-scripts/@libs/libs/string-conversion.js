@@ -66,7 +66,8 @@ export class StringConversion {
     let padding = 3 - (bytes.length % 3)
     if (padding === 3) padding = 0
 
-    const blockOf8Bits = [...bytes, ...new Array(padding).fill(0)]
+    // const blockOf8Bits = [...bytes, ...new Array(padding).fill(0)]
+    const blockOf8Bits = new Binary(bytes).getAsChunksOf(8, 3).flat()
 
     const blockOf6Bits = new Binary(blockOf8Bits).getAsChunksOf(6)
 
