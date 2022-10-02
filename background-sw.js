@@ -23,10 +23,6 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
     const allURLSFolder = '@all-urls'
     const settingsJSON = 'settings.json'
 
-    // Get 'settings.json' from the '@all-urls' folder
-    const settingsAllUrl = `${extensionUrl}/${userScriptsFolder}/${allURLSFolder}/${settingsJSON}`
-    const settingsAll    = await fetch(settingsAllUrl).then(parseJSONResponseWithComments).catch(reason => ({scripts: null, stylesheets: null}))
-
     // Get 'settings.json' from the current domain folder
     const settingsDomainUrl = `${extensionUrl}/${userScriptsFolder}/${domain}/${settingsJSON}`
     const settingsDomain    = await fetch(settingsDomainUrl).then(parseJSONResponseWithComments).catch(reason => ({scripts: null, stylesheets: null}))
@@ -35,9 +31,9 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
     const injectionSettings = {
       target: {tabId},
 
-      args: [{settingsDomain, settingsAll, extensionUrl, domain, userScriptsFolder, allURLSFolder}],
+      args: [{settingsDomain, extensionUrl, domain, userScriptsFolder, allURLSFolder}],
       func: async function(params) {
-        const {settingsDomain, settingsAll, extensionUrl, domain, userScriptsFolder, allURLSFolder} = params
+        const {settingsDomain, extensionUrl, domain, userScriptsFolder, allURLSFolder} = params
 
         // If the document is not an HTMLDocument (XMLDocument) then we need to create our own
         // to be able to create HTMLElements
