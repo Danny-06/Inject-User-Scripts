@@ -1,5 +1,5 @@
 // Save Module in the window object
-import('../../@libs/utils-injection.js').then(module => {
+import('../../../@libs/utils-injection.js').then(module => {
   window._customModule = module
 })
 

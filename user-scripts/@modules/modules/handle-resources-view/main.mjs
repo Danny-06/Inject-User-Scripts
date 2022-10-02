@@ -1,6 +1,3 @@
-import { decimalToHex } from "../../@libs/utils-injection.js"
-
-
 const doc = document.implementation.createHTMLDocument()
 
 ;(function() {
@@ -16,8 +13,31 @@ const doc = document.implementation.createHTMLDocument()
 
 
 async function customScrollbar() {
-  const {default: scrollbarStyleSheet} = await import(`../stylesheets/custom-scrollbar.css`, {assert: {type: 'css'}})
+  const {default: scrollbarStyleSheet} = await import(`custom-scrollbar.css`, {assert: {type: 'css'}})
   document.adoptedStyleSheets = [...document.adoptedStyleSheets, scrollbarStyleSheet]
+}
+
+function decimalToHex(r, g, b, a) {
+  let rgba = [r, g, b, a]
+
+  rgba = rgba.map(c => c.toString(16))
+  // Añadir 0 a la izquierda si solo hay un carácter
+  rgba = rgba.map(c => c.length === 1 ? `0${c}` : c);
+
+  [r, g, b, a] = rgba
+
+
+  // Si los dígitos están duplicados usar la forma simplificada
+  if(
+    r[0] === r[1] &&
+    g[0] === g[1] &&
+    b[0] === b[1] &&
+    a[0] === a[1]
+  ) {
+    rgba = rgba.map(c => c[0])
+  }
+
+  return rgba
 }
 
 

@@ -462,14 +462,14 @@ const tp = trustedTypes.createPolicy('', {createHTML: e => e, createScriptURL: e
 
   if (element.dataset != null) {
     for (const [property, value] of Object.entries(dataset ?? {})) {
-      if (value === 'undefined') continue
+      if (value === undefined) continue
 
       element.dataset[property] = value
     }
   }
 
   for (const [property, value] of Object.entries(attributes ?? {})) {
-    if (value === 'undefined') continue
+    if (value === undefined) continue
 
     if (['src', 'href'].includes(property)) {
       element.setAttribute(property, tp.createScriptURL(value))
@@ -481,7 +481,7 @@ const tp = trustedTypes.createPolicy('', {createHTML: e => e, createScriptURL: e
   }
 
   for (const [property, value] of Object.entries(properties ?? {})) {
-    if (value === 'undefined') continue
+    if (value === undefined) continue
 
     if (['innerHTML', 'outerHTML', 'innerText', 'outerText', 'textContent'].includes(property)) {
       element[property] = tp.createHTML(value)

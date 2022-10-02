@@ -44,32 +44,17 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
         const doc = document instanceof HTMLDocument ? document : document.implementation.createHTMLDocument()
 
 
-        // Inject code for all pages
+        // Inject Modules
 
-        settingsAll.stylesheets?.forEach(stylesheetName => {
-          if (!stylesheetName) return
-
-          const stylesheet = doc.createElement('link')
-
-          stylesheet.rel = 'stylesheet'
-          stylesheet.href = `${extensionUrl}/${userScriptsFolder}/${allURLSFolder}/${stylesheetName}`
-          stylesheet.dataset.source = `Chrome Extension - ${allURLSFolder}`
-
-          document.head ? document.head.append(stylesheet) : document.documentElement.append(stylesheet)
-        })
-
-        settingsAll.scripts?.forEach(scriptName => {
-          if (!scriptName) return
-
+        ;(function() {
           const script = doc.createElement('script')
 
-          if (scriptName.endsWith('.mjs')) script.type = 'module'
-          script.defer = true
-          script.src = `${extensionUrl}/${userScriptsFolder}/${allURLSFolder}/${scriptName}`
-          script.dataset.source = `Chrome Extension - ${allURLSFolder}`
+          script.src = `${extensionUrl}/${userScriptsFolder}/@modules/domain-match-injection.mjs`
+          script.type = 'module'
+          script.dataset.source = 'Chrome Extension - Modules'
 
           document.head ? document.head.append(script) : document.documentElement.append(script)
-        })
+        })()
 
         // Inject code for the current domain
 
