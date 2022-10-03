@@ -120,11 +120,6 @@ async function init() {
 
     })()
 
-    if (location.pathname === '/watch') {
-      initCustomContextMenu()
-    }
-
-
     // Set Scroll Padding equal to navbar height
     waitForSelector('#masthead-container').then(navbar => {
       document.documentElement.style.scrollPaddingBlockStart = `${navbar.offsetHeight}px`
@@ -137,7 +132,6 @@ async function init() {
 
     initNavigation().catch(console.error)
     async function initNavigation(event) {
-
       if (location.pathname !== '/watch') {
         if (location.pathname === '/') {
           // Make a recursion for the youtube main page to detect the preview video
@@ -146,6 +140,8 @@ async function init() {
         }
         return
       }
+
+      initCustomContextMenu()
 
       // Scroll to selected item in playlist
       ;(async function() {
@@ -161,13 +157,14 @@ async function init() {
         const selectedItem = playlistItemsContainer.querySelector(':scope > [selected]')
 
         playlistItemsContainer.scrollTop = selectedItem.offsetTop - selectedItem.offsetHeight - header.offsetHeight - 50
+        
+        window.addEventListener('resize', async event => {
+          await delay(500)
+          playlistItemsContainer.scrollTop = selectedItem.offsetTop - selectedItem.offsetHeight - header.offsetHeight - 50
+        })
 
       })();
 
-
-      if (event && event.type === 'yt-navigate-finish') {
-        window.removeEventListener('load', () => initNavigation().catch(console.error));
-      }
 
       /**
        * @type {HTMLVideoElement}

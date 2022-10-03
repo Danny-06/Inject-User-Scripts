@@ -1,5 +1,5 @@
 import { getMediaAsBlob } from '../../../@libs/libs/canvas-utils.js'
-import { cssInlinePropertiesProxyWrapper, waitForSelector } from '../../../@libs/utils-injection.js'
+import { cloneScript, cssInlinePropertiesProxyWrapper, delay, waitForSelector } from '../../../@libs/utils-injection.js'
 
 const video = await waitForSelector('ytd-watch-flexy video')
 
@@ -101,6 +101,7 @@ export const copyVideoURLEmbedNoCookie = {
   }
 }
 
+
 export const captureScreenshot = {
   id: 'capture-screenshot',
   name: 'Capturar fotograma actual',
@@ -118,17 +119,14 @@ export const captureScreenshot = {
     const url = URL.createObjectURL(blob)
 
     const blobWindow = window.open(url)
-    const extensionScripts = document.querySelectorAll('[data-source="Chrome Extension - @all-urls"]')
+    const extensionStyleSheets = document.querySelectorAll('link[data-source^="Chrome Extension"]')
 
     blobWindow.addEventListener('beforeunload', event => URL.revokeObjectURL(url))
 
-    await delay(0)
-
-    extensionScripts.forEach(s => {
-      if (s instanceof HTMLScriptElement)
-        blobWindow.document.head.append(cloneScript(s))
-      else
+    blobWindow.addEventListener('load', event =>{
+      extensionStyleSheets.forEach(s => {
         blobWindow.document.head.append(s.cloneNode(true))
+      })
     })
   }
 }

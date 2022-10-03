@@ -17,11 +17,17 @@ export class ContextMenuManager {
     this.ctxItems.clear()
   }
 
+  static #isContextMenuInitializing = false
+
   /**
    * 
    * @returns {Promise<HTMLDivElement>} Container for the custom ContextMenu items
    */
   static async initCustomContextMenuItems() {
+    if (this.#isContextMenuInitializing) return
+
+    this.#isContextMenuInitializing = true
+
     await this.#removeContextMenuItems()
 
     const contextMenuPopup = await waitForSelector('.ytp-popup.ytp-contextmenu > .ytp-panel > .ytp-panel-menu')
@@ -106,6 +112,8 @@ export class ContextMenuManager {
     contextMenuPopup.prepend(groupItems)
 
     await delay(0)
+
+    this.#isContextMenuInitializing = false
 
     return groupItems.querySelector(':scope > .options-content')
   }

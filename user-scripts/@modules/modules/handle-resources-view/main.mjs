@@ -13,7 +13,7 @@ const doc = document.implementation.createHTMLDocument()
 
 
 async function customScrollbar() {
-  const {default: scrollbarStyleSheet} = await import(`custom-scrollbar.css`, {assert: {type: 'css'}})
+  const {default: scrollbarStyleSheet} = await import(`./custom-scrollbar.css`, {assert: {type: 'css'}})
   document.adoptedStyleSheets = [...document.adoptedStyleSheets, scrollbarStyleSheet]
 }
 
