@@ -77,7 +77,7 @@ export function _matchesDomain(value, match) {
 
   // Protocol
 
-  if (/^[a-zA-Z]+:\/\//.test(match)) {
+  if (/^[a-zA-Z*]+:\/\//.test(match)) {
     const protocol = match.slice(0, match.indexOf(':'))
 
     matchParts.protocol = protocol
@@ -92,13 +92,13 @@ export function _matchesDomain(value, match) {
 
   // Prefix
 
-  if (/^[a-zA-Z]+:\/\/[a-zA-Z]+\./.test(match)) {
+  if (/^[a-zA-Z*]+:\/\/[a-zA-Z*]+\./.test(match)) {
     const prefix = match.slice(match.indexOf('://') + 3, match.indexOf('.'))
 
     matchParts.prefix = prefix
   }
   else
-  if (/^[a-zA-Z]+\.[a-zA-Z]+\.[a-zA-Z]+/.test(match)) {
+  if (/^[a-zA-Z*]+\.[a-zA-Z*]+\.[a-zA-Z*]+/.test(match)) {
     const prefix = match.slice(0, match.indexOf('.'))
 
     matchParts.prefix = prefix
@@ -119,18 +119,25 @@ export function _matchesDomain(value, match) {
 
   // Domain
 
-  if (/^[a-zA-Z]+:\/\/[a-zA-Z]+\.[a-zA-Z]+\.[a-zA-Z]+/.test(match)) {
+  if (/^[a-zA-Z*]+:\/\/[a-zA-Z*]+\.[a-zA-Z*]+\.[a-zA-Z*]+/.test(match)) {
     const domain = match.slice(match.indexOf('://') + 3, match.indexOf('.'))
 
     matchParts.domain = domain
   }
 
+  console.log('valueParts', valueParts)
+  console.log('matchParts', matchParts)
+
 
   for (const [key, matchValue] of Object.entries(matchParts)) {
     if (key === 'paths') {
-      if (valueParts[key].join('/') !== matchValue.join('/')) {
-        return false
-      }
+      const allPathMatch = matchValue.every((matchPath, index) => {
+        if (matchPath === '*') return true
+
+        return matchPath === valueParts[key][index]
+      })
+
+      if (!allPathMatch) return false
     }
     else
     if (matchValue === '*') continue
