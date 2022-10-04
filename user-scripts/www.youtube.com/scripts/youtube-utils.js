@@ -302,95 +302,14 @@ export async function calidad1080pAutomatica(video) {
  * to be able to get all the data
  * @param {PlaylistMetadaOptions} options
  */
-export function getCurrentPlaylistMetadata(options = {}) {
-  const {getCurrentData = false, doc = document} = options
+export async function getCurrentPlaylistMetadata() {
+  const playlistId = new URL(location.href).searchParams.get('list')
 
-  const playlistSidebar = doc.querySelector('ytd-playlist-sidebar-renderer')
-  const playlistContainer = doc.querySelector('ytd-playlist-video-list-renderer')
-  const ytdBrowse = doc.querySelector('ytd-browse')
+  if (playlistId == null || playlistId == '') throw new Error(`Couldn't find 'playlistId'`)
 
-  const {data: data1} = playlistSidebar
-  const {data: data2} = playlistContainer
-  const {data: data3} = ytdBrowse
+  const data = await getPlaylistMetadata({playlistId})
 
-  if (data1 == null || data2 == null) {
-    showPopup('Data not accessible, try to reload the page')
-    return
-  }
-
-
-  const playlistLength     = parseInt(data1.items[0].playlistSidebarPrimaryInfoRenderer.stats[0].runs[0].text)
-  const hiddenVideosLength = parseInt(data3.alerts?.[0].alertWithButtonRenderer.text.simpleText ?? 0) || 0
-
-  const contents = data2.contents
-
-  if (!getCurrentData && contents.length !== (playlistLength - hiddenVideosLength)) {
-    const message = `The playlist is not fully loaded, scroll down to load it completely`
-    showPopup(message, 5000)
-
-    throw new Error(message)
-  }
-
-  const videos = []
-
-  const title       = data1.items[0].playlistSidebarPrimaryInfoRenderer.title?.runs[0].text ??
-                      data1.items[0].playlistSidebarPrimaryInfoRenderer.titleForm.inlineFormRenderer.textDisplayed?.simpleText
-
-  const description = data1.items[0].playlistSidebarPrimaryInfoRenderer.description?.simpleText ??
-                      data1.items[0].playlistSidebarPrimaryInfoRenderer.description?.runs?.map(s => s.text).join('') ??
-                      data1.items[0].playlistSidebarPrimaryInfoRenderer.descriptionForm?.inlineFormRenderer.textDisplayed?.simpleText ??
-                      `(${data1.items[0].playlistSidebarPrimaryInfoRenderer.descriptionForm?.inlineFormRenderer.placeholder?.runs.map(s => s.text).join('') ?? 'No description'})`
-
-  const owner = {
-    name: data1.items[1]?.playlistSidebarSecondaryInfoRenderer.videoOwner.videoOwnerRenderer.title.runs[0].text ?? null,
-    id:   data1.items[1]?.playlistSidebarSecondaryInfoRenderer.videoOwner.videoOwnerRenderer.navigationEndpoint.browseEndpoint.browseId ?? null
-  }
-
-  const lastUpdated = data1.items[0].playlistSidebarPrimaryInfoRenderer.stats[2].runs[0].text +
-                      (data1.items[0].playlistSidebarPrimaryInfoRenderer.stats[2].runs[1]?.text ?? '')
-
-  const views       = data1.items[0].playlistSidebarPrimaryInfoRenderer.stats[1].simpleText
-
-  const {playlistId} = data2
-
-  const playlist = {
-    title,
-    description,
-    playlistId,
-    playlistURL: `https://www.youtube.com/playlist?list=${playlistId}`,
-    videos,
-    owner,
-    lastUpdated,
-    views,
-    hiddenVideosLength
-  }
-
-
-  for (let i = 0; i < contents.length; i++) {
-    const videoData = contents[i].playlistVideoRenderer
-
-    if (videoData == null) continue
-
-    const videoId = videoData.videoId
-    const length  = videoData.lengthText?.simpleText ?? null
-
-    const thumbnails = [
-      `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
-      `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
-    ]
-
-    const title =  videoData.title.runs[0].text
-    const url = `https://youtube.com/watch?v=${videoId}`
-
-    const owner = {
-      name: videoData.shortBylineText?.runs[0].text ?? null,
-      id:   videoData.shortBylineText?.runs[0].navigationEndpoint.browseEndpoint.browseId ?? null
-    }
-
-    videos.push({title, url, id: videoId, length, thumbnails, owner})
-  }
-
-  return playlist
+  return data
 }
 
 
@@ -399,8 +318,8 @@ export function getCurrentPlaylistMetadata(options = {}) {
  * @param {string} authorization
  * @returns
  */
-export function cloneCurrentPlaylist(authorization) {
-  const playlistData = getCurrentPlaylistMetadata()
+export async function cloneCurrentPlaylist(authorization) {
+  const playlistData = await getCurrentPlaylistMetadata()
 
   return createPlaylist({
     authorization: authorization,
@@ -462,7 +381,7 @@ function createAndAppendIframe(src) {
   })
 }
 
-export async function getPlaylistMetadata(options = null) {
+export async function getPlaylistMetadataIframe(options = null) {
   if (options == null) {
     options = {}
 
@@ -520,7 +439,7 @@ export async function getPlaylistMetadata(options = null) {
   return data
 }
 
-export async function clonePlaylist(options) {
+export async function clonePlaylistIframe(options) {
   const {authorization, playlistId} = options
 
   const data = await getPlaylistMetadata({playlistId})
@@ -668,6 +587,179 @@ export async function createPlaylist(options) {
 
     body: JSON.stringify(body)
   })
+}
+
+export async function getPlaylistMetadata(options) {
+  const {playlistId} = options
+
+  if (playlistId == null || playlistId === '') throw new Error(`Missing 'playlistId'`)
+
+  const data = {
+    title: '',
+    description: '',
+    playlistId: '',
+    playlistURL: '',
+    videos: [],
+    owner: {
+      name: '',
+      id: ''
+    },
+    lastUpdated: '',
+    views: ''
+  }
+
+  const API_KEY        = ytcfg?.data_?.INNERTUBE_API_KEY        ?? yt?.config_?.INNERTUBE_API_KEY
+  const clientName     = ytcfg?.data_?.INNERTUBE_CLIENT_NAME    ?? yt?.config_?.INNERTUBE_CLIENT_NAME
+  const clientVersion  = ytcfg?.data_?.INNERTUBE_CLIENT_VERSION ?? yt?.config_?.INNERTUBE_CLIENT_VERSION
+  const googleAuthUser = ytcfg?.data_?.SESSION_INDEX            ?? yt?.config_?.SESSION_INDEX
+
+  data.playlistURL = `https://www.youtube.com/playlist?list=${playlistId}`
+
+  const doc = await fetch(data.playlistURL)
+                   .then(r => r.text())
+                   .then(text => {
+                     const doc = document.implementation.createHTMLDocument()
+                     doc.write(text)
+                     doc.close()
+                     return doc
+                   });
+
+
+  const jsonInitialData = [...doc.querySelectorAll('script')]
+                          .filter(s => s.innerHTML.trim().startsWith('var ytInitialData'))[0]
+                          .innerHTML.slice('var ytInitialData = '.length, -1)
+
+  const initialData = JSON.parse(jsonInitialData)
+
+  const plspir = initialData.sidebar.playlistSidebarRenderer.items[0].playlistSidebarPrimaryInfoRenderer
+  const plssir = initialData.sidebar.playlistSidebarRenderer.items[1].playlistSidebarSecondaryInfoRenderer
+
+  data.title       = plspir.title?.runs[0].text ??
+                      plspir.titleForm.inlineFormRenderer.textDisplayed?.simpleText
+
+  data.description = plspir.description?.simpleText ??
+                      plspir.description?.runs?.map(s => s.text).join('') ??
+                      plspir.descriptionForm?.inlineFormRenderer.textDisplayed?.simpleText ??
+                      `(${plspir.descriptionForm?.inlineFormRenderer.placeholder?.runs.map(s => s.text).join('') ?? 'No description'})`
+
+  data.owner = {
+    name: plssir.videoOwner.videoOwnerRenderer.title.runs[0].text ?? null,
+    id:   plssir.videoOwner.videoOwnerRenderer.navigationEndpoint.browseEndpoint.browseId ?? null
+  }
+
+  data.lastUpdated = plspir.stats[2].runs[0].text +
+                      plspir.stats[2].runs[1]?.text ?? ''
+
+  data.views       = plspir.stats[1].simpleText
+
+  const playlistVideoListRenderer = initialData.contents.twoColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents[0].itemSectionRenderer.contents[0].playlistVideoListRenderer
+ 
+  data.playlistId = playlistVideoListRenderer.playlistId
+  data.title = initialData.metadata.playlistMetadataRenderer.title
+
+  const contents = playlistVideoListRenderer.contents
+
+  const continuationItem = contents.splice(contents.length - 1, 1)[0]
+
+  let continuationToken = null
+
+  if (!continuationItem.hasOwnProperty('continuationItemRenderer')) {
+    contents.push(continuationItem)
+  } else {
+    continuationToken = continuationItem.continuationItemRenderer.continuationEndpoint.continuationCommand.token
+  }
+
+  contents.forEach(c => {
+    const video = {
+      title: '',
+      url: '',
+      id: '',
+      length: '',
+      thumbnails: null
+    }
+
+    const plvr = c.playlistVideoRenderer
+
+    video.id = plvr.videoId
+    video.title = plvr.title.runs[0].text
+    video.length = plvr.lengthText.simpleText
+    video.url = `https://www.youtube.com/watch?v=${video.id}`
+
+    video.thumbnails = [
+      `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`,
+      `https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`
+    ]
+
+    data.videos.push(video)
+  })
+
+  await (async function fetchContinuation(continuationToken) {
+
+    if (continuationToken == null) return
+
+    const body = {
+      context: {
+        client: {
+          clientName: clientName,
+          clientVersion: clientVersion
+        }
+      },
+      continuation: continuationToken
+    }
+
+    const dataResponse = await fetch(`https://www.youtube.com/youtubei/v1/browse?key=${API_KEY}&prettyPrint=false`, {
+      headers: {
+        'cache-control': 'no-cache',
+        'content-type': 'application/json',
+        'x-goog-authuser': googleAuthUser,
+      },
+      body: JSON.stringify(body),
+      method: 'POST',
+      mode: 'cors',
+    }).then(r => r.json())
+
+    const continuationItems = dataResponse.onResponseReceivedActions[0].appendContinuationItemsAction.continuationItems
+
+    const continuationItem = continuationItems.splice(continuationItems.length - 1, 1)[0]
+
+    let nextContinuationToken = null
+
+    if (!continuationItem.hasOwnProperty('continuationItemRenderer')) {
+      continuationItems.push(continuationItem)
+    } else {
+      nextContinuationToken = continuationItem.continuationItemRenderer.continuationEndpoint.continuationCommand.token
+    }
+
+    continuationItems.forEach(c => {
+      const video = {
+        title: '',
+        url: '',
+        id: '',
+        length: '',
+        thumbnails: null
+      }
+  
+      const plvr = c.playlistVideoRenderer
+  
+      video.id = plvr.videoId
+      video.title = plvr.title.runs[0].text
+      video.length = plvr.lengthText.simpleText
+      video.url = `https://www.youtube.com/watch?v=${video.id}`
+  
+      video.thumbnails = [
+        `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`,
+        `https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`
+      ]
+  
+      data.videos.push(video)
+    })
+
+    await fetchContinuation(nextContinuationToken)
+
+  })(continuationToken)
+
+
+  return data
 }
 
 
