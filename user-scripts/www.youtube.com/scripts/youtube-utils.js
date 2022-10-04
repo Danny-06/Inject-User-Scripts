@@ -608,11 +608,6 @@ export async function getPlaylistMetadata(options) {
     views: ''
   }
 
-  const API_KEY        = ytcfg?.data_?.INNERTUBE_API_KEY        ?? yt?.config_?.INNERTUBE_API_KEY
-  const clientName     = ytcfg?.data_?.INNERTUBE_CLIENT_NAME    ?? yt?.config_?.INNERTUBE_CLIENT_NAME
-  const clientVersion  = ytcfg?.data_?.INNERTUBE_CLIENT_VERSION ?? yt?.config_?.INNERTUBE_CLIENT_VERSION
-  const googleAuthUser = ytcfg?.data_?.SESSION_INDEX            ?? yt?.config_?.SESSION_INDEX
-
   data.playlistURL = `https://www.youtube.com/playlist?list=${playlistId}`
 
   const doc = await fetch(data.playlistURL)
@@ -630,6 +625,30 @@ export async function getPlaylistMetadata(options) {
                           .innerHTML.slice('var ytInitialData = '.length, -1)
 
   const initialData = JSON.parse(jsonInitialData)
+
+  const clientData = initialData.responseContext.serviceTrackingParams
+  .filter(st => st.service === 'ECATCHER')[0].params
+  .map(d => ({[d.key]: d.value}))
+  .reduce((acc, val) => Object.assign(acc, val), {})
+
+  const ytcfgText = [...doc.querySelectorAll('script')]
+                  .filter(s => s.innerHTML.trim().startsWith('(function() {window.ytplayer={};\nytcfg.set'))[0]
+                  .innerHTML
+
+  const startIndex = ytcfgText.indexOf(`"INNERTUBE_API_KEY":"`) + `"INNERTUBE_API_KEY":"`.length;
+  
+
+  const API_KEY = ytcfgText.slice(startIndex, ytcfgText.indexOf(`"`, startIndex))
+  const clientName = clientData['client.name']
+  const clientVersion = clientData['client.version']
+  const googleAuthUser = initialData.responseContext.webResponseContextExtensionData.ytConfigData.sessionIndex
+
+
+  // const API_KEY        = ytcfg?.data_?.INNERTUBE_API_KEY        ?? yt?.config_?.INNERTUBE_API_KEY
+  // const clientName     = ytcfg?.data_?.INNERTUBE_CLIENT_NAME    ?? yt?.config_?.INNERTUBE_CLIENT_NAME
+  // const clientVersion  = ytcfg?.data_?.INNERTUBE_CLIENT_VERSION ?? yt?.config_?.INNERTUBE_CLIENT_VERSION
+  // const googleAuthUser = ytcfg?.data_?.SESSION_INDEX            ?? yt?.config_?.SESSION_INDEX
+
 
   const plspir = initialData.sidebar.playlistSidebarRenderer.items[0].playlistSidebarPrimaryInfoRenderer
   const plssir = initialData.sidebar.playlistSidebarRenderer.items[1].playlistSidebarSecondaryInfoRenderer
