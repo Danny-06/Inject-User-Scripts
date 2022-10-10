@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /* Hace que el video no se pueda seleccionar */
 #player {
   user-select: none;
@@ -27,7 +29,7 @@ ytd-rich-item-renderer {
 }
 
 
-/* Ocultar icono del canal procedented de las anotaciones de los videos */
+/* Ocultar icono del canal procedente de las anotaciones de los videos */
 .ytp-iv-player-content .iv-branding {
   display: none !important;
 }
@@ -59,7 +61,7 @@ ytd-rich-item-renderer {
 
 /* Desactivar la selección del panel lateral */
 tp-yt-app-drawer #contentContainer {
-	user-select: none !important;
+  user-select: none !important;
 }
 
 ytd-button-renderer,
@@ -71,7 +73,7 @@ ytd-toggle-button-renderer {
 
 /* Ocultar botón de cerrar sesión */
 a[href*="/logout"] {
-	display: none !important;
+  display: none !important;
 }
 
 
@@ -81,7 +83,7 @@ no se vea afectado tambien
 */
 /* Extender el ancho de la zona del video y los comentarios */
 #primary {
-	max-width: 100% !important;
+  max-width: 100% !important;
 }
 
 /* Ocultar texto del botón "Compartir" para tener más espacio */
@@ -92,28 +94,28 @@ no se vea afectado tambien
 
 /* Eliminar popup de consentimiento */
 #consent-bump {
-	display: none !important;
+  display: none !important;
 }
 
 iron-overlay-backdrop {
-	/*z-index: 0 !important;*/
-	display: none !important;
+  /*z-index: 0 !important;*/
+  display: none !important;
 }
 
 
 /*
 .ytp-play-button {
-	width: 36px !important;
+  width: 36px !important;
 }
 .ytp-play-button {
-	height: 36px !important;
+  height: 36px !important;
 }
 
 ytd-watch-flexy[fullscreen] .ytp-play-button {
-	width: 54px !important;
+  width: 54px !important;
 }
 ytd-watch-flexy[fullscreen] .ytp-play-button {
-	height: 54px !important;
+  height: 54px !important;
 }
 */
 
@@ -136,7 +138,7 @@ ytd-watch-flexy[fullscreen] .ytp-play-button {
 
 /* Scroll de los botones de los videos relacionados */
 #scroll-container::-webkit-scrollbar {
-	display: none;
+  display: none;
 }
 
 
@@ -178,22 +180,16 @@ ytd-popup-container.style-scope.ytd-app > paper-dialog {
 /* Miniatura de los videos que tienen al fondo */
 
 .ytp-cued-thumbnail-overlay-image {
-	display: none !important;
+  display: none !important;
 }
 
 /* Caja de comentarios de las notificaciones */
 /* Ajueste de la altura para evitar la barra de scroll innecesaria
 y hacer visible la otra */
 ytd-multi-page-menu-renderer.style-scope.ytd-multi-page-menu-renderer {
-	height: 100% !important;
+  height: 100% !important;
 }
 
-
-
-/* Texto al lado del botón descargar de Skyload */
-.style-scope.ytd-toggle-button-renderer.x-scope.paper-tooltip-3 {
-  display: none;
-}
 
 .ytd-toggle-button-renderer-1.yt-download__button iron-icon {
   filter: invert(1);
@@ -201,15 +197,18 @@ ytd-multi-page-menu-renderer.style-scope.ytd-multi-page-menu-renderer {
 
 
 
-.ytp-ce-element {
+/* Hacer invisible las tarjetas al final de los videos por defecto */
+.html5-video-player > .ytp-ce-element {
   opacity: 0 !important;
   transition: 1.5s;
 }
 
-.ytp-ce-element:hover {
+/* Y mostrarlas al hacer hover en alguna parte del video */
+.html5-video-player:hover:not(:has(.ytp-chrome-top:hover, .ytp-chrome-bottom:hover)) > .ytp-ce-element {
   opacity: 1 !important;
   transition: 0.5s;
 }
+
 
 /* Ocultar cartel de "Quienes ven tal canal tambien ven este" */
 
