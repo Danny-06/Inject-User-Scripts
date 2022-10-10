@@ -220,7 +220,7 @@ export class ArrayN {
   getPortion(dimensions, coordinates = []) {
     if (!Array.isArray(coordinates) || !coordinates.every(n => typeof n === 'number')) throw new TypeError(`param 1 must be an array of numbers`)
 
-    if (typeof dimensions !== 'number') new TypeError(`param 1 must be a number`)
+    if (typeof dimensions !== 'number') throw new TypeError(`param 1 must be a number`)
 
     if (dimensions > this.#dimensions) throw new TypeError(`dimensions provided cannot be bigger than dimensions of the ArrayN`)
 

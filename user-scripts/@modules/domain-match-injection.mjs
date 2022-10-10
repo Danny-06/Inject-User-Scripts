@@ -12,6 +12,14 @@ injectModulesWithDomainMatch({
 
 
 injectModulesWithDomainMatch({
+  matchExpressions: ['twitter.com', 'mobile.twitter.com'],
+  modules: [
+    'twitter-and-mobile'
+  ]
+})
+
+
+injectModulesWithDomainMatch({
   matchExpressions: [
     '*.google.*', 'netflix.com', 'clashroyale.com', 'reddit.com',
     'stackoverflow.com', 'github.com', 'facebook.com', '*.instagram.com', 'w3schools.com',

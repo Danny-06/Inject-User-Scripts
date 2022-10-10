@@ -106,6 +106,13 @@ async function Executer() {
 
   })
 
+  window.addEventListener('wheel', event => {
+    if (event.target.closest('#group-custom-options')) return
+    if (!event.target.closest('.ytp-popup.ytp-contextmenu')) return
+
+    event.preventDefault()
+  }, {passive: false})
+
   videoOverlay.addEventListener('wheel', function (event) {
     event.preventDefault()
 

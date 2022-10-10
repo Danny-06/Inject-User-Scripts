@@ -545,7 +545,7 @@ export function editPlaylist(options) {
  * @param {CreatePlaylistOptions} options
  * @returns
  */
-export async function createPlaylist(options) {
+export function createPlaylist(options) {
   const date  = new Date()
   const day   = date.getDate() + 1
   const month = date.getMonth() + 1
