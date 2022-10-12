@@ -200,13 +200,12 @@ ytd-multi-page-menu-renderer.style-scope.ytd-multi-page-menu-renderer {
 /* Hacer invisible las tarjetas al final de los videos por defecto */
 .html5-video-player > .ytp-ce-element {
   opacity: 0 !important;
-  transition: 1.5s;
+  transition: 0.5s;
 }
 
 /* Y mostrarlas al hacer hover en alguna parte del video */
 .html5-video-player:hover:not(:has(.ytp-chrome-top:hover, .ytp-chrome-bottom:hover)) > .ytp-ce-element {
   opacity: 1 !important;
-  transition: 0.5s;
 }
 
 

@@ -145,6 +145,11 @@ body.HIDDEN [jscontroller="eZ1uA"] {
   display: flex !important;
 }
 
+/* Capa que esta por encima de los videos */
+.uAzxg, .tTdl5d {
+  height: 0;
+}
+
 
 /* Div, que contiene los botones superpuestos en los videos */
 /* Modificación de la altura para que no se superponga al video y

@@ -107,7 +107,7 @@ async function Executer() {
   })
 
   window.addEventListener('wheel', event => {
-    if (event.target.closest('#group-custom-options')) return
+    if (event.target.closest('#group-custom-options > .options-content.ytp-panel-menu')) return
     if (!event.target.closest('.ytp-popup.ytp-contextmenu')) return
 
     event.preventDefault()

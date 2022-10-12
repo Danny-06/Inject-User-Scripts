@@ -131,9 +131,11 @@ window.addEventListener('mouseover', async event => {
 
   const index = img.src.indexOf('=')
 
-  if (index === -1) return thumbnailImg.src = img.src
-
-  thumbnailImg.src = `${img.src.slice(0, index)}=s${imgSize}`
+  if (index !== -1) {
+    thumbnailImg.src = `${img.src.slice(0, index)}=s${imgSize}`
+  } else {
+    thumbnailImg.src = img.src
+  }
 
   const imgRect = img.getBoundingClientRect()
   let left = imgRect.x + imgRect.width + 10
