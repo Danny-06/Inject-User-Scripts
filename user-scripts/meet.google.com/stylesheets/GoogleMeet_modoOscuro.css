@@ -258,7 +258,7 @@ p,
 }
 
 /* Barra de Llamada */
-.rG0ybd {
+[jsname="EaZ7Cc"] {
     /*width: 100% !important;*/
   transition: 0.5s !important;
   transform: translate(0px, 50px) !important;
@@ -266,9 +266,9 @@ p,
   border-top: solid 1px #444;
 }
 
-.rG0ybd:hover,
-.rG0ybd[hover],
-body.fijarBarraLlamada .rG0ybd,
+[jsname="EaZ7Cc"]:hover,
+[jsname="EaZ7Cc"][hover],
+body.fijarBarraLlamada [jsname="EaZ7Cc"],
 
 /* Mostrar barra cuando haya algún panel activo */
 .R3Gmyc.qwU8Me:not(.qdulke) ~ .rG0ybd {
@@ -1273,4 +1273,8 @@ textarea {
 /* Botón sala de espera */
 .AJVfr.cd29Sd {
   background-color: #444;
+}
+
+.Na9HSd .UhOF5b .s05H9 {
+  color: unset;
 }
