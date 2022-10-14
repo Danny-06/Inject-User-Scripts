@@ -26,7 +26,7 @@ async function init() {
 
     const menu = await waitForSelector(`#message[role="menu"] > *:first-child`)
 
-    if (ctxContainer === menu) return
+    if (ctxMContainer === menu) return
 
     ctxMContainer = menu
 
