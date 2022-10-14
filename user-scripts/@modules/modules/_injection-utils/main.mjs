@@ -48,6 +48,29 @@ Object.defineProperties(String.prototype, {
 
 // })
 
+// Object.defineProperty(Function.prototype, 'try', {
+//   value() {
+//     let result = null
+//     let error = null
+
+//     try {
+//       result = this(...arguments)
+//     } catch (err) {
+//       error = err
+//     }
+
+//     if (result instanceof Promise) {
+//       return result.then(
+//         value  => [value, null],
+//         reason => [null, reason]
+//       )
+//     }
+
+//     return [result, error]
+//   }
+// })
+
+
 
 
 
