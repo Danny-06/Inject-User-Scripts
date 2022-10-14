@@ -18,7 +18,7 @@ async function main() {
 
   const ytdApp = document.querySelector('ytd-app')
   
-  if (!ytdApp.data?.response?.metadata?.channelMetadataRenderer) return
+  if (!ytdApp?.data?.response?.metadata?.channelMetadataRenderer) return
 
   const channelId = ytdApp.data?.response.metadata.channelMetadataRenderer.externalId
 
