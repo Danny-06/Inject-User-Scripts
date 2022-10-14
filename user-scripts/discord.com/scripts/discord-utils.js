@@ -64,6 +64,8 @@ export class ContextMenuManager {
 
   static isRunning = false
 
+  static currentEvent = null
+
   static items = new Set()
 
   /**
@@ -102,7 +104,7 @@ export class ContextMenuManager {
     item.addEventListener('click', event => {
       item.closest(`#message[role="menu"] > *:first-child`).remove()
 
-      action?.(item)
+      action?.(item, this.currentEvent)
     })
 
     item.addEventListener('mouseenter', event => {

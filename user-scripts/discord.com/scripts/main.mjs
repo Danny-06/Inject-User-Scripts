@@ -37,6 +37,8 @@ async function init() {
 
     ctxM.items.clear()
 
+    ctxM.currentEvent = event
+
     const separator = parseHTML(`<div role="separator" class="separator-1So4YB"></div>`)
     menu.lastChild.before(separator)
 
