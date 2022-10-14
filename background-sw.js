@@ -45,9 +45,9 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
         ;(function() {
           const script = doc.createElement('script')
 
-          script.src = `${extensionUrl}/${userScriptsFolder}/@modules/domain-match-injection.mjs`
           script.type = 'module'
           script.dataset.source = 'Chrome Extension - Modules'
+          script.src = `${extensionUrl}/${userScriptsFolder}/@modules/domain-match-injection.mjs`
 
           document.head ? document.head.append(script) : document.documentElement.append(script)
         })()
@@ -60,8 +60,8 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
           const stylesheet = doc.createElement('link')
 
           stylesheet.rel = 'stylesheet'
-          stylesheet.href = `${extensionUrl}/${userScriptsFolder}/${domain}/${stylesheetName}`
           stylesheet.dataset.source = 'Chrome Extension'
+          stylesheet.href = `${extensionUrl}/${userScriptsFolder}/${domain}/${stylesheetName}`
 
           document.head ? document.head.append(stylesheet) : document.documentElement.append(stylesheet)
         })
@@ -72,9 +72,10 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
           const script = doc.createElement('script')
 
           if (scriptName.endsWith('.mjs')) script.type = 'module'
-          script.defer = true
-          script.src = `${extensionUrl}/${userScriptsFolder}/${domain}/${scriptName}`
+          else                             script.defer = true
+
           script.dataset.source = 'Chrome Extension'
+          script.src = `${extensionUrl}/${userScriptsFolder}/${domain}/${scriptName}`
 
           document.head ? document.head.append(script) : document.documentElement.append(script)
         })
