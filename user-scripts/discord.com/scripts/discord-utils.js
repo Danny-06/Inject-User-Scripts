@@ -62,6 +62,8 @@ export async function initChatBg() {
 
 export class ContextMenuManager {
 
+  static isRunning = false
+
   static items = new Set()
 
   /**
@@ -70,6 +72,8 @@ export class ContextMenuManager {
    */
   static createContextMenuItem(options) {
     if (options == null) return null
+
+    this.isRunning = true
 
     const {id, name = 'No name given', icon = '', action} = options
 
@@ -113,6 +117,8 @@ export class ContextMenuManager {
     item.addEventListener('mouseleave', event => item.classList.remove('focused-3qFvc8'))
 
     this.items.add(item)
+
+    this.isRunning = false
 
     return item
   }

@@ -1,4 +1,4 @@
-import { createElement, handleSelectorLifeCycle, parseHTML } from '../../@libs/utils-injection.js'
+import { createElement, delay, handleSelectorLifeCycle, parseHTML, waitForSelector } from '../../@libs/utils-injection.js'
 import * as discordUtils from './discord-utils.js'
 import { findUser, initChatBg } from './discord-utils.js'
 import * as ctxMenu from './resource-data/context-menu-options.js'
@@ -19,42 +19,53 @@ init()
 async function init() {
   initChatBg()
 
-  handleSelectorLifeCycle(`#message[role="menu"] > *:first-child`, {
-    onExist: menu => {
-      const ctxM = discordUtils.ContextMenuManager
+  let ctxMContainer
 
-      ctxM.items.clear()
+  window.addEventListener('contextmenu', async event => {
+    await delay(0)
 
-      const separator = parseHTML(`<div role="separator" class="separator-1So4YB"></div>`)
-      menu.lastChild.before(separator)
+    const menu = await waitForSelector(`#message[role="menu"] > *:first-child`)
 
-      const group = createElement('div', {attributes: {role: 'group'}})
-      menu.lastChild.before(group)
+    if (ctxContainer === menu) return
+
+    ctxMContainer = menu
+
+    const ctxM = discordUtils.ContextMenuManager
+
+    if (ctxM.isRunning) return
 
 
-      // Context Menu Options
+    ctxM.items.clear()
 
-      ctxM.createContextMenuItems([
-        ctxMenu.changeChatBackground,
-        ctxMenu.changeChatBgOverlayColor,
+    const separator = parseHTML(`<div role="separator" class="separator-1So4YB"></div>`)
+    menu.lastChild.before(separator)
 
-        getValueIfSelectorMatches(
-          `[data-list-id="guildsnav"] .listItem-3SmSlK .blobContainer-ikKyFs.selected-3c78Ai img`,
-          ctxMenu.getServerIcon
-        ),
+    const group = createElement('div', {attributes: {role: 'group'}})
+    menu.lastChild.before(group)
 
-        getValueIfSelectorMatches(
-          `.sidebar-1tnWFu .bannerImage-ubW8K- img`,
-          ctxMenu.getServerBanner
-        )
-      ])
 
-      group.append(...ctxM.items, menu.lastChild)
+    // Context Menu Options
 
-      menu.style.width = [...menu.children].map(c => c.offsetWidth).sort((a, b) => b - a)[0] + 20 + 'px'
-      group.style.position = 'absolute'
-    }
-  })
+    ctxM.createContextMenuItems([
+      ctxMenu.changeChatBackground,
+      ctxMenu.changeChatBgOverlayColor,
+
+      getValueIfSelectorMatches(
+        `[data-list-id="guildsnav"] .listItem-3SmSlK .blobContainer-ikKyFs.selected-3c78Ai img`,
+        ctxMenu.getServerIcon
+      ),
+
+      getValueIfSelectorMatches(
+        `.sidebar-1tnWFu .bannerImage-ubW8K- img`,
+        ctxMenu.getServerBanner
+      )
+    ])
+
+    group.append(...ctxM.items, menu.lastChild)
+
+    menu.style.width = [...menu.children].map(c => c.offsetWidth).sort((a, b) => b - a)[0] + 20 + 'px'
+    group.style.position = 'absolute'
+  }, {capture: true})
 }
 
 
