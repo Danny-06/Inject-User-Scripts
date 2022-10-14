@@ -214,3 +214,10 @@ ytd-multi-page-menu-renderer.style-scope.ytd-multi-page-menu-renderer {
 #hover-overlays {
   display: none;
 }
+
+
+/* For some reason youtube hide the title of some videos in the search */
+
+/* yt-formatted-string[is-empty]:not(.use-shadow) {
+  display: block;
+} */
