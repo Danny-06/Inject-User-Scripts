@@ -1997,7 +1997,7 @@ export function slideArray(arr, n = 1) {
 }
 
 
-export function generateFloatingIframe() {
+export function generateFloatingIframe(addDefaults = true) {
   const mouse = new MouseInfo()
 
   const containerWrapper = document.createElement('div')
@@ -2091,8 +2091,9 @@ export function generateFloatingIframe() {
   }
   `
 
+  
   const stylesheet = new CSSStyleSheet()
-
+  
   shadowRoot.adoptedStyleSheets = [stylesheet]
 
   const css = // css
@@ -2192,19 +2193,20 @@ export function generateFloatingIframe() {
   }
   `
 
-
   stylesheet.replace(css)
 
   document.body.prepend(containerWrapper)
 
-  generateHTMLTemplate(iframe.contentDocument)
+  if (addDefaults) {
+    generateHTMLTemplate(iframe.contentDocument)
 
-  // Wait for iframe load
-  promiseDocumentLoad(iframe)
-  .then(ifr => {
-    const h1 = ifr.contentDocument?.querySelector('h1')
-    if (h1) h1.innerHTML = 'Iframe Testing'
-  })
+    // Wait for iframe load
+    promiseDocumentLoad(iframe)
+    .then(ifr => {
+      const h1 = ifr.contentDocument?.querySelector('h1')
+      if (h1) h1.innerHTML = 'Iframe Testing'
+    })
+  }
 
   return iframe
 }

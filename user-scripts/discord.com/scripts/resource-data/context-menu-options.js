@@ -1,4 +1,4 @@
-import { showPromptDialog } from '../../../@libs/utils-injection.js'
+import { createElement, generateFloatingIframe, showPromptDialog } from '../../../@libs/utils-injection.js'
 import * as discordUtils from '../discord-utils.js'
 
 export const copyCodeBlockToClipboard = {
@@ -146,5 +146,55 @@ export const getServerBanner = {
     if (!serverBannerURL) return
 
     window.open(serverBannerURL)
+  }
+}
+
+// Get nonce value of scritps to execute myOwn internal scritps
+const nonceScript = document.querySelector('script[nonce]')?.nonce
+
+export const runCodeBlocks = {
+  id: 'run-codeblocks',
+  name: 'Run codeblocks',
+  icon: // html
+  `
+  <svg height="100%" viewBox="0 0 36 36" width="100%">
+      <path fill="#fff" d="M14.1 24.9L7.2 18.0l6.9-6.9L12.0 9.0l-9.0 9.0 9.0 9.0 2.1-2.1zm7.8 .0l6.9-6.9-6.9-6.9L24.0 9.0l9.0 9.0-9.0 9.0-2.1-2.1z" />
+  </svg>
+  `
+  ,
+
+  condition(event) {
+    const message = event.target.closest('.messageListItem-ZZ7v6g')
+
+    const codeBlock = message.querySelector('pre > code')
+
+    return codeBlock !== null
+  },
+  action: async (item, event) => {
+    const message = event.target.closest('.messageListItem-ZZ7v6g')
+
+    const codeBlocks = [...message.querySelectorAll('pre > code')]
+
+    const cbHtml = codeBlocks.filter(c => c.classList.contains('html'))[0]
+    const cbCss  = codeBlocks.filter(c => c.classList.contains('css'))[0]
+    const cbJs   = codeBlocks.filter(c => c.classList.contains('js') || c.classList.contains('mjs'))[0]
+
+    const iframe = generateFloatingIframe(false)
+
+    iframe.contentDocument.write(cbHtml?.textContent ?? '')
+    iframe.contentDocument.close()
+
+    const style = createElement('style', {properties: {
+      innerHTML: cbCss?.textContent ?? ''
+    }})
+
+    const script = createElement('script', {properties:{
+      innerHTML: cbJs?.textContent ?? '',
+      type: cbJs?.classList.contains('mjs') ? 'module' : undefined,
+      defer: cbJs?.classList.contains('js') ? true : undefined,
+      nonce: nonceScript
+    }})
+
+    iframe.contentDocument.head.append(style, script)
   }
 }

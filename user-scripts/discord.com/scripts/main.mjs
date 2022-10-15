@@ -50,6 +50,8 @@ async function init() {
     // Context Menu Options
 
     ctxM.createContextMenuItems([
+      ctxMenu.runCodeBlocks,
+
       ctxMenu.getProfileImg,
       ctxMenu.copyCodeBlockToClipboard,
 
