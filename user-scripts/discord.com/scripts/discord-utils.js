@@ -85,6 +85,11 @@ export async function initChatBg() {
 
 export class ContextMenuManager {
 
+  /**
+   * @type {HTMLDivElement}
+   */
+  static menuElement
+
   static isRunning = false
 
   static currentEvent = null
@@ -140,14 +145,13 @@ export class ContextMenuManager {
     })
 
     item.addEventListener('click', event => {
-      item.closest(`#message[role="menu"] > *:first-child`).remove()
+      this.menuElement.remove()
 
       action?.(item, this.currentEvent)
     })
 
     item.addEventListener('mouseenter', event => {
-      item
-      .closest(`#message[role="menu"]`)
+      this.menuElement
       .querySelector('.focused-3qFvc8')
       ?.classList.remove('focused-3qFvc8')
 

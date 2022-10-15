@@ -22,20 +22,18 @@ async function init() {
 
   // Init Custom ContexMenu
 
-  let ctxMContainer
-
   window.addEventListener('contextmenu', async event => {
     await delay(0)
 
-    const menu = await waitForSelector(`#message[role="menu"] > *:first-child`)
-
-    if (ctxMContainer === menu) return
-
-    ctxMContainer = menu
+    const menu = await waitForSelector(`:is(#message, #user-context)[role="menu"] > *:first-child`)
 
     const ctxM = discordUtils.ContextMenuManager
 
+    if (ctxM.menuElement === menu) return
+
     if (ctxM.isRunning) return
+
+    ctxM.menuElement = menu
 
 
     ctxM.itemsMap.clear()
@@ -52,7 +50,9 @@ async function init() {
     // Context Menu Options
 
     ctxM.createContextMenuItems([
+      ctxMenu.getProfileImg,
       ctxMenu.copyCodeBlockToClipboard,
+
       ctxMenu.changeChatBackground,
       ctxMenu.changeChatBgOverlayColor,
 
