@@ -183,14 +183,14 @@ export const runCodeBlocks = {
 
     iframe.contentDocument.write(
       cbHtml?.textContent ??
-      `There's nothing here. You may want to check the console
+      `There's nothing here. You may want to check the console.
       <br><br>
       Tip: Check the "Selected Context Only" option to see only the logs of the iframe.`
     )
     iframe.contentDocument.close()
 
     const style = createElement('style', {properties: {
-      innerHTML: cbCss?.textContent ?? 'body {background-color: #222; color: #fff;}'
+      innerHTML: cbCss?.textContent ?? 'body {background-color: #111; color: #fff;}'
     }})
 
     const script = createElement('script', {properties:{
