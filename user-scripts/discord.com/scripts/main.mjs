@@ -50,6 +50,7 @@ async function init() {
     // Context Menu Options
 
     ctxM.createContextMenuItems([
+      ctxMenu.injectJSFromCodeBlock,
       ctxMenu.runCodeBlocks,
 
       ctxMenu.getProfileImg,

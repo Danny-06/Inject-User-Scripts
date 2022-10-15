@@ -1,6 +1,13 @@
 import { createElement, generateFloatingIframe, showPromptDialog } from '../../../@libs/utils-injection.js'
 import * as discordUtils from '../discord-utils.js'
 
+
+
+
+// Get nonce value of scritps to execute my own internal scritps
+const nonceScript = document.querySelector('script[nonce]')?.nonce
+
+
 export const copyCodeBlockToClipboard = {
   id: 'copy-codeblock-to-clipboard',
   name: 'Copy codeblock to clipboard',
@@ -17,7 +24,7 @@ export const copyCodeBlockToClipboard = {
 
     return codeBlock !== null
   },
-  action: async (item, event) => {
+  async action(item, event) {
     const codeBlock = event.target.closest('[id^="chat-messages"] pre > code')
 
     if (!codeBlock) return
@@ -46,7 +53,7 @@ export const getProfileImg = {
 
     return profileImage !== null
   },
-  action: async (item, event) => {
+  async action(item, event) {
     const profileImage = event.target.closest('img.avatar-2e8lTP.clickable-31pE3P')
 
     if (!profileImage) return
@@ -82,7 +89,7 @@ export const changeChatBackground = {
   </svg>
   `
   ,
-  action: item => {
+  action(item) {
     discordUtils.changeChatBackground()
   }
 }
@@ -101,7 +108,7 @@ export const changeChatBgOverlayColor = {
   </svg>
   `
   ,
-  action: async item => {
+  async action(item) {
     const color = await showPromptDialog(`Write the color you want for the overlay of the background chat`, '#000c')
     if (color == null) return
 
@@ -121,7 +128,7 @@ export const getServerIcon = {
     const imgServerIcon = document.querySelector(`[data-list-id="guildsnav"] .listItem-3SmSlK .blobContainer-ikKyFs.selected-3c78Ai img`)
     return imgServerIcon !== null
   },
-  action: async item => {
+  async action(item) {
     const serverIconURL = await discordUtils.getServerIcon().catch(() => null)
     if (!serverIconURL) return
 
@@ -141,7 +148,7 @@ export const getServerBanner = {
 
     return imgServerBanner !== null
   },
-  action: async item => {
+  async action(item) {
     const serverBannerURL = await discordUtils.getServerBanner().catch(() => null)
     if (!serverBannerURL) return
 
@@ -149,8 +156,6 @@ export const getServerBanner = {
   }
 }
 
-// Get nonce value of scritps to execute myOwn internal scritps
-const nonceScript = document.querySelector('script[nonce]')?.nonce
 
 export const runCodeBlocks = {
   id: 'run-codeblocks',
@@ -170,7 +175,7 @@ export const runCodeBlocks = {
 
     return codeBlock !== null
   },
-  action: async (item, event) => {
+  action(item, event) {
     const message = event.target.closest('.messageListItem-ZZ7v6g')
 
     const codeBlocks = [...message.querySelectorAll('pre > code')]
@@ -201,5 +206,39 @@ export const runCodeBlocks = {
     }})
 
     iframe.contentDocument.head.append(style, script)
+  }
+}
+
+
+export const injectJSFromCodeBlock = {
+  id: 'inject-js-on-the-page',
+  name: 'Inject JS on the page',
+  icon: // html
+  `
+  <svg height="100%" viewBox="0 0 36 36" width="100%">
+      <path fill="#fff" d="M14.1 24.9L7.2 18.0l6.9-6.9L12.0 9.0l-9.0 9.0 9.0 9.0 2.1-2.1zm7.8 .0l6.9-6.9-6.9-6.9L24.0 9.0l9.0 9.0-9.0 9.0-2.1-2.1z" />
+  </svg>
+  `
+  ,
+
+  condition(event) {
+    const cbJs = event.target.closest('pre > code:is(.js, .mjs)')
+
+    return cbJs != null
+  },
+  action(item, event) {
+    const cbJs = event.target.closest('pre > code:is(.js, .mjs)')
+
+    if (cbJs == null) return
+
+    const script = createElement('script', {properties:{
+      innerHTML: cbJs?.textContent ?? '',
+      type: cbJs?.classList.contains('mjs') ? 'module' : undefined,
+      defer: cbJs?.classList.contains('js') ? true : undefined,
+      nonce: nonceScript
+    }})
+
+    document.head.append(script)
+    script.remove()
   }
 }
