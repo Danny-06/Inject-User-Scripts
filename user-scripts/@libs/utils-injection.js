@@ -2003,7 +2003,9 @@ export function generateFloatingIframe(addDefaults = true) {
   const containerWrapper = document.createElement('div')
   containerWrapper.classList.add('wrapper-container-float-iframe')
 
-  const floatIframeContainer = containerWrapper.appendChild(document.createElement('div'))
+  const shadowRoot = containerWrapper.attachShadow({mode: 'open'})
+
+  const floatIframeContainer = shadowRoot.appendChild(document.createElement('div'))
   floatIframeContainer.classList.add('float-iframe-container')
 
   ;['mousemove', 'touchmove'].forEach(eventType => {
@@ -2029,15 +2031,13 @@ export function generateFloatingIframe(addDefaults = true) {
     document.addEventListener(eventType, event => iframe.classList.remove('no-user-interaction'))
   })
 
-  const shadowRoot = floatIframeContainer.attachShadow({mode: 'open'})
-
   // Share mousdown event from Shadow DOM
   shadowRoot.addEventListener('mousedown', event => mouse.pointerDown(event))
 
-  const iframe = shadowRoot.appendChild(document.createElement('iframe'))
+  const iframe = floatIframeContainer.appendChild(document.createElement('iframe'))
   iframe.classList.add('float-iframe')
 
-  const buttonsContainer = shadowRoot.appendChild(document.createElement('div'))
+  const buttonsContainer = floatIframeContainer.appendChild(document.createElement('div'))
   buttonsContainer.classList.add('iframe-buttons')
 
   const fullscreenButton = buttonsContainer.appendChild(document.createElement('button'))
@@ -2054,13 +2054,17 @@ export function generateFloatingIframe(addDefaults = true) {
   removeButton.classList.add('btn-remove-iframe')
   removeButton.innerHTML = 'X'
   removeButton.addEventListener('click', event => containerWrapper.remove())
+  
 
+  const stylesheet = new CSSStyleSheet()
+  
+  shadowRoot.adoptedStyleSheets = [stylesheet]
 
-  const style = containerWrapper.appendChild(document.createElement('style'))
-  style.innerHTML = // css
+  const css = // css
   `
-  .wrapper-container-float-iframe {
-    box-sizing: border-box;
+  :host {
+    all: revert;
+
     font-size: 16px;
 
     width: 500px;
@@ -2089,22 +2093,14 @@ export function generateFloatingIframe(addDefaults = true) {
     transition: none !important;
     animation: none !important;
   }
-  `
 
-  
-  const stylesheet = new CSSStyleSheet()
-  
-  shadowRoot.adoptedStyleSheets = [stylesheet]
-
-  const css = // css
-  `
   *,
   *::before,
   *::after {
     box-sizing: border-box;
   }
 
-  :host {
+  .float-iframe-container {
     box-sizing: border-box;
 
     width: 100%;
