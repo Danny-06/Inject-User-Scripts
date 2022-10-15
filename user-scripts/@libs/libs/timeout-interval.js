@@ -44,6 +44,10 @@ export class Timeout {
   #auxResolve
   #auxReject
 
+  /**
+   * 
+   * @param {{callback: () => void, args: any[], timeout: number}} options 
+   */
   constructor(options = {}) {
     const {callback, args = [], timeout = 0} = options
 
@@ -130,6 +134,10 @@ export class Interval {
   #promise
   #currentValue
 
+  /**
+   * 
+   * @param {{callback: () => void, args: any[], timeout: number}} options 
+   */
   constructor(options = {}) {
     const {callback, args = [], timeout = 0} = options
 

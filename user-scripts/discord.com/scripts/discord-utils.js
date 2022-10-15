@@ -50,12 +50,35 @@ export async function initChatBg() {
 }
 
 
+// Trick to get the Local and Session Storage instance since Discord remove them from window
+
+// export function getLocalStorage() {
+//   let storagePrototypeDescriptor = Object.getOwnPropertyDescriptors(Storage.prototype)
+
+//   return new Promise(resolve => {
+//     Object.defineProperty(Storage.prototype, 'setItem', {
+//       configurable: true,
+//       value() {
+//         window.localStorage = this
+//         storagePrototypeDescriptor.setItem.value.call(this, ...arguments)
+
+//         Object.defineProperty(Storage.prototype, 'setItem', {
+//           configurable: true,
+//           value: storagePrototypeDescriptor.setItem.value
+//         })
+//       }
+//     })
+//   })
+// }
+
+
 /**
  * @typedef ContextMenuOptions
  * @property {string} id
  * @property {string} name
  * @property {string} icon
  * @property {function} action
+ * @property {function} condition
  */
 
 
@@ -66,7 +89,22 @@ export class ContextMenuManager {
 
   static currentEvent = null
 
-  static items = new Set()
+  static itemsMap = new Map()
+
+  /**
+   * Get filtered items by condition
+   */
+  static get items() {
+    const items = []
+
+    this.itemsMap.forEach((options, item) => {
+      if (typeof options.condition !== 'function' || options.condition(this.currentEvent)) {
+        items.push(item)
+      }
+    })
+
+    return items
+  }
 
   /**
    *
@@ -118,7 +156,7 @@ export class ContextMenuManager {
 
     item.addEventListener('mouseleave', event => item.classList.remove('focused-3qFvc8'))
 
-    this.items.add(item)
+    this.itemsMap.set(item, options)
 
     this.isRunning = false
 

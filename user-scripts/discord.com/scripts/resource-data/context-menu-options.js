@@ -1,6 +1,31 @@
 import { showPromptDialog } from '../../../@libs/utils-injection.js'
 import * as discordUtils from '../discord-utils.js'
 
+export const copyCodeBlockToClipboard = {
+  id: 'copy-codeblock-to-clipboard',
+  name: 'Copy codeblock to clipboard',
+  icon: // html
+  `
+  <svg height="100%" viewBox="0 0 36 36" width="100%">
+      <path fill="#fff" d="M14.1 24.9L7.2 18.0l6.9-6.9L12.0 9.0l-9.0 9.0 9.0 9.0 2.1-2.1zm7.8 .0l6.9-6.9-6.9-6.9L24.0 9.0l9.0 9.0-9.0 9.0-2.1-2.1z" />
+  </svg>
+  `
+  ,
+
+  condition(event) {
+    const codeBlock = event.target.closest('[id^="chat-messages"] pre > code')
+
+    return codeBlock !== null
+  },
+  action: async (item, event) => {
+    const codeBlock = event.target.closest('[id^="chat-messages"] pre > code')
+
+    if (!codeBlock) return
+
+    navigator.clipboard.writeText(codeBlock.textContent)
+  }
+}
+
 export const changeChatBackground = {
   id: 'change-chat-bg',
   name: 'Change Chat Background',
@@ -13,7 +38,8 @@ export const changeChatBackground = {
           <path fill="currentColor" d="M633.8,416.1c-70,0-126.9-57.3-126.9-127.7c0-70.4,56.9-127.7,126.9-127.7c70,0,126.9,57.3,126.9,127.7C760.7,358.8,703.7,416.1,633.8,416.1z M633.8,223.7c-35.4,0-64.2,29-64.2,64.6c0,35.6,28.8,64.6,64.2,64.6c35.4,0,64.2-29,64.2-64.6C698,252.7,669.2,223.7,633.8,223.7z"></path>
       </g>
   </svg>
-  `,
+  `
+  ,
   action: item => {
     discordUtils.changeChatBackground()
   }
@@ -31,7 +57,8 @@ export const changeChatBgOverlayColor = {
           <path fill="currentColor" d="M633.8,416.1c-70,0-126.9-57.3-126.9-127.7c0-70.4,56.9-127.7,126.9-127.7c70,0,126.9,57.3,126.9,127.7C760.7,358.8,703.7,416.1,633.8,416.1z M633.8,223.7c-35.4,0-64.2,29-64.2,64.6c0,35.6,28.8,64.6,64.2,64.6c35.4,0,64.2-29,64.2-64.6C698,252.7,669.2,223.7,633.8,223.7z"></path>
       </g>
   </svg>
-  `,
+  `
+  ,
   action: async item => {
     const color = await showPromptDialog(`Write the color you want for the overlay of the background chat`, '#000c')
     if (color == null) return
@@ -45,7 +72,13 @@ export const getServerIcon = {
   name: 'Open server icon in a new tab',
   icon: // html
   `
-  `,
+  `
+  ,
+
+  condition(event) {
+    const imgServerIcon = document.querySelector(`[data-list-id="guildsnav"] .listItem-3SmSlK .blobContainer-ikKyFs.selected-3c78Ai img`)
+    return imgServerIcon !== null
+  },
   action: async item => {
     const serverIconURL = await discordUtils.getServerIcon().catch(() => null)
     if (!serverIconURL) return
@@ -59,7 +92,13 @@ export const getServerBanner = {
   name: 'Open server banner in a new tab',
   icon: // html
   `
-  `,
+  `
+  ,
+  condition(event) {
+    const imgServerBanner = document.querySelector(`.sidebar-1tnWFu .bannerImage-ubW8K- img`)
+
+    return imgServerBanner !== null
+  },
   action: async item => {
     const serverBannerURL = await discordUtils.getServerBanner().catch(() => null)
     if (!serverBannerURL) return

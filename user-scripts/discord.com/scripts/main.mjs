@@ -19,6 +19,9 @@ init()
 async function init() {
   initChatBg()
 
+
+  // Init Custom ContexMenu
+
   let ctxMContainer
 
   window.addEventListener('contextmenu', async event => {
@@ -35,7 +38,7 @@ async function init() {
     if (ctxM.isRunning) return
 
 
-    ctxM.items.clear()
+    ctxM.itemsMap.clear()
 
     ctxM.currentEvent = event
 
@@ -49,18 +52,12 @@ async function init() {
     // Context Menu Options
 
     ctxM.createContextMenuItems([
+      ctxMenu.copyCodeBlockToClipboard,
       ctxMenu.changeChatBackground,
       ctxMenu.changeChatBgOverlayColor,
 
-      getValueIfSelectorMatches(
-        `[data-list-id="guildsnav"] .listItem-3SmSlK .blobContainer-ikKyFs.selected-3c78Ai img`,
-        ctxMenu.getServerIcon
-      ),
-
-      getValueIfSelectorMatches(
-        `.sidebar-1tnWFu .bannerImage-ubW8K- img`,
-        ctxMenu.getServerBanner
-      )
+      ctxMenu.getServerIcon,
+      ctxMenu.getServerBanner
     ])
 
     group.append(...ctxM.items, menu.lastChild)
@@ -73,7 +70,6 @@ async function init() {
 
 
 // ID de usuario
-const david      = '473950936339841026'
 const Angelo     = '339391442919358465'
 const Inklingboi = '687280609558528000'
 
@@ -82,13 +78,6 @@ const Inklingboi = '687280609558528000'
 requestAnimationFrame(function selectUser() {
   requestAnimationFrame(selectUser)
 
-  // Difunar los mensajes del usuario seleccionado
-  // findUser(david).forEach(e => {
-  //   if (e.matches('[class*="repliedMessage"]')) return
-
-  //   e.style.filter = "blur(10px)";
-  //   e.style.pointerEvents = "none";
-  // })
 
   findUser(Inklingboi).forEach(e => {
     if (e.matches('[class*="repliedMessage"]')) return
