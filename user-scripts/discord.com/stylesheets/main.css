@@ -405,3 +405,9 @@ debido a que aumenta su altura por unos instantes */
   max-height: none !important;
   min-height: 200px;
 }
+
+
+/* Add padding-bottom to reply message that has the "edited" mark */
+.repliedMessage-3Z6XBG:has(.timestamp-p1Df1m) {
+  padding-bottom: 1.9em;
+}
