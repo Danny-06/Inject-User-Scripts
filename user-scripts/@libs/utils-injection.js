@@ -68,6 +68,9 @@ export function getValueFromPropertyPath(obj, propertyPath) {
 
 /**
  * Query element by attribute, even invalid attribute names
+ * @param {string} attr
+ * @param {{startNode: Element | Document | DocumentFragment}} options
+ * @returns {Element[]}
  */
 export function getElementsByAttribute(attr, options = {}) {
   const {startNode = document} = options
@@ -454,7 +457,7 @@ export function createElement(name = 'div', settings = {}) {
                   document.createElementNS(namespace, name, options) :
                   document.createElement(name, options)
 
-const tp = trustedTypes.createPolicy('', {createHTML: e => e, createScriptURL: e => e })
+  const tp = trustedTypes.createPolicy('', {createHTML: e => e, createScriptURL: e => e })
 
   if (id != null)      element.id = id
   if (Array.isArray(classes)) element.classList.add(...classes)
@@ -1805,6 +1808,45 @@ export function getAllElementsMapWithId(node = document) {
 
     map[key] = element
   })
+
+  return map
+}
+
+/**
+ * 
+ * @param {Element | Document | DocumentFragment} node 
+ * @param {boolean} removeBracketIds
+ * @returns {{[key: string]: Element}}
+ */
+ export function getAllElementsMapWithBracketsId(node = document, removeBracketIds = false) {
+  if (node == null) throw new TypeError(`param 1 cannot be null or undefined`)
+  if (!(node instanceof Element || node instanceof Document || node instanceof DocumentFragment)) {
+    throw new TypeError(`param 1 must be an instance of Element, Document or DocumentFragment`)
+  }
+
+  const elements = [...getElementsByAttribute('[id]', {startNode: node})]
+
+  if (node instanceof Element) {
+    elements.unshift(node)
+  }
+
+  const map = {}
+
+  elements.forEach(element => {
+    const bracketId = element.getAttribute('[id]')
+
+    const key = hyphenToLowerCase(bracketId)
+
+    if (key === '') throw new DOMException(`'[id]' attribute cannot be empty`)
+
+    if (key in map) throw new DOMException(`'[id]' attribute must be unique:\n[id="${bracketId}"]`)
+
+    map[key] = element
+  })
+
+  if (removeBracketIds) {
+    elements.forEach(element => element.removeAttribute('[id]'))
+  }
 
   return map
 }
