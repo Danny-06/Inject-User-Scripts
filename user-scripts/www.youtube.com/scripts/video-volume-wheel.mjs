@@ -1,4 +1,4 @@
-import { waitForSelector, createElement } from "../../@libs/utils-injection.js"
+import { waitForSelector, createElement, parseHTML } from "../../@libs/utils-injection.js"
 
 // Eventos de navegación de Youtube para ejecutar el código
 // al cambiar de página (Youtube no recarga la página, la actualiza)
@@ -8,7 +8,7 @@ window.addEventListener("yt-navigate-finish", main);
 let currentVideo
 const videoVolumeStep = 0.05
 
-main()
+main().catch(console.error)
 
 async function main() {
   if (location.pathname !== '/watch') return
@@ -16,7 +16,7 @@ async function main() {
   /**
   * @type {HTMLVideoElement}
   */
-  const video          = await waitForSelector('ytd-watch-flexy video')
+  const video = await waitForSelector('ytd-watch-flexy video')
 
   // Avoid executing the code more than once
   if (currentVideo === video) return
@@ -24,17 +24,54 @@ async function main() {
 
   const html5Container = await waitForSelector('ytd-watch-flexy .html5-video-container')
 
-  const volumeContainer = html5Container.appendChild(document.createElement('div'))
-  volumeContainer.classList.add('volume-container')
+  const volumeContainerWrapper = parseHTML(// html
+    `
+    <div class="volume-container-wrapper">
+        <template shadowroot="open">
+            <div class="volume-container">
+                <div class="volume-count"></div>
+                <div class="gain-count"></div>
+            </div>
+        </template>
+    </div>
+    `,
+    {parseDeclarativeShadowDOM: true}
+  ).firstElementChild
 
-  const volumeCount = volumeContainer.appendChild(document.createElement('div'))
-  volumeCount.classList.add('volume-count')
-  volumeCount.innerHTML = video.volume * 100
+  html5Container.append(volumeContainerWrapper)
+
+
+  const vcwShadowRoot = volumeContainerWrapper.shadowRoot
+
+  const volumeContainer = vcwShadowRoot.querySelector('.volume-container')
+
+  const volumeCount = vcwShadowRoot.querySelector('.volume-count')
+
+  const gainCount = vcwShadowRoot.querySelector('.gain-count')
 
   const css = // css
   `
-  .volume-container {
+  :host {
+    all: revert;
     box-sizing: border-box;
+
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    transform: none !important;
+    background: none !important;
+    position: static !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+
+  .volume-container {
     position: relative;
     z-index: 999;
 
@@ -46,9 +83,13 @@ async function main() {
     justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
-    height: 100%;
+    height: 100% !important;
 
-    padding: 2rem;
+    padding: 2rem !important;
+  }
+
+  .full-opacity {
+    opacity: 1;
   }
 
   .volume-count, .gain-count {
@@ -67,16 +108,17 @@ async function main() {
     color: #35f4ff;
     font-size: 3rem;
   }
+  `
 
-  .full-opacity {
-    opacity: 1;
-  }
-  `.trimIndent()
+  const stylesheet = new CSSStyleSheet()
+  stylesheet.replace(css)
 
-  const style = document.createElement('style')
-  style.innerHTML = css
+  vcwShadowRoot.adoptedStyleSheets = [stylesheet]
 
-  volumeContainer.append(style, volumeCount)
+  // const style = document.createElement('style')
+  // style.innerHTML = css
+
+  // volumeContainer.append(style, volumeCount)
 
   let volumeCountTimeOut
 
@@ -113,7 +155,9 @@ async function main() {
   
     source.connect(gainNode).connect(audioCtx.destination);
   
-    const gainCount = volumeContainer.appendChild(createElement('div', {classes: ['gain-count'], properties:{innerHTML: gainNode.gain.value}}))
+    // const gainCount = volumeContainer.appendChild(createElement('div', {classes: ['gain-count'], properties:{innerHTML: gainNode.gain.value}}))
+
+    gainCount.innerHTML = gainNode.gain.value
   
   
     window.addEventListener('keydown', event => {

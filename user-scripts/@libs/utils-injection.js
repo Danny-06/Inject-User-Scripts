@@ -1000,7 +1000,7 @@ export async function printPage(url) {
 
 /**
  * @typedef ParseHTMLOptions
- * @property {boolean} [parseDeclarativeTemplateShadowDOM=false]
+ * @property {boolean} [parseDeclarativeShadowDOM=false]
  */
 
 /**
@@ -1010,14 +1010,14 @@ export async function printPage(url) {
  * @returns 
  */
 export function parseHTML(htmlString, options = {}) {
-  const { parseDeclarativeTemplateShadowDOM = false } = options
+  const { parseDeclarativeShadowDOM: parseDSDOM = false } = options
 
   const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
 
   const template = document.createElement('template')
   template.innerHTML = trustedHTMLPolicy.createHTML(htmlString)
 
-  if (parseDeclarativeTemplateShadowDOM) {
+  if (parseDSDOM) {
     template
     .content
     .querySelectorAll('template[shadowroot]:first-child')
@@ -1031,6 +1031,28 @@ export function parseHTML(htmlString, options = {}) {
 
 export function parseXML(xmlString) {
   return new DOMParser().parseFromString(xmlString, 'text/xml')
+}
+
+/**
+ * 
+ * @param {HTMLElement} hostElement 
+ * @returns {boolean} If `false` that means no <template> tag with 'shadowroot' attribute was found as the first child to generate the Shadow DOM in the host element else `true`
+ */
+export function parseDeclarativeShadowDOM(hostElement) {
+  const template = hostElement.querySelector(':scope > template[shadowroot]:first-child')
+
+  const hasTemplate = template != null
+
+  if (!hasTemplate) return false
+
+  template.remove()
+
+  const mode = template.getAttribute('shadowroot')
+
+  const shadowRoot = hostElement.attachShadow({mode})
+  shadowRoot.append(template.content)
+
+  return true
 }
 
 
@@ -1066,28 +1088,6 @@ export function stringToValidInnerHTML(string) {
   div.innerHTML = trustedHTMLPolicy.createHTML(string)
 
   return div.innerHTML
-}
-
-/**
- * 
- * @param {HTMLElement} hostElement 
- * @returns {boolean} If `false` that means no <template> tag with 'shadowroot' attribute was found as the first child to generate the Shadow DOM in the host element else `true`
- */
-export function parseDeclarativeShadowDOM(hostElement) {
-  const template = hostElement.querySelector(':scope > template[shadowroot]:first-child')
-
-  const hasTemplate = template != null
-
-  if (!hasTemplate) return false
-
-  template.remove()
-
-  const mode = template.getAttribute('shadowroot')
-
-  const shadowRoot = hostElement.attachShadow({mode})
-  shadowRoot.append(template.content)
-
-  return true
 }
 
 /**
