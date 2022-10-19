@@ -21,13 +21,15 @@ ytd-rich-item-renderer {
 
 
 /* Mostrar la parte de arriba de los videos al poner el ratón encima */
-.ytp-chrome-top, .ytp-gradient-top {
+.ytp-chrome-top > *,
+.ytp-gradient-top {
   opacity: 0 !important;
 }
-.ytp-chrome-top:hover, .ytp-gradient-top:has(+ .ytp-chrome-top:hover) {
+.ytp-chrome-top:hover > *,
+.ytp-chrome-top:has(> .ytp-chrome-top-buttons > .ytp-cards-teaser:not([style="display: none;"])) > .ytp-chrome-top-buttons,
+.ytp-gradient-top:has(+ .ytp-chrome-top:hover) {
   opacity: 1 !important;
 }
-
 
 /* Ocultar icono del canal procedente de las anotaciones de los videos */
 .ytp-iv-player-content .iv-branding {

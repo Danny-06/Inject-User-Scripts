@@ -23,7 +23,7 @@ async function init() {
   // Init Custom ContexMenu
 
   window.addEventListener('contextmenu', async event => {
-    await delay(0)
+    await delay(100)
 
     const menu = await waitForSelector(`:is(#message, #user-context)[role="menu"] > *:first-child`)
 

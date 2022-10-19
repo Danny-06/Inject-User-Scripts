@@ -22,7 +22,7 @@ export const copyCodeBlockToClipboard = {
   condition(event) {
     const codeBlock = event.target.closest('[id^="chat-messages"] pre > code')
 
-    return codeBlock !== null
+    return codeBlock != null
   },
   async action(item, event) {
     const codeBlock = event.target.closest('[id^="chat-messages"] pre > code')
@@ -51,7 +51,7 @@ export const getProfileImg = {
   condition(event) {
     const profileImage = event.target.closest('img.avatar-2e8lTP.clickable-31pE3P')
 
-    return profileImage !== null
+    return profileImage != null
   },
   async action(item, event) {
     const profileImage = event.target.closest('img.avatar-2e8lTP.clickable-31pE3P')
@@ -126,7 +126,7 @@ export const getServerIcon = {
 
   condition(event) {
     const imgServerIcon = document.querySelector(`[data-list-id="guildsnav"] .listItem-3SmSlK .blobContainer-ikKyFs.selected-3c78Ai img`)
-    return imgServerIcon !== null
+    return imgServerIcon != null
   },
   async action(item) {
     const serverIconURL = await discordUtils.getServerIcon().catch(() => null)
@@ -146,7 +146,7 @@ export const getServerBanner = {
   condition(event) {
     const imgServerBanner = document.querySelector(`.sidebar-1tnWFu .bannerImage-ubW8K- img`)
 
-    return imgServerBanner !== null
+    return imgServerBanner != null
   },
   async action(item) {
     const serverBannerURL = await discordUtils.getServerBanner().catch(() => null)
@@ -171,9 +171,9 @@ export const runCodeBlocks = {
   condition(event) {
     const message = event.target.closest('.messageListItem-ZZ7v6g')
 
-    const codeBlock = message.querySelector('pre > code')
+    const codeBlock = message?.querySelector('pre > code')
 
-    return codeBlock !== null
+    return codeBlock != null
   },
   action(item, event) {
     const message = event.target.closest('.messageListItem-ZZ7v6g')
