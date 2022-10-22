@@ -254,6 +254,8 @@ export async function calidad1080pAutomatica(video) {
   const botonCalidadVideo = menuOpciones.lastElementChild
   botonCalidadVideo.click()
 
+  await delay(0)
+
 
   const menuOpcionesCalidad = player.querySelector('.ytp-quality-menu .ytp-panel-menu')
 

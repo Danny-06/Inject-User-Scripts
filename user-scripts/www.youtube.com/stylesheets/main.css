@@ -22,11 +22,13 @@ ytd-rich-item-renderer {
 
 /* Mostrar la parte de arriba de los videos al poner el ratón encima */
 .ytp-chrome-top > *,
-.ytp-gradient-top {
+.ytp-gradient-top,
+.ytp-chrome-top:has(> .ytp-chrome-top-buttons > .ytp-cards-teaser:not([style="display: none;"])) > .ytp-chrome-top-buttons > * {
   opacity: 0 !important;
 }
 .ytp-chrome-top:hover > *,
 .ytp-chrome-top:has(> .ytp-chrome-top-buttons > .ytp-cards-teaser:not([style="display: none;"])) > .ytp-chrome-top-buttons,
+.ytp-chrome-top:has(> .ytp-chrome-top-buttons > .ytp-cards-teaser:not([style="display: none;"])) > .ytp-chrome-top-buttons > :is(.ytp-cards-teaser, .ytp-cards-button),
 .ytp-gradient-top:has(+ .ytp-chrome-top:hover) {
   opacity: 1 !important;
 }
