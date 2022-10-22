@@ -221,6 +221,7 @@ export function injectScripts(scriptsPath) {
 
   scriptsPath.forEach(path => {
     const script = createElement('script', {
+      namespace: 'http://www.w3.org/1999/xhtml',
       dataset: {
         source: 'Chrome Extension - Domain Matches'
       },
@@ -230,7 +231,11 @@ export function injectScripts(scriptsPath) {
       }
     })
 
-    document.head.append(script)
+    if (document.head) {
+      document.head.append(script)
+    } else {
+      document.documentElement.append(script)
+    }
   })
 
 }
@@ -247,6 +252,7 @@ export function injectScripts(scriptsPath) {
 
   styleSheetsPath.forEach(path => {
     const styleSheet = createElement('link', {
+      namespace: 'http://www.w3.org/1999/xhtml',
       dataset: {
         source: 'Chrome Extension - Domain Matches',
       },
@@ -256,7 +262,11 @@ export function injectScripts(scriptsPath) {
       }
     })
 
-    document.head.append(styleSheet)
+    if (document.head) {
+      document.head.append(styleSheet)
+    } else {
+      document.documentElement.append(styleSheet)
+    }
   })
 
 }
