@@ -27,13 +27,13 @@ async function main() {
 
   commentBoxContainer.addEventListener('keyup', event => {
     const commentBoxInput = commentBoxContainer.querySelector('#contenteditable-root')
-    const comment         = commentBoxInput.innerText.replaceAll('\r', '')
+    const comment         = commentBoxInput.textContent.replaceAll('\r', '')
 
     updateCurrentCommentStorage(comment)
   })
 
   window.addEventListener('click', event => {
-    if (!event.target.matches('ytd-comment-simplebox-renderer ytd-button-renderer#submit-button #button')) return
+    if (!event.target.matches('ytd-comment-simplebox-renderer ytd-button-renderer:is(#submit-button, #cancel-button) #button')) return
 
     updateCurrentCommentStorage('')
   })
@@ -47,8 +47,9 @@ async function main() {
     // Wait for the callback of the click listener to do the DOM manipulation
     await null
 
-    const submitBtn           = commentBoxContainer.querySelector('#submit-button')
-    const commentBoxInput     = commentBoxContainer.querySelector('#contenteditable-root')
+    // const cancelButton    = commentBoxContainer.querySelector('#cancel-button')
+    const submitBtn       = commentBoxContainer.querySelector('#submit-button')
+    const commentBoxInput = commentBoxContainer.querySelector('#contenteditable-root')
 
     commentBoxInput.innerHTML = turnCommentStringToHTML(comment)
     submitBtn.disabled = false
@@ -57,12 +58,12 @@ async function main() {
 
 
 
-function getVideoId() {
+function getVideoIdFromURL() {
   return new URL(location.href).searchParams.get('v')
 }
 
 async function getCurrentStoredMessage() {
-  const videoId = getVideoId()
+  const videoId = getVideoIdFromURL()
 
   const comments = await getCommentsStorage()
   const comment = comments[videoId]
@@ -86,7 +87,7 @@ function updateCommentStorage(commentsStorage) {
 
 async function updateCurrentCommentStorage(comment) {
   const commentsStorage = await getCommentsStorage()
-  const videoId = getVideoId()
+  const videoId = getVideoIdFromURL()
 
   if (comment !== '') {
     commentsStorage[videoId] = comment
@@ -98,7 +99,5 @@ async function updateCurrentCommentStorage(comment) {
 }
 
 function turnCommentStringToHTML(commentString) {
-  return commentString.split('\n').map(s => {
-    return `<div>${s !== '' ? s : '<br>'}</div>`
-  }).join('')
+  return commentString.split('\n').map(s => `<div>${s !== '' ? s : '<br>'}</div>`).join('')
 }
