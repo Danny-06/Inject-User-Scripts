@@ -38,11 +38,17 @@ nav {
 /* Eliminar consola */
 
 #console {
-	display: none !important;
+	/* display: none !important; */
+  min-height: 0 !important;
+  border: none !important;
+}
+
+#console > .header {
+  border: none !important;
 }
 
 .resultsPanel .resultsCont.consoleEnabled.minimized {
-  grid-template-rows: 1fr 0px !important;
+  grid-template-rows: 1fr 30px !important;
 }
 
 
