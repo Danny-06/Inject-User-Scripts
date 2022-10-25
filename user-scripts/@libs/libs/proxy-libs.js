@@ -38,7 +38,7 @@ export class ProxyPropertyAccess {
     return new Proxy(object, {
       get: (target, property, receiver) => {
         if (!target.hasOwnProperty(property)) {
-          target[property] = pw({})
+          target[property] = this.wrap({})
         }
   
         return Reflect.get(target, property, receiver)
