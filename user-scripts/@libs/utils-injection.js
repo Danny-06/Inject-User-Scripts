@@ -1,4 +1,4 @@
-import { extensionId, getURL, crossFetch } from './chrome-extension-utils.js'
+import * as ChromeExtension from './chrome-extension-utils.js'
 
 import { MouseInfo } from './libs/mouse-info.js'
 import { StringConversion } from './libs/string-conversion.js'
@@ -13,32 +13,22 @@ import { showPromptDialog } from './libs/prompt-dialog.js'
 import { LocalDB } from './libs/localDB.js'
 import { classMaker } from './libs/class-maker.js'
 import { showPopup } from './libs/show-popup.js'
-import { asyncObjectWrapper } from './libs/proxy-libs.js'
-import { drawMediaInCanvas, getImageFromCanvas, getMediaAsBlob, getMediaAsDataURL, getMediaAsImageData } from './libs/canvas-utils.js'
+import * as CanvasUtils from './libs/canvas-utils.js'
 import { Interval, Timeout } from './libs/timeout-interval.js'
 import { Binary } from './libs/binary.js'
 import { ListManager } from './libs/array-utils.js'
+import * as ProxyUtils from './libs/proxy-libs.js'
 
-const canvasUtils = {
-  drawMediaInCanvas,
-  getMediaAsBlob,
-  getMediaAsImageData,
-  getImageFromCanvas,
-  getMediaAsDataURL
-}
 
-const chromeExtension = {
-  extensionId,
-  getURL,
-  crossFetch
-}
-
-export {
+export default {
   MouseInfo, ScrollBox, StringConversion, StringImageConversion, StorageHandler,
   ArrayN, ZipManager, showAlertDialog, showConfirmDialog, showPromptDialog, LocalDB,
-  classMaker, showPopup, asyncObjectWrapper, canvasUtils, Timeout, Interval,
-  Binary, chromeExtension, ListManager
+  classMaker, showPopup, CanvasUtils, Timeout, Interval,
+  Binary, ChromeExtension, ListManager, ProxyUtils
 }
+
+const {extensionId} = ChromeExtension
+
 
 export function getValueFromPropertyPath(obj, propertyPath) {
   if (propertyPath == null) return obj
@@ -1017,19 +1007,22 @@ export function parseHTML(htmlString, options = {}) {
 
   const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
 
-  const template = document.createElement('template')
-  template.innerHTML = trustedHTMLPolicy.createHTML(htmlString)
+  const trustedHTML = trustedHTMLPolicy.createHTML(htmlString)
+
+  const documentFragment = document.implementation
+                          .createHTMLDocument()
+                          .createRange()
+                          .createContextualFragment(trustedHTML)
 
   if (parseDSDOM) {
-    template
-    .content
+    documentFragment
     .querySelectorAll('template[shadowroot]:first-child')
     .forEach(template => {
       parseDeclarativeShadowDOM(template.parentElement)
     })
   }
 
-  return template.content
+  return documentFragment
 }
 
 export function parseXML(xmlString) {

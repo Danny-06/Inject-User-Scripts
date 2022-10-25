@@ -29,3 +29,44 @@ export function asyncObjectWrapper(obj) {
     }
   })
 }
+
+
+
+export class ProxyPropertyAccess {
+
+  static wrap(object) {
+    return new Proxy(object, {
+      get: (target, property, receiver) => {
+        if (!target.hasOwnProperty(property)) {
+          target[property] = pw({})
+        }
+  
+        return Reflect.get(target, property, receiver)
+      },
+      set: (target, property, value, receiver) => {
+        return Reflect.set(target, property, value, receiver)
+      }
+    })
+  }
+
+  static wrapperToObject(proxyWrapper) {
+    const object = {}
+  
+    ;(function readProxyAndAssignToObject(obj, proxy) {
+  
+      Object.entries(proxy).forEach(([key, value]) => {
+        if (typeof value === 'object') {
+          obj[key] = {}
+          readProxyAndAssignToObject(obj[key], value)
+          return
+        }
+  
+        obj[key] = value
+      })
+      
+    })(object, proxyWrapper)
+  
+    return object
+  }
+
+}
