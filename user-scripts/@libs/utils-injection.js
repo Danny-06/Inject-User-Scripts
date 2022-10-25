@@ -27,6 +27,14 @@ export default {
   Binary, ChromeExtension, ListManager, ProxyUtils
 }
 
+export {
+  MouseInfo, ScrollBox, StringConversion, StringImageConversion, StorageHandler,
+  ArrayN, ZipManager, showAlertDialog, showConfirmDialog, showPromptDialog, LocalDB,
+  classMaker, showPopup, CanvasUtils, Timeout, Interval,
+  Binary, ChromeExtension, ListManager, ProxyUtils
+}
+
+
 const {extensionId} = ChromeExtension
 
 
