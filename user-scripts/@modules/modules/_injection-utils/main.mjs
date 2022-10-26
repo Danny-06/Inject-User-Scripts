@@ -1,6 +1,7 @@
 // Save Module in the window object
 import('../../../@libs/utils-injection.js').then(module => {
-  window._customModule = module.default
+  window._customModule = {...module.default, ...module}
+  delete window._customModule.default
 })
 
 
