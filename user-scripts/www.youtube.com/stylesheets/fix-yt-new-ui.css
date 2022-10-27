@@ -1,41 +1,5 @@
 
-/* Fix description */
-#description-inner tp-yt-paper-button#expand {
-  position: unset !important;
-}
-
-
-#description-inner yt-formatted-string > :nth-child(5) {
-  margin-top: 1rem;
-  display: block;
-}
-
-#description-inner ytd-text-inline-expander#description-inline-expander > div#snippet {
-  max-height: 7rem !important;
-}
-
-
-
-/* Modify layout order */
-ytd-watch-metadata.ytd-watch-flexy > #above-the-fold {
-  display: flex;
-  flex-direction: column;
-}
-
-ytd-watch-metadata.ytd-watch-flexy > #above-the-fold > #top-row {
-  order: 1;
-  margin-top: 1rem;
-}
-
-#top-row.ytd-watch-metadata {
-  flex-direction: column-reverse;
-}
-
-#top-row.ytd-watch-metadata > #actions {
-  justify-content: flex-start;
-  border-bottom: solid 2px currentColor;
-}
-
-#top-row.ytd-watch-metadata > #description {
-  padding-left: 4rem;
+/* Fix show more button of description */
+ytd-watch-metadata #description tp-yt-paper-button#expand {
+  position: static;
 }
