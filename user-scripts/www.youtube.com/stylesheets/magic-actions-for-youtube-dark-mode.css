@@ -6,6 +6,7 @@ html.lqz3O #content .player-api {
 /* Like button active color */
 ytd-toggle-button-renderer.style-default-active path {
   fill: #5581c3;
+  stroke: #5581c3;
 }
 
 ytd-expander#expander {
