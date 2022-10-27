@@ -14,7 +14,6 @@
   "stylesheets": [
     "stylesheets/magic-actions-for-youtube-dark-mode.css",
     "stylesheets/main.css",
-    "stylesheets/video-control.css",
-    "stylesheets/fix-yt-new-ui.css"
+    "stylesheets/video-control.css"
   ]
 }
