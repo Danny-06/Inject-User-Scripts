@@ -13,11 +13,14 @@ import { showPromptDialog } from './libs/prompt-dialog.js'
 import { LocalDB } from './libs/localDB.js'
 import { classMaker } from './libs/class-maker.js'
 import { showPopup } from './libs/show-popup.js'
-import * as CanvasUtils from './libs/canvas-utils.js'
+import * as _CanvasUtils from './libs/canvas-utils.js'
 import { Interval, Timeout } from './libs/timeout-interval.js'
 import { Binary } from './libs/binary.js'
 import { ListManager } from './libs/array-utils.js'
-import * as ProxyUtils from './libs/proxy-libs.js'
+import * as _ProxyUtils from './libs/proxy-libs.js'
+
+const CanvasUtils = Object.freeze({..._CanvasUtils})
+const ProxyUtils = Object.freeze({..._ProxyUtils})
 
 export {
   MouseInfo, ScrollBox, StringConversion, StringImageConversion, StorageHandler,
