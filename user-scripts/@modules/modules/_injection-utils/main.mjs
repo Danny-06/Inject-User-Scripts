@@ -1,7 +1,6 @@
 // Save Module in the window object
 import('../../../@libs/utils-injection.js').then(module => {
-  window._customModule = {...module.default, ...module}
-  delete window._customModule.default
+  window._customModule = Object.freeze({...module})
 })
 
 
@@ -12,25 +11,25 @@ import('../../../@libs/utils-injection.js').then(module => {
 // })
 
 
-Object.defineProperties(String.prototype, {
+// Object.defineProperties(String.prototype, {
 
-  trimIndent: {
-    configurable: true,
-    value: function() {
-      // Get indent
-      const splitNewLine = this.split('\n')
-      const minIndent = splitNewLine[splitNewLine.length - 1]
+//   trimIndent: {
+//     configurable: true,
+//     value: function() {
+//       // Get indent
+//       const splitNewLine = this.split('\n')
+//       const minIndent = splitNewLine[splitNewLine.length - 1]
   
-      // Remove indent
-      let newString = this.replaceAll('\n' + minIndent, '\n')
-      // Remove start and end new lines
-      newString = newString.slice(1, -1)
+//       // Remove indent
+//       let newString = this.replaceAll('\n' + minIndent, '\n')
+//       // Remove start and end new lines
+//       newString = newString.slice(1, -1)
   
-      return newString
-    }
-  }
+//       return newString
+//     }
+//   }
 
-})
+// })
 
 // Object.defineProperties(Object.prototype, {
 

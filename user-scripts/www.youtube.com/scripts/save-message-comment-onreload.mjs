@@ -33,7 +33,7 @@ async function main() {
   })
 
   window.addEventListener('click', event => {
-    if (!event.target.matches('ytd-comment-simplebox-renderer ytd-button-renderer:is(#submit-button, #cancel-button) #button')) return
+    if (!event.target.closest('ytd-comment-simplebox-renderer ytd-button-renderer:is(#submit-button, #cancel-button) button')) return
 
     updateCurrentCommentStorage('')
   })

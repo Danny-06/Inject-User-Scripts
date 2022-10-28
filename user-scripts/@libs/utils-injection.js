@@ -19,14 +19,6 @@ import { Binary } from './libs/binary.js'
 import { ListManager } from './libs/array-utils.js'
 import * as ProxyUtils from './libs/proxy-libs.js'
 
-
-export default {
-  MouseInfo, ScrollBox, StringConversion, StringImageConversion, StorageHandler,
-  ArrayN, ZipManager, showAlertDialog, showConfirmDialog, showPromptDialog, LocalDB,
-  classMaker, showPopup, CanvasUtils, Timeout, Interval,
-  Binary, ChromeExtension, ListManager, ProxyUtils
-}
-
 export {
   MouseInfo, ScrollBox, StringConversion, StringImageConversion, StorageHandler,
   ArrayN, ZipManager, showAlertDialog, showConfirmDialog, showPromptDialog, LocalDB,
