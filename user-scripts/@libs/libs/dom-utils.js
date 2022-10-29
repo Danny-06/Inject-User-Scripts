@@ -37,14 +37,15 @@ const propertyDescriptors = {
  * For that reason, is recommended to replace them with properties that starts with an underscore.
  * 
  * @param {class} classComponent 
- * @returns 
+ * @param {HTMLElement} [elementToApply=null]
+ * @returns {HTMLElement}
  */
-export function createWebComponent(classComponent) {
+export function createWebComponent(classComponent, elementToApply = null) {
   if (!(classComponent.prototype instanceof HTMLElement)) {
     throw new TypeError(`class component must extends HTMLElement`)
   }
 
-  const component = document.createElement('div')
+  const component = elementToApply ?? document.createElement('div')
 
   Object.defineProperties(classComponent.prototype, propertyDescriptors)
 
@@ -290,14 +291,12 @@ export function parseMultipleDeclarativeShadowDOMAndAppendCSSModules(element, cs
 export async function importTemplate(url, baseURL) {
   const documentFragment   = await importHTML(url, {baseURL})
   const styleSheetsURLList = getStylesheetsURLListFromTree(documentFragment)
-
   const cssModulesList     = await importCSSModulesList(styleSheetsURLList, baseURL)
 
   return {
     documentFragment: documentFragment.cloneNode(true),
 
     /**
-     * 
      * @param {Document} ownerDocument
      * @returns
      */
@@ -307,13 +306,29 @@ export async function importTemplate(url, baseURL) {
        */
       const templateClone = documentFragment.cloneNode(true)
 
+      // Adopt the DocumentFragment with its childs to the specified document
       ownerDocument.adoptNode(templateClone)
 
       parseMultipleDeclarativeShadowDOMAndAppendCSSModules(templateClone, cssModulesList)
 
-      return templateClone
+      const mapId = getAllElementsMapWithBracketsId(templateClone, {shadowRoot: true})
+
+      return [templateClone, mapId]
     }
   }
+}
+
+
+export function getAllShadowRootNodes(node) {
+  const shadowRoots = [...node.querySelectorAll('*')].filter(n => n.shadowRoot).map(n => n.shadowRoot)
+
+  shadowRoots.forEach(shadowRoot => {
+    const shadowRootsNested = getAllShadowRootNodes(shadowRoot)
+
+    shadowRoots.push(...shadowRootsNested)
+  })
+
+  return shadowRoots
 }
 
 
@@ -333,9 +348,13 @@ export function getAllElementsMapWithBracketsId(node = document, options = {}) {
 
   const elements = [...getElementsByAttribute('[id]', {startNode: node})]
 
-  if (shadowRoot && node.shadowRoot) { 
-    const shadowRootNodes = getElementsByAttribute('[id]', {startNode: node.shadowRoot})
-    elements.push(...shadowRootNodes)
+  if (shadowRoot) {
+    const shadowRoots = getAllShadowRootNodes(node)
+
+    shadowRoots.forEach(shadowRoot => {
+      const shadowRootNodes = getElementsByAttribute('[id]', {startNode: shadowRoot})
+      elements.push(...shadowRootNodes)
+    })
   }
 
   const map = {}
@@ -493,6 +512,52 @@ export function createElement(name = 'div', settings = {}) {
   }
 
   return element
+}
+
+
+export function turnStringIntoTrustedHTML(htmlString) {
+  const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
+  return trustedHTMLPolicy.createHTML(htmlString)
+}
+
+export function stringToValidInnerHTML(string) {
+  const div = document.createElement('div')
+
+  const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
+
+  div.innerHTML = trustedHTMLPolicy.createHTML(string)
+
+  return div.innerHTML
+}
+
+
+/**
+ *
+ * @param {CSSStyleDeclaration} style
+ * @param {{}} properties
+ */
+export function setStyleProperties(style, properties) {
+  for (const property in properties) {
+
+    let propertyName = property
+
+    const isCustomProperty = propertyName.startsWith('--')
+    const hasHyphen = propertyName.includes('-')
+    if(!isCustomProperty && !hasHyphen) {
+      propertyName = lowerCaseToHyphen(propertyName)
+    }
+
+    const prefixVendors = propertyName.search(/^(webkit|moz|ms|o)-/) !== -1
+    if(prefixVendors) {
+      propertyName = `-${propertyName}`
+    }
+
+    const priority = properties[property].match(/![a-z]+$/ig)?.[0].slice(1) ?? ''
+    const propertyValue = priority ? properties[property].replace(new RegExp(`!${priority}$`, 'i'), '') : properties[property]
+
+    style.setProperty(propertyName, propertyValue, priority)
+
+  }
 }
 
 
@@ -786,50 +851,4 @@ export function fillDeclarativeTemplate(template, obj) {
     return content
   }
 
-}
-
-
-export function turnStringIntoTrustedHTML(htmlString) {
-  const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
-  return trustedHTMLPolicy.createHTML(htmlString)
-}
-
-export function stringToValidInnerHTML(string) {
-  const div = document.createElement('div')
-
-  const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
-
-  div.innerHTML = trustedHTMLPolicy.createHTML(string)
-
-  return div.innerHTML
-}
-
-
-/**
- *
- * @param {CSSStyleDeclaration} style
- * @param {{}} properties
- */
-export function setStyleProperties(style, properties) {
-  for (const property in properties) {
-
-    let propertyName = property
-
-    const isCustomProperty = propertyName.startsWith('--')
-    const hasHyphen = propertyName.includes('-')
-    if(!isCustomProperty && !hasHyphen) {
-      propertyName = lowerCaseToHyphen(propertyName)
-    }
-
-    const prefixVendors = propertyName.search(/^(webkit|moz|ms|o)-/) !== -1
-    if(prefixVendors) {
-      propertyName = `-${propertyName}`
-    }
-
-    const priority = properties[property].match(/![a-z]+$/ig)?.[0].slice(1) ?? ''
-    const propertyValue = priority ? properties[property].replace(new RegExp(`!${priority}$`, 'i'), '') : properties[property]
-
-    style.setProperty(propertyName, propertyValue, priority)
-
-  }
 }

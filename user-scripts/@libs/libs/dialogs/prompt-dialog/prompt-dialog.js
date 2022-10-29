@@ -11,8 +11,7 @@ export function showPromptDialog(message = '(No message provided)', defaultValue
 
   isOpen = true
 
-  const dialog = dialogTemplate.clone().firstElementChild
-  const mapId = getAllElementsMapWithBracketsId(dialog, {shadowRoot: true})
+  const [{firstElementChild: dialog}, mapId] = dialogTemplate.clone()
 
   const {message: msgDialog, acceptBtn, cancelBtn, textarea} = mapId
 
