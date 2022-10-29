@@ -288,6 +288,12 @@ export function parseMultipleDeclarativeShadowDOMAndAppendCSSModules(element, cs
 
 
 
+/**
+ * 
+ * @param {string} url 
+ * @param {string} baseURL 
+ * @returns
+ */
 export async function importTemplate(url, baseURL) {
   const documentFragment   = await importHTML(url, {baseURL})
   const styleSheetsURLList = getStylesheetsURLListFromTree(documentFragment)
@@ -298,7 +304,7 @@ export async function importTemplate(url, baseURL) {
 
     /**
      * @param {Document} ownerDocument
-     * @returns
+     * @returns {[DocumentFragment, {[key: string]: HTMLElement}]}
      */
     clone(ownerDocument = document) {
       /**
