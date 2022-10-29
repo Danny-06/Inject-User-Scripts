@@ -737,7 +737,7 @@ export function stringToValidInnerHTML(string) {
  * @param {CSSStyleDeclaration} style
  * @param {{}} properties
  */
- export function setStyleProperties(style, properties) {
+export function setStyleProperties(style, properties) {
   for (const property in properties) {
 
     let propertyName = property
