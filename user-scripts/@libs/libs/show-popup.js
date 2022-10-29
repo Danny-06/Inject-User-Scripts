@@ -1,4 +1,5 @@
-import { setStyleProperties } from '../utils-injection.js'
+import { setStyleProperties } from "./dom-utils.js";
+
 
 export function showPopup(message, time = 5000, bgColor = '#0009', userInteraction = true, callback = function() {}) {
 
