@@ -1,5 +1,8 @@
 import { parseHTML } from '../../@libs/libs/dom-utils.js'
-import { LocalDB, showAlertDialog, showConfirmDialog, showPopup, showPromptDialog, waitForSelector } from '../../@libs/utils-injection.js'
+import { showAlertDialog } from '../../@libs/libs/dialogs/alert-dialog/alert-dialog.js'
+import { showConfirmDialog } from '../../@libs/libs/dialogs/confirm-dialog/confirm-dialog.js'
+import { showPromptDialog} from '../../@libs/libs/dialogs/prompt-dialog/prompt-dialog.js'
+import { LocalDB, showPopup, waitForSelector } from '../../@libs/utils-injection.js'
 import { cloneCurrentPlaylist } from './youtube-utils.js'
 
 
@@ -100,7 +103,7 @@ async function clonePlaylist() {
   and copy the 'authorization' value and paste it here.
 
   (The default authorization value that may appear below is taken from localStorage from previous value received. If it doesnt work, get it again as mentioned above.)
-  `.trimIndent(), authorizationStorage)
+  `, authorizationStorage)
 
   if (authorization == null || authorization === '') return
 

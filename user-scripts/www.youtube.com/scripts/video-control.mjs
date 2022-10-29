@@ -1,6 +1,7 @@
+import { createElement, setStyleProperties } from '../../@libs/libs/dom-utils.js';
 import { MouseInfo } from '../../@libs/libs/mouse-info.js';
 import { cssInlinePropertiesProxyWrapper } from '../../@libs/libs/proxy-libs.js';
-import { createElement, waitForSelector, setStyleProperties, delay, cutDecimals } from '../../@libs/utils-injection.js'
+import { waitForSelector, delay, cutDecimals } from '../../@libs/utils-injection.js'
 
 const mouse = new MouseInfo()
 
