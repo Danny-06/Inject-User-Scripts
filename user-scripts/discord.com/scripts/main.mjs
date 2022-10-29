@@ -1,4 +1,5 @@
-import { createElement, delay, handleSelectorLifeCycle, parseHTML, waitForSelector } from '../../@libs/utils-injection.js'
+import { createElement, parseHTML } from '../../@libs/libs/dom-utils.js'
+import { delay, waitForSelector } from '../../@libs/utils-injection.js'
 import * as discordUtils from './discord-utils.js'
 import { findUser, initChatBg } from './discord-utils.js'
 import * as ctxMenu from './resource-data/context-menu-options.js'
@@ -6,13 +7,6 @@ import * as ctxMenu from './resource-data/context-menu-options.js'
 window.discordUtils = discordUtils
 
 const query = selector => document.querySelector(selector)
-const getValueIfSelectorMatches = (selector, value) => {
-  if (query(selector)) {
-    return value
-  } else {
-    return Array.isArray(value) ? [] : null
-  }
-}
 
 
 init()

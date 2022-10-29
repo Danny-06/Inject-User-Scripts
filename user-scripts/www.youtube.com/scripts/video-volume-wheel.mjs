@@ -1,4 +1,6 @@
-import { waitForSelector, createElement, parseHTML } from "../../@libs/utils-injection.js"
+import { parseHTML } from "../../@libs/libs/dom-utils.js";
+import { waitForSelector } from "../../@libs/utils-injection.js"
+
 
 // Eventos de navegación de Youtube para ejecutar el código
 // al cambiar de página (Youtube no recarga la página, la actualiza)

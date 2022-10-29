@@ -1,4 +1,5 @@
-import { waitForSelector, delay, showPopup, generateOverlayIframe, promiseWrapper, createElement, promisefyEvent, parseXML, turnStringIntoTrustedHTML } from "../../@libs/utils-injection.js"
+import { createElement, parseXML, turnStringIntoTrustedHTML } from "../../@libs/libs/dom-utils.js"
+import { waitForSelector, delay, showPopup, promiseWrapper} from "../../@libs/utils-injection.js"
 
 
 export class ContextMenuManager {

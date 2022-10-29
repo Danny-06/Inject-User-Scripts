@@ -70,3 +70,26 @@ export class ProxyPropertyAccess {
   }
 
 }
+
+/**
+ * 
+ * @param {HTMLElement} element 
+ * @returns {Proxy}
+ */
+export function cssInlinePropertiesProxyWrapper(element) {
+  return new Proxy(element, {
+    get: (target, property, handler) => {
+      const priority = element.style.getPropertyPriority(property)
+
+      return `${element.style.getPropertyValue(property)}${priority ? ` !${priority}` : ''}`
+    },
+    set: (target, property, value) => {
+      const priority = value.match(/![a-z]+$/ig)?.[0].slice(1) ?? ''
+      const propertyValue = priority ? value.replace(new RegExp(`!${priority}$`, 'i'), '') : value
+
+      element.style.setProperty(property, propertyValue, priority)
+
+      return true
+    }
+  })
+}

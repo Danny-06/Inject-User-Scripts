@@ -1,4 +1,5 @@
-import { LocalDB, parseHTML, showAlertDialog, showConfirmDialog, showPopup, showPromptDialog, waitForSelector } from '../../@libs/utils-injection.js'
+import { parseHTML } from '../../@libs/libs/dom-utils.js'
+import { LocalDB, showAlertDialog, showConfirmDialog, showPopup, showPromptDialog, waitForSelector } from '../../@libs/utils-injection.js'
 import { cloneCurrentPlaylist } from './youtube-utils.js'
 
 

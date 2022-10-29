@@ -1,5 +1,7 @@
 import { getMediaAsBlob } from '../../../@libs/libs/canvas-utils.js'
-import { cloneScript, cssInlinePropertiesProxyWrapper, delay, waitForSelector } from '../../../@libs/utils-injection.js'
+import { cssInlinePropertiesProxyWrapper } from '../../../@libs/libs/proxy-libs.js'
+import { waitForSelector } from '../../../@libs/utils-injection.js'
+
 
 const video = await waitForSelector('ytd-watch-flexy video')
 
