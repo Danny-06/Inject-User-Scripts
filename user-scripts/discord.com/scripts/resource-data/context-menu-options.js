@@ -1,7 +1,7 @@
-import { createElement, generateFloatingIframe, showPromptDialog } from '../../../@libs/utils-injection.js'
+import { showPromptDialog } from '../../../@libs/libs/dialogs/dialogs.js'
+import { createElement } from '../../../@libs/libs/dom-utils.js'
+import { generateFloatingIframe } from '../../../@libs/utils-injection.js'
 import * as discordUtils from '../discord-utils.js'
-
-
 
 
 // Get nonce value of scritps to execute my own internal scritps
