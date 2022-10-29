@@ -36,6 +36,8 @@ const propertyDescriptors = {
  * Since the `<div>` is not an instance of the component is not posible to use `private properties`.
  * For that reason, is recommended to replace them with properties that starts with an underscore.
  * 
+ * The only way to listen to attribute changes is by using `setAttribute` method.
+ * 
  * @param {class} classComponent 
  * @param {HTMLElement} [elementToApply=null]
  * @returns {HTMLElement}
