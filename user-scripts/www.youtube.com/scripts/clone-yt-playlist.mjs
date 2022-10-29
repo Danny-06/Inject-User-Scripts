@@ -1,8 +1,6 @@
+import { showAlertDialog, showConfirmDialog, showPromptDialog, showPopup } from '../../@libs/libs/dialogs/dialogs.js'
 import { parseHTML } from '../../@libs/libs/dom-utils.js'
-import { showAlertDialog } from '../../@libs/libs/dialogs/alert-dialog/alert-dialog.js'
-import { showConfirmDialog } from '../../@libs/libs/dialogs/confirm-dialog/confirm-dialog.js'
-import { showPromptDialog} from '../../@libs/libs/dialogs/prompt-dialog/prompt-dialog.js'
-import { LocalDB, showPopup, waitForSelector } from '../../@libs/utils-injection.js'
+import { LocalDB, waitForSelector } from '../../@libs/utils-injection.js'
 import { cloneCurrentPlaylist } from './youtube-utils.js'
 
 

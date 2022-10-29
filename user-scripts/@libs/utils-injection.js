@@ -8,10 +8,10 @@ import { ZipManager } from './libs/zip-manager.js'
 import { ScrollBox } from './libs/scroll-box.js'
 import { LocalDB } from './libs/localDB.js'
 import { classMaker } from './libs/class-maker.js'
-import { showPopup } from './libs/show-popup.js'
 import { Interval, Timeout } from './libs/timeout-interval.js'
 import { Binary } from './libs/binary.js'
 import { ListManager } from './libs/array-utils.js'
+import { showPopup } from './libs/dialogs/show-popup/show-popup.js'
 import * as _CanvasUtils from './libs/canvas-utils.js'
 import * as _ProxyUtils from './libs/proxy-libs.js'
 import * as _DOMUtils from './libs/dom-utils.js'
@@ -25,10 +25,11 @@ const Dialogs = Object.freeze({..._Dialogs})
 
 export {
   MouseInfo, ScrollBox, StringConversion, StringImageConversion, StorageHandler,
-  ArrayN, ZipManager, LocalDB,
-  classMaker, showPopup, CanvasUtils, Timeout, Interval,
+  ArrayN, ZipManager, LocalDB, showPopup,
+  classMaker, CanvasUtils, Timeout, Interval,
   Binary, ChromeExtension, ListManager, ProxyUtils, DOMUtils, Dialogs
 }
+
 
 
 const {extensionId} = ChromeExtension
