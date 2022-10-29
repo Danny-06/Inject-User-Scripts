@@ -1,4 +1,4 @@
-import { getAllElementsMapWithBracketsId, importTemplate } from "../../dom-utils.js"
+import { importTemplate } from "../../dom-utils.js"
 
 let isOpen = false
 
