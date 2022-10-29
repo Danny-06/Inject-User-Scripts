@@ -360,8 +360,8 @@ export function getAllElementsMapWithBracketsId(node = document, options = {}) {
     const shadowRoots = getAllShadowRootNodes(node)
 
     shadowRoots.forEach(shadowRoot => {
-      const shadowRootNodes = getElementsByAttribute('[id]', {startNode: shadowRoot})
-      elements.push(...shadowRootNodes)
+      const shadowRootChildNodes = getElementsByAttribute('[id]', {startNode: shadowRoot})
+      elements.push(...shadowRootChildNodes)
     })
   }
 
