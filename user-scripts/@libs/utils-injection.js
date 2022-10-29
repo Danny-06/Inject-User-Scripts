@@ -680,7 +680,7 @@ ${filterTransferable}
 ${isInstanceOfAny}
 
   } // self.onmessage
-  `.trimIndent()
+  `
 
   // Create temporal URI to create a Worker for the function
   const tempBlob = new Blob([blobString], {type: 'application/javascript'})
