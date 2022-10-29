@@ -26,30 +26,26 @@ async function main() {
 
   const html5Container = await waitForSelector('ytd-watch-flexy .html5-video-container')
 
-  const volumeContainerWrapper = parseHTML(// html
+  const [{firstElementChild: volumeContainerWrapper}, vcwMapId] = parseHTML(// html
     `
     <div class="volume-container-wrapper">
         <template shadowroot="open">
-            <div class="volume-container">
-                <div class="volume-count"></div>
-                <div class="gain-count"></div>
+            <div [id]="volume-container" class="volume-container">
+                <div [id]="volume-count" class="volume-count"></div>
+                <div [id]="gain-count" class="gain-count"></div>
             </div>
         </template>
     </div>
     `,
-    {parseDeclarativeShadowDOM: true}
-  ).firstElementChild
+    {parseDeclarativeShadowDOM: true, mapId: true}
+  )
 
   html5Container.append(volumeContainerWrapper)
 
+  const {volumeContainer, volumeCount, gainCount} = vcwMapId
 
   const vcwShadowRoot = volumeContainerWrapper.shadowRoot
 
-  const volumeContainer = vcwShadowRoot.querySelector('.volume-container')
-
-  const volumeCount = vcwShadowRoot.querySelector('.volume-count')
-
-  const gainCount = vcwShadowRoot.querySelector('.gain-count')
 
   const css = // css
   `
@@ -116,11 +112,6 @@ async function main() {
   stylesheet.replace(css)
 
   vcwShadowRoot.adoptedStyleSheets = [stylesheet]
-
-  // const style = document.createElement('style')
-  // style.innerHTML = css
-
-  // volumeContainer.append(style, volumeCount)
 
   let volumeCountTimeOut
 

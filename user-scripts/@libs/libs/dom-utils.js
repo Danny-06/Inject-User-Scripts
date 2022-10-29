@@ -173,7 +173,7 @@ export async function importHTML(url, options = {}) {
  * @returns {DocumentFragment}
  */
 export function parseHTML(htmlString, options = {}) {
-  const { parseDeclarativeShadowDOM: parseDSDOM = false, loadCSSModules = false, baseURL } = options
+  const { parseDeclarativeShadowDOM: parseDSDOM = false, loadCSSModules = false, mapId = false, baseURL } = options
 
   const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
 
@@ -203,7 +203,9 @@ export function parseHTML(htmlString, options = {}) {
     }
   }
 
-  return documentFragment
+  const nodesMapId = getAllElementsMapWithBracketsId(documentFragment, {shadowRoot: true})
+
+  return mapId ? [documentFragment, nodesMapId] : documentFragment
 }
 
 export function parseXML(xmlString) {
