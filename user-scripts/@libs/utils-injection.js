@@ -1,5 +1,4 @@
 import * as ChromeExtension from './chrome-extension-utils.js'
-
 import { MouseInfo } from './libs/mouse-info.js'
 import { StringConversion } from './libs/string-conversion.js'
 import { StringImageConversion } from './libs/string-image-conversion.js'
