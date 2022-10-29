@@ -1,4 +1,4 @@
-import { hyphenToLowerCase } from './string-utils.js'
+import { hyphenToLowerCase, lowerCaseToHyphen } from './string-utils.js'
 
 const capturedMethods = {
   setAttribute: HTMLElement.prototype.setAttribute
@@ -729,4 +729,34 @@ export function stringToValidInnerHTML(string) {
   div.innerHTML = trustedHTMLPolicy.createHTML(string)
 
   return div.innerHTML
+}
+
+
+/**
+ *
+ * @param {CSSStyleDeclaration} style
+ * @param {{}} properties
+ */
+ export function setStyleProperties(style, properties) {
+  for (const property in properties) {
+
+    let propertyName = property
+
+    const isCustomProperty = propertyName.startsWith('--')
+    const hasHyphen = propertyName.includes('-')
+    if(!isCustomProperty && !hasHyphen) {
+      propertyName = lowerCaseToHyphen(propertyName)
+    }
+
+    const prefixVendors = propertyName.search(/^(webkit|moz|ms|o)-/) !== -1
+    if(prefixVendors) {
+      propertyName = `-${propertyName}`
+    }
+
+    const priority = properties[property].match(/![a-z]+$/ig)?.[0].slice(1) ?? ''
+    const propertyValue = priority ? properties[property].replace(new RegExp(`!${priority}$`, 'i'), '') : properties[property]
+
+    style.setProperty(propertyName, propertyValue, priority)
+
+  }
 }
