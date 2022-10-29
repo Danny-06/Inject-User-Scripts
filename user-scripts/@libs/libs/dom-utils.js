@@ -100,6 +100,36 @@ export async function importCSSModule(url, baseURL = import.meta.url) {
   return stylesheet
 }
 
+export async function importCSSModules(styleSheetsURL, baseURL = import.meta.url) {
+  const promises = styleSheetsURL.map(url => importCSSModule(new URL(url, baseURL).href))
+
+  const cssModules = await Promise.all(promises)
+
+  return cssModules
+}
+
+export async function importCSSModulesList(styleSheetsURLList, baseURL) {
+  const promises = styleSheetsURLList.map(styleSheetsURL => importCSSModules(styleSheetsURL, baseURL))
+  const cssModulesList = await Promise.all(promises)
+
+  return cssModulesList
+}
+
+export function getAdoptedStyleSheetsURLFromDeclarativeTemplateShadowDOM(template) {
+  const styleSheetsURL = template.dataset.adoptedStylesheets?.split(/\s/) ?? []
+
+  return styleSheetsURL
+}
+
+export function getStylesheetsURLListFromTree(documentFragment) {
+  const templates = queryDeclarativeTemplatesShadowDOM(documentFragment)
+
+  const styleSheetsURLList = templates.map(t => getAdoptedStyleSheetsURLFromDeclarativeTemplateShadowDOM(t))
+
+  return styleSheetsURLList
+}
+
+
 /**
  * 
  * @param {string} text 
@@ -146,8 +176,9 @@ export function parseHTML(htmlString, options = {}) {
 
   const trustedHTML = trustedHTMLPolicy.createHTML(htmlString)
 
-  const documentFragment = document.implementation
-                          .createHTMLDocument()
+  const document = window.document.implementation.createHTMLDocument()
+
+  const documentFragment = document
                           .createRange()
                           .createContextualFragment(trustedHTML)
 
@@ -176,6 +207,18 @@ export function parseXML(xmlString) {
   return new DOMParser().parseFromString(xmlString, 'text/xml')
 }
 
+
+/**
+ * 
+ * @param {DocumentFragment | HTMLElement} documentFragment 
+ * @returns {HTMLTemplateElement[]}
+ */
+export function queryDeclarativeTemplatesShadowDOM(documentFragment) {
+  const templates = [...documentFragment.querySelectorAll('template[shadowroot]:first-child')]
+
+  return templates
+}
+
 /**
  * 
  * @param {HTMLElement} hostElement 
@@ -202,41 +245,71 @@ export function parseDeclarativeShadowDOM(hostElement) {
   return shadowRoot
 }
 
+export function appendCSSModulesToShadowRoot(shadowRoot, cssModules) {
+  shadowRoot.adoptedStyleSheets = cssModules
+}
+
+export async function loadCSSModulesAndAppendToShadowDOM(shadowRoot, styleSheetsURL, baseURL) {
+  const cssModules = await importCSSModules(styleSheetsURL, baseURL)
+
+  appendCSSModulesToShadowRoot(shadowRoot, cssModules)
+}
+
+export function parseMultipleDeclarativeShadowDOM(element) {
+  const templates = queryDeclarativeTemplatesShadowDOM(element)
+
+  const shadowRoots = templates.map(template => parseDeclarativeShadowDOM(template.parentElement))
+
+  return shadowRoots
+}
+
 export function parseMultipleDeclarativeShadowDOMAndLoadCSSModules(element, baseURL) {
-  const templates = element.querySelectorAll('template[shadowroot]:first-child')
+  const templates = queryDeclarativeTemplatesShadowDOM(element)
 
   templates.forEach(template => {
     const shadowRoot = parseDeclarativeShadowDOM(template.parentElement)
 
-    const styleSheetsURL = template.dataset.adoptedStylesheets?.split(/\s/)
-
-    if (!styleSheetsURL) return
+    const styleSheetsURL = getAdoptedStyleSheetsURLFromDeclarativeTemplateShadowDOM(template)
 
     loadCSSModulesAndAppendToShadowDOM(shadowRoot, styleSheetsURL, baseURL)
   })
 }
 
-export function loadCSSModulesAndAppendToShadowDOM(shadowRoot, styleSheetsURL, baseURL) {
-  const promises = styleSheetsURL.map(url => importCSSModule(new URL(url, baseURL).href))
+export function parseMultipleDeclarativeShadowDOMAndAppendCSSModules(element, cssModulesList) {
+  const templates = queryDeclarativeTemplatesShadowDOM(element)
 
-  Promise.all(promises)
-  .then(stylesheets => shadowRoot.adoptedStyleSheets = stylesheets)
+  templates.forEach((template, index) => {
+    const shadowRoot = parseDeclarativeShadowDOM(template.parentElement)
+
+    appendCSSModulesToShadowRoot(shadowRoot, cssModulesList[index])
+  })
 }
 
 
+
 export async function importTemplate(url, baseURL) {
-  const documentFragment = await importHTML(url, {baseURL})
+  const documentFragment   = await importHTML(url, {baseURL})
+  const styleSheetsURLList = getStylesheetsURLListFromTree(documentFragment)
+
+  const cssModulesList     = await importCSSModulesList(styleSheetsURLList, baseURL)
 
   return {
     documentFragment: documentFragment.cloneNode(true),
 
-    clone() {
+    /**
+     * 
+     * @param {Document} ownerDocument
+     * @returns
+     */
+    clone(ownerDocument = document) {
       /**
        * @type {DocumentFragment}
        */
       const templateClone = documentFragment.cloneNode(true)
 
-      parseMultipleDeclarativeShadowDOMAndLoadCSSModules(templateClone, baseURL)
+      ownerDocument.adoptNode(templateClone)
+
+      parseMultipleDeclarativeShadowDOMAndAppendCSSModules(templateClone, cssModulesList)
 
       return templateClone
     }
