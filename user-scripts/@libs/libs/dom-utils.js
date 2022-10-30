@@ -1,29 +1,19 @@
 import { hyphenToLowerCase, lowerCaseToHyphen } from './string-utils.js'
 
-const capturedMethods = {
-  setAttribute: HTMLElement.prototype.setAttribute
-}
 
-const propertyDescriptors = {
+const mutationObserver = new MutationObserver(mutations => {
+  mutations.forEach(mutation => {
+    if (mutation.type === 'attributes') {
+      const target = mutation.target
 
-  setAttribute: {
-    writable: true,
-    configurable: true,
-    enumerable: true,
+      const name = mutation.attributeName
+      const oldValue = mutation.oldValue
+      const newValue = target.getAttribute(name)
 
-    value(name, newValue) {
-      const oldValue = this.getAttribute(name)
-
-      capturedMethods.setAttribute.call(this, name, newValue)
-
-      if (classComponent.observedAttributes?.includes(name)) {
-        component.attributeChangedCallback(name, oldValue, value)
-      }
+      target?.attributeChangedCallback(name, oldValue, newValue)
     }
-  }
-
-}
-
+  })
+})
 
 /**
  * Allows the creation of custom elements through a `<div>`.
@@ -36,8 +26,6 @@ const propertyDescriptors = {
  * Since the `<div>` is not an instance of the component is not posible to use `private properties`.
  * For that reason, is recommended to replace them with properties that starts with an underscore.
  * 
- * The only way to listen to attribute changes is by using `setAttribute` method.
- * 
  * @param {class} classComponent 
  * @param {HTMLElement} [elementToApply=null]
  * @returns {HTMLElement}
@@ -49,7 +37,14 @@ export function createWebComponent(classComponent, elementToApply = null) {
 
   const component = elementToApply ?? document.createElement('div')
 
-  Object.defineProperties(classComponent.prototype, propertyDescriptors)
+  if (classComponent.observedAttributes) {
+    mutationObserver.observe(component, {
+      attributes: true,
+      attributeFilter: classComponent.observedAttributes,
+      attributeOldValue: true
+    })
+  }
+
 
   Object.setPrototypeOf(component, classComponent.prototype)
   classComponent.prototype._constructor_?.call(component)
