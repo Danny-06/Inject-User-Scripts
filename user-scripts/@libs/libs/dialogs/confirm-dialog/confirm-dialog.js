@@ -11,7 +11,7 @@ export function showConfirmDialog(message = '(No message provided)') {
 
   isOpen = true
 
-  const [{firstElementChild: dialog}, mapId] = dialogTemplate.clone()
+  const [{firstElementChild: dialog}, mapId] = dialogTemplate.clone(document)
 
   const {message: msgDialog, acceptBtn, cancelBtn} = mapId
 

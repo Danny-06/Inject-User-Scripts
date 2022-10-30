@@ -26,7 +26,7 @@ export function showPopup(message, time = 5000, options = {}) {
     pointerEvents: userInteraction ? 'none' : 'auto'
   })
 
-  const [{firstElementChild: alertPopupContainer}, popupMapId] = popup.clone()
+  const [{firstElementChild: alertPopupContainer}, popupMapId] = popup.clone(document)
 
   alertPopupContainer.dataset.message = message
 

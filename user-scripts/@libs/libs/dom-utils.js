@@ -305,14 +305,16 @@ export async function importTemplate(url, baseURL) {
      * @param {Document} ownerDocument
      * @returns {[DocumentFragment, {[key: string]: HTMLElement}]}
      */
-    clone(ownerDocument = document) {
+    clone(ownerDocument = null) {
       /**
        * @type {DocumentFragment}
        */
       const templateClone = documentFragment.cloneNode(true)
 
       // Adopt the DocumentFragment with its childs to the specified document
-      ownerDocument.adoptNode(templateClone)
+      if (ownerDocument instanceof Document) {
+        ownerDocument.adoptNode(templateClone)
+      }
 
       parseMultipleDeclarativeShadowDOMAndAppendCSSModules(templateClone, cssModulesList)
 
