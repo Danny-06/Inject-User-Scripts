@@ -3,7 +3,7 @@ html.lqz3O #content .player-api {
   background: none
 }
 
-yt-icon-button#button:not(.style-default-active) yt-animated-icon path {
+ytd-toggle-button-renderer:not(.style-default-active) yt-animated-icon path {
   stroke: currentColor;
 }
 

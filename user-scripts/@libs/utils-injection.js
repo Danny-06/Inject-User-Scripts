@@ -586,7 +586,7 @@ export async function printPage(url) {
  * @returns {string}
  */
 export function removeCommentsInJSON(jsonString) {
-  return jsonString.replace(/\/\*[^]*?\*\//g, '').replace(/\/\/.*/g, '')
+  return jsonString.replace(/\/\*[^]*\*\//g, '').replace(/\/\/.*/g, '')
 }
 
 /**
