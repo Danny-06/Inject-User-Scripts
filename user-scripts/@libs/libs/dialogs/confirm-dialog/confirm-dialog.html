@@ -1,6 +1,6 @@
 <div class="dialog-menu-overlay">
     <template shadowroot="open" data-adopted-stylesheets="./confirm-dialog.css">
-        <div class="dialog-menu">
+        <div [id]="dialog-menu" class="dialog-menu">
             <div [id]="message" class="message"></div>
             <div class="buttons">
                 <button [id]="accept-btn" class="accept">Accept</button>
