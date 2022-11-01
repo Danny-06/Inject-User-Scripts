@@ -1,6 +1,14 @@
 import { parseHTML } from "../../@libs/libs/dom-utils.js";
 import { waitForSelector } from "../../@libs/utils-injection.js"
 
+const volumeSetter = Object.getOwnPropertyDescriptors(HTMLMediaElement.prototype).volume.set
+
+Object.defineProperties(HTMLMediaElement.prototype, {
+  volume: {
+    set(value) {}
+  }
+})
+
 
 // Eventos de navegación de Youtube para ejecutar el código
 // al cambiar de página (Youtube no recarga la página, la actualiza)
@@ -124,19 +132,23 @@ async function main() {
     volumeContainer.classList.add('full-opacity')
     volumeCountTimeOut = setTimeout(() => volumeContainer.classList.remove('full-opacity'), 500)
 
+    let volumeValue
+
     if (event.deltaY < 0) {
-      if ((video.volume + videoVolumeStep) > 1) video.volume = 1
-      else                                      video.volume = (video.volume + videoVolumeStep).toFixed(2)
+      if ((video.volume + videoVolumeStep) > 1) volumeValue = 1
+      else                                      volumeValue = (video.volume + videoVolumeStep).toFixed(2)
     }
     else
     if (event.deltaY > 0) {
-      if ((video.volume - videoVolumeStep) < 0) video.volume = 0
-      else                                      video.volume = (video.volume - videoVolumeStep).toFixed(2)
+      if ((video.volume - videoVolumeStep) < 0) volumeValue = 0
+      else                                      volumeValue = (video.volume - videoVolumeStep).toFixed(2)
     }
 
-    const volumeValue = Math.floor(video.volume * 100)
+    volumeSetter.call(video, volumeValue)
 
-    volumeCount.innerHTML = volumeValue
+    const volumeValuePercent = Math.floor(volumeValue * 100)
+
+    volumeCount.innerHTML = volumeValuePercent
   })
 
   // Increase video gain with Ctrl + Vertical Arrows
