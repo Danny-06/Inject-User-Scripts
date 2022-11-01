@@ -225,3 +225,14 @@ ytd-multi-page-menu-renderer.style-scope.ytd-multi-page-menu-renderer {
 /* yt-formatted-string[is-empty]:not(.use-shadow) {
   display: block;
 } */
+
+
+/* Remove left search icon from the search bar when is focused */
+ytd-searchbox > form > #container {
+  padding-left: 16px !important;
+  margin-left: 0 !important;
+}
+
+ytd-searchbox > form > #container > yt-icon#search-icon {
+  display: none;
+}
