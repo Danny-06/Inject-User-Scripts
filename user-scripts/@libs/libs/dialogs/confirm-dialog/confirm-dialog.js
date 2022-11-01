@@ -9,8 +9,9 @@ const resetOpenState = () => isOpened = false
 const dialogTemplate = await importTemplate('./confirm-dialog.html', import.meta.url)
 
 export function showConfirmDialog(message = '(No message provided)') {
-  // If the dialog is "opened" but the element is not in the DOM then reset the "opened" state
-  if (isOpened && dialogStoreReference && !dialogStoreReference.isConnected) {
+  // If the dialog is "opened" but the element is not in the DOM or
+  // is not in the active document then reset the "opened" state
+  if (isOpened && dialogStoreReference && (!dialogStoreReference.isConnected || dialogStoreReference.ownerDocument !== document)) {
     resetOpenState()
   }
 
