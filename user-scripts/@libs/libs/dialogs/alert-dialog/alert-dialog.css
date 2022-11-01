@@ -74,6 +74,8 @@ button:active {
 
   border-radius: 0.6em;
   background-color: #222;
+
+  animation: start-anim 0.3s ease-out 0s 1 normal forwards;
 }
 
 .dialog-menu > .buttons > .accept {
@@ -87,4 +89,18 @@ button:active {
 
 .dialog-menu > .buttons > .accept:active {
   background-color: #00581e;
+}
+
+@keyframes start-anim {
+  0% {
+    transform: translateY(100px) scale(0.2);
+  }
+
+  50% {
+    transform: scale(0.2);
+  }
+
+  100% {
+    transform: none;
+  }
 }
