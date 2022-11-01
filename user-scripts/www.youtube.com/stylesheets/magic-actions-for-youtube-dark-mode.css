@@ -8,6 +8,10 @@ ytd-toggle-button-renderer:not(.style-default-active) yt-animated-icon path {
 }
 
 
+html body[modern-dialog] {
+  --iron-overlay-backdrop-opacity: unset;
+}
+
 /* Like button active color */
 ytd-toggle-button-renderer.style-default-active path {
   fill: #5581c3;
