@@ -134,7 +134,9 @@ async function main() {
       else                                      video.volume = (video.volume - videoVolumeStep).toFixed(2)
     }
 
-    volumeCount.innerHTML = Math.floor(video.volume * 100)
+    const volumeValue = Math.floor(video.volume * 100)
+
+    volumeCount.innerHTML = volumeValue
   })
 
   // Increase video gain with Ctrl + Vertical Arrows

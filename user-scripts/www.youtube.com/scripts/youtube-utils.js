@@ -112,6 +112,14 @@ export class ContextMenuManager {
 
     contextMenuPopup.prepend(groupItems)
 
+    const optionsContent = groupItems.querySelector('.options-content.ytp-panel-menu')
+
+    optionsContent.addEventListener('wheel', event => {
+      if (optionsContent.offsetHeight === optionsContent.scrollHeight) {
+        event.preventDefault()
+      }
+    })
+
     await delay(0)
 
     this.#isContextMenuInitializing = false
