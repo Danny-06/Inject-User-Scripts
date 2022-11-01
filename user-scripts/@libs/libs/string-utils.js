@@ -2,13 +2,13 @@ export const lowerCaseToHyphen = string => string.split(/(?=[A-Z])/).map(str => 
 
 export const hyphenToLowerCase = string => string.split('-').map((str, index) => index !== 0 ? str[0].toUpperCase() + str.slice(1) : str).join('')
 
-export function trimIndent() {
+export function trimIndent(string) {
   // Get indent
-  const splitNewLine = this.split('\n')
+  const splitNewLine = string.split('\n')
   const minIndent = splitNewLine[splitNewLine.length - 1]
 
   // Remove indent
-  let newString = this.replaceAll('\n' + minIndent, '\n')
+  let newString = string.replaceAll('\n' + minIndent, '\n')
   // Remove start and end new lines
   newString = newString.slice(1, -1)
 

@@ -1,5 +1,6 @@
 import { showAlertDialog, showConfirmDialog, showPromptDialog, showPopup } from '../../@libs/libs/dialogs/dialogs.js'
 import { parseHTML } from '../../@libs/libs/dom-utils.js'
+import { trimIndent } from '../../@libs/libs/string-utils.js'
 import { LocalDB, waitForSelector } from '../../@libs/utils-injection.js'
 import { cloneCurrentPlaylist } from './youtube-utils.js'
 
@@ -48,7 +49,7 @@ window.addEventListener('yt-navigate-start', event => {
 async function main() {
   if (document.querySelector('fake-ytd-button-renderer')) return
 
-  const playlistMenu = await waitForSelector('ytd-playlist-sidebar-primary-info-renderer #menu > ytd-menu-renderer')
+  const playlistMenu = await waitForSelector('ytd-playlist-header-renderer .metadata-wrapper .metadata-buttons-wrapper ')
 
   const clonePlaylistBtn = clonePlaylistButton.cloneNode(true)
   playlistMenu.append(clonePlaylistBtn)
@@ -58,12 +59,12 @@ async function main() {
 
     if (response.status !== 200) {
       showAlertDialog(
-        `
+        trimIndent(`
         Something went wrong in the request.
         You may exceed your daily playlist creation.
 
         Or maybe your 'authorization' string is not valid anymore and you have to get it again.
-        `.trimIndent()
+        `)
       )
       return
     }
@@ -91,7 +92,7 @@ async function main() {
 async function clonePlaylist() {
   const authorizationStorage = await storage.getItem('request-authorization') ?? ''
 
-  const authorization = await showPromptDialog(`
+  const authorization = await showPromptDialog(trimIndent(`
   Provide 'authorization' string to clone the playlist.
 
   You can find it in the Network tab of Devtools.
@@ -101,7 +102,7 @@ async function clonePlaylist() {
   and copy the 'authorization' value and paste it here.
 
   (The default authorization value that may appear below is taken from localStorage from previous value received. If it doesnt work, get it again as mentioned above.)
-  `, authorizationStorage)
+  `), authorizationStorage)
 
   if (authorization == null || authorization === '') return
 
