@@ -1,6 +1,9 @@
-import { importTemplate, setStyleProperties, turnStringIntoTrustedHTML } from "../../dom-utils.js";
+import { getAllElementsMapWithBracketsId, importTemplateAndCSS, setStyleProperties, turnStringIntoTrustedHTML } from "../../dom-utils.js";
 
-const popup = await importTemplate('./show-popup.html', import.meta.url)
+const [popup, stylesheet] = await importTemplateAndCSS({
+  template: './show-popup.html',
+  stylesheet: './show-popup.css'
+}, import.meta.url)
 
 let popupsContainer
 
@@ -26,13 +29,18 @@ export function showPopup(message, time = 5000, options = {}) {
     pointerEvents: userInteraction ? 'none' : 'auto'
   })
 
-  const [{firstElementChild: alertPopupContainer}, popupMapId] = popup.clone(document)
+  const {firstElementChild: alertPopupContainer} = popup.clone(document)
+
+  alertPopupContainer.shadowRoot.adoptedStyleSheets = [stylesheet]
+
+  const popupMapId = getAllElementsMapWithBracketsId(alertPopupContainer, {shadowRoot: true})
+
+  const {alertPopup, alertPopupContent} = popupMapId
+
 
   alertPopupContainer.dataset.message = message
 
   popupsContainer.append(alertPopupContainer)
-
-  const {alertPopup, alertPopupContent} = popupMapId
 
   alertPopupContent.innerHTML = turnStringIntoTrustedHTML(message)
 

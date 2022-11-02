@@ -1,4 +1,4 @@
-import { importTemplate } from "../../dom-utils.js"
+import { getAllElementsMapWithBracketsId, importTemplateAndCSS } from "../../dom-utils.js"
 
 let isOpened = false
 
@@ -6,12 +6,16 @@ let dialogStoreReference
 
 const resetOpenState = () => isOpened = false
 
-const dialogTemplate = await importTemplate('./alert-dialog.html', import.meta.url)
+const [dialogTemplate, stylesheet] = await importTemplateAndCSS({
+  template: './alert-dialog.html',
+  stylesheet: './alert-dialog.css'
+}, import.meta.url)
+
 
 export function showAlertDialog(message = '(No message provided)') {
   // If the dialog is "opened" but the element is not in the DOM or
   // is not in the active document then reset the "opened" state
-  if (isOpened && dialogStoreReference && (!dialogStoreReference.isConnected || dialogStoreReference.ownerDocument !== document)) {
+  if (!dialogStoreReference || isOpened && (!dialogStoreReference.isConnected || dialogStoreReference.ownerDocument !== document)) {
     resetOpenState()
   }
 
@@ -21,7 +25,12 @@ export function showAlertDialog(message = '(No message provided)') {
 
   isOpened = true
 
-  const [{firstElementChild: dialog}, mapId] = dialogTemplate.clone(document)
+  const {firstElementChild: dialog} = dialogTemplate.clone(document)
+
+  dialog.shadowRoot.adoptedStyleSheets = [stylesheet]
+
+  const mapId = getAllElementsMapWithBracketsId(dialog, {shadowRoot: true})
+
 
   const {dialogMenu, message: msgDialog, acceptBtn} = mapId
 

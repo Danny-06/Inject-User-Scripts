@@ -289,11 +289,62 @@ export function parseMultipleDeclarativeShadowDOMAndAppendCSSModules(element, cs
 
 /**
  * 
+ * @param {{template: string, stylesheet: string}} urlOptions 
+ * @param {string} baseURL 
+ * @returns {[
+ *   {
+ *     documentFragment: Node,
+ *     clone(ownerDocument?: Document): DocumentFragment
+ *   },
+ *   CSSStyleSheet
+ * ]}
+ */
+export async function importTemplateAndCSS(urlOptions, baseURL) {
+  const {template: templateURL, stylesheet: stylesheetURL} = urlOptions
+
+  const [dialogTemplate, stylesheet] = await Promise.all([
+    importTemplate(templateURL, baseURL),
+    importCSSModule(stylesheetURL, baseURL)
+  ])
+
+  return [dialogTemplate, stylesheet]
+}
+
+/**
+ * 
  * @param {string} url 
  * @param {string} baseURL 
  * @returns
  */
 export async function importTemplate(url, baseURL) {
+  const documentFragment   = await importHTML(url, {baseURL})
+
+  return {
+    documentFragment: documentFragment.cloneNode(true),
+
+    /**
+     * @param {Document} ownerDocument
+     * @returns {DocumentFragment}
+     */
+    clone(ownerDocument = null) {
+      /**
+       * @type {DocumentFragment}
+       */
+      const templateClone = documentFragment.cloneNode(true)
+
+      // Adopt the DocumentFragment with its childs to the specified document
+      if (ownerDocument instanceof Document) {
+        ownerDocument.adoptNode(templateClone)
+      }
+
+      parseMultipleDeclarativeShadowDOM(templateClone)
+
+      return templateClone
+    }
+  }
+}
+
+export async function importTemplateWithAdoptedStyleSheets() {
   const documentFragment   = await importHTML(url, {baseURL})
   const styleSheetsURLList = getStylesheetsURLListFromTree(documentFragment)
   const cssModulesList     = await importCSSModulesList(styleSheetsURLList, baseURL)
@@ -303,7 +354,7 @@ export async function importTemplate(url, baseURL) {
 
     /**
      * @param {Document} ownerDocument
-     * @returns {[DocumentFragment, {[key: string]: HTMLElement}]}
+     * @returns {DocumentFragment}
      */
     clone(ownerDocument = null) {
       /**
@@ -318,16 +369,14 @@ export async function importTemplate(url, baseURL) {
 
       parseMultipleDeclarativeShadowDOMAndAppendCSSModules(templateClone, cssModulesList)
 
-      const mapId = getAllElementsMapWithBracketsId(templateClone, {shadowRoot: true})
-
-      return [templateClone, mapId]
+      return templateClone
     }
   }
 }
 
 
 export function getAllShadowRootNodes(node) {
-  const shadowRoots = [...node.querySelectorAll('*')].filter(n => n.shadowRoot).map(n => n.shadowRoot)
+  const shadowRoots = [node, ...node.querySelectorAll('*')].filter(n => n.shadowRoot).map(n => n.shadowRoot)
 
   shadowRoots.forEach(shadowRoot => {
     const shadowRootsNested = getAllShadowRootNodes(shadowRoot)
