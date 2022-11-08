@@ -36,8 +36,7 @@ async function Executer() {
       '--translateX': '0px',
       '--translateY': '0px',
       '--scale': '1',
-      '--rotateZ': '0deg',
-      '--perspective': '400px'
+      '--rotateZ': '0deg'
     })
   })
 
@@ -101,9 +100,12 @@ async function Executer() {
     const movementX = event.clientX - mouse.previousClientX
     const movementY = event.clientY - mouse.previousClientY
 
+    const movementXScaled = movementX / parseFloat(videoStyles[0]['--scale'])
+    const movementYScaled = movementY / parseFloat(videoStyles[0]['--scale'])
+
     videoStyles.forEach(video => {
-      video['--translateX'] = `${tx + movementX}px`
-      video['--translateY'] = `${ty + movementY}px`
+      video['--translateX'] = `${tx + movementXScaled}px`
+      video['--translateY'] = `${ty + movementYScaled}px`
     })
 
   })
