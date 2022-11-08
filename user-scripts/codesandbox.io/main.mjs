@@ -5,8 +5,8 @@ const pane1     = await waitForSelector('[id="workbench.main.container"] .Pane1'
 const pane2     = await waitForSelector('[id="workbench.main.container"] .Pane2')
 
 
-window.addEventListener('click', event => {
-  if (!event.ctrlKey) return
+window.addEventListener('mousedown', event => {
+  if (!event.ctrlKey || event.button !== 1) return
 
   if (document.fullscreenElement) return document.exitFullscreen()
 
