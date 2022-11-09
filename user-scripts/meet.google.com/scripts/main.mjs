@@ -1,5 +1,6 @@
-import { delay, waitForSelector, readFileAs, downloadFile, setStyleProperties, showPopup, turnStringIntoTrustedHTML, Interval, Timeout} from "../../@libs/utils-injection.js"
-
+import { showPopup } from "../../@libs/libs/dialogs/dialogs.js"
+import { setStyleProperties, turnStringIntoTrustedHTML } from "../../@libs/libs/dom-utils.js"
+import { delay, waitForSelector, readFileAs, downloadFile} from "../../@libs/utils-injection.js"
 
 
 const domainUrl = import.meta.url.split('/').slice(0, -2).join('/')

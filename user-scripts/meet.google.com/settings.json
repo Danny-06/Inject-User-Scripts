@@ -1,8 +1,10 @@
 {
   "scripts": [
     "scripts/main.mjs"
-  ],
-  "stylesheets": [
-    ""
   ]
+  // ,
+  // "stylesheets": [
+  //   "stylesheets/GoogleMeet_modoOscuro.css",
+  //   "stylesheets/GoogleMeet_videosInteractuables.css"
+  // ]
 }
