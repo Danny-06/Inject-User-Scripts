@@ -4,10 +4,18 @@ import { waitForSelector, delay, promiseWrapper} from "../../@libs/utils-injecti
 
 export class ContextMenuManager {
 
-  static ctxItems = new Set()
+  static ctxItemsMap = new Map()
 
   static get elementItems() {
-    return [...this.ctxItems].map(ctxItem => ctxItem.element)
+    const items = []
+
+    this.ctxItemsMap.forEach((options, ctxItemInterface) => {
+      if (typeof options.condition !== 'function' || options.condition()) {
+        items.push(ctxItemInterface.element)
+      }
+    })
+
+    return items
   }
 
   static async #removeContextMenuItems() {
@@ -15,7 +23,7 @@ export class ContextMenuManager {
 
     contextMenuPopup.querySelector(`#group-custom-options`)?.remove()
 
-    this.ctxItems.clear()
+    this.ctxItemsMap.clear()
   }
 
   static #isContextMenuInitializing = false
@@ -224,7 +232,7 @@ export class ContextMenuManager {
       action?.(ctxItemInterface)
     })
 
-    this.ctxItems.add(ctxItemInterface)
+    this.ctxItemsMap.set(ctxItemInterface, options)
   }
 
   /**

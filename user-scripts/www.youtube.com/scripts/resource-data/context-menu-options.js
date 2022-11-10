@@ -3,6 +3,9 @@ import { cssInlinePropertiesProxyWrapper } from '../../../@libs/libs/proxy-libs.
 import { waitForSelector } from '../../../@libs/utils-injection.js'
 
 
+/**
+ * @type {HTMLVideoElement}
+ */
 const video = await waitForSelector('ytd-watch-flexy video')
 
 
@@ -14,7 +17,8 @@ export const copyVideoURL =  {
   <svg height="100%" viewBox="0 0 36 36" width="100%">
       <path fill="currentColor" d="M5.85 18.0c0.0-2.56 2.08-4.65 4.65-4.65h6.0V10.5H10.5c-4.14 .0-7.5 3.36-7.5 7.5s3.36 7.5 7.5 7.5h6.0v-2.85H10.5c-2.56 .0-4.65-2.08-4.65-4.65zM12.0 19.5h12.0v-3.0H12.0v3.0zm13.5-9.0h-6.0v2.85h6.0c2.56 .0 4.65 2.08 4.65 4.65s-2.08 4.65-4.65 4.65h-6.0V25.5h6.0c4.14 .0 7.5-3.36 7.5-7.5s-3.36-7.5-7.5-7.5z"></path>
   </svg>
-  `,
+  `
+  ,
   action: ctxItem => {
     const videoId = new URL(location.href).searchParams.get('v')
 
@@ -158,7 +162,11 @@ export const showCommentsPanel = {
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 121.86 122.88">
       <path fill="currentColor" d="M30.28,110.09,49.37,91.78A3.84,3.84,0,0,1,52,90.72h60a2.15,2.15,0,0,0,2.16-2.16V9.82a2.16,2.16,0,0,0-.64-1.52A2.19,2.19,0,0,0,112,7.66H9.82A2.24,2.24,0,0,0,7.65,9.82V88.55a2.19,2.19,0,0,0,2.17,2.16H26.46a3.83,3.83,0,0,1,3.82,3.83v15.55ZM28.45,63.56a3.83,3.83,0,1,1,0-7.66h53a3.83,3.83,0,0,1,0,7.66Zm0-24.86a3.83,3.83,0,1,1,0-7.65h65a3.83,3.83,0,0,1,0,7.65ZM53.54,98.36,29.27,121.64a3.82,3.82,0,0,1-6.64-2.59V98.36H9.82A9.87,9.87,0,0,1,0,88.55V9.82A9.9,9.9,0,0,1,9.82,0H112a9.87,9.87,0,0,1,9.82,9.82V88.55A9.85,9.85,0,0,1,112,98.36Z"></path>
   </svg>
-  `,
+  `
+  ,
+  condition() {
+    return document.querySelector(`[target-id="engagement-panel-comments-section"]`) != null
+  },
   action: ctxItem => {
     // Vibility attribute values
     const HIDDEN  = 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN'
@@ -187,7 +195,11 @@ export const showDescriptionPanel = {
       <path fill="currentColor" d="M349.153,317.815c0-4.537-3.676-8.21-8.211-8.21H196.708c-4.537,0-8.21,3.673-8.21,8.21c0,4.536,3.673,8.223,8.21,8.223  h144.234C345.477,326.038,349.153,322.351,349.153,317.815z"></path>
       <path fill="currentColor" d="M384.77,365.395H249.61c-4.536,0-8.21,3.675-8.21,8.212c0,4.536,3.674,8.209,8.21,8.209h135.16  c4.537,0,8.223-3.673,8.223-8.209C392.992,369.07,389.307,365.395,384.77,365.395z"></path>
   </svg>
-  `,
+  `
+  ,
+  condition() {
+    return document.querySelector(`[target-id="engagement-panel-structured-description"]`) != null
+  },
   action: ctxItem => {
     // Vibility attribute values
     const HIDDEN  = 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN'
@@ -214,7 +226,11 @@ export const showChaptersPanel = {
       <path fill="currentColor" d="M957.9,460.5C934,448.8,843,406.5,843,406.5c-21.9,10.7-43.9,21.4-65.8,32.2c-2.1,1-4,2-6.1,3c0,0,115.7,51.8,128.5,58.2L559.7,666.2c-16.1,7.9-34.9,11.7-61.9,12.4l-3.5,0.1c-25,0-50.7-10.2-84-26.7c-15.4-7.7-310.2-152.1-310.2-152.1c12-6,128.2-58,128.2-58l-71.9-35.2c0,0-88.7,41.1-110.5,51.8c-9.6,4.8-18.9,10.3-26.5,18.9c-12.8,14.9-12.7,31.1,0.4,45.7c8.5,9.6,19.2,15.1,30.1,20.5c56.9,27.9,302.6,148.3,333,163.4c35.8,17.7,71.7,33.1,111.2,33.1c2,0,3.9,0,6-0.1c29.6-0.7,58.7-5,86.4-18.5c40.5-19.8,309.5-151.4,368-180c8.7-4.3,17.2-9.4,24.3-17c14.5-15.3,14.7-32.4,0.5-48C973.2,469.3,965.9,464.4,957.9,460.5z"/>
       <path fill="currentColor" d="M982.2,729.8c-7.1-9.2-16.2-15.1-25.8-19.9C935.2,699.4,844,656.6,844,656.6c-21.7,10.6-43.2,21.1-64.9,31.7c-2.1,1.1-4.3,2.1-6.3,3.1l126.8,58.8c0,0-254.1,123.9-334.9,163.8c-19.7,9.7-41,14.7-67,14.7h-3.2h-0.5c-21,0-43.3-6.8-76.8-23.3c-78.9-39-316.8-155.2-316.8-155.2c11.8-5.8,126.6-58.7,126.6-58.7s-49.7-24.3-71.2-34.9c0,0-90.9,42.8-113.2,53.9c-9.1,4.5-17.5,10.2-24.3,18.7c-10.6,13.2-11,27-0.9,40.9c7.5,10.3,17.6,16.5,28.2,21.7C160.5,848,275.4,903.7,390,960.4c33.4,16.5,67.2,29.6,103.9,29.6c1.4,0,3,0,4.4-0.1c32.3-0.3,63.4-6.1,93.5-20.9c120.7-59.5,241.8-118.2,362.8-177.4c10.8-5.4,21.2-11.7,28.8-22.5C992.5,755.6,992,742.6,982.2,729.8z"/>
   </svg>
-  `,
+  `
+  ,
+  condition() {
+    return document.querySelector(`[target-id="engagement-panel-macro-markers-description-chapters"]`) != null
+  },
   action: ctxItem => {
     // Vibility attribute values
     const HIDDEN = 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN'
@@ -244,6 +260,9 @@ export const downloadChaptersAsXML = {
   </svg>
   `
   ,
+  condition() {
+    return document.querySelector(`[target-id="engagement-panel-macro-markers-description-chapters"]`) != null
+  },
   action: ctxItem => {
     const ytChapters  = youtubeUtils.getYTChapters()
     const chaptersXML = youtubeUtils.ytChaptersToXML(ytChapters)
@@ -264,6 +283,9 @@ export const showTranscriptionPanel = {
   </svg>
   `
   ,
+  condition() {
+    return document.querySelector(`[target-id="engagement-panel-searchable-transcript"]`) != null
+  },
   action: ctxItem => {
     // Vibility attribute values
     const HIDDEN = 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN'
@@ -277,5 +299,36 @@ export const showTranscriptionPanel = {
     const chapterPanel = panelsContainer.querySelector(`[target-id="engagement-panel-searchable-transcript"]`)
 
     chapterPanel?.setAttribute('visibility', VISIBLE)
+  }
+}
+
+
+
+let videoLoopState = false
+
+video.addEventListener('loadstart', event => {
+  video.loop = videoLoopState
+})
+
+const mediaLoopSetter = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, 'loop').set
+
+Object.defineProperty(HTMLMediaElement.prototype, 'loop', {
+  set(value) {
+    mediaLoopSetter.call(this, videoLoopState)
+  }
+})
+
+export const loopVideo = {
+  id: 'loop',
+  name: 'Bucle',
+  icon: // xml
+  `
+  <svg fill="none" height="24" viewBox="0 0 24 24" width="24">
+      <path fill="#fff" d="M7 7H17V10L21 6L17 2V5H5V11H7V7ZM17 17H7V14L3 18L7 22V19H19V13H17V17Z" />
+  </svg>
+  `
+  ,
+  action: ctxItem => {
+    video.loop = videoLoopState = ctxItem.toogleCheck()
   }
 }

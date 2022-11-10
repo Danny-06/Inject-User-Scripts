@@ -44,23 +44,30 @@ async function initCustomContextMenu() {
   ctxM.addVideoContextMenuItems([
     ctxMenu.captureScreenshot,
     ctxMenu.flipVideoHorizontally,
+    ctxMenu.loopVideo,
 
-    getValueIfSelectorMatches(
-      `[target-id="engagement-panel-comments-section"]`,
-      ctxMenu.showCommentsPanel
-    ),
-    getValueIfSelectorMatches(
-      `[target-id="engagement-panel-structured-description"]`,
-      ctxMenu.showDescriptionPanel
-    ),
-    ...getValueIfSelectorMatches(
-      `[target-id="engagement-panel-macro-markers-description-chapters"]`,
-      [ctxMenu.showChaptersPanel, ctxMenu.downloadChaptersAsXML]
-    ),
-    getValueIfSelectorMatches(
-      `[target-id="engagement-panel-searchable-transcript"]`,
-      ctxMenu.showTranscriptionPanel
-    ),
+    ctxMenu.showCommentsPanel,
+    ctxMenu.showDescriptionPanel,
+    ctxMenu.showChaptersPanel,
+    ctxMenu.downloadChaptersAsXML,
+    ctxMenu.showTranscriptionPanel,
+
+    // getValueIfSelectorMatches(
+    //   `[target-id="engagement-panel-comments-section"]`,
+    //   ctxMenu.showCommentsPanel
+    // ),
+    // getValueIfSelectorMatches(
+    //   `[target-id="engagement-panel-structured-description"]`,
+    //   ctxMenu.showDescriptionPanel
+    // ),
+    // ...getValueIfSelectorMatches(
+    //   `[target-id="engagement-panel-macro-markers-description-chapters"]`,
+    //   [ctxMenu.showChaptersPanel, ctxMenu.downloadChaptersAsXML]
+    // ),
+    // getValueIfSelectorMatches(
+    //   `[target-id="engagement-panel-searchable-transcript"]`,
+    //   ctxMenu.showTranscriptionPanel
+    // ),
 
     ctxMenu.copyVideoURL,
     ctxMenu.copyVideoURLTime,
