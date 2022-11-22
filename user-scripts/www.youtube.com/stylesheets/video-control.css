@@ -17,6 +17,7 @@ canvas#player {
   translateX( var(--translateX, 0) )
   translateY( var(--translateY, 0) )
 
+  rotateY( var(--rotateY, 0deg) )
   rotateZ( var(--rotateZ, 0deg) )
   ;
 }

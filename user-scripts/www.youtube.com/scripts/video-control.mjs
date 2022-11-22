@@ -36,6 +36,7 @@ async function Executer() {
       '--translateX': '0px',
       '--translateY': '0px',
       '--scale': '1',
+      '--rotateY': '0deg',
       '--rotateZ': '0deg'
     })
   })

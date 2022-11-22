@@ -101,24 +101,6 @@ async function init() {
       window.open(`https://youtube.com/watch?v=${videoId}`)
     })
 
-
-    // Forzar audio de la nueva previsualización de videos en la pagina principal
-
-    const video = await waitForSelector('video')
-
-    const mutedSetter = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, 'muted').set
-
-    Object.defineProperty(HTMLMediaElement.prototype, 'muted', {
-      set(value) {
-        if (location.pathname !== '/') {
-          mutedSetter.call(this, value)
-        }
-      }
-    })
-
-    mutedSetter.call(video, false)
-
-
     // window.addEventListener('click', event => {
     //   if (event.target.matches('ytd-watch-flexy video'))
     //     event.target.focus()
