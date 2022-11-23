@@ -14,6 +14,7 @@ import { ListManager } from './libs/array-utils.js'
 import * as _CanvasUtils from './libs/canvas-utils.js'
 import * as _ProxyUtils from './libs/proxy-libs.js'
 import * as _DOMUtils from './libs/dom-utils.js'
+import {waitForDocumentReady} from './libs/dom-utils.js'
 import * as _Dialogs from './libs/dialogs/dialogs.js'
 
 
@@ -1174,7 +1175,7 @@ export function generateOverlayIframe() {
   const iframe = createElement('iframe', {properties: {srcdoc: '<!DOCTYPE html><style>html, body {width:100%; height: 100%; margin: 0; padding: 0;}</style>', style: 'border: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99999999999;'}})
   document.body.append(iframe)
 
-  promiseDocumentLoad(iframe, {skipReadyStateCheck: true}).then(iframe => {
+  waitForDocumentReady(iframe, {skipReadyStateCheck: true}).then(iframe => {
     // Append color-scheme meta tag to match the parent color-scheme and keep the iframe transparent
     const metaColorScheme = document.querySelector('meta[name="color-scheme"]')
 
@@ -1609,7 +1610,7 @@ export function generateFloatingIframe(addDefaults = true) {
     generateHTMLTemplate(iframe.contentDocument)
 
     // Wait for iframe load
-    promiseDocumentLoad(iframe)
+    waitForDocumentReady(iframe)
     .then(ifr => {
       const h1 = ifr.contentDocument?.querySelector('h1')
       if (h1) h1.innerHTML = 'Iframe Testing'
@@ -1617,33 +1618,6 @@ export function generateFloatingIframe(addDefaults = true) {
   }
 
   return iframe
-}
-
-/**
- * 
- * @param {Document|HTMLIFrameElement} doc 
- * @param {{skipReadyStateCheck}} options
- * @returns {Promise<Document|HTMLIFrameElement>}
- */
-export function promiseDocumentLoad(doc, options = {}) {
-  const {skipReadyStateCheck = false} = options
-
-  return new Promise((resolve, reject) => {
-    if (doc instanceof HTMLIFrameElement) {
-      if (doc.contentDocument == null) return reject(new TypeError(`Cannot access document from iframe element`))
-      if (!skipReadyStateCheck && (doc.contentDocument.readyState === 'complete' || doc.contentDocument.readyState === 'interactive')) {
-        return resolve(doc)
-      }
-    }
-    else {
-      if (!(doc instanceof Document)) return reject(new TypeError(`param 1 must be an instance of HTMLIframeElement or Document`))
-      if (!skipReadyStateCheck && (doc.readyState === 'complete' || doc.readyState === 'interactive')) {
-        return resolve(doc)
-      }
-    }
-
-    doc.addEventListener('load', event => resolve(doc), {once: true})
-  })
 }
 
 export function defineObjProperties(obj, propertiesObj = {}) {

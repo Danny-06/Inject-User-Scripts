@@ -1,4 +1,5 @@
-import { promiseDocumentLoad, waitForSelector, LocalDB } from '../../@libs/utils-injection.js'
+import { waitForSelector, LocalDB } from '../../@libs/utils-injection.js'
+import {waitForDocumentReady} from '../../@libs/libs/dom-utils.js'
 
 /*
   Comments storage structure
@@ -9,7 +10,7 @@ import { promiseDocumentLoad, waitForSelector, LocalDB } from '../../@libs/utils
 */
 
 
-promiseDocumentLoad(document)
+waitForDocumentReady(document)
 .then(() => main().catch(console.error))
 
 window.addEventListener('yt-navigate-start', event => main().catch(console.error))

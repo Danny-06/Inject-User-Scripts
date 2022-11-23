@@ -1,9 +1,9 @@
-import { promiseDocumentLoad } from "../../@libs/utils-injection.js"
+import {waitForDocumentReady} from '../../@libs/libs/dom-utils.js'
 
 // Modificar titulos de las miniaturas de YouTube al nombre original
 
 
-promiseDocumentLoad(document)
+waitForDocumentReady(document)
 .then(() => {
   if (location.pathname === '/results') revertAllVideoTitleTranslations()
 })

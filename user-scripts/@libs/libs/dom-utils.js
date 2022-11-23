@@ -908,3 +908,41 @@ export function fillDeclarativeTemplate(template, obj) {
   }
 
 }
+
+
+/**
+ * 
+ * @param {Document|HTMLIFrameElement} doc 
+ * @param {{skipReadyStateCheck}} options
+ * @returns {Promise<Document|HTMLIFrameElement>}
+ */
+export function waitForDocumentReady(document) {
+  return new Promise((resolve, reject) => {
+    let doc = document
+
+    if (document instanceof HTMLIFrameElement) {
+      if (document.contentDocument == null) {
+        reject(new Error(`Cannot access 'iframe.contentDocument'`))
+      }
+
+      doc = document.contentDocument
+    } else if (!(document instanceof Document)) {
+       reject(new TypeError(`param must be either a Document or a HTMLIframeElement`))
+    }
+
+    if (doc.readyState === 'complete') {
+      resolve(document)
+
+      return
+    }
+
+    const listenerCallback = event => {
+      if (doc.readyState !== 'complete') return
+
+      resolve(document)
+      doc.removeEventListener('readystatechange', listenerCallback)
+    }
+
+    doc.addEventListener('readystatechange', listenerCallback)
+  })
+}

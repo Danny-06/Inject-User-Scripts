@@ -3,7 +3,7 @@
  * Returns a Proxy of the given object which handles the assigned Promises to it
  * to set the properties of the original object.
  * It also implements a 'then' method to handle the fulfillment of all the assigned Promises.
- * @param {any} obj 
+ * @param {any} obj
  * @returns {Proxy<any>}
  */
 export function asyncObjectWrapper(obj) {
@@ -31,7 +31,10 @@ export function asyncObjectWrapper(obj) {
 }
 
 
-
+/**
+ * Plain Object wrapper that allows to create inmediately an object when accesing a property
+ * that doens't exist and that new object will also be wrapped in a Proxy
+ */
 export class ProxyPropertyAccess {
 
   static wrap(object) {
@@ -40,7 +43,7 @@ export class ProxyPropertyAccess {
         if (!target.hasOwnProperty(property)) {
           target[property] = this.wrap({})
         }
-  
+
         return Reflect.get(target, property, receiver)
       },
       set: (target, property, value, receiver) => {
@@ -51,29 +54,29 @@ export class ProxyPropertyAccess {
 
   static wrapperToObject(proxyWrapper) {
     const object = {}
-  
+
     ;(function readProxyAndAssignToObject(obj, proxy) {
-  
+
       Object.entries(proxy).forEach(([key, value]) => {
         if (typeof value === 'object') {
           obj[key] = {}
           readProxyAndAssignToObject(obj[key], value)
           return
         }
-  
+
         obj[key] = value
       })
-      
+
     })(object, proxyWrapper)
-  
+
     return object
   }
 
 }
 
 /**
- * 
- * @param {HTMLElement} element 
+ *
+ * @param {HTMLElement} element
  * @returns {Proxy}
  */
 export function cssInlinePropertiesProxyWrapper(element) {
@@ -90,6 +93,67 @@ export function cssInlinePropertiesProxyWrapper(element) {
       element.style.setProperty(property, propertyValue, priority)
 
       return true
+    }
+  })
+}
+
+
+export function proxifyPromise(value) {
+  const promise = Promise.resolve(value)
+
+  // Add anonymous function to target parameter to
+  // allow the 'apply' trap
+  return new Proxy(function() {}, {
+    get: (target, property, receiver) => {
+      switch (property) {
+        case 'then':
+          return promise.then.bind(promise)
+        case 'catch':
+          return promise.catch.bind(promise)
+        case 'finally':
+          return promise.finally.bind(promise)
+
+        default:
+      }
+
+      const restultPromise = new Promise(async (resolve, reject) => {
+        const [targetValue, error] = await promise.then(value => [value, null], reason => [null, reason])
+
+        if (error) {
+          reject(error)
+          return
+        }
+
+        const value = targetValue[property]
+
+        const resolveValue = typeof value === 'function' ?
+                             value.bind(targetValue) :
+                             value
+
+        resolve(resolveValue)
+      })
+
+      const promiseProxyfied = proxifyPromise(restultPromise)
+
+      return promiseProxyfied
+    },
+
+    apply(target, thisArg, args) {
+      const mixedPromise = promise.then(value => [value, null], reason => [null, reason])
+
+      const promiseProxyfied = proxifyPromise(
+        mixedPromise.then(([func, error]) => {
+          if (error) {
+            throw error
+          }
+
+          const result = func.apply(thisArg, args)
+
+          return result
+        })
+      )
+
+      return promiseProxyfied
     }
   })
 }
