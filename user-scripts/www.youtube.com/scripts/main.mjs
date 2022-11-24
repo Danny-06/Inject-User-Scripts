@@ -3,6 +3,11 @@ import { calidad1080pAutomatica, ContextMenuManager as ctxM } from './youtube-ut
 import * as youtubeUtils from './youtube-utils.js'
 import * as ctxMenu  from './resource-data/context-menu-options.js'
 
+let clickEvent
+
+window.addEventListener('click', event => {
+  clickEvent = event
+}, {capture: true})
 
 window.youtubeUtils = youtubeUtils
 
@@ -52,23 +57,6 @@ async function initCustomContextMenu() {
     ctxMenu.downloadChaptersAsXML,
     ctxMenu.showTranscriptionPanel,
 
-    // getValueIfSelectorMatches(
-    //   `[target-id="engagement-panel-comments-section"]`,
-    //   ctxMenu.showCommentsPanel
-    // ),
-    // getValueIfSelectorMatches(
-    //   `[target-id="engagement-panel-structured-description"]`,
-    //   ctxMenu.showDescriptionPanel
-    // ),
-    // ...getValueIfSelectorMatches(
-    //   `[target-id="engagement-panel-macro-markers-description-chapters"]`,
-    //   [ctxMenu.showChaptersPanel, ctxMenu.downloadChaptersAsXML]
-    // ),
-    // getValueIfSelectorMatches(
-    //   `[target-id="engagement-panel-searchable-transcript"]`,
-    //   ctxMenu.showTranscriptionPanel
-    // ),
-
     ctxMenu.copyVideoURL,
     ctxMenu.copyVideoURLTime,
     ctxMenu.copyVideoURLEmbed,
@@ -99,6 +87,28 @@ async function init() {
       const videoId = target.data.command.reelWatchEndpoint.videoId
 
       window.open(`https://youtube.com/watch?v=${videoId}`)
+    })
+
+    // Forzar audio de la nueva previsualización de videos en la pagina principal
+    // para los videos de solo música
+
+    const mutedSetter = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, 'muted').set
+
+    Object.defineProperty(HTMLMediaElement.prototype, 'muted', {
+      set(value) {
+        if (!this.closest('ytd-video-preview')) {
+          mutedSetter.call(this, value)
+          return
+        }
+
+        if (clickEvent?.isTrusted !== true) {
+          return
+        }
+
+        clickEvent = null
+
+        mutedSetter.call(this, value)
+      }
     })
 
     // window.addEventListener('click', event => {

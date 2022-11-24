@@ -236,3 +236,9 @@ ytd-searchbox > form > #container {
 ytd-searchbox > form > #container > yt-icon#search-icon {
   display: none;
 }
+
+
+/* Show preview-player buttons always */
+.ytp-inline-preview-controls {
+  display: flex !important;
+}
