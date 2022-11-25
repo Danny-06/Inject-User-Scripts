@@ -1,8 +1,8 @@
 import { createElement, waitForSelector, delay } from '../../@libs/utils-injection.js'
-import {waitForDocumentReady} from '../../@libs/libs/dom-utils.js'
+import {waitForDocumentLoad} from '../../@libs/libs/dom-utils.js'
 
 
-waitForDocumentReady(document)
+waitForDocumentLoad(document)
 .then(main)
 .catch(console.error)
 
@@ -65,7 +65,7 @@ async function getVideoCountFromChannel(channelId) {
 
   iframe.src = `https://youtube.com/channel/${channelId}/videos?view=57`
 
-  await waitForDocumentReady(iframe)
+  await waitForDocumentLoad(iframe)
 
   const winIframe1 = iframe.contentWindow
 
@@ -91,7 +91,7 @@ async function getVideoCountFromChannel(channelId) {
 
   iframe.src = `https://youtube.com/playlist?list=${playlistAllVideosId}`
 
-  await waitForDocumentReady(iframe)
+  await waitForDocumentLoad(iframe)
 
   const winIframe2 = iframe.contentWindow
 

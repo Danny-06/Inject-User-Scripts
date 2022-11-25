@@ -916,7 +916,7 @@ export function fillDeclarativeTemplate(template, obj) {
  * @param {{skipReadyStateCheck}} options
  * @returns {Promise<Document|HTMLIFrameElement>}
  */
-export function waitForDocumentReady(document) {
+export function waitForDocumentLoad(document) {
   return new Promise((resolve, reject) => {
     let doc = document
 
@@ -939,8 +939,11 @@ export function waitForDocumentReady(document) {
     const listenerCallback = event => {
       if (doc.readyState !== 'complete') return
 
-      resolve(document)
       doc.removeEventListener('readystatechange', listenerCallback)
+
+      doc.addEventListener('DOMContentLoaded', event => {
+        resolve(document)
+      })
     }
 
     doc.addEventListener('readystatechange', listenerCallback)

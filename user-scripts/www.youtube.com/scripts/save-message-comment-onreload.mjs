@@ -1,5 +1,5 @@
 import { waitForSelector, LocalDB } from '../../@libs/utils-injection.js'
-import {waitForDocumentReady} from '../../@libs/libs/dom-utils.js'
+import {waitForDocumentLoad} from '../../@libs/libs/dom-utils.js'
 
 /*
   Comments storage structure
@@ -10,7 +10,7 @@ import {waitForDocumentReady} from '../../@libs/libs/dom-utils.js'
 */
 
 
-waitForDocumentReady(document)
+waitForDocumentLoad(document)
 .then(() => main().catch(console.error))
 
 window.addEventListener('yt-navigate-start', event => main().catch(console.error))

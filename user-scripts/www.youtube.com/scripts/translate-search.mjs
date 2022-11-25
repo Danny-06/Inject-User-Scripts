@@ -1,9 +1,9 @@
-import {waitForDocumentReady} from '../../@libs/libs/dom-utils.js'
+import {waitForDocumentLoad} from '../../@libs/libs/dom-utils.js'
 
 // Modificar titulos de las miniaturas de YouTube al nombre original
 
 
-waitForDocumentReady(document)
+waitForDocumentLoad(document)
 .then(() => {
   if (location.pathname === '/results') revertAllVideoTitleTranslations()
 })
