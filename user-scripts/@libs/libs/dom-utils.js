@@ -143,7 +143,7 @@ export function textToCSSModule(text) {
 
 /**
  * @typedef ParseHTMLOptions
- * @property {boolean} [parseDeclarativeShadowDOM=false]
+ * @property {boolean} [parseDeclarativeShadowDOM=true]
  * @property {boolean} [loadCSSModules=false]
  * @property {string} baseURL
  */
@@ -168,7 +168,7 @@ export async function importHTML(url, options = {}) {
  * @returns {DocumentFragment}
  */
 export function parseHTML(htmlString, options = {}) {
-  const { parseDeclarativeShadowDOM: parseDSDOM = false, loadCSSModules = false, mapId = false, baseURL } = options
+  const { parseDeclarativeShadowDOM: parseDSDOM = true, loadCSSModules = false, mapId = false, baseURL } = options
 
   const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
 
@@ -181,7 +181,7 @@ export function parseHTML(htmlString, options = {}) {
                           .createContextualFragment(trustedHTML)
 
   if (parseDSDOM) {
-    const templates = documentFragment.querySelectorAll('template[shadowroot]:first-child')
+    const templates = queryDeclarativeTemplatesShadowDOM(documentFragment)
 
     if (loadCSSModules) {
       templates.forEach(template => {
@@ -203,6 +203,12 @@ export function parseHTML(htmlString, options = {}) {
   return mapId ? [documentFragment, nodesMapId] : documentFragment
 }
 
+export function parseHTMLDocument(htmlString) {
+  const doc = new DOMParser().parseFromString(htmlString, 'text/html')
+
+  return doc
+}
+
 export function parseXML(xmlString) {
   return new DOMParser().parseFromString(xmlString, 'text/xml')
 }
@@ -215,6 +221,11 @@ export function parseXML(xmlString) {
  */
 export function queryDeclarativeTemplatesShadowDOM(documentFragment) {
   const templates = [...documentFragment.querySelectorAll('template[shadowroot]:first-child')]
+
+  templates.forEach(template => {
+    const innerTemplates = queryDeclarativeTemplatesShadowDOM(template.content)
+    templates.push(...innerTemplates)
+  })
 
   return templates
 }

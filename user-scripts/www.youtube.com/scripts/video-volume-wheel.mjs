@@ -45,7 +45,7 @@ async function main() {
         </template>
     </div>
     `,
-    {parseDeclarativeShadowDOM: true, mapId: true}
+    {mapId: true}
   )
 
   html5Container.append(volumeContainerWrapper)
