@@ -80,21 +80,50 @@ export class ProxyPropertyAccess {
  * @returns {Proxy}
  */
 export function cssInlinePropertiesProxyWrapper(element) {
-  return new Proxy(element, {
+  const proxy = new Proxy(element, {
     get: (target, property, handler) => {
-      const priority = element.style.getPropertyPriority(property)
+      switch (property) {
+        case 'toObject':
+          return function toObject() {
+            const styleString = target.getAttribute('style')?.trim()
 
-      return `${element.style.getPropertyValue(property)}${priority ? ` !${priority}` : ''}`
+            if (!styleString) {
+              return {}
+            }
+
+            const declarationEntries = styleString
+                                     .replaceAll('\n', '')
+                                     .replace(/(?<=(;))\s*/g, '')
+                                     .split(';')
+                                     .filter(str => str)
+                                     .map(declaration => declaration.split(':').map(str => str.trim()))
+  
+            const styles = Object.fromEntries(declarationEntries)
+  
+            return styles
+          }
+
+        case 'toJSON':
+          return function toJSON() {
+            return JSON.stringify(proxy.toObject())
+          }
+      }
+
+      const priority = target.style.getPropertyPriority(property)
+
+      return `${target.style.getPropertyValue(property)}${priority ? ` !${priority}` : ''}`
     },
     set: (target, property, value) => {
       const priority = value.match(/![a-z]+$/ig)?.[0].slice(1) ?? ''
       const propertyValue = priority ? value.replace(new RegExp(`!${priority}$`, 'i'), '') : value
 
-      element.style.setProperty(property, propertyValue, priority)
+      target.style.setProperty(property, propertyValue, priority)
 
       return true
     }
   })
+
+  return proxy
 }
 
 /**
