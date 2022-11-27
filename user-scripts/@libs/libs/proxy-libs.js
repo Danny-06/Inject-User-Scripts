@@ -97,37 +97,75 @@ export function cssInlinePropertiesProxyWrapper(element) {
   })
 }
 
-
+/**
+ * Allows to access future value of Promises with dot notation.
+ * You can also use Promise methods on the Proxy to handle it as expected.
+ * @param {any} value 
+ * @returns {Proxy}
+ */
 export function proxifyPromise(value) {
   const promise = Promise.resolve(value)
 
   // Add anonymous function to target parameter to
   // allow the 'apply' trap
   return new Proxy(function() {}, {
-    get: (target, property, receiver) => {
-      switch (property) {
-        case 'then':
-          return promise.then.bind(promise)
-        case 'catch':
-          return promise.catch.bind(promise)
-        case 'finally':
-          return promise.finally.bind(promise)
-
-        default:
-      }
-
-      const restultPromise = new Promise(async (resolve, reject) => {
-        const [targetValue, error] = await promise.then(value => [value, null], reason => [null, reason])
+    set: (target, property, value, receiver) => {
+      ;(async function() {
+        const [target, error] = await promise.then(value => [value, null], reason => [null, reason])
 
         if (error) {
           reject(error)
           return
         }
 
-        const value = targetValue[property]
+        if (target == null) {
+          console.error(`Cannot read property '${property}' of ${target}`)
+          return
+        }
+
+        Reflect.set(target, property, value, receiver)
+      })()
+
+      return true
+    },
+
+    get: (target, property, receiver) => {
+      const promiseMethods = {
+        then(callback) {
+          return proxifyPromise(promise.then(callback))
+        },
+        catch(callback) {
+          return proxifyPromise(promise.catch(callback))
+        },
+        finally(callback) {
+          return proxifyPromise(promise.finally(callback))
+        }
+      }
+
+      switch (property) {
+        // Add Promises methods to handle the Proxy
+        case 'then':
+          return promiseMethods.then
+        case 'catch':
+          return promiseMethods.catch
+        case 'finally':
+          return promiseMethods.finally
+
+        default:
+      }
+
+      const restultPromise = new Promise(async (resolve, reject) => {
+        const [target, error] = await promise.then(value => [value, null], reason => [null, reason])
+
+        if (error) {
+          reject(error)
+          return
+        }
+
+        const value = target[property]
 
         const resolveValue = typeof value === 'function' ?
-                             value.bind(targetValue) :
+                             value.bind(target) :
                              value
 
         resolve(resolveValue)
