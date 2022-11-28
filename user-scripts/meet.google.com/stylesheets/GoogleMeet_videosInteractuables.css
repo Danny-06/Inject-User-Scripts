@@ -146,9 +146,22 @@ body.HIDDEN [jscontroller="eZ1uA"] {
 }
 
 /* Capa que esta por encima de los videos */
-.uAzxg, .tTdl5d {
-  height: 0;
+[jscontroller="h8UR3d"] {
+  pointer-events: none;
+  align-items: flex-start;
 }
+
+[jscontroller="h8UR3d"] > * {
+  pointer-events: auto;
+}
+
+/* Mostrar botones */
+[jsname="xbky9c"]:hover,
+[jsname="xbky9c"]:hover > * {
+  opacity: 1;
+}
+
+
 
 
 /* Div, que contiene los botones superpuestos en los videos */
@@ -341,4 +354,10 @@ progress::-moz-progress-bar {
   background-color: var(--_progress-bar-background-color, #09f);
   width: 100%;
   height: 100%;
+}
+
+/* End screen */
+[jsname="FSwbPd"] > *,
+[jsname="FSwbPd"] [jsname="Vgu1H"] {
+  color: #ccc
 }

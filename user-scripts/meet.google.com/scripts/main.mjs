@@ -1255,7 +1255,7 @@ function videoToScreenShot(video) {
 
                   /***************************/
 
-                  archivosAdjuntos = document.querySelector('[data-tab-id="5"] .hWX4r');
+                  archivosAdjuntos = document.querySelector('[data-tab-id="5"] .hWX4r > [jsname="jltHW"]');
 
                   if(!archivosAdjuntos) return
 
@@ -1266,7 +1266,7 @@ function videoToScreenShot(video) {
                     margin: '1rem',
                     'box-shadow': '#fff 0 0 5px 0'
                   })
-                  archivosAdjuntos.append(img);
+                  archivosAdjuntos.after(img);
 
                   /***************************/
 
@@ -1296,7 +1296,7 @@ let archivosAdjuntos;
 
 function adjuntarCapturas() {
   setTimeout(() => {
-  archivosAdjuntos = document.querySelector('[data-tab-id="5"] .hWX4r');
+  archivosAdjuntos = document.querySelector('[data-tab-id="5"] .hWX4r  > [jsname="jltHW"]');
 
   screenShotCollection.forEach((src) => {
     const img = new Image();
@@ -1308,7 +1308,7 @@ function adjuntarCapturas() {
       'box-shadow': '#fff 0 0 5px 0'
     })
 
-    archivosAdjuntos.prepend(img);
+    archivosAdjuntos.after(img);
   })
 
   }, 0.5 * 1000);
