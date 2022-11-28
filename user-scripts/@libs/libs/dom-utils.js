@@ -941,7 +941,7 @@ export function waitForDocumentLoad(document) {
        reject(new TypeError(`param must be either a Document or a HTMLIframeElement`))
     }
 
-    if (doc.readyState === 'complete') {
+    if (doc.readyState === 'complete' && doc.location != null) {
       resolve(document)
 
       return
