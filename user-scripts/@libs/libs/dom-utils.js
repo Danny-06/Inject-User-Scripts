@@ -934,11 +934,13 @@ export function waitForDocumentLoad(document) {
     if (document instanceof HTMLIFrameElement) {
       if (document.contentDocument == null) {
         reject(new Error(`Cannot access 'iframe.contentDocument'`))
+        return
       }
 
       doc = document.contentDocument
     } else if (!(document instanceof Document)) {
        reject(new TypeError(`param must be either a Document or a HTMLIframeElement`))
+       return
     }
 
     if (doc.readyState === 'complete' && doc.location != null) {
@@ -954,7 +956,7 @@ export function waitForDocumentLoad(document) {
 
       doc.addEventListener('DOMContentLoaded', event => {
         resolve(document)
-      })
+      }, {once: true})
     }
 
     doc.addEventListener('readystatechange', listenerCallback)
