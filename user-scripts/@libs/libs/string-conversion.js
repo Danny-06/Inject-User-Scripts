@@ -63,9 +63,6 @@ export class StringConversion {
   static textToBase64(text) {
     const bytes = new TextEncoder().encode(text)
 
-    let padding = 3 - (bytes.length % 3)
-    if (padding === 3) padding = 0
-
     // const blockOf8Bits = [...bytes, ...new Array(padding).fill(0)]
     const blockOf8Bits = new Binary(bytes).getAsChunksOf(8, 3).flat()
 
@@ -73,17 +70,31 @@ export class StringConversion {
 
     // Turn resulting 6 bits into corresponding printable character
 
+    const padding = this.#getPaddingFromBytesLength(bytes.length)
+
     const result = this.blockOf6BitsToBase64(blockOf6Bits, padding)
 
     return result
   }
 
-  static base64ToText(base64) {
+  static #getPaddingFromBytesLength(bytesLength) {
+    let padding = 3 - (bytesLength % 3)
+    if (padding === 3) padding = 0
+
+    return padding
+  }
+
+  static #getPaddingFromBase64String(base64String) {
     let padding = 0
 
-    if (base64.endsWith('=='))     padding = 2
-    else if (base64.endsWith('=')) padding = 1
+    if (base64String.endsWith('=='))     padding = 2
+    else if (base64String.endsWith('=')) padding = 1
 
+    return padding
+  }
+
+  static base64ToText(base64) {
+    const padding = this.#getPaddingFromBase64String(base64)
 
     const blockOf6Bits = this.base64ToByteArray(base64)
 
@@ -98,10 +109,7 @@ export class StringConversion {
   }
 
   static base64ToByteArray(base64) {
-    let padding = 0
-
-    if (base64.endsWith('=='))     padding = 2
-    else if (base64.endsWith('=')) padding = 1
+    const padding = this.#getPaddingFromBase64String(base64)
 
     const byteArray = new Array(base64.length)
 
