@@ -1,9 +1,24 @@
 :root {
+  box-sizing: border-box;
+}
+
+::not(:root),
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+:root {
   width: 300px;
-  height: 40px;
+  height: 100px;
 }
 
 #app-content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  align-items: flex-start;
+
   padding: 0;
   padding-top: 0.5rem;
   padding-left: 1rem;
@@ -11,4 +26,21 @@
 
 #domain-name {
   margin: 0;
+}
+
+
+
+#toggle-code-injection {
+  all: unset;
+
+  padding-inline: 1rem;
+  padding-block: 0.5rem;
+
+  border-radius: 0.8em;
+
+  background-color: #a52929;
+}
+
+#toggle-code-injection.disabled {
+  background-color: #229322;
 }

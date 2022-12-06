@@ -1,5 +1,17 @@
+const EXTENSION_ENABLED = 'EXTENSION_ENABLED'
+
+async function getIsExtensionEnabled() {
+  const {EXTENSION_ENABLED: isExtensionEnabled} = await chrome.storage.local.get(EXTENSION_ENABLED)
+  return isExtensionEnabled
+}
+
+
+
 // Make sure that the background code is only runned once per page load
-chrome.runtime.sendMessage({type: 'content-script'})
+getIsExtensionEnabled().then(isEnabled => {
+  if (!isEnabled) return
+  chrome.runtime.sendMessage({type: 'content-script'})
+})
 
 
 // Send messages from background script to web page
