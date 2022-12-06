@@ -1,4 +1,4 @@
-import { getMediaAsBlob } from '../../../@libs/libs/canvas-utils.js'
+import { getBlobFromMedia } from '../../../@libs/libs/canvas-utils.js'
 import { cssInlinePropertiesProxyWrapper } from '../../../@libs/libs/proxy-libs.js'
 import { waitForSelector } from '../../../@libs/utils-injection.js'
 
@@ -121,7 +121,7 @@ export const captureScreenshot = {
   `
   ,
   action: async () => {
-    const blob = await getMediaAsBlob(video)
+    const blob = await getBlobFromMedia(video)
     const url = URL.createObjectURL(blob)
 
     const blobWindow = window.open(url)
