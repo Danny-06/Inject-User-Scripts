@@ -923,12 +923,13 @@ export function fillDeclarativeTemplate(template, obj) {
 
 /**
  * 
- * @param {Document|HTMLIFrameElement} doc 
- * @param {{skipReadyStateCheck}} options
+ * @param {Document|HTMLIFrameElement} document
+ * @param {{waitAgainForLoad: boolean}} options
  * @returns {Promise<Document|HTMLIFrameElement>}
  */
-export function waitForDocumentLoad(document) {
+export function waitForDocumentLoad(document, options = {}) {
   return new Promise((resolve, reject) => {
+    const {waitAgainForLoad} = options
     let doc = document
 
     if (document instanceof HTMLIFrameElement) {
@@ -943,10 +944,32 @@ export function waitForDocumentLoad(document) {
        return
     }
 
-    if (doc.readyState === 'complete' && doc.location != null) {
+    if (
+      doc.readyState === 'complete' &&
+      doc.location != null &&
+      doc.location.origin !== 'null'
+    ) {
       resolve(document)
 
       return
+    }
+
+    if (document instanceof HTMLIFrameElement) {
+      document.addEventListener('load',
+        event => {
+          if (typeof waitAgainForLoad === 'number') {
+            setTimeout(() => resolve(document), waitAgainForLoad);
+
+            document.addEventListener('load', event => resolve(document), {once: true},);
+            return;
+          }
+
+          resolve(document);
+        },
+        {once: true},
+      );
+
+      return;
     }
 
     const listenerCallback = event => {

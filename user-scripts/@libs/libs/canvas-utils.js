@@ -50,3 +50,14 @@ export function getImageFromCanvas(canvas, options = {}) {
 
   return image
 }
+
+export async function getImageFromMedia(media) {
+  const blob = await getMediaAsBlob(media)
+
+  const img = new Image()
+  img.src = URL.createObjectURL(blob)
+
+  await img.decode()
+
+  return img
+}

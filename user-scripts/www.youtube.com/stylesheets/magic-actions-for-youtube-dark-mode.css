@@ -1885,3 +1885,9 @@ ytd-video-meta-block #metadata #metadata-line {
   overflow: visible;
   -webkit-box-orient: horizontal;
 }
+
+
+yt-notification-action-renderer[ui-refresh] #text.yt-notification-action-renderer,
+yt-notification-action-renderer[ui-refresh] #sub-text.yt-notification-action-renderer {
+  color: var(--yt-spec-static-overlay-text-primary);
+}

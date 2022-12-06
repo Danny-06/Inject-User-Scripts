@@ -143,13 +143,11 @@ export function proxifyPromise(value) {
         const [target, error] = await promise.then(value => [value, null], reason => [null, reason])
 
         if (error) {
-          reject(error)
-          return
+          throw error
         }
 
         if (target == null) {
-          console.error(`Cannot read property '${property}' of ${target}`)
-          return
+          throw new Error(`Cannot read property '${property.toString()}' of ${target}`)
         }
 
         Reflect.set(target, property, value, receiver)
