@@ -39,7 +39,7 @@ export function getMediaAsImageData(media, options) {
   return ctx.getImageData(0, 0, canvas.width, canvas.height)
 }
 
-export function getImageFromCanvas(canvas, options = {}) {
+export function getCanvasAsImage(canvas, options = {}) {
   const {type, quality} = options
 
   const image = new Image()
@@ -51,7 +51,7 @@ export function getImageFromCanvas(canvas, options = {}) {
   return image
 }
 
-export async function getImageFromMedia(media) {
+export async function getMediaAsImage(media) {
   const blob = await getMediaAsBlob(media)
 
   const img = new Image()
