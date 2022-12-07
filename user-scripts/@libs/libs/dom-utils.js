@@ -16,19 +16,45 @@ const mutationObserver = new MutationObserver(mutations => {
 })
 
 /**
- * Allows the creation of custom elements through a `<div>`.
- * The class provided is invoked in the `<div>` and then its prototype is changed
- * with the prototype of the class.
+ * Allows the creation of custom elements through any `HTMLElement` like a `<div>`.  
+ * The class provided is invoked in the `element` and then its `prototype` is changed  
+ * with the prototype of the `class`.  
  * 
- * To declare the `constructor` of the class it must be declared as `_constructor_`
- * instead of the normal constructor to allow the function to invoke it in the `<div>`.
+ * To declare the `constructor` of the class it must be declared as `_constructor_`  
+ * instead of the normal constructor to allow the function to invoke it in the `element`.  
  * 
- * Since the `<div>` is not an instance of the component is not posible to use `private properties`.
- * For that reason, is recommended to replace them with properties that starts with an underscore.
+ * Since the `element` is not an instance of the component is not posible to use `private properties`.  
+ * For that reason, is recommended to replace them with properties that starts with an underscore.  
  * 
- * @param {class} classComponent 
+ * @template T
+ * @param {T.prototype extends HTMLElement ? T : never} classComponent 
  * @param {HTMLElement} [elementToApply=null]
- * @returns {HTMLElement}
+ * @returns {InstanceType<T>}
+ * 
+ * @example
+ * const component = createWebComponent(class MyComponent extends HTMLElement {
+ *   _constructor_() {
+ *     this.property = 'value'
+ *
+ *     console.log(this._privateValue)
+ *   }
+ *
+ *   get innerHTML() {
+ *     return super.innerHTML
+ *   }
+ *
+ *   set innerHTML(value) {
+ *     super.innerHTML = value
+ *   }
+ *
+ *   static get observedAttributes() {
+ *     return ['my-attribute']
+ *   }
+ *
+ *   attributeChangedCallback(name, oldValue, newValue) {
+ *     console.log(...arguments)
+ *   }
+ * })
  */
 export function createWebComponent(classComponent, elementToApply = null) {
   if (!(classComponent.prototype instanceof HTMLElement)) {
@@ -51,30 +77,6 @@ export function createWebComponent(classComponent, elementToApply = null) {
 
   return component
 }
-
-// const component = createWebComponent(class MyComponent extends HTMLElement {
-//   _constructor_() {
-//     this.property = 'value'
-
-//     console.log(this._privateValue)
-//   }
-
-//   get innerHTML() {
-//     return super.innerHTML
-//   }
-
-//   set innerHTML(value) {
-//     super.innerHTML = value
-//   }
-
-//   static get observedAttributes() {
-//     return ['my-attribute']
-//   }
-
-//   attributeChangedCallback(name, oldValue, newValue) {
-//     console.log(...arguments)
-//   }
-// })
 
 
 export async function importText(url, baseURL = import.meta.url) {
