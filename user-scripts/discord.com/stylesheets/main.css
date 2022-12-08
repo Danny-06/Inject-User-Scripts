@@ -400,10 +400,18 @@ debido a que aumenta su altura por unos instantes */
 /* .messageAttachment-CZp8Iv .imageWrapper-oMkQl4 {
   min-width: 300px !important;
 } */
+.wrapper-1FP9YQ {
+  position: relative;
+  height: 100%;
+}
+
 .wrapper-1FP9YQ > video {
   max-width: none !important;
   max-height: none !important;
   min-height: 200px;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 
