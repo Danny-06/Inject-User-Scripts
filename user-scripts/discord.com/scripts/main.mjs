@@ -38,7 +38,9 @@ async function init() {
     menu.lastChild.before(separator)
 
     const group = createElement('div', {attributes: {role: 'group'}})
-    menu.lastChild.before(group)
+    const lastElementClone = menu.lastElementChild.cloneNode(true)
+
+    menu.lastElementChild.after(group)
 
 
     // Context Menu Options
@@ -57,7 +59,7 @@ async function init() {
       ctxMenu.getServerBanner
     ])
 
-    group.append(...ctxM.items, menu.lastChild)
+    group.append(...ctxM.items, lastElementClone)
 
     menu.style.width = [...menu.children].map(c => c.offsetWidth).sort((a, b) => b - a)[0] + 20 + 'px'
     group.style.position = 'absolute'
