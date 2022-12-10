@@ -9,30 +9,20 @@ document.addEventListener("keyup", function(event) {
 
   if (video === null) return
 
-	const barra_tiempo = document.querySelector('.ytp-chrome-bottom');
-	const barra_titulo = document.querySelector('.ytp-chrome-top');
+  const ytdWatch = document.querySelector('ytd-watch-flexy')
 
-	const gradient_bottom = document.querySelector('.ytp-gradient-bottom');
-	const gradient_top = document.querySelector('.ytp-gradient-top');
+  const videoChromeBottom = ytdWatch.querySelector('.ytp-chrome-bottom');
+  const videoChromeTop = ytdWatch.querySelector('.ytp-chrome-top');
 
-	const componentesInterfaz = [barra_tiempo, barra_titulo, gradient_bottom, gradient_top]
+  const gradientBottom = ytdWatch.querySelector('.ytp-gradient-bottom');
+  const gradientTop = ytdWatch.querySelector('.ytp-gradient-top');
 
-	if(!video.classList.contains('INTERFACE-HIDDEN')) {
+  const componentesInterfaz = [videoChromeBottom, videoChromeTop, gradientBottom, gradientTop]
 
-    video.classList.add('INTERFACE-HIDDEN')
+  const isHidden = video.classList.toggle('INTERFACE-HIDDEN')
 
-		componentesInterfaz.forEach(componente => {
-		  componente.style.setProperty('display', 'none', 'important');
-		})
-
-	} else {
-
-    video.classList.remove('INTERFACE-HIDDEN')
-
-	  componentesInterfaz.forEach(componente => {
-	    componente.style.setProperty('display', '');
-	  })
-
-	}
+  componentesInterfaz.forEach(componente => {
+    componente.style.setProperty('display', isHidden ? 'none' : '', 'important');
+  })
 
 })
