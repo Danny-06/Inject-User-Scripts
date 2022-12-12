@@ -16,18 +16,20 @@ import * as _ProxyUtils from './libs/proxy-libs.js'
 import * as _DOMUtils from './libs/dom-utils.js'
 import {waitForDocumentLoad} from './libs/dom-utils.js'
 import * as _Dialogs from './libs/dialogs/dialogs.js'
+import * as _GeneratorUtils from './libs/generator-utils.js'
 
 
 const CanvasUtils = Object.freeze({..._CanvasUtils})
 const ProxyUtils = Object.freeze({..._ProxyUtils})
 const DOMUtils = Object.freeze({..._DOMUtils})
 const Dialogs = Object.freeze({..._Dialogs})
+const GeneratorUtils = Object.freeze({..._GeneratorUtils})
 
 export {
   MouseInfo, ScrollBox, StringConversion, StringImageConversion, StorageHandler,
   ArrayN, ZipManager, LocalDB,
   classMaker, CanvasUtils, Timeout, Interval,
-  Binary, ChromeExtension, ListManager, ProxyUtils, DOMUtils, Dialogs
+  Binary, ChromeExtension, ListManager, ProxyUtils, DOMUtils, Dialogs, GeneratorUtils
 }
 
 
