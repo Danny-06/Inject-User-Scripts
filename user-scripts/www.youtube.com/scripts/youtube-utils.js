@@ -260,6 +260,8 @@ export async function calidad1080pAutomatica(video) {
 
   // Esperara a que el botón del menu de ajustes esté disponible
   const settingsButton = await waitForSelector('.ytp-settings-button', {node: player})
+
+  await delay(500)
   settingsButton.click();
 
   const menuOpciones = player.querySelector('.ytp-settings-menu .ytp-panel-menu')
