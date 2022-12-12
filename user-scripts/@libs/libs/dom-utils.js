@@ -172,7 +172,7 @@ export async function importHTML(url, options = {}) {
 export function parseHTML(htmlString, options = {}) {
   const { parseDeclarativeShadowDOM: parseDSDOM = true, loadCSSModules = false, mapId = false, baseURL } = options
 
-  const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
+  const trustedHTMLPolicy = window.trustedTypes ? trustedTypes.createPolicy('trustedHTML', {createHTML: string => string}) : {createHTML: string => string}
 
   const trustedHTML = trustedHTMLPolicy.createHTML(htmlString)
 
@@ -474,7 +474,7 @@ export function getElementsByAttribute(attr, options = {}) {
  * @returns {Attr}
  */
 export function setAttribute(element, attrName, attrValue = '') {
-  const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
+  const trustedHTMLPolicy = window.trustedTypes ? trustedTypes.createPolicy('trustedHTML', {createHTML: string => string}) : {createHTML: string => string}
 
   const div = document.createElement('div')
   div.innerHTML = trustedHTMLPolicy.createHTML(`<div ${attrName}="${attrValue}"></div>`)
@@ -535,7 +535,7 @@ export function createElement(name = 'div', settings = {}) {
                   document.createElementNS(namespace, name, options) :
                   document.createElement(name, options)
 
-  const tp = trustedTypes.createPolicy('', {createHTML: e => e, createScriptURL: e => e })
+  const tp = window.trustedTypes ? trustedTypes.createPolicy('', {createHTML: e => e, createScriptURL: e => e}) : {createHTML: e => e, createScriptURL: e => e}
 
   if (id != null)      element.id = id
   if (Array.isArray(classes)) element.classList.add(...classes)
@@ -585,7 +585,7 @@ export function createElement(name = 'div', settings = {}) {
 
 
 export function turnStringIntoTrustedHTML(htmlString) {
-  if (!window.hasOwnProperty('trustedTypes')) {
+  if (!window.trustedTypes) {
     return htmlString
   }
 
@@ -596,9 +596,9 @@ export function turnStringIntoTrustedHTML(htmlString) {
 export function stringToValidInnerHTML(string) {
   const div = document.createElement('div')
 
-  const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
-
-  div.innerHTML = trustedHTMLPolicy.createHTML(string)
+  const trustedHTMLPolicy = window.trustedTypes ? trustedTypes.createPolicy('trustedHTML', {createHTML: string => string}) : null
+  
+  div.innerHTML = trustedHTMLPolicy?.createHTML(string) ?? string
 
   return div.innerHTML
 }
@@ -667,7 +667,7 @@ export function fillDeclarativeTemplate(template, obj) {
   }
 
   function setAttribute(element, attrName, attrValue = '') {
-    const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
+    const trustedHTMLPolicy = window.trustedTypes ? trustedTypes.createPolicy('trustedHTML', {createHTML: string => string}) : {createHTML: string => string}
   
     const div = document.createElement('div')
     div.innerHTML = trustedHTMLPolicy.createHTML(`<div ${attrName}="${attrValue}"></div>`)
