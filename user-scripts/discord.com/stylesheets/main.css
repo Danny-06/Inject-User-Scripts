@@ -434,3 +434,8 @@ debido a que aumenta su altura por unos instantes */
 .container-3i3IzO .timestamp-p1Df1m {
   position: absolute;
 }
+
+/* Hide bottom left panel when shrinked (user settings) */
+section.panels-3wFtMD {
+  overflow: hidden;
+}
