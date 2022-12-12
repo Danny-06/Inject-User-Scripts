@@ -585,6 +585,10 @@ export function createElement(name = 'div', settings = {}) {
 
 
 export function turnStringIntoTrustedHTML(htmlString) {
+  if (!window.hasOwnProperty('trustedTypes')) {
+    return htmlString
+  }
+
   const trustedHTMLPolicy = trustedTypes.createPolicy('trustedHTML', {createHTML: string => string})
   return trustedHTMLPolicy.createHTML(htmlString)
 }
