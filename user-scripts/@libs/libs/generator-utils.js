@@ -1,5 +1,11 @@
-export function runGeneratorAsAsyncFunction(generator, ...args) {
-  const iterator = generator(...args)
+/**
+ * 
+ * @param {GeneratorFunction} generatorFunc 
+ * @param  {...any} args 
+ * @returns {Promise}
+ */
+export function runGeneratorAsAsyncFunction(generatorFunc, ...args) {
+  const iterator = generatorFunc(...args)
 
   return (function nextIteration(it, yieldArg) {
     const {value: yieldValue, done} = it.next(yieldArg)
@@ -8,7 +14,7 @@ export function runGeneratorAsAsyncFunction(generator, ...args) {
       return Promise.resolve(yieldValue)
     }
 
-    const isThenable = yieldValue != null && 'then' in yieldValue && typeof yieldValue.then === 'function'
+    const isThenable = typeof yieldValue === 'object' && typeof yieldValue.then === 'function'
     const promise = isThenable ? yieldValue : Promise.resolve(yieldValue)
 
     return promise.then(value => nextIteration(it, value), reason => it.throw(reason))
