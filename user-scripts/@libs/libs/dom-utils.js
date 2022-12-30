@@ -316,7 +316,7 @@ export async function importTemplateAndCSS(urlOptions, baseURL) {
   const {template: templateURL, stylesheet: stylesheetURL} = urlOptions
 
   const [dialogTemplate, stylesheet] = await Promise.all([
-    importTemplate(templateURL, baseURL),
+    importTemplate(templateURL, {baseURL, parseDeclarativeShadowDOM: false}),
     importCSSModule(stylesheetURL, baseURL)
   ])
 
@@ -329,8 +329,8 @@ export async function importTemplateAndCSS(urlOptions, baseURL) {
  * @param {string} baseURL 
  * @returns
  */
-export async function importTemplate(url, baseURL) {
-  const documentFragment   = await importHTML(url, {baseURL})
+export async function importTemplate(url, options) {
+  const documentFragment   = await importHTML(url, options)
 
   return {
     documentFragment: documentFragment.cloneNode(true),
