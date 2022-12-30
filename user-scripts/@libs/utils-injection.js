@@ -1,4 +1,4 @@
-import * as ChromeExtension from './chrome-extension-utils.js'
+import * as _ChromeExtension from './chrome-extension-utils.js'
 import { MouseInfo } from './libs/mouse-info.js'
 import { StringConversion } from './libs/string-conversion.js'
 import { StringImageConversion } from './libs/string-image-conversion.js'
@@ -24,6 +24,7 @@ const ProxyUtils = Object.freeze({..._ProxyUtils})
 const DOMUtils = Object.freeze({..._DOMUtils})
 const Dialogs = Object.freeze({..._Dialogs})
 const GeneratorUtils = Object.freeze({..._GeneratorUtils})
+const ChromeExtension = Object.freeze({..._ChromeExtension})
 
 export {
   MouseInfo, ScrollBox, StringConversion, StringImageConversion, StorageHandler,
