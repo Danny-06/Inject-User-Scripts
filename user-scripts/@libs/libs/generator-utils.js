@@ -35,3 +35,8 @@ export function runGeneratorFuncAsAsyncFunc(generatorFunc, ...args) {
 
   return asyncFunction(...args)
 }
+
+
+export function getCustomAsyncFuncFromGeneratorFunc(generatorFunc) {
+
+}
