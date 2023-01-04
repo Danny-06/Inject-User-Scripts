@@ -171,20 +171,21 @@ async function handleSecondaryInnerWatch() {
 
   const panels = {
 
-    related: secondaryInner.querySelector(':scope > #related'),
+    'related': secondaryInner.querySelector(':scope > #related'),
 
-    playlist: secondaryInner.querySelector(':scope > ytd-playlist-panel-renderer:not([hidden])'),
+    'playlist': secondaryInner.querySelector(':scope > ytd-playlist-panel-renderer:not([hidden])'),
 
-    liveChat: secondaryInner.querySelector(':scope > ytd-live-chat-frame'),
+    'live-chat': secondaryInner.querySelector(':scope > ytd-live-chat-frame'),
 
-    description: secondaryInner.querySelector(':scope > [target-id="engagement-panel-structured-description"]'),
+    'description': secondaryInner.querySelector(':scope > [target-id="engagement-panel-structured-description"]'),
 
-    comments: secondaryInner.querySelector(':scope > [target-id="engagement-panel-comments-section"]'),
+    'comments': secondaryInner.querySelector(':scope > [target-id="engagement-panel-comments-section"]'),
 
-    chapters: secondaryInner.querySelector(':scope > [target-id="engagement-panel-macro-markers-description-chapters"]'),
-    autoChapters: secondaryInner.querySelector(':scope > [target-id="engagement-panel-macro-markers-auto-chapters"]'),
+    'chapters': secondaryInner.querySelector(':scope > [target-id="engagement-panel-macro-markers-description-chapters"]'),
 
-    transcription: secondaryInner.querySelector(':scope > [target-id="engagement-panel-searchable-transcript"]'),
+    'auto-chapters': secondaryInner.querySelector(':scope > [target-id="engagement-panel-macro-markers-auto-chapters"]'),
+
+    'transcription': secondaryInner.querySelector(':scope > [target-id="engagement-panel-searchable-transcript"]'),
 
     // createClip: secondaryInner.querySelector(':scope > [target-id="engagement-panel-clip-create"]'),
 
@@ -201,18 +202,38 @@ async function handleSecondaryInnerWatch() {
 
       panels.related.slot = 'active'
 
-      const buttonPanelMap = new Map(
-        [
-          [panels.related       ? _.button({class: 'selected'}, 'Related') : null, panels.related],
-          [panels.playlist      ? _.button({}, 'Playlist')                 : null, panels.playlist],
-          [panels.description   ? _.button({}, 'Description')              : null, panels.description],
-          [panels.comments      ? _.button({}, 'Comments')                 : null, panels.comments],
-          [panels.chapters      ? _.button({}, 'Chapters')                 : null, panels.chapters],
-          [panels.autoChapters  ? _.button({}, 'Auto Chapters')            : null, panels.autoChapters],
-          [panels.transcription ? _.button({}, 'Transcription')            : null, panels.transcription],
-          [panels.liveChat      ? _.button({}, 'Live Chat')                : null, panels.liveChat],
-        ].filter(entry => entry[0] != null)
-      )
+      // const buttonPanelMap = new Map(
+      //   [
+      //     [panels['related']       ? _.button({dataset: {id: 'related'}, class: 'selected'}, 'Related') : null, panels['related']], 
+      //     [panels['playlist']      ? _.button({dataset: {id: 'playlist'}}, 'Playlist')                  : null, panels['playlist']],
+      //     [panels['description']   ? _.button({dataset: {id: 'description'}}, 'Description')            : null, panels['description']],
+      //     [panels['comments']      ? _.button({dataset: {id: 'comments'}}, 'Comments')                  : null, panels['comments']],
+      //     [panels['chapters']      ? _.button({dataset: {id: 'chapters'}}, 'Chapters')                  : null, panels['chapters']],
+      //     [panels['auto-chapters'] ? _.button({dataset: {id: 'auto-chapters'}}, 'Auto Chapters')        : null, panels['auto-chapters']],
+      //     [panels['transcription'] ? _.button({dataset: {id: 'transcription'}}, 'Transcription')        : null, panels['transcription']],
+      //     [panels['live-chat']     ? _.button({dataset: {id: 'live-chat'}}, 'Live Chat')                : null, panels['live-chat']],
+      //   ].filter(entry => entry[0] != null)
+      // )
+
+      const relatedBtn       = panels['related']       ? _.button({dataset: {id: 'related'}, class: 'selected'}, 'Related') : null
+      const playlistBtn      = panels['playlist']      ? _.button({dataset: {id: 'playlist'}}, 'Playlist') : null
+      const descriptionBtn   = panels['description']   ? _.button({dataset: {id: 'description'}}, 'Description') : null
+      const commentsBtn      = panels['comments']      ? _.button({dataset: {id: 'comments'}}, 'Comments') : null
+      const chaptersBtn      = panels['chapters']      ? _.button({dataset: {id: 'chapters'}}, 'Chapters') : null
+      const autoChaptersBtn  = panels['auto-chapters'] ? _.button({dataset: {id: 'auto-chapters'}}, 'Auto Chapters') : null
+      const transcriptionBtn = panels['transcription'] ? _.button({dataset: {id: 'transcription'}}, 'Transcription') : null
+      const liveChatBtn      = panels['live-chat']     ? _.button({dataset: {id: 'live-chat'}}, 'Live Chat') : null
+
+      const panelButtons = [
+        relatedBtn,
+        playlistBtn,
+        descriptionBtn,
+        commentsBtn,
+        chaptersBtn,
+        autoChaptersBtn,
+        transcriptionBtn,
+        liveChatBtn,
+      ].filter(e => e != null)
 
       shadow.append(
         _.style({}, // css
@@ -266,13 +287,13 @@ async function handleSecondaryInnerWatch() {
 
         _.div({class: 'title'}, 'Tabs'),
         _.div({class: 'tab-buttons'},
-          ...buttonPanelMap.keys()
+          panelButtons
         ),
         _.slot({attributes: {name: 'active'}}),
       )
 
       function setActiveSlot(event) {
-        ;[...buttonPanelMap.values()].forEach(panel => {
+        ;[...panels].forEach(panel => {
           panel.removeAttribute('slot')
 
           if (panel.localName === 'ytd-engagement-panel-section-list-renderer') {
@@ -284,7 +305,7 @@ async function handleSecondaryInnerWatch() {
           }
         })
     
-        ;[...buttonPanelMap.keys()].forEach(button => {
+        panelButtons.forEach(button => {
           button.classList.remove('selected')
         })
 
@@ -292,10 +313,10 @@ async function handleSecondaryInnerWatch() {
 
         button.classList.add('selected')
 
-        buttonPanelMap.get(button).slot = 'active'
+        panels[button.dataset.id].slot = 'active'
       }
 
-      ;[...buttonPanelMap.keys()].forEach(panel => {
+      panelButtons.forEach(panel => {
         panel.addEventListener('click', setActiveSlot)
       })
   
