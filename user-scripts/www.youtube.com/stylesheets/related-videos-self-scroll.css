@@ -1,0 +1,38 @@
+ytd-page-manager {
+  overflow: visible !important;
+}
+
+#secondary {
+  box-sizing: border-box;
+
+  position: sticky !important;
+  top: 56px;
+
+  height: 92vh;
+
+  padding-left: 0px;
+}
+
+#secondary-inner,
+#secondary-inner #related,
+#secondary-inner #related ytd-watch-next-secondary-results-renderer{
+  height: 100% !important;
+}
+
+#secondary-inner {
+  overflow: auto;
+  padding-right: 2rem;
+}
+
+#secondary-inner #related #items {
+  padding-bottom: 10px;
+  min-height: 0;
+}
+
+#secondary-inner #related ytd-item-section-renderer {
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-shrink: 1;
+  flex-grow: 1;
+  min-height: 0;
+}
