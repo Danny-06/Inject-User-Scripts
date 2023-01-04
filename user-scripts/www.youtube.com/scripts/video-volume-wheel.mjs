@@ -127,7 +127,7 @@ async function main() {
 
   // Increase video volume with wheel
   html5Container.addEventListener('wheel', event => {
-    if (!event.shiftKey) {
+    if (!document.fullscreenElement && !event.shiftKey) {
       return
     }
 
