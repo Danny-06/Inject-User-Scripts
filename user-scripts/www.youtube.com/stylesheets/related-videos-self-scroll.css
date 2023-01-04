@@ -8,6 +8,7 @@ ytd-page-manager {
   position: sticky !important;
   top: 56px;
 
+  width: 450px;
   height: 92vh;
 
   padding-left: 0px;
