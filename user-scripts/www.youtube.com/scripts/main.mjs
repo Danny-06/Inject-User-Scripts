@@ -151,6 +151,29 @@ async function initCustomContextMenu() {
   ctxMContainer.append(...ctxM.elementItems)
 }
 
+async function initNavigation(event) {
+  if (location.pathname !== '/watch') {
+    if (location.pathname === '/') {
+      // Make a recursion for the youtube main page to detect the preview video
+      // and change its resolution
+      handleSelectorLifeCycle('ytd-video-preview video[src]', {onExist: calidad1080pAutomatica})
+    }
+    return
+  }
+
+  initCustomContextMenu()
+
+
+  /** @type {HTMLVideoElement} */
+  const video = await waitForSelector('ytd-watch-flexy video');
+
+  // Remove video preview
+  waitForSelector('ytd-video-preview video')
+  .then(video => video.src = '')
+
+  calidad1080pAutomatica(video)
+}
+
 init().catch(console.error)
 
 async function init() {
@@ -174,30 +197,6 @@ async function init() {
     window.addEventListener('yt-navigate-finish', event => initNavigation(event).catch(console.error));
 
     initNavigation().catch(console.error)
-
-    async function initNavigation(event) {
-      if (location.pathname !== '/watch') {
-        if (location.pathname === '/') {
-          // Make a recursion for the youtube main page to detect the preview video
-          // and change its resolution
-          handleSelectorLifeCycle('ytd-video-preview video[src]', {onExist: calidad1080pAutomatica})
-        }
-        return
-      }
-
-      initCustomContextMenu()
-
-
-      /** @type {HTMLVideoElement} */
-      const video = await waitForSelector('ytd-watch-flexy video');
-
-      // Remove video preview
-      waitForSelector('ytd-video-preview video')
-      .then(video => video.src = '')
-
-      calidad1080pAutomatica(video)
-
-    } // End initNavigation()
 
   })().catch(console.error) // End IIFE
 
