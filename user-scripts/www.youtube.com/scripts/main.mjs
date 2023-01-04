@@ -202,19 +202,6 @@ async function handleSecondaryInnerWatch() {
 
       panels.related.slot = 'active'
 
-      // const buttonPanelMap = new Map(
-      //   [
-      //     [panels['related']       ? _.button({dataset: {id: 'related'}, class: 'selected'}, 'Related') : null, panels['related']], 
-      //     [panels['playlist']      ? _.button({dataset: {id: 'playlist'}}, 'Playlist')                  : null, panels['playlist']],
-      //     [panels['description']   ? _.button({dataset: {id: 'description'}}, 'Description')            : null, panels['description']],
-      //     [panels['comments']      ? _.button({dataset: {id: 'comments'}}, 'Comments')                  : null, panels['comments']],
-      //     [panels['chapters']      ? _.button({dataset: {id: 'chapters'}}, 'Chapters')                  : null, panels['chapters']],
-      //     [panels['auto-chapters'] ? _.button({dataset: {id: 'auto-chapters'}}, 'Auto Chapters')        : null, panels['auto-chapters']],
-      //     [panels['transcription'] ? _.button({dataset: {id: 'transcription'}}, 'Transcription')        : null, panels['transcription']],
-      //     [panels['live-chat']     ? _.button({dataset: {id: 'live-chat'}}, 'Live Chat')                : null, panels['live-chat']],
-      //   ].filter(entry => entry[0] != null)
-      // )
-
       const relatedBtn       = panels['related']       ? _.button({dataset: {id: 'related'}, class: 'selected'}, 'Related') : null
       const playlistBtn      = panels['playlist']      ? _.button({dataset: {id: 'playlist'}}, 'Playlist') : null
       const descriptionBtn   = panels['description']   ? _.button({dataset: {id: 'description'}}, 'Description') : null
