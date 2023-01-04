@@ -3,12 +3,6 @@ import { calidad1080pAutomatica, ContextMenuManager as ctxM } from './youtube-ut
 import * as youtubeUtils from './youtube-utils.js'
 import * as ctxMenu  from './resource-data/context-menu-options.js'
 
-let clickEvent
-
-window.addEventListener('click', event => {
-  clickEvent = event
-}, {capture: true})
-
 window.youtubeUtils = youtubeUtils
 
 function setLocationAttribute() {
@@ -29,13 +23,42 @@ window.addEventListener('yt-navigate-finish', event => {
 })
 
 
-const query = selector => document.querySelector(selector)
-const getValueIfSelectorMatches = (selector, value) => {
-  if (query(selector)) {
-    return value
-  } else {
-    return Array.isArray(value) ? [] : null
-  }
+// Set Scroll Padding equal to navbar height
+function setScrollPadding() {
+  waitForSelector('#masthead-container').then(navbar => {
+    document.documentElement.style.scrollPaddingBlockStart = `${navbar.offsetHeight}px`
+  })
+}
+
+
+// Scroll to selected item in playlist
+async function handlePlaylistAutoScroll() {
+  const ytdWatchFlexy = document.querySelector('ytd-watch-flexy')
+
+  const playlistContainer = await waitForSelector('ytd-playlist-panel-renderer#playlist', {node: ytdWatchFlexy})
+  await delay(1000)
+
+  const header = playlistContainer.querySelector('.header')
+  const playlistItemsContainer = playlistContainer.querySelector('.playlist-items')
+
+  const selectedItem = () => playlistItemsContainer.querySelector(':scope > [selected]')
+
+  playlistItemsContainer.scrollTop = selectedItem.offsetTop - selectedItem.offsetHeight - header.offsetHeight - 50
+
+  window.addEventListener('resize', async event => {
+    await delay(500)
+    playlistItemsContainer.scrollTop = selectedItem().offsetTop - selectedItem().offsetHeight - header.offsetHeight - 50
+  })
+
+  window.addEventListener('yt-navigate-start', async event => {
+    await delay(500)
+    playlistItemsContainer.scrollTop = selectedItem().offsetTop - selectedItem().offsetHeight - header.offsetHeight - 50
+  })
+
+  window.addEventListener('yt-navigate-finish', async event => {
+    await delay(500)
+    playlistItemsContainer.scrollTop = selectedItem().offsetTop - selectedItem().offsetHeight - header.offsetHeight - 50
+  })
 }
 
 
@@ -55,6 +78,51 @@ function refreshComments(event) {
   orderButtonSelected.click();
 }
 
+// Open Youtube Shorts in an new tab doing Ctrl + click
+function handleYTShorts() {
+  window.addEventListener('click', event => {
+    if (!location.pathname.includes('/shorts/')) return
+    if (!event.ctrlKey) return
+
+    const target = event.target.closest('ytd-reel-video-renderer')
+
+    if (!target) return
+
+    const videoId = target.data.command.reelWatchEndpoint.videoId
+
+    window.open(`https://youtube.com/watch?v=${videoId}`)
+  })
+}
+
+// Forzar audio de la nueva previsualización de videos en la pagina principal
+// para los videos de solo música
+
+let clickEvent
+
+window.addEventListener('click', event => {
+  clickEvent = event
+}, {capture: true})
+
+function handleAudio() {
+  const mutedSetter = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, 'muted').set
+
+  Object.defineProperty(HTMLMediaElement.prototype, 'muted', {
+    set(value) {
+      if (!this.closest('ytd-video-preview')) {
+        mutedSetter.call(this, value)
+        return
+      }
+
+      if (clickEvent?.isTrusted !== true) {
+        return
+      }
+
+      clickEvent = null
+
+      mutedSetter.call(this, value)
+    }
+  })
+}
 
 async function initCustomContextMenu() {
   // Context Menu
@@ -87,63 +155,26 @@ init().catch(console.error)
 
 async function init() {
 
+  // Remove elements with id copy
+  window.copy && [...window.copy].forEach(e => e.remove())
+
   ;(async function() {
 
-    // Remove elements with id copy
-    window.copy && [...window.copy].forEach(e => e.remove())
+    handleYTShorts()
 
-    // Open Youtube Shorts in an new tab doing Ctrl + click
-    window.addEventListener('click', event => {
-      if (!location.pathname.includes('/shorts/')) return
-      if (!event.ctrlKey) return
+    handleAudio()
 
-      const target = event.target.closest('ytd-reel-video-renderer')
+    setScrollPadding()
 
-      if (!target) return
-
-      const videoId = target.data.command.reelWatchEndpoint.videoId
-
-      window.open(`https://youtube.com/watch?v=${videoId}`)
-    })
-
-    // Forzar audio de la nueva previsualización de videos en la pagina principal
-    // para los videos de solo música
-
-    const mutedSetter = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, 'muted').set
-
-    Object.defineProperty(HTMLMediaElement.prototype, 'muted', {
-      set(value) {
-        if (!this.closest('ytd-video-preview')) {
-          mutedSetter.call(this, value)
-          return
-        }
-
-        if (clickEvent?.isTrusted !== true) {
-          return
-        }
-
-        clickEvent = null
-
-        mutedSetter.call(this, value)
-      }
-    })
-
-    // window.addEventListener('click', event => {
-    //   if (event.target.matches('ytd-watch-flexy video'))
-    //     event.target.focus()
-    // });
-
-    // Set Scroll Padding equal to navbar height
-    waitForSelector('#masthead-container').then(navbar => {
-      document.documentElement.style.scrollPaddingBlockStart = `${navbar.offsetHeight}px`
-    })
-
+    handlePlaylistAutoScroll()
+    
     // Eventos de navegación de Youtube para ejecutar el código
     // al cambiar de página (Youtube no recarga la página, la actualiza)
     window.addEventListener('yt-navigate-start', event => initNavigation(event).catch(console.error));
     window.addEventListener('yt-navigate-finish', event => initNavigation(event).catch(console.error));
 
     initNavigation().catch(console.error)
+
     async function initNavigation(event) {
       if (location.pathname !== '/watch') {
         if (location.pathname === '/') {
@@ -156,32 +187,8 @@ async function init() {
 
       initCustomContextMenu()
 
-      // Scroll to selected item in playlist
-      ;(async function() {
 
-        const ytdWatchFlexy = document.querySelector('ytd-watch-flexy')
-
-        const playlistContainer = await waitForSelector('ytd-playlist-panel-renderer#playlist', {node: ytdWatchFlexy})
-        await delay(1000)
-
-        const header = playlistContainer.querySelector('.header')
-        const playlistItemsContainer = playlistContainer.querySelector('.playlist-items')
-
-        const selectedItem = playlistItemsContainer.querySelector(':scope > [selected]')
-
-        playlistItemsContainer.scrollTop = selectedItem.offsetTop - selectedItem.offsetHeight - header.offsetHeight - 50
-
-        window.addEventListener('resize', async event => {
-          await delay(500)
-          playlistItemsContainer.scrollTop = selectedItem.offsetTop - selectedItem.offsetHeight - header.offsetHeight - 50
-        })
-
-      })();
-
-
-      /**
-       * @type {HTMLVideoElement}
-       */
+      /** @type {HTMLVideoElement} */
       const video = await waitForSelector('ytd-watch-flexy video');
 
       // Remove video preview
