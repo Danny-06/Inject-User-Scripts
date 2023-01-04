@@ -211,6 +211,21 @@ async function handleSecondaryInnerWatch() {
       const transcriptionBtn = panels['transcription'] ? _.button({dataset: {id: 'transcription'}}, 'Transcription') : null
       const liveChatBtn      = panels['live-chat']     ? _.button({dataset: {id: 'live-chat'}}, 'Live Chat') : null
 
+      playlistBtn.addEventListener('click', event => {
+        const ytdWatchFlexy = document.querySelector('ytd-watch-flexy')
+
+        const playlistContainer = ytdWatchFlexy.querySelector('ytd-playlist-panel-renderer#playlist')
+
+        const playlistItemsContainer = playlistContainer.querySelector('.playlist-items')
+        const header = playlistContainer.querySelector('.header')
+
+        const selectedItem = playlistItemsContainer.querySelector(':scope > [selected]')
+
+        setTimeout(() => {
+          playlistItemsContainer.scrollTop = selectedItem.offsetTop - selectedItem.offsetHeight - header.offsetHeight - 50
+        })
+      })
+
       const panelButtons = [
         relatedBtn,
         playlistBtn,
