@@ -127,6 +127,10 @@ async function main() {
 
   // Increase video volume with wheel
   html5Container.addEventListener('wheel', event => {
+    if (!event.shiftKey) {
+      return
+    }
+
     event.preventDefault()
 
     clearTimeout(volumeCountTimeOut)
