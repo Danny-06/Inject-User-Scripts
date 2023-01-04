@@ -87,7 +87,7 @@ video {
 }
 
 
-#player-container-outer .ytp-chrome-bottom .ytp-chapter-hover-container,
+/* #player-container-outer .ytp-chrome-bottom .ytp-chapter-hover-container, */
 #player-container-outer .ytp-chrome-bottom .ytp-heat-map-chapter {
   width: 100% !important;
 }

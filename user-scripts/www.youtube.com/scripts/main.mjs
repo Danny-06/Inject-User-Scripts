@@ -11,14 +11,20 @@ window.addEventListener('click', event => {
 
 window.youtubeUtils = youtubeUtils
 
-document.documentElement.dataset.pathname = location.pathname
+function setLocationAttribute() {
+  setTimeout(() => {
+    document.documentElement.dataset.pathname = location.pathname
+  }, 500)
+}
+
+setLocationAttribute()
 
 window.addEventListener('yt-navigate-start', event => {
-  document.documentElement.dataset.pathname = location.pathname
+  setLocationAttribute()
 })
 
 window.addEventListener('yt-navigate-finish', event => {
-  document.documentElement.dataset.pathname = location.pathname
+  setLocationAttribute()
 })
 
 
