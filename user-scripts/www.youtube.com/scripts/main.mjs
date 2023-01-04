@@ -156,7 +156,7 @@ async function init() {
         const ytdWatchFlexy = document.querySelector('ytd-watch-flexy')
 
         const playlistContainer = await waitForSelector('ytd-playlist-panel-renderer#playlist', {node: ytdWatchFlexy})
-        await delay(500)
+        await delay(1000)
 
         const header = playlistContainer.querySelector('.header')
         const playlistItemsContainer = playlistContainer.querySelector('.playlist-items')
@@ -164,7 +164,7 @@ async function init() {
         const selectedItem = playlistItemsContainer.querySelector(':scope > [selected]')
 
         playlistItemsContainer.scrollTop = selectedItem.offsetTop - selectedItem.offsetHeight - header.offsetHeight - 50
-        
+
         window.addEventListener('resize', async event => {
           await delay(500)
           playlistItemsContainer.scrollTop = selectedItem.offsetTop - selectedItem.offsetHeight - header.offsetHeight - 50
