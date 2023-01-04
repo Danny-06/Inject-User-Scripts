@@ -37,11 +37,62 @@ canvas#player {
 
 video,
 canvas#player {
-  box-shadow: #fff 0px 0px 5px 0px;
+  box-shadow: #fff 0px 0px 2px 0px;
 }
 
 /* Contenedor de subtitulos  */
 /* Permitir la pausa y play del video cuando se hace click en el contenedor */
 #ytp-caption-window-container {
   pointer-events: none !important;
+}
+
+
+
+
+
+
+
+/* Fix new way of youtube to handle video sizing to allow video player fill space */
+
+
+#player-container-outer {
+  max-width: none !important;
+}
+
+#player-container-inner {
+  padding-top: 0 !important;  
+}
+
+#player-container {
+  position: static !important;
+}
+
+.html5-video-container {
+  height: auto !important;
+}
+
+video {
+  position: relative !important;
+  top: 0 !important;
+  left: 0 !important;
+  z-index: 20;
+
+  max-width: var(--ytd-watch-flexy-max-player-width);
+  margin-inline: auto;
+}
+
+
+#player-container-outer .ytp-chrome-bottom {
+  width: 98% !important;
+}
+
+
+#player-container-outer .ytp-chrome-bottom .ytp-chapter-hover-container,
+#player-container-outer .ytp-chrome-bottom .ytp-heat-map-chapter {
+  width: 100% !important;
+}
+
+
+#player-theater-container > #player-container {
+  height: 100% !important;
 }
