@@ -68,7 +68,9 @@ async function main() {
     border: none !important;
     transform: none !important;
     background: none !important;
-    position: static !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
   }
 
   *,
