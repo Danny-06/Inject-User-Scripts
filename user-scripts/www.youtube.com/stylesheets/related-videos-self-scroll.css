@@ -8,7 +8,7 @@ html[data-pathname="/watch"] #secondary {
   position: sticky !important;
   top: 56px;
 
-  width: 450px;
+  width: 450px !important;
   height: 92vh;
 
   padding-left: 0px;
