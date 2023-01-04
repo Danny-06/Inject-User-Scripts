@@ -14,6 +14,7 @@ window.youtubeUtils = youtubeUtils
 function setLocationAttribute() {
   setTimeout(() => {
     document.documentElement.dataset.pathname = location.pathname
+    window.dispatchEvent(new Event('resize'))
   }, 500)
 }
 
