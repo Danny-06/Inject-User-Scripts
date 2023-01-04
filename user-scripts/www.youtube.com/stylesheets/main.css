@@ -242,3 +242,9 @@ ytd-searchbox > form > #container > yt-icon#search-icon {
 .ytp-inline-preview-controls {
   display: flex !important;
 }
+
+
+/* Hide youtube add video from recommendation */
+ytd-rich-item-renderer.style-scope.ytd-rich-grid-row:has(ytd-in-feed-ad-layout-renderer) {
+  display: none !important;
+}

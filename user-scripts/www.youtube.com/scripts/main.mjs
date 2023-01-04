@@ -133,17 +133,6 @@ async function init() {
     //     event.target.focus()
     // });
 
-    // Ocultar el primer video de recomendados si es un anuncio
-    ;(async function() {
-
-      if (location.href !== 'https://www.youtube.com/') return
-
-      const addVideo = await waitForSelector('ytd-rich-item-renderer:has(ytd-display-ad-renderer)')
-
-      addVideo.style.setProperty('display', 'none', 'important');
-
-    })()
-
     // Set Scroll Padding equal to navbar height
     waitForSelector('#masthead-container').then(navbar => {
       document.documentElement.style.scrollPaddingBlockStart = `${navbar.offsetHeight}px`
