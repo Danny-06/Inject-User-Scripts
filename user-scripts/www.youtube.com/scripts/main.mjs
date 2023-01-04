@@ -270,7 +270,17 @@ async function handleSecondaryInnerWatch() {
       )
 
       function setActiveSlot(event) {
-        ;[...panels].forEach(panel => panel.removeAttribute('slot'))
+        ;[...buttonPanelMap.values()].forEach(panel => {
+          panel.removeAttribute('slot')
+
+          if (panel.localName === 'ytd-engagement-panel-section-list-renderer') {
+            // Show all of the panels
+            panel.setAttribute('visibility', 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED')
+  
+            // Reset the `order` value for panels that has one explicitly
+            panel.style.order = '0'
+          }
+        })
     
         ;[...buttonPanelMap.keys()].forEach(button => {
           button.classList.remove('selected')
@@ -285,16 +295,6 @@ async function handleSecondaryInnerWatch() {
 
       ;[...buttonPanelMap.keys()].forEach(panel => {
         panel.addEventListener('click', setActiveSlot)
-      })
-
-      ;[...buttonPanelMap.values()].forEach(panel => {
-        if (panel.localName === 'ytd-engagement-panel-section-list-renderer') {
-          // Show all of the panels
-          panel.setAttribute('visibility', 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED')
-
-          // Reset the `order` value for panels that has one explicitly
-          panel.style.order = '0'
-        }
       })
   
     }
