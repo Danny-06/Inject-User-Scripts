@@ -2,6 +2,8 @@ import { handleSelectorLifeCycle, waitForSelector, delay } from '../../@libs/uti
 import { calidad1080pAutomatica, ContextMenuManager as ctxM } from './youtube-utils.js'
 import * as youtubeUtils from './youtube-utils.js'
 import * as ctxMenu  from './resource-data/context-menu-options.js'
+import { createWebComponent } from '../../@libs/libs/dom-utils.js'
+import _, { buildElement as $ } from '../../@libs/libs/functional-dom/index.js'
 
 window.youtubeUtils = youtubeUtils
 
@@ -11,16 +13,6 @@ function setLocationAttribute() {
     window.dispatchEvent(new Event('resize'))
   }, 500)
 }
-
-setLocationAttribute()
-
-window.addEventListener('yt-navigate-start', event => {
-  setLocationAttribute()
-})
-
-window.addEventListener('yt-navigate-finish', event => {
-  setLocationAttribute()
-})
 
 
 // Set Scroll Padding equal to navbar height
@@ -136,11 +128,7 @@ async function initCustomContextMenu() {
     ctxMenu.flipVideoHorizontally,
     ctxMenu.loopVideo,
 
-    ctxMenu.showCommentsPanel,
-    ctxMenu.showDescriptionPanel,
-    ctxMenu.showChaptersPanel,
     ctxMenu.downloadChaptersAsXML,
-    ctxMenu.showTranscriptionPanel,
 
     ctxMenu.copyVideoURL,
     ctxMenu.copyVideoURLTime,
@@ -174,6 +162,146 @@ async function initNavigation(event) {
   calidad1080pAutomatica(video)
 }
 
+async function handleSecondaryInnerWatch() {
+  const secondaryInner = await waitForSelector('ytd-watch-flexy #secondary #secondary-inner')
+
+  const panelsContainer = secondaryInner.querySelector(':scope > #panels')
+
+  panelsContainer.after(...panelsContainer.children)
+
+  const panels = {
+
+    related: secondaryInner.querySelector(':scope > #related'),
+
+    playlist: secondaryInner.querySelector(':scope > ytd-playlist-panel-renderer:not([hidden])'),
+
+    liveChat: secondaryInner.querySelector(':scope > ytd-live-chat-frame'),
+
+    description: secondaryInner.querySelector(':scope > [target-id="engagement-panel-structured-description"]'),
+
+    comments: secondaryInner.querySelector(':scope > [target-id="engagement-panel-comments-section"]'),
+
+    chapters: secondaryInner.querySelector(':scope > [target-id="engagement-panel-macro-markers-description-chapters"]'),
+
+    transcription: secondaryInner.querySelector(':scope > [target-id="engagement-panel-searchable-transcript"]'),
+
+    // createClip: secondaryInner.querySelector(':scope > [target-id="engagement-panel-clip-create"]'),
+
+    *[Symbol.iterator]() {
+      yield* Object.values(this).filter(element => element != null)
+    }
+
+  }
+
+  class SecondaryTabs extends HTMLElement {
+
+    _constructor_() {
+      const shadow = this.attachShadow({mode: 'open'})
+
+      const buttonPanelMap = new Map(
+        [
+          [panels.related       ? _.button({class: 'selected'}, 'Related')     : null, panels.related],
+          [panels.playlist      ? _.button({}, 'Playlist')    : null, panels.playlist],
+          [panels.description   ? _.button({}, 'Description') : null, panels.description],
+          [panels.comments      ? _.button({}, 'Comments')    : null, panels.comments],
+          [panels.chapters      ? _.button({}, 'Chapter')    : null, panels.chapters],
+          [panels.transcription ? _.button({}, 'Transcription')    : null, panels.transcription],
+          [panels.liveChat      ? _.button({}, 'Live Chat')    : null, panels.liveChat],
+        ].filter(entry => entry[0] != null)
+      )
+
+      panels.related.slot = 'active'
+
+      shadow.append(
+        _.style({}, // css
+          `
+          .tab-buttons {
+            flex-shrink: 0;
+
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+
+            width: 100%;
+
+            padding-inline: 0.5rem;
+            padding-block: 1rem;
+          }
+
+          .tab-buttons > * {
+            flex-shrink: 0;
+          }
+
+          .tab-buttons > button {
+            all: unset;
+            box-sizing: border-box;
+            font-size: 13px;
+            color: #eee;
+
+            padding-inline: 0.8em;
+            padding-block: 0.7em;
+
+            border-radius: 0.3em;
+
+            background-color: #222;
+          }
+
+          .tab-buttons > button:is(:hover, :active) {
+            background-color: #444;
+          }
+
+          .tab-buttons > button:active {
+            background-color: #666;
+          }
+
+          .tab-buttons > button.selected {
+            background-color: #666;
+          }
+        `),
+
+        _.div({class: 'tab-buttons'},
+          ...buttonPanelMap.keys()
+        ),
+        _.slot({attributes: {name: 'active'}}),
+      )
+
+      function setActiveSlot(event) {
+        ;[...panels].forEach(panel => panel.removeAttribute('slot'))
+    
+        ;[...buttonPanelMap.keys()].forEach(button => {
+          button.classList.remove('selected')
+        })
+
+        const button = event.target
+
+        button.classList.add('selected')
+
+        buttonPanelMap.get(button).slot = 'active'
+      }
+
+      ;[...buttonPanelMap.keys()].forEach(panel => {
+        panel.addEventListener('click', setActiveSlot)
+      })
+
+      ;[...buttonPanelMap.values()].forEach(panel => {
+        if (panel.localName === 'ytd-engagement-panel-section-list-renderer') {
+          // Show all of the panels
+          panel.setAttribute('visibility', 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED')
+
+          // Reset the `order` value for panels that has one explicitly
+          panel.style.order = '0'
+        }
+      })
+  
+    }
+
+  }
+
+  createWebComponent(SecondaryTabs, secondaryInner)
+}
+
+
+
 init().catch(console.error)
 
 async function init() {
@@ -182,6 +310,18 @@ async function init() {
   window.copy && [...window.copy].forEach(e => e.remove())
 
   ;(async function() {
+
+    setLocationAttribute()
+
+    window.addEventListener('yt-navigate-start', event => {
+      setLocationAttribute()
+    })
+
+    window.addEventListener('yt-navigate-finish', event => {
+      setLocationAttribute()
+    })
+
+    handleSecondaryInnerWatch().catch(console.error)
 
     handleYTShorts()
 
