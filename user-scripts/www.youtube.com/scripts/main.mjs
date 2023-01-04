@@ -198,6 +198,8 @@ async function handleSecondaryInnerWatch() {
     _constructor_() {
       const shadow = this.attachShadow({mode: 'open'})
 
+      panels.related.slot = 'active'
+
       const buttonPanelMap = new Map(
         [
           [panels.related       ? _.button({class: 'selected'}, 'Related') : null, panels.related],
@@ -209,8 +211,6 @@ async function handleSecondaryInnerWatch() {
           [panels.liveChat      ? _.button({}, 'Live Chat')                : null, panels.liveChat],
         ].filter(entry => entry[0] != null)
       )
-
-      panels.related.slot = 'active'
 
       shadow.append(
         _.style({}, // css
