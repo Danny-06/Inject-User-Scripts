@@ -269,6 +269,7 @@ export async function calidad1080pAutomatica(video) {
   await delay(1000)
 
   await waitForSelector('.ytp-settings-menu .ytp-panel-menu > :last-child:not(:first-child)', {node: player})
+  await delay(500)
 
   const botonCalidadVideo = menuOpciones.lastElementChild
   botonCalidadVideo.click()
