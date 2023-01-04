@@ -11,6 +11,16 @@ window.addEventListener('click', event => {
 
 window.youtubeUtils = youtubeUtils
 
+document.documentElement.dataset.pathname = location.pathname
+
+window.addEventListener('yt-navigate-start', event => {
+  document.documentElement.dataset.pathname = location.pathname
+})
+
+window.addEventListener('yt-navigate-finish', event => {
+  document.documentElement.dataset.pathname = location.pathname
+})
+
 
 const query = selector => document.querySelector(selector)
 const getValueIfSelectorMatches = (selector, value) => {

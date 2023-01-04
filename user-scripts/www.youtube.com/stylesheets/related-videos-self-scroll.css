@@ -2,7 +2,7 @@ ytd-page-manager {
   overflow: visible !important;
 }
 
-#secondary {
+html[data-pathname="/watch"] #secondary {
   box-sizing: border-box;
 
   position: sticky !important;
