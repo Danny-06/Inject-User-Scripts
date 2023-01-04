@@ -182,6 +182,7 @@ async function handleSecondaryInnerWatch() {
     comments: secondaryInner.querySelector(':scope > [target-id="engagement-panel-comments-section"]'),
 
     chapters: secondaryInner.querySelector(':scope > [target-id="engagement-panel-macro-markers-description-chapters"]'),
+    autoChapters: secondaryInner.querySelector(':scope > [target-id="engagement-panel-macro-markers-auto-chapters"]'),
 
     transcription: secondaryInner.querySelector(':scope > [target-id="engagement-panel-searchable-transcript"]'),
 
@@ -206,7 +207,8 @@ async function handleSecondaryInnerWatch() {
           [panels.playlist      ? _.button({}, 'Playlist')                 : null, panels.playlist],
           [panels.description   ? _.button({}, 'Description')              : null, panels.description],
           [panels.comments      ? _.button({}, 'Comments')                 : null, panels.comments],
-          [panels.chapters      ? _.button({}, 'Chapter')                  : null, panels.chapters],
+          [panels.chapters      ? _.button({}, 'Chapters')                 : null, panels.chapters],
+          [panels.autoChapters  ? _.button({}, 'Auto Chapters')            : null, panels.autoChapters],
           [panels.transcription ? _.button({}, 'Transcription')            : null, panels.transcription],
           [panels.liveChat      ? _.button({}, 'Live Chat')                : null, panels.liveChat],
         ].filter(entry => entry[0] != null)
