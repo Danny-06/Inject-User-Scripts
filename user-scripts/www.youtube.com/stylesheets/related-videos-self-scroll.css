@@ -15,7 +15,7 @@ html[data-pathname="/watch"] #secondary {
 }
 
 #secondary-inner,
-#secondary-inner #related ytd-watch-next-secondary-results-renderer{
+#secondary-inner #related ytd-watch-next-secondary-results-renderer {
   height: 100% !important;
 }
 

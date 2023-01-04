@@ -86,13 +86,6 @@ video {
   width: 98% !important;
 }
 
-
-/* #player-container-outer .ytp-chrome-bottom .ytp-chapter-hover-container, */
-#player-container-outer .ytp-chrome-bottom .ytp-heat-map-chapter {
-  width: 100% !important;
-}
-
-
 #player-theater-container > #player-container {
   height: 100% !important;
 }
