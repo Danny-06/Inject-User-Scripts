@@ -200,13 +200,13 @@ async function handleSecondaryInnerWatch() {
 
       const buttonPanelMap = new Map(
         [
-          [panels.related       ? _.button({class: 'selected'}, 'Related')     : null, panels.related],
-          [panels.playlist      ? _.button({}, 'Playlist')    : null, panels.playlist],
-          [panels.description   ? _.button({}, 'Description') : null, panels.description],
-          [panels.comments      ? _.button({}, 'Comments')    : null, panels.comments],
-          [panels.chapters      ? _.button({}, 'Chapter')    : null, panels.chapters],
-          [panels.transcription ? _.button({}, 'Transcription')    : null, panels.transcription],
-          [panels.liveChat      ? _.button({}, 'Live Chat')    : null, panels.liveChat],
+          [panels.related       ? _.button({class: 'selected'}, 'Related') : null, panels.related],
+          [panels.playlist      ? _.button({}, 'Playlist')                 : null, panels.playlist],
+          [panels.description   ? _.button({}, 'Description')              : null, panels.description],
+          [panels.comments      ? _.button({}, 'Comments')                 : null, panels.comments],
+          [panels.chapters      ? _.button({}, 'Chapter')                  : null, panels.chapters],
+          [panels.transcription ? _.button({}, 'Transcription')            : null, panels.transcription],
+          [panels.liveChat      ? _.button({}, 'Live Chat')                : null, panels.liveChat],
         ].filter(entry => entry[0] != null)
       )
 
