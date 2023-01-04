@@ -215,6 +215,10 @@ async function handleSecondaryInnerWatch() {
       shadow.append(
         _.style({}, // css
           `
+          .title {
+            font-size: 16px;
+          }
+
           .tab-buttons {
             flex-shrink: 0;
 
@@ -224,7 +228,6 @@ async function handleSecondaryInnerWatch() {
 
             width: 100%;
 
-            padding-inline: 0.5rem;
             padding-block: 1rem;
           }
 
@@ -259,6 +262,7 @@ async function handleSecondaryInnerWatch() {
           }
         `),
 
+        _.div({class: 'title'}, 'Tabs'),
         _.div({class: 'tab-buttons'},
           ...buttonPanelMap.keys()
         ),
