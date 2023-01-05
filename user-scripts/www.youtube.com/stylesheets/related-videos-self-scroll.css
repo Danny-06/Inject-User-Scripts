@@ -64,3 +64,9 @@ ytd-watch-flexy #columns > #primary ytd-comments,
 ytd-watch-flexy #columns > #primary ytd-watch-metadata #bottom-row {
   display: none;
 }
+
+
+/* Fix issue with ytd-app in fullscreen which affect the video inside the player */
+ytd-app {
+  right: 0 !important;
+}
