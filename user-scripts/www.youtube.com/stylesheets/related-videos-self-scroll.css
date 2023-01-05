@@ -52,3 +52,15 @@ html[data-pathname="/watch"] #secondary {
 ytd-live-chat-frame {
   min-height: 0 !important;
 }
+
+
+
+/*
+  Hide description and comments in favour of the panels and to avoid main scroll
+  making the video player always visible
+*/
+
+ytd-watch-flexy #columns > #primary ytd-comments,
+ytd-watch-flexy #columns > #primary ytd-watch-metadata #bottom-row {
+  display: none;
+}

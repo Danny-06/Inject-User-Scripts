@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+html {
+  overflow: auto !important;
+}
+
 /* Hace que el video no se pueda seleccionar */
 #player {
   user-select: none;
