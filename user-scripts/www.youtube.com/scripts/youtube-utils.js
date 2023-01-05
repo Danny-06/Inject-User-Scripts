@@ -251,13 +251,6 @@ export class ContextMenuManager {
  * @param {HTMLVideoElement} video
  */
 export async function calidad1080pAutomatica(video) {
-  /** @type {HTMLElement} */
-  const playerContainer = video.closest('#player')
-  const ytdPlayer = video.closest('ytd-player')
-
-  ytdPlayer.inert = true
-  playerContainer.style.cursor = 'not-allowed'
-
   // if (video.readyState !== video.HAVE_ENOUGH_DATA) {
   //   await promisefyEvent(video, 'load')
   // }
@@ -316,9 +309,6 @@ export async function calidad1080pAutomatica(video) {
 
   settingsButton.click()
   settingsButton.click()
-
-  ytdPlayer.inert = false
-  playerContainer.style.cursor = ''
 }
 
 
