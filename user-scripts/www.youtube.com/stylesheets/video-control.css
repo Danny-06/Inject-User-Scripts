@@ -77,7 +77,7 @@ video {
   left: 0 !important;
   z-index: 20;
 
-  max-width: var(--ytd-watch-flexy-max-player-width);
+  /* max-width: var(--ytd-watch-flexy-max-player-width); */
   margin-inline: auto;
 }
 

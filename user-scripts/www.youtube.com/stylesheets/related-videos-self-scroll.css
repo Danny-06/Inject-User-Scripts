@@ -14,10 +14,6 @@ html[data-pathname="/watch"] #secondary {
   padding-left: 0px;
 }
 
-video {
-  max-width: none !important;
-}
-
 #secondary-inner,
 #secondary-inner #related ytd-watch-next-secondary-results-renderer {
   height: 100% !important;
