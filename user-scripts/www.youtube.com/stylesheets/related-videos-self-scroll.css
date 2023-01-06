@@ -14,6 +14,10 @@ html[data-pathname="/watch"] #secondary {
   padding-left: 0px;
 }
 
+.html5-video-container {
+  display: flex;
+}
+
 #secondary-inner,
 #secondary-inner #related ytd-watch-next-secondary-results-renderer {
   height: 100% !important;
