@@ -316,8 +316,6 @@ async function handleSecondaryInnerWatch() {
 
         shadow.replaceChildren()
 
-        const panelIds = Object.keys(panels)
-
         shadow.append(
           style,
   
