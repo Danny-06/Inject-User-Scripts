@@ -74,3 +74,19 @@ ytd-watch-flexy #columns > #primary ytd-watch-metadata #bottom-row {
 ytd-app {
   right: 0 !important;
 }
+
+
+/* Fix player size issue */
+
+html[data-pathname="/watch"] #primary {
+  margin-left: 0 !important;
+}
+
+html[data-pathname="/watch"] #primary {
+  padding-left: 24px;
+  padding-right: 0;
+}
+
+html[data-pathname="/watch"] #secondary {
+  padding-left: 24px;
+}
