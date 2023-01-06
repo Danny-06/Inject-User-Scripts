@@ -171,23 +171,41 @@ async function handleSecondaryInnerWatch() {
 
   const panels = {
 
-    'related': secondaryInner.querySelector(':scope > #related'),
+    get 'related'() {
+      return secondaryInner.querySelector(':scope > #related')
+    },
 
-    'playlist': secondaryInner.querySelector(':scope > ytd-playlist-panel-renderer:not([hidden])'),
+    get 'playlist'(){
+      return secondaryInner.querySelector(':scope > ytd-playlist-panel-renderer:not([hidden])')
+    },
 
-    'live-chat': secondaryInner.querySelector(':scope > ytd-live-chat-frame'),
+    get 'live-chat'() {
+      return secondaryInner.querySelector(':scope > ytd-live-chat-frame')
+    },
 
-    'description': secondaryInner.querySelector(':scope > [target-id="engagement-panel-structured-description"]'),
+    get 'description'() {
+      return secondaryInner.querySelector(':scope > [target-id="engagement-panel-structured-description"]')
+    },
 
-    'comments': secondaryInner.querySelector(':scope > [target-id="engagement-panel-comments-section"]'),
+    get 'comments'() {
+      return secondaryInner.querySelector(':scope > [target-id="engagement-panel-comments-section"]')
+    },
 
-    'chapters': secondaryInner.querySelector(':scope > [target-id="engagement-panel-macro-markers-description-chapters"]'),
+    get 'chapters'() {
+      return secondaryInner.querySelector(':scope > [target-id="engagement-panel-macro-markers-description-chapters"]')
+    },
 
-    'auto-chapters': secondaryInner.querySelector(':scope > [target-id="engagement-panel-macro-markers-auto-chapters"]'),
+    get 'auto-chapters'() {
+      return secondaryInner.querySelector(':scope > [target-id="engagement-panel-macro-markers-auto-chapters"]')
+    },
 
-    'transcription': secondaryInner.querySelector(':scope > [target-id="engagement-panel-searchable-transcript"]'),
+    get 'transcription'() {
+      return secondaryInner.querySelector(':scope > [target-id="engagement-panel-searchable-transcript"]')
+    },
 
-    // createClip: secondaryInner.querySelector(':scope > [target-id="engagement-panel-clip-create"]'),
+    // get 'create-clip'(){
+    //   return secondaryInner.querySelector(':scope > [target-id="engagement-panel-clip-create"]')
+    // },
 
     *[Symbol.iterator]() {
       yield* Object.values(this).filter(element => element != null)
@@ -202,14 +220,14 @@ async function handleSecondaryInnerWatch() {
 
       panels.related.slot = 'active'
 
-      const relatedBtn       = panels['related']       ? _.button({dataset: {id: 'related'}, class: 'selected'}, 'Related') : null
-      const playlistBtn      = panels['playlist']      ? _.button({dataset: {id: 'playlist'}}, 'Playlist') : null
-      const descriptionBtn   = panels['description']   ? _.button({dataset: {id: 'description'}}, 'Description') : null
-      const commentsBtn      = panels['comments']      ? _.button({dataset: {id: 'comments'}}, 'Comments') : null
-      const chaptersBtn      = panels['chapters']      ? _.button({dataset: {id: 'chapters'}}, 'Chapters') : null
-      const autoChaptersBtn  = panels['auto-chapters'] ? _.button({dataset: {id: 'auto-chapters'}}, 'Auto Chapters') : null
-      const transcriptionBtn = panels['transcription'] ? _.button({dataset: {id: 'transcription'}}, 'Transcription') : null
-      const liveChatBtn      = panels['live-chat']     ? _.button({dataset: {id: 'live-chat'}}, 'Live Chat') : null
+      const relatedBtn       = _.button({dataset: {id: 'related'}, class: 'selected'}, 'Related')
+      const playlistBtn      = _.button({dataset: {id: 'playlist'}}, 'Playlist')
+      const descriptionBtn   = _.button({dataset: {id: 'description'}}, 'Description')
+      const commentsBtn      = _.button({dataset: {id: 'comments'}}, 'Comments')
+      const chaptersBtn      = _.button({dataset: {id: 'chapters'}}, 'Chapters')
+      const autoChaptersBtn  = _.button({dataset: {id: 'auto-chapters'}}, 'Auto Chapters')
+      const transcriptionBtn = _.button({dataset: {id: 'transcription'}}, 'Transcription')
+      const liveChatBtn      = _.button({dataset: {id: 'live-chat'}}, 'Live Chat')
 
       playlistBtn?.addEventListener('click', event => {
         const ytdWatchFlexy = document.querySelector('ytd-watch-flexy')
@@ -235,61 +253,88 @@ async function handleSecondaryInnerWatch() {
         autoChaptersBtn,
         transcriptionBtn,
         liveChatBtn,
-      ].filter(e => e != null)
+      ]
+
+
+      const style = _.style({}, // css
+      `
+      .title {
+        font-size: 16px;
+      }
+
+      .tab-buttons {
+        flex-shrink: 0;
+
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+
+        width: 100%;
+
+        padding-block: 1rem;
+      }
+
+      .tab-buttons > * {
+        flex-shrink: 0;
+      }
+
+      .tab-buttons > button {
+        all: unset;
+        box-sizing: border-box;
+        font-size: 13px;
+        color: #eee;
+
+        padding-inline: 0.8em;
+        padding-block: 0.7em;
+
+        border-radius: 0.3em;
+
+        background-color: #222;
+      }
+
+      .tab-buttons > button:is(:hover, :active) {
+        background-color: #444;
+      }
+
+      .tab-buttons > button:active {
+        background-color: #666;
+      }
+
+      .tab-buttons > button.selected {
+        background-color: #666;
+      }
+      `)
+
+      window.addEventListener('yt-navigate-finish', async event => {
+        await delay(0)
+
+        const oldPanels = secondaryInner.querySelectorAll(':scope > ytd-engagement-panel-section-list-renderer')
+
+        oldPanels.forEach(panel => panel.remove())
+
+        panelsContainer.after(...panelsContainer.children)
+
+        shadow.replaceChildren()
+
+        const panelIds = Object.keys(panels)
+
+        shadow.append(
+          style,
+  
+          _.div({class: 'title'}, 'Tabs'),
+          _.div({class: 'tab-buttons'},
+            panelButtons.filter(button => panels[button.dataset.id] != null)
+          ),
+          _.slot({attributes: {name: 'active'}}),
+        )
+      })
 
       shadow.append(
-        _.style({}, // css
-          `
-          .title {
-            font-size: 16px;
-          }
-
-          .tab-buttons {
-            flex-shrink: 0;
-
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-
-            width: 100%;
-
-            padding-block: 1rem;
-          }
-
-          .tab-buttons > * {
-            flex-shrink: 0;
-          }
-
-          .tab-buttons > button {
-            all: unset;
-            box-sizing: border-box;
-            font-size: 13px;
-            color: #eee;
-
-            padding-inline: 0.8em;
-            padding-block: 0.7em;
-
-            border-radius: 0.3em;
-
-            background-color: #222;
-          }
-
-          .tab-buttons > button:is(:hover, :active) {
-            background-color: #444;
-          }
-
-          .tab-buttons > button:active {
-            background-color: #666;
-          }
-
-          .tab-buttons > button.selected {
-            background-color: #666;
-          }
-        `),
+        style,
 
         _.div({class: 'title'}, 'Tabs'),
         _.div({class: 'tab-buttons'},
-          panelButtons
+          panelButtons.filter(button => panels[button.dataset.id] != null)
         ),
         _.slot({attributes: {name: 'active'}}),
       )
@@ -301,12 +346,12 @@ async function handleSecondaryInnerWatch() {
           if (panel.localName === 'ytd-engagement-panel-section-list-renderer') {
             // Show all of the panels
             panel.setAttribute('visibility', 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED')
-  
+
             // Reset the `order` value for panels that has one explicitly
             panel.style.order = '0'
           }
         })
-    
+
         panelButtons.forEach(button => {
           button.classList.remove('selected')
         })
@@ -321,7 +366,7 @@ async function handleSecondaryInnerWatch() {
       panelButtons.forEach(panel => {
         panel.addEventListener('click', setActiveSlot)
       })
-  
+
     }
 
   }
@@ -359,7 +404,7 @@ async function init() {
     setScrollPadding()
 
     handlePlaylistAutoScroll()
-    
+
     // Eventos de navegación de Youtube para ejecutar el código
     // al cambiar de página (Youtube no recarga la página, la actualiza)
     window.addEventListener('yt-navigate-start', event => initNavigation(event).catch(console.error));
