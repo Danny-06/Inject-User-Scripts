@@ -252,3 +252,8 @@ ytd-searchbox > form > #container > yt-icon#search-icon {
 ytd-rich-item-renderer.style-scope.ytd-rich-grid-row:has(ytd-in-feed-ad-layout-renderer) {
   display: none !important;
 }
+
+
+.html5-endscreen {
+  background-color: #000c;
+}
