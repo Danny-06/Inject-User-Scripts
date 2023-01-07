@@ -255,5 +255,9 @@ ytd-rich-item-renderer.style-scope.ytd-rich-grid-row:has(ytd-in-feed-ad-layout-r
 
 
 .html5-endscreen {
+  /* Fill container */
+  top: 0 !important;
+  bottom: 0 !important;
+
   background-color: #000c;
 }
