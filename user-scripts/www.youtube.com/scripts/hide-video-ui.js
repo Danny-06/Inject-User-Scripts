@@ -5,21 +5,23 @@ document.addEventListener("keyup", function(event) {
 
   if (event.key.toUpperCase() !== 'P') return
 
-  const video = document.querySelector('video')
+  const ytdPlayer = document.querySelector('ytd-watch-flexy ytd-player')
 
-  if (video === null) return
+  if (ytdPlayer === null) return
 
   const ytdWatch = document.querySelector('ytd-watch-flexy')
 
-  const videoChromeBottom = ytdWatch.querySelector('.ytp-chrome-bottom');
-  const videoChromeTop = ytdWatch.querySelector('.ytp-chrome-top');
+  const selector = `
+  .ytp-chrome-bottom,
+  .ytp-chrome-top,
+  .ytp-gradient-bottom,
+  .ytp-gradient-top,
+  .html5-endscreen
+  `
 
-  const gradientBottom = ytdWatch.querySelector('.ytp-gradient-bottom');
-  const gradientTop = ytdWatch.querySelector('.ytp-gradient-top');
+  const componentesInterfaz = ytdWatch.querySelectorAll(selector)
 
-  const componentesInterfaz = [videoChromeBottom, videoChromeTop, gradientBottom, gradientTop]
-
-  const isHidden = video.classList.toggle('INTERFACE-HIDDEN')
+  const isHidden = ytdPlayer.classList.toggle('INTERFACE-HIDDEN')
 
   componentesInterfaz.forEach(componente => {
     componente.style.setProperty('display', isHidden ? 'none' : '', 'important');
