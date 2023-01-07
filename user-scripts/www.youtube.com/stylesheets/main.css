@@ -261,3 +261,9 @@ ytd-rich-item-renderer.style-scope.ytd-rich-grid-row:has(ytd-in-feed-ad-layout-r
 
   background-color: #000c;
 }
+
+
+/* Use flexbox on the chapters timeline to avoid wrapping in some large resolutions */
+.ytp-chapters-container {
+  display: flex !important;
+}
