@@ -16,6 +16,7 @@
     "stylesheets/main.css",
     "stylesheets/video-control.css",
     "stylesheets/fix-yt-new-ui.css",
-    "stylesheets/related-videos-self-scroll.css"
+    "stylesheets/related-videos-self-scroll.css",
+    "stylesheets/hide-video-ui.css"
   ]
 }

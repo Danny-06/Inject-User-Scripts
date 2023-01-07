@@ -11,20 +11,6 @@ document.addEventListener("keyup", function(event) {
 
   const ytdWatch = document.querySelector('ytd-watch-flexy')
 
-  const selector = `
-  .ytp-chrome-bottom,
-  .ytp-chrome-top,
-  .ytp-gradient-bottom,
-  .ytp-gradient-top,
-  .html5-endscreen
-  `
-
-  const componentesInterfaz = ytdWatch.querySelectorAll(selector)
-
-  const isHidden = ytdPlayer.classList.toggle('INTERFACE-HIDDEN')
-
-  componentesInterfaz.forEach(componente => {
-    componente.style.setProperty('display', isHidden ? 'none' : '', 'important');
-  })
+  ytdPlayer.classList.toggle('INTERFACE-HIDDEN')
 
 })

@@ -1,0 +1,7 @@
+ytd-player.INTERFACE-HIDDEN .ytp-chrome-bottom,
+ytd-player.INTERFACE-HIDDEN .ytp-chrome-top,
+ytd-player.INTERFACE-HIDDEN .ytp-gradient-bottom,
+ytd-player.INTERFACE-HIDDEN .ytp-gradient-top,
+ytd-player.INTERFACE-HIDDEN .html5-endscreen {
+  display: none !important;
+}
