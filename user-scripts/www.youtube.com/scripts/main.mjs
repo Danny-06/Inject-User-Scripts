@@ -218,9 +218,7 @@ async function handleSecondaryInnerWatch() {
     _constructor_() {
       const shadow = this.attachShadow({mode: 'open'})
 
-      panels.related.slot = 'active'
-
-      const relatedBtn       = _.button({dataset: {id: 'related'}, class: 'selected'}, 'Related')
+      const relatedBtn       = _.button({dataset: {id: 'related'}}, 'Related')
       const playlistBtn      = _.button({dataset: {id: 'playlist'}}, 'Playlist')
       const descriptionBtn   = _.button({dataset: {id: 'description'}}, 'Description')
       const commentsBtn      = _.button({dataset: {id: 'comments'}}, 'Comments')
@@ -228,6 +226,14 @@ async function handleSecondaryInnerWatch() {
       const autoChaptersBtn  = _.button({dataset: {id: 'auto-chapters'}}, 'Auto Chapters')
       const transcriptionBtn = _.button({dataset: {id: 'transcription'}}, 'Transcription')
       const liveChatBtn      = _.button({dataset: {id: 'live-chat'}}, 'Live Chat')
+
+      if (new URLSearchParams(location.search).get('list') == null) {
+        panels.related.slot = 'active'
+        relatedBtn.classList.add('selected')
+      } else {
+        panels.playlist.slot = 'active'
+        playlistBtn.classList.add('selected')
+      }
 
       playlistBtn?.addEventListener('click', event => {
         const ytdWatchFlexy = document.querySelector('ytd-watch-flexy')
