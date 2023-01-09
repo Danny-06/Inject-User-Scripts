@@ -83,3 +83,7 @@ video {
 #player-theater-container > #player-container {
   height: 100% !important;
 }
+
+ytd-watch-flexy ytd-player .ytp-ce-shadow {
+  outline-width: 100vw !important;
+}
