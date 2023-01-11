@@ -43,7 +43,8 @@ html[data-pathname="/watch"] #secondary {
   min-height: 0;
 }
 
-#secondary-inner #related ytd-item-section-renderer {
+#secondary-inner #related #items,
+#secondary-inner #related #items > ytd-item-section-renderer {
   overflow-y: auto;
   overflow-x: hidden;
   flex-shrink: 1;
