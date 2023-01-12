@@ -2,7 +2,10 @@
 
 html, body {
   height: 100%;
-  overflow: hidden !important;
+}
+
+body {
+  overflow: visible !important;
 }
 
 /* Hace que el video no se pueda seleccionar */
