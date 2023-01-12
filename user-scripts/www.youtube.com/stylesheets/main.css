@@ -1,12 +1,8 @@
 @charset "UTF-8";
 
-html {
-  overflow: auto !important;
-}
-
 html, body {
   height: 100%;
-  overflow: visible !important;
+  overflow: hidden !important;
 }
 
 /* Hace que el video no se pueda seleccionar */
