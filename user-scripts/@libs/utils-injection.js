@@ -278,6 +278,30 @@ export function randomRange(from, to) {
   return Math.floor(Math.random() * (to + 1 - from)) + from
 }
 
+export function randomItem(...items) {
+  return items[randomRange(0, items.length)]
+}
+
+export function randomItemFromArray(items) {
+  return items[randomRange(0, items.length)]
+}
+
+/**
+ * 
+ * @param {CSSStyleSheet} stylesheet 
+ */
+export function shuffleRules(stylesheet) {
+  for (let i = 0; i < stylesheet.cssRules.length; i++) {
+    const indexDelete = randomRange(0, stylesheet.cssRules.length - 1)
+    const indexInsert = randomItem(0, stylesheet.cssRules.length - 1)
+
+    const rule = stylesheet.cssRules.item(indexDelete)
+    stylesheet.deleteRule(indexDelete)
+
+    stylesheet.insertRule(rule.cssText, indexInsert)
+  }
+}
+
 export function delay(time) {
   /**
    * @type {(value?: any) => void}
