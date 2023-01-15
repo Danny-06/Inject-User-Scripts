@@ -1,7 +1,6 @@
 import { getBlobFromMedia } from '../../../@libs/libs/canvas-utils.js'
 import { cssInlinePropertiesProxyWrapper } from '../../../@libs/libs/proxy-libs.js'
-import { waitForSelector } from '../../../@libs/utils-injection.js'
-
+import { downloadFile, waitForSelector } from '../../../@libs/utils-injection.js'
 
 /**
  * @type {HTMLVideoElement}
