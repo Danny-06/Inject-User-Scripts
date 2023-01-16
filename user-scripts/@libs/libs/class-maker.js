@@ -8,7 +8,7 @@ export const classMaker = {
     Object.entries({properties, privateProperties, staticProperties, privateStaticProperties})
     .forEach(([groupName, propertyDescriptors]) => {
       Object
-      .entries(propertyDescriptors)
+      .entries(propertyDescriptors ?? {})
       .forEach(([property, propertyDescriptor]) => this.checkPropertyDescriptor(propertyDescriptor, groupName, property))
     })
   },
@@ -69,47 +69,27 @@ export const classMaker = {
       })
     )
 
-    let classFunction
+    let classFunction = function(...args) {
+      if (!(this instanceof classFunction)) throw new Error(`Cannot invoke 'class' with incompatible receiver`)
 
-    // Computed function name with `eval`
-    try {
-      classFunction = eval(`(function ${constructor.name}(...args) {
-        if (!(this instanceof classFunction)) throw new Error(\`Cannot invoke 'class' with incompatible receiver\`)
+      Object.defineProperties(this, instanceProperties)
 
-        Object.defineProperties(this, instanceProperties)
+      if (privateStore) {
+        const privateInstance = $(this, privateClassFunction)
+        Object.defineProperties(privateInstance, privateInstanceProperties)
 
-        if (privateStore) {
-          const privateInstance = $(this, privateClassFunction)
-          Object.defineProperties(privateInstance, privateInstanceProperties)
-
-          Object.defineProperty(this, classMaker.privateInstanceSymbol, {
-            value: privateInstance,
-            writable: false,
-            configurable: true
-          })
-        }
-
-        constructor.call(this, ...args)
-      })`)
-    } catch(error) {
-      classFunction = function(...args) {
-        if (!(this instanceof classFunction)) throw new Error(`Cannot invoke 'class' with incompatible receiver`)
-
-        Object.defineProperties(this, instanceProperties)
-
-        if (privateStore) {
-          const privateInstance = $(this, privateClassFunction)
-          Object.defineProperties(privateInstance, privateInstanceProperties)
-
-          Object.defineProperty(this, classMaker.privateInstanceSymbol, {
-            value: privateInstance,
-            writable: false,
-            configurable: true
-          })
-        }
-
-        constructor.call(this, ...args)
+        Object.defineProperty(this, classMaker.privateInstanceSymbol, {
+          value: privateInstance,
+          writable: false,
+          configurable: true
+        })
       }
+
+      if (extendsConstructor instanceof Function) {
+        extendsConstructor.call(this)
+      }
+
+      constructor.call(this, ...args)
     }
 
 
@@ -220,8 +200,8 @@ const myClass = (function() {
 
     properties: {
       name: {
-        get: () => $(this).name,
-        set: value => {
+        get() { return $(this).name },
+        set(value) {
           if(typeof value === 'string') {
             $(this).name = value
           }

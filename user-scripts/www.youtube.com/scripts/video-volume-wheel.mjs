@@ -1,4 +1,4 @@
-import { parseHTML } from "../../@libs/libs/dom-utils.js";
+import _, { buildElement as $ } from "../../@libs/libs/functional-dom/index.js";
 import { waitForSelector } from "../../@libs/utils-injection.js"
 
 const volumeSetter = Object.getOwnPropertyDescriptors(HTMLMediaElement.prototype).volume.set
@@ -10,50 +10,21 @@ Object.defineProperties(HTMLMediaElement.prototype, {
 })
 
 
-// Eventos de navegación de Youtube para ejecutar el código
-// al cambiar de página (Youtube no recarga la página, la actualiza)
-window.addEventListener("yt-navigate-start", main);
-window.addEventListener("yt-navigate-finish", main);
-
 let currentVideo
 const videoVolumeStep = 0.05
 
-main().catch(console.error)
 
-async function main() {
-  if (location.pathname !== '/watch') return
+function VolumeContainer() {
+  const volumeContainer = _.div()
+  const volumeCount = _.div()
+  const gainCount = _.div()
 
-  /**
-  * @type {HTMLVideoElement}
-  */
-  const video = await waitForSelector('ytd-watch-flexy video')
-
-  // Avoid executing the code more than once
-  if (currentVideo === video) return
-  currentVideo = video
-
-  const html5Container = await waitForSelector('ytd-watch-flexy .html5-video-container')
-
-  const [{firstElementChild: volumeContainerWrapper}, vcwMapId] = parseHTML(// html
-    `
-    <div class="volume-container-wrapper">
-        <template shadowroot="open">
-            <div [id]="volume-container" class="volume-container">
-                <div [id]="volume-count" class="volume-count"></div>
-                <div [id]="gain-count" class="gain-count"></div>
-            </div>
-        </template>
-    </div>
-    `,
-    {mapId: true}
-  )
-
-  html5Container.append(volumeContainerWrapper)
-
-  const {volumeContainer, volumeCount, gainCount} = vcwMapId
-
-  const vcwShadowRoot = volumeContainerWrapper.shadowRoot
-
+  const shadowChildren = [
+    $(volumeContainer, {class: 'volume-container'},
+      $(volumeCount, {class: 'volume-count'}),
+      $(gainCount, {class: 'gain-count'}),
+    ),
+  ]
 
   const css = // css
   `
@@ -121,7 +92,48 @@ async function main() {
   const stylesheet = new CSSStyleSheet()
   stylesheet.replace(css)
 
-  vcwShadowRoot.adoptedStyleSheets = [stylesheet]
+  const volumeContainerWrapper = _.$.div({class: 'volume-container-wrapper'},
+    {
+      children: shadowChildren,
+      adoptedStyleSheets: [stylesheet]
+    },
+  )
+
+  return {
+    volumeContainerWrapper,
+    shadowChildren: {
+      volumeContainer,
+      volumeCount,
+      gainCount
+    }
+  }
+}
+
+
+
+window.addEventListener('youtube-navigate', async event => {
+  if (location.pathname !== '/watch') return
+
+  /**
+   * @type {HTMLVideoElement}
+   */
+  const video = await waitForSelector('ytd-watch-flexy video')
+
+  // Avoid executing the code more than once
+  if (currentVideo === video) return
+  currentVideo = video
+
+  const html5Container = await waitForSelector('ytd-watch-flexy .html5-video-container')
+
+  const {
+    volumeContainerWrapper,
+    shadowChildren: {volumeContainer, volumeCount, gainCount}
+  } = VolumeContainer()
+
+  volumeCount.innerHTML = Math.floor(video.volume.toFixed(2) * 100)
+
+  html5Container.append(volumeContainerWrapper)
+
 
   let volumeCountTimeOut
 
@@ -200,4 +212,4 @@ async function main() {
     
     })
   })()
-}
+})

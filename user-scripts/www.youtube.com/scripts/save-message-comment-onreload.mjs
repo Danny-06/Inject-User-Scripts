@@ -1,5 +1,4 @@
 import { waitForSelector, LocalDB } from '../../@libs/utils-injection.js'
-import {waitForDocumentLoad} from '../../@libs/libs/dom-utils.js'
 
 /*
   Comments storage structure
@@ -9,22 +8,22 @@ import {waitForDocumentLoad} from '../../@libs/libs/dom-utils.js'
   }
 */
 
-
-waitForDocumentLoad(document)
-.then(() => main().catch(console.error))
-
-window.addEventListener('yt-navigate-start', event => main().catch(console.error))
-window.addEventListener('yt-navigate-error', event => main().catch(console.error))
-
-
 const rootKey = 'comments-storage'
 
 const storage = await LocalDB.createLocalDB('_personal-storage')
 
-async function main() {
+window.addEventListener('youtube-navigate', async event => {
   if (location.pathname !== '/watch') return
 
-  const commentBoxContainer = await waitForSelector('ytd-comments#comments ytd-comment-simplebox-renderer')
+  const section = await waitForSelector('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-comments-section"]')
+
+  const commentBoxSelector =
+  `
+  ytd-comments
+  ytd-comment-simplebox-renderer
+  `
+
+  const commentBoxContainer = await waitForSelector(commentBoxSelector, {node: section})
 
   commentBoxContainer.addEventListener('keyup', event => {
     const commentBoxInput = commentBoxContainer.querySelector('#contenteditable-root')
@@ -34,7 +33,7 @@ async function main() {
   })
 
   window.addEventListener('click', event => {
-    if (!event.target.closest('ytd-comment-simplebox-renderer ytd-button-renderer:is(#submit-button, #cancel-button) button')) return
+    if (!event.target.closest('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-comments-section"] ytd-comment-simplebox-renderer ytd-button-renderer:is(#submit-button, #cancel-button) button')) return
 
     updateCurrentCommentStorage('')
   })
@@ -54,8 +53,17 @@ async function main() {
 
     commentBoxInput.innerHTML = turnCommentStringToHTML(comment)
     submitBtn.disabled = false
+
+    // Set caret selection to end of text
+    const selection = window.getSelection()
+    selection.empty()
+
+    const range = document.createRange()
+    range.setStart($0, 1)
+
+    selection.addRange(range)
   }
-}
+})
 
 
 
