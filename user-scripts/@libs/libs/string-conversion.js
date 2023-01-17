@@ -60,10 +60,7 @@ export class StringConversion {
     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
   ])
 
-  static textToBase64(text) {
-    const bytes = new TextEncoder().encode(text)
-
-    // const blockOf8Bits = [...bytes, ...new Array(padding).fill(0)]
+  static bytesToBase64(bytes) {
     const blockOf8Bits = new Binary(bytes).getAsChunksOf(8, 3).flat()
 
     const blockOf6Bits = new Binary(blockOf8Bits).getAsChunksOf(6)
@@ -73,6 +70,36 @@ export class StringConversion {
     const padding = this.#getPaddingFromBytesLength(bytes.length)
 
     const result = this.blockOf6BitsToBase64(blockOf6Bits, padding)
+
+    return result
+  }
+
+  static base64ToBytes(base64String) {
+    const blockOf6Bits = this.base64ToByteArray(base64String)
+
+    const blockOf8Bits = new Binary(blockOf6Bits, 6).getAsChunksOf(8)
+
+    const padding = this.#getPaddingFromBase64String(base64String)
+
+    const sliceEnd = padding === 0 ? undefined : -padding
+
+    const bytes = new Uint8Array(blockOf8Bits.slice(0, sliceEnd))
+
+    return bytes
+  }
+
+  static textToBase64(text) {
+    const bytes = new TextEncoder().encode(text)
+
+    const result = this.bytesToBase64(bytes)
+
+    return result
+  }
+
+  static base64ToText(base64String) {
+    const bytes = this.base64ToBytes(base64String)
+
+    const result = new TextDecoder().decode(bytes)
 
     return result
   }
@@ -91,21 +118,6 @@ export class StringConversion {
     else if (base64String.endsWith('=')) padding = 1
 
     return padding
-  }
-
-  static base64ToText(base64) {
-    const padding = this.#getPaddingFromBase64String(base64)
-
-    const blockOf6Bits = this.base64ToByteArray(base64)
-
-    const blockOf8Bits = new Binary(blockOf6Bits, 6).getAsChunksOf(8)
-
-
-    const sliceEnd = padding === 0 ? undefined : -padding
-
-    const result = new TextDecoder().decode(new Uint8Array(blockOf8Bits.slice(0, sliceEnd)))
-
-    return result
   }
 
   static base64ToByteArray(base64) {
