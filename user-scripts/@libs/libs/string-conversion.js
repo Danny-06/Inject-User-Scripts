@@ -81,7 +81,7 @@ export class StringConversion {
 
     const padding = this.#getPaddingFromBase64String(base64String)
 
-    const sliceEnd = padding === 0 ? undefined : -padding
+    const sliceEnd = blockOf8Bits.length - padding
 
     const bytes = new Uint8Array(blockOf8Bits.slice(0, sliceEnd))
 
