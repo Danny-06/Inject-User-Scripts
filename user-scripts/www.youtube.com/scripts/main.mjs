@@ -4,6 +4,7 @@ import * as youtubeUtils from './youtube-utils.js'
 import * as ctxMenu  from './resource-data/context-menu-options.js'
 import { createWebComponent } from '../../@libs/libs/dom-utils.js'
 import _, { buildElement as $ } from '../../@libs/libs/functional-dom/index.js'
+import { addEventListener } from '../../@libs/libs/event-utils.js'
 
 window.youtubeUtils = youtubeUtils
 
@@ -13,11 +14,23 @@ function dispatchNavigateEvent() {
   window.dispatchEvent(customEvent)
 }
 
+function dispatchLoadEvent() {
+  const customEvent = new CustomEvent('youtube-load')
+  window.dispatchEvent(customEvent)
+}
+
 window.addEventListener('yt-navigate-finish', event => {
   dispatchNavigateEvent()
 })
 
-setTimeout(dispatchNavigateEvent)
+setTimeout(() => {
+  dispatchLoadEvent()
+  dispatchNavigateEvent()
+})
+
+window.addEventListener('youtube-load', event => {
+  handleSecondaryInnerWatch().catch(console.error)
+})
 
 
 window.addEventListener('youtube-navigate', async event => {
@@ -26,8 +39,6 @@ window.addEventListener('youtube-navigate', async event => {
 
 
   setLocationAttribute()
-
-  handleSecondaryInnerWatch().catch(console.error)
 
   handleYTShorts()
 
@@ -59,7 +70,7 @@ async function handleSecondaryInnerWatch() {
 
   const panelsContainer = secondaryInner.querySelector(':scope > #panels')
 
-  panelsContainer.after(...panelsContainer.children)
+  // panelsContainer.after(...panelsContainer.children)
 
   const panels = {
 
@@ -160,7 +171,7 @@ async function handleSecondaryInnerWatch() {
         font-size: 16px;
       }
 
-      .tab-buttons {
+      .panel-buttons {
         flex-shrink: 0;
 
         display: flex;
@@ -172,11 +183,11 @@ async function handleSecondaryInnerWatch() {
         padding-block: 1rem;
       }
 
-      .tab-buttons > * {
+      .panel-buttons > * {
         flex-shrink: 0;
       }
 
-      .tab-buttons > button {
+      .panel-buttons > button {
         all: unset;
         box-sizing: border-box;
         font-size: 13px;
@@ -190,20 +201,20 @@ async function handleSecondaryInnerWatch() {
         background-color: #222;
       }
 
-      .tab-buttons > button:is(:hover, :active) {
+      .panel-buttons > button:is(:hover, :active) {
         background-color: #444;
       }
 
-      .tab-buttons > button:active {
+      .panel-buttons > button:active {
         background-color: #666;
       }
 
-      .tab-buttons > button.selected {
+      .panel-buttons > button.selected {
         background-color: #666;
       }
       `)
 
-      window.addEventListener('yt-navigate-finish', async event => {
+      addEventListener(window, 'youtube-navigate', async event => {
         await waitForSelector('ytd-watch-flexy #secondary #secondary-inner #panels')
         await delay(500)
 
@@ -218,23 +229,13 @@ async function handleSecondaryInnerWatch() {
         shadow.append(
           style,
   
-          _.div({class: 'title'}, 'Tabs'),
-          _.div({class: 'tab-buttons'},
+          _.div({class: 'title'}, 'Panels'),
+          _.div({class: 'panel-buttons'},
             panelButtons.filter(button => panels[button.dataset.id] != null)
           ),
           _.slot({attributes: {name: 'active'}}),
         )
-      })
-
-      shadow.append(
-        style,
-
-        _.div({class: 'title'}, 'Tabs'),
-        _.div({class: 'tab-buttons'},
-          panelButtons.filter(button => panels[button.dataset.id] != null)
-        ),
-        _.slot({attributes: {name: 'active'}}),
-      )
+      }, {runImmediately: true})
 
       function setActiveSlot(event) {
         ;[...panels].forEach(panel => {
