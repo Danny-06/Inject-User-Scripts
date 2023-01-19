@@ -9,6 +9,10 @@
 
 /*Solución*/
 
+* {
+  min-width: 0;
+  min-height: 0;
+}
 
 /* Whatsapp Web */
 /* Minima altura del chat reducida a 0 para mayor adaptabilidad */
