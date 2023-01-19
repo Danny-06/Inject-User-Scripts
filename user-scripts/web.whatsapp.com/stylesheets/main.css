@@ -10,8 +10,8 @@
 /*Solución*/
 
 [data-testid="drawer-middle"] * {
-  min-width: 0;
-  min-height: 0;
+  min-width: 0 !important;
+  min-height: 0 !important;
 }
 
 /* Whatsapp Web */
