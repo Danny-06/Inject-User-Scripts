@@ -183,12 +183,10 @@ async function handleSecondaryInnerWatch() {
         padding-block: 1rem;
       }
 
-      .panel-buttons > * {
-        flex-shrink: 0;
-      }
-
       .panel-buttons > button {
         all: unset;
+
+        flex-shrink: 0;
         box-sizing: border-box;
         font-size: 13px;
         color: #eee;
@@ -199,6 +197,8 @@ async function handleSecondaryInnerWatch() {
         border-radius: 0.3em;
 
         background-color: #222;
+
+        user-select: none;
       }
 
       .panel-buttons > button:is(:hover, :active) {
