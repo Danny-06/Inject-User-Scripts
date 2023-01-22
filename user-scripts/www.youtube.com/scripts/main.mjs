@@ -49,11 +49,11 @@ window.addEventListener('youtube-navigate', async event => {
 
   initCustomContextMenu()
 
-  if (location.pathname === '/') {
-    // Make a recursion for the youtube main page to detect the preview video
-    // and change its resolution
-    handleSelectorLifeCycle('ytd-video-preview video[src]', {onExist: calidad1080pAutomatica})
-  }
+  // if (location.pathname === '/') {
+  //   // Make a recursion for the youtube main page to detect the preview video
+  //   // and change its resolution
+  //   handleSelectorLifeCycle('ytd-video-preview video[src]', {onExist: calidad1080pAutomatica})
+  // }
 
   if (location.pathname === '/watch') {
     /** @type {HTMLVideoElement} */
