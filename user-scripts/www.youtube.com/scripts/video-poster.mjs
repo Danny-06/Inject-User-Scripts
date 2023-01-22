@@ -8,14 +8,16 @@ window.addEventListener('youtube-navigate', async event => {
 
   const thumbnails = ytdApp.data.playerResponse.videoDetails.thumbnail.thumbnails
 
+
   for (let i = thumbnails.length - 1; i >= 0; i--) {
     const url = thumbnails[i].url
 
-    if (!canImageLoad(url)) {
-      continue
-    } else {
+    if (await canImageLoad(url)) {
       video.poster = url
       break
+    }
+    else {
+      continue
     }
   }
 })
