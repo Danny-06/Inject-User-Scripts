@@ -59,7 +59,7 @@ window.addEventListener('youtube-navigate', async event => {
     selection.empty()
 
     const range = document.createRange()
-    range.setStart($0, 1)
+    range.setStart(commentBoxInput, 1)
 
     selection.addRange(range)
   }
