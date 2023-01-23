@@ -3,3 +3,8 @@
 ytd-watch-metadata #description tp-yt-paper-button#expand {
   position: static;
 }
+
+/* Add background to panels */
+ytd-engagement-panel-section-list-renderer {
+  background-color: #0f0f0f;
+}
