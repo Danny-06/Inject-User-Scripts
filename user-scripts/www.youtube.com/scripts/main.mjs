@@ -4,6 +4,7 @@ import * as youtubeUtils from './youtube-utils.js'
 import * as ctxMenu  from './resource-data/context-menu-options.js'
 import _, { buildElement as $ } from '../../@libs/libs/functional-dom/index.js'
 import { addEventListener } from '../../@libs/libs/event-utils.js'
+import { run } from '../../@libs/extension-methods/object-extension.js'
 
 window.youtubeUtils = youtubeUtils
 
@@ -211,7 +212,8 @@ async function handleSecondaryInnerWatch() {
     .panel-buttons > button.selected {
       background-color: #666;
     }
-    `)
+    `
+    )
 
     addEventListener(window, 'youtube-navigate', async event => {
       await waitForSelector('ytd-watch-flexy #secondary #secondary-inner #panels')
@@ -264,6 +266,23 @@ async function handleSecondaryInnerWatch() {
       panel.addEventListener('click', setActiveSlot)
     })
 
+    panels[run](async panels => {
+      await waitForSelector('ytd-watch-flexy #secondary #secondary-inner > ytd-engagement-panel-section-list-renderer')
+
+      const description = panels.description
+
+      const factoidRendererChild = description.querySelector('#factoids > :nth-child(3) > :first-child')
+
+      const data = factoidRendererChild.ariaLabel
+
+      const value = factoidRendererChild.querySelector(':scope > .factoid-value')
+      const label = factoidRendererChild.querySelector(':scope > .factoid-label')
+
+      ;[...factoidRendererChild.children].forEach(e => e.removeAttribute('is-empty'))
+
+      value.innerHTML = data.split(': ')[1]
+      label.innerHTML = data.split(': ')[0]
+    })
   }
 }
 
