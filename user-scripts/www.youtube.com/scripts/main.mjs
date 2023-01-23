@@ -266,6 +266,7 @@ async function handleSecondaryInnerWatch() {
       panel.addEventListener('click', setActiveSlot)
     })
 
+    // Show premiere date in description panel
     panels[run](async panels => {
       await waitForSelector('ytd-watch-flexy #secondary #secondary-inner > ytd-engagement-panel-section-list-renderer')
 
@@ -280,8 +281,10 @@ async function handleSecondaryInnerWatch() {
 
       ;[...factoidRendererChild.children].forEach(e => e.removeAttribute('is-empty'))
 
-      value.innerHTML = data.split(': ')[1]
-      label.innerHTML = data.split(': ')[0]
+      if (data.includes(': ')) {
+        value.innerHTML = data.split(': ')[1]
+        label.innerHTML = data.split(': ')[0]
+      }
     })
   }
 }
