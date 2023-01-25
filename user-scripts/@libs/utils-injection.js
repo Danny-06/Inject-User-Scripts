@@ -17,6 +17,7 @@ import * as _DOMUtils from './libs/dom-utils.js'
 import {waitForDocumentLoad} from './libs/dom-utils.js'
 import * as _Dialogs from './libs/dialogs/dialogs.js'
 import * as _GeneratorUtils from './libs/generator-utils.js'
+import Calculator from './libs/calculator.js'
 
 
 const CanvasUtils = Object.freeze({..._CanvasUtils})
@@ -30,7 +31,7 @@ export {
   MouseInfo, ScrollBox, StringConversion, StringImageConversion, StorageHandler,
   ArrayN, ZipManager, LocalDB,
   classMaker, CanvasUtils, Timeout, Interval,
-  Binary, ChromeExtension, ListManager, ProxyUtils, DOMUtils, Dialogs, GeneratorUtils
+  Binary, ChromeExtension, ListManager, ProxyUtils, DOMUtils, Dialogs, GeneratorUtils, Calculator
 }
 
 
