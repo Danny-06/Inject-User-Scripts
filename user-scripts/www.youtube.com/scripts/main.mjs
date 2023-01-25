@@ -149,7 +149,7 @@ async function handleSecondaryInnerWatch() {
       const selectedItem = playlistItemsContainer.querySelector(':scope > [selected]')
 
       setTimeout(() => {
-        playlistItemsContainer.scrollTop = selectedItem.offsetTop - selectedItem.offsetHeight - header.offsetHeight - 50
+        playlistItemsContainer.scrollTop = selectedItem.offsetTop - selectedItem.offsetHeight - 150
       })
     })
 

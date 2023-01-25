@@ -43,6 +43,11 @@ html[data-pathname="/watch"] #secondary {
   min-height: 0;
 }
 
+ytd-playlist-panel-renderer {
+  /* Make scroll container a positioned element to make child property `offsetTop` work as expected */
+  position: relative !important;
+}
+
 #secondary-inner #related #items,
 #secondary-inner #related #items > ytd-item-section-renderer {
   overflow-y: auto;
