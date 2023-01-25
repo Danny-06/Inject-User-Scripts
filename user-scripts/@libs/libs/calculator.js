@@ -145,7 +145,7 @@ export default class Calculator {
 
   /**
    * 
-   * @param  {...string} nums 
+   * @param {...string} nums 
    */
   multiplyStrings(...nums) {
     let accumulator = '1'
