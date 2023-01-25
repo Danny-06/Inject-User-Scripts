@@ -318,21 +318,20 @@ async function handlePlaylistAutoScroll() {
 
   const selectedItem = () => playlistItemsContainer.querySelector(':scope > [selected]')
 
-  playlistItemsContainer.scrollTop = selectedItem.offsetTop - selectedItem.offsetHeight - header.offsetHeight - 50
+  const scrollToSelectedItem = () => {
+    playlistItemsContainer.scrollTop = selectedItem().offsetTop - selectedItem().offsetHeight - 150
+  }
+
+  scrollToSelectedItem()
 
   window.addEventListener('resize', async event => {
     await delay(500)
-    playlistItemsContainer.scrollTop = selectedItem().offsetTop - selectedItem().offsetHeight - header.offsetHeight - 50
+    scrollToSelectedItem()
   })
 
-  window.addEventListener('yt-navigate-start', async event => {
+  window.addEventListener('youtube-navigate', async event => {
     await delay(500)
-    playlistItemsContainer.scrollTop = selectedItem().offsetTop - selectedItem().offsetHeight - header.offsetHeight - 50
-  })
-
-  window.addEventListener('yt-navigate-finish', async event => {
-    await delay(500)
-    playlistItemsContainer.scrollTop = selectedItem().offsetTop - selectedItem().offsetHeight - header.offsetHeight - 50
+    scrollToSelectedItem()
   })
 }
 
