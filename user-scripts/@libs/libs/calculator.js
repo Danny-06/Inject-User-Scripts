@@ -4,6 +4,7 @@ export default class Calculator {
   /**
    *
    * @param {string} expression
+   * @returns {string}
    */
   parse(expression) {
     this.parseExpression(expression)
@@ -22,6 +23,7 @@ export default class Calculator {
   /**
    *
    * @param {string} char
+   * @returns {string}
    */
   #parseChar(char) {
     switch (char) {
@@ -37,6 +39,7 @@ export default class Calculator {
    *
    * @param {string} num1
    * @param {string} num2
+   * @returns {string}
    */
   sumPairOfStrings(num1, num2) {
     const strNum1 = new NumberString(num1)
@@ -104,6 +107,7 @@ export default class Calculator {
   /**
    * 
    * @param  {...string} nums 
+   * @returns {string}
    */
   sumStrings(...nums) {
     let accumulator = '0'
@@ -119,6 +123,7 @@ export default class Calculator {
    * 
    * @param {string} num1 
    * @param {string} num2 
+   * @returns {string}
    */
   multiplyPairOfStrings(num1, num2) {
     const numberString1 = new NumberString(num1)
@@ -146,6 +151,7 @@ export default class Calculator {
   /**
    * 
    * @param {...string} nums 
+   * @returns {string}
    */
   multiplyStrings(...nums) {
     let accumulator = '1'
