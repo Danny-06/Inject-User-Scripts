@@ -106,7 +106,7 @@ export default class Calculator {
 
   /**
    * 
-   * @param  {...string} nums 
+   * @param {...string} nums 
    * @returns {string}
    */
   sumStrings(...nums) {

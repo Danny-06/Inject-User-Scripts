@@ -8,3 +8,10 @@ ytd-watch-metadata #description tp-yt-paper-button#expand {
 ytd-engagement-panel-section-list-renderer {
   background-color: #0f0f0f;
 }
+
+
+/* Show full title of description panel */
+#shorts-title.ytd-video-description-header-renderer {
+  display: block !important;
+  max-height: none !important;
+}
