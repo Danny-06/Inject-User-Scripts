@@ -15,9 +15,7 @@ export default class Calculator {
    * @param {string} expression
    */
   #parseExpression(expression) {
-    for (let i = 0; i < expression.length; i++) {
-
-    }
+    
   }
 
   /**
