@@ -1,5 +1,9 @@
-html, body {
+html {
   overflow: hidden !important;
+}
+
+body {
+  overflow: auto !important;
 }
 
 ytd-page-manager {
