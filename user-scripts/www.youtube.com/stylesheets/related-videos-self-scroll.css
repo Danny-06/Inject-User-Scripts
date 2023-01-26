@@ -1,14 +1,48 @@
 html {
-  overflow: hidden !important;
-}
-
-body {
   overflow: auto !important;
 }
 
-ytd-page-manager {
+body:not(:root):not(:root) {
   overflow: visible !important;
 }
+
+/* Fix issue with ytd-app in fullscreen which affect the video inside the player */
+ytd-app {
+  position: static !important;
+  /* right: 0 !important; */
+}
+
+/* Navbar */
+ytd-app #masthead-container {
+  position: sticky !important;
+  top: 0 !important;
+}
+
+ytd-page-manager {
+  margin-top: 0 !important;
+
+  overflow: visible !important;
+}
+
+/* Allow chip tags to use position sticky */
+ytd-browse {
+  overflow: visible !important;
+}
+
+ytd-rich-grid-renderer > #header {
+  position: sticky;
+  top: 56px;
+  z-index: 999;
+  
+  overflow: visible;
+}
+
+ytd-rich-grid-renderer > #header > #chips-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 
 html[data-pathname="/watch"] #secondary {
   box-sizing: border-box;
@@ -81,12 +115,6 @@ ytd-live-chat-frame {
 ytd-watch-flexy #columns > #primary ytd-comments,
 ytd-watch-flexy #columns > #primary ytd-watch-metadata #bottom-row {
   display: none;
-}
-
-
-/* Fix issue with ytd-app in fullscreen which affect the video inside the player */
-ytd-app {
-  right: 0 !important;
 }
 
 
