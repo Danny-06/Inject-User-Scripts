@@ -1,4 +1,47 @@
 
+/**
+ * @template T
+ * @param {T[]} array 
+ * @param {number} index1 
+ * @param {number} index2 
+ */
+export function swapPositions(array, index1, index2) {
+  const arrayIndex1Value = array[index1]
+
+  array[index1] = array[index2]
+  array[index2] = arrayIndex1Value
+}
+
+/**
+ * @template T
+ * @param {T[]} array 
+ * @param {number} index1 
+ * @param {number} index2 
+ */
+export function swapPositionsWithIndexCheck(array, index1, index2) {
+  if (index1 < 0) {
+    throw new RangeError(`index1 (${index1}) is out of bounds. array.length: ${array.length}`)
+  }
+  else
+  if (index1 >= array.length) {
+    throw new RangeError(`index1 (${index1}) is out of bounds. array.length: ${array.length}`)
+  }
+
+  if (index2 < 0) {
+    throw new RangeError(`index1 (${index2}) is out of bounds. array.length: ${array.length}`)
+  }
+  else
+  if (index2 >= array.length) {
+    throw new RangeError(`index2 (${index2}) is out of bounds. array.length: ${array.length}`)
+  }
+
+  const arrayIndex1Value = array[index1]
+
+  array[index1] = array[index2]
+  array[index2] = arrayIndex1Value
+}
+
+
 export class ListManager {
 
   constructor(arrays) {
@@ -27,8 +70,8 @@ export class ListManager {
   getValuesFromIndex(index = 0) {
     const values = new Array(this.arrays.length)
 
-    for (let j = 0; j < values.length; j++) {
-      values[j] = this[j][index]
+    for (let i = 0; j < values.length; i++) {
+      values[i] = this[i][index]
     }
 
     return values
