@@ -1,3 +1,7 @@
+html, body {
+  overflow: hidden !important;
+}
+
 ytd-page-manager {
   overflow: visible !important;
 }
