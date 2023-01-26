@@ -2,6 +2,10 @@ html {
   overflow: auto !important;
 }
 
+html:fullscreen {
+  overflow: hidden !important;
+}
+
 body:not(:root):not(:root) {
   overflow: visible !important;
 }
@@ -12,14 +16,19 @@ ytd-app {
   /* right: 0 !important; */
 }
 
-/* Navbar */
-ytd-app #masthead-container {
-  position: sticky !important;
-  top: 0 !important;
+/* Fix collapsing margin issue */
+ytd-app > #content {
+  display: flow-root !important;
 }
 
+/* Navbar */
+/* ytd-app #masthead-container {
+  position: sticky !important;
+  top: 0 !important;
+} */
+
 ytd-page-manager {
-  margin-top: 0 !important;
+  /* margin-top: 0 !important; */
 
   overflow: visible !important;
 }
