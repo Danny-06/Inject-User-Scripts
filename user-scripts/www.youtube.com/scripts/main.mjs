@@ -236,6 +236,25 @@ async function handleSecondaryInnerWatch() {
         ),
         _.slot({attributes: {name: 'active'}}),
       )
+
+      // Show premiere date in description panel
+      panels[run](panels => {
+        const description = panels.description
+
+        const factoidRendererChild = description.querySelector('#factoids > :nth-child(3) > :first-child')
+
+        const data = factoidRendererChild.ariaLabel
+
+        const value = factoidRendererChild.querySelector(':scope > .factoid-value')
+        const label = factoidRendererChild.querySelector(':scope > .factoid-label')
+
+        ;[...factoidRendererChild.children].forEach(e => e.removeAttribute('is-empty'))
+
+        if (data.includes(': ')) {
+          value.innerHTML = data.split(': ')[1]
+          label.innerHTML = data.split(': ')[0]
+        }
+      })
     }, {runImmediately: true})
 
     function setActiveSlot(event) {
@@ -264,27 +283,6 @@ async function handleSecondaryInnerWatch() {
 
     panelButtons.forEach(panel => {
       panel.addEventListener('click', setActiveSlot)
-    })
-
-    // Show premiere date in description panel
-    panels[run](async panels => {
-      await waitForSelector('ytd-watch-flexy #secondary #secondary-inner > ytd-engagement-panel-section-list-renderer')
-
-      const description = panels.description
-
-      const factoidRendererChild = description.querySelector('#factoids > :nth-child(3) > :first-child')
-
-      const data = factoidRendererChild.ariaLabel
-
-      const value = factoidRendererChild.querySelector(':scope > .factoid-value')
-      const label = factoidRendererChild.querySelector(':scope > .factoid-label')
-
-      ;[...factoidRendererChild.children].forEach(e => e.removeAttribute('is-empty'))
-
-      if (data.includes(': ')) {
-        value.innerHTML = data.split(': ')[1]
-        label.innerHTML = data.split(': ')[0]
-      }
     })
   }
 }
