@@ -42,7 +42,7 @@ window.addEventListener('youtube-navigate', async event => {
 
   handleYTShorts()
 
-  handleAudio()
+  // handleAudio()
 
   setScrollPadding()
 

@@ -101,10 +101,11 @@ window.addEventListener('mouseover', async event => {
    */
   const img = event.target
 
-  img.closest('#avatar-link')?.removeAttribute('title')
+  img.closest('#avatar-link, a#endpoint')?.removeAttribute('title')
 
   const avatarThumbnailSelector =
   `
+  ytd-guide-entry-renderer yt-img-shadow > img,
   yt-img-shadow#avatar                   > img,
   yt-img-shadow#author-thumbnail         > img,
   yt-img-shadow#author-photo             > img,
