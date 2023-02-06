@@ -259,15 +259,9 @@ async function handleSecondaryInnerWatch() {
 
     function setActiveSlot(event) {
       ;[...panels].forEach(panel => {
+        // Hide all of the panels
         panel.removeAttribute('slot')
-
-        if (panel.localName === 'ytd-engagement-panel-section-list-renderer') {
-          // Show all of the panels
-          panel.setAttribute('visibility', 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED')
-
-          // Reset the `order` value for panels that has one explicitly
-          panel.style.order = '0'
-        }
+        panel.setAttribute('visibility', 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN')
       })
 
       panelButtons.forEach(button => {
@@ -283,6 +277,8 @@ async function handleSecondaryInnerWatch() {
       button?.classList?.add('selected')
 
       panels[button.dataset.id].slot = 'active'
+      panels[button.dataset.id].setAttribute('visibility', 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED')
+      panels[button.dataset.id].style.order = '0'
     }
 
     // Handle buttons click
