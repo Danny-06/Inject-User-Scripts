@@ -72,6 +72,10 @@ tp-yt-app-drawer.ytd-app:not([persistent]).ytd-app {
   z-index: 99999999;
 }
 
+tp-yt-app-drawer.ytd-app:not([persistent]).ytd-app > #scrim {
+  z-index: auto !important;
+}
+
 .html5-video-container {
   display: flex;
 }
