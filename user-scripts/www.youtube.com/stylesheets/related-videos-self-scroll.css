@@ -58,6 +58,7 @@ html[data-pathname="/watch"] #secondary {
 
   position: sticky !important;
   top: 56px;
+  z-index: 9999;
 
   width: 450px !important;
   height: 92vh;
