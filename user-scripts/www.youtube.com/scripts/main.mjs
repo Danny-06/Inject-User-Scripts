@@ -106,9 +106,9 @@ async function handleSecondaryInnerWatch() {
       return secondaryInner.querySelector(':scope > [target-id="engagement-panel-searchable-transcript"]')
     },
 
-    // get 'create-clip'(){
-    //   return secondaryInner.querySelector(':scope > [target-id="engagement-panel-clip-create"]')
-    // },
+    get 'create-clip'(){
+      return secondaryInner.querySelector(':scope > [target-id="engagement-panel-clip-create"]')
+    },
 
     *[Symbol.iterator]() {
       yield* Object.values(this).filter(element => element != null)
@@ -274,15 +274,44 @@ async function handleSecondaryInnerWatch() {
         button.classList.remove('selected')
       })
 
+      if (event == null) {
+        return
+      }
+
       const button = event.target
 
-      button.classList.add('selected')
+      button?.classList?.add('selected')
 
       panels[button.dataset.id].slot = 'active'
     }
 
+    // Handle buttons click
+
     panelButtons.forEach(panel => {
       panel.addEventListener('click', setActiveSlot)
+    })
+
+    // Handle "create clip" button
+    window.addEventListener('click', event => {
+      const createClipBtn = (() => {
+        const target = event.target.closest('ytd-button-renderer, ytd-menu-service-item-renderer')
+
+        if (target?.__data?.data?.icon?.iconType !== 'CONTENT_CUT') {
+          return null
+        }
+
+        return target
+      })()
+
+      if (createClipBtn == null) {
+        return
+      }
+
+      setActiveSlot({target:
+        {
+          dataset: {id: 'create-clip'}
+        }
+      })
     })
   }
 }
