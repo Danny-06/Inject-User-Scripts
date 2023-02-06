@@ -66,6 +66,12 @@ html[data-pathname="/watch"] #secondary {
   padding-left: 0px;
 }
 
+/* Fix z-index issue with lateral panel */
+
+tp-yt-app-drawer.ytd-app:not([persistent]).ytd-app {
+  z-index: 99999999;
+}
+
 .html5-video-container {
   display: flex;
 }
