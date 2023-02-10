@@ -76,6 +76,12 @@ tp-yt-app-drawer.ytd-app:not([persistent]).ytd-app > #scrim {
   z-index: auto !important;
 }
 
+/* Fiz z-index issue created when increasing the z-index of other elements */
+ytd-playlist-panel-video-renderer,
+.ytp-popup.ytp-contextmenu {
+  z-index: 99999 !important;
+}
+
 .html5-video-container {
   display: flex;
 }
