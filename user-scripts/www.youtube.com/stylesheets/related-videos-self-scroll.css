@@ -158,3 +158,29 @@ html[data-pathname="/watch"] #primary {
 html[data-pathname="/watch"] #secondary {
   padding-left: 24px;
 }
+
+
+
+
+
+
+
+/* Show comment link */
+
+ytd-watch-flexy #columns > #primary ytd-comments {
+  display: block !important;
+}
+
+#primary-inner ytd-comments ytd-item-section-renderer > #header {
+  display: none !important;
+}
+
+#primary-inner ytd-comments ytd-item-section-renderer ytd-comment-thread-renderer,
+#primary-inner ytd-comments ytd-item-section-renderer ytd-continuation-item-renderer {
+  display: none;
+}
+
+
+#primary-inner ytd-comments ytd-item-section-renderer ytd-comment-thread-renderer:has(> ytd-comment-renderer > #linked-comment-badge:not(:empty)) {
+  display: block;
+}

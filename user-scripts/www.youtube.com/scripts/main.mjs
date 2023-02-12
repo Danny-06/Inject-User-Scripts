@@ -52,6 +52,8 @@ window.addEventListener('youtube-navigate', async event => {
 
   initCustomContextMenu()
 
+  // sortNonPanelCommentsByDate()
+
   // if (location.pathname === '/') {
   //   // Make a recursion for the youtube main page to detect the preview video
   //   // and change its resolution
@@ -374,6 +376,11 @@ function refreshComments(event) {
 
   // Selecciona la opción del menu desplegable que esté elegida (Mejores comenetario, Más recientes primero)
   const orderButtonSelected = document.querySelector('tp-yt-paper-listbox#menu .iron-selected')
+  orderButtonSelected.click();
+}
+
+async function sortNonPanelCommentsByDate() {
+  const orderButtonSelected = await waitForSelector('#primary-inner tp-yt-paper-listbox#menu .yt-dropdown-menu:nth-child(2)')
   orderButtonSelected.click();
 }
 
