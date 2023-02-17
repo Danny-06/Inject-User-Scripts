@@ -1,0 +1,4 @@
+/* Increase z-index to avoid overlap issues */
+.gtx-bubble {
+  z-index: 999999 !important;
+}

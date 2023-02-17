@@ -6,7 +6,8 @@ injectModulesWithDomainMatch({
   modules: [
     '_injection-utils',
     'handle-resources-view',
-    'handle-shortener-url-add-services'
+    'handle-shortener-url-add-services',
+    'google-translate'
   ]
 })
 
