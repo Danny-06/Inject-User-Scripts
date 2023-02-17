@@ -66,6 +66,10 @@ html[data-pathname="/watch"] #secondary {
   padding-left: 0px;
 }
 
+#masthead-container.ytd-app {
+  z-index: 99999;
+}
+
 /* Fix z-index issue with lateral panel */
 
 tp-yt-app-drawer.ytd-app:not([persistent]).ytd-app {
