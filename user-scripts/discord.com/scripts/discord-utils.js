@@ -126,7 +126,7 @@ export class ContextMenuManager {
     const item = createElement('div', {
       id,
 
-      classes: ['item-1OdjEX', 'labelContainer-2vJzYL', 'colorDefault-CDqZdO'],
+      classes: ['item-5ApiZt', 'labelContainer-35-WEd', 'colorDefault-2_rLdz'],
 
       properties: {
         role: 'menuitem',
@@ -134,7 +134,7 @@ export class ContextMenuManager {
         innerHTML: // html
         `
         <div class="label-2gNW3x">${name}</div>
-        <div class="iconContainer-1-SsTR">
+        <div class="iconContainer-Ksy8Oj">
             ${icon}
         </div>
         `
@@ -152,14 +152,16 @@ export class ContextMenuManager {
     })
 
     item.addEventListener('mouseenter', event => {
-      this.menuElement
-      .querySelector('.focused-3qFvc8')
-      ?.classList.remove('focused-3qFvc8')
+      const focusedClass = 'focused-3LIdPu'
 
-      item.classList.add('focused-3qFvc8')
+      this.menuElement
+      .querySelector(`.${focusedClass}`)
+      ?.classList.remove(focusedClass)
+
+      item.classList.add(focusedClass)
     })
 
-    item.addEventListener('mouseleave', event => item.classList.remove('focused-3qFvc8'))
+    item.addEventListener('mouseleave', event => item.classList.remove(focusedClass))
 
     this.itemsMap.set(item, options)
 
