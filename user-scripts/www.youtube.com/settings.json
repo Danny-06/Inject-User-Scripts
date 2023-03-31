@@ -7,7 +7,6 @@
     "scripts/translate-search.mjs",
     "scripts/video-volume-wheel.mjs",
     "scripts/enlarge-avatar-thumbnails.mjs",
-    "scripts/display-channel-video-count.mjs",
     "scripts/clone-yt-playlist.mjs",
     "scripts/save-message-comment-onreload.mjs"
   ],

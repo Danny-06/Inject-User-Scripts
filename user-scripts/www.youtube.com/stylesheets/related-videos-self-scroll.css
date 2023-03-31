@@ -142,8 +142,9 @@ ytd-live-chat-frame {
   making the video player always visible
 */
 
-ytd-watch-flexy #columns > #primary ytd-comments,
-ytd-watch-flexy #columns > #primary ytd-watch-metadata #bottom-row {
+ytd-watch-flexy #columns > #primary ytd-comments
+/* ,ytd-watch-flexy #columns > #primary ytd-watch-metadata #bottom-row */
+{
   display: none;
 }
 
@@ -180,11 +181,12 @@ ytd-watch-flexy #columns > #primary ytd-comments {
 }
 
 #primary-inner ytd-comments ytd-item-section-renderer ytd-comment-thread-renderer,
-#primary-inner ytd-comments ytd-item-section-renderer ytd-continuation-item-renderer {
+#primary-inner ytd-comments ytd-item-section-renderer ytd-continuation-item-renderer:not(:only-child) {
   display: none;
 }
 
 
-#primary-inner ytd-comments ytd-item-section-renderer ytd-comment-thread-renderer:has(> ytd-comment-renderer > #linked-comment-badge:not(:empty)) {
+#primary-inner ytd-comments ytd-item-section-renderer ytd-comment-thread-renderer:has(> ytd-comment-renderer > #linked-comment-badge:not(:empty)),
+#primary-inner ytd-comments ytd-item-section-renderer ytd-comment-thread-renderer:has(> ytd-comment-renderer > #body > #main > #header > #pinned-comment-badge:not(:empty)) {
   display: block;
 }
