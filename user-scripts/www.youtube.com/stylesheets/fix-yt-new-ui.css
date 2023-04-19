@@ -15,3 +15,9 @@ ytd-engagement-panel-section-list-renderer {
   display: block !important;
   max-height: none !important;
 }
+
+
+/* Fix display of some YT comments in the comments panel not showing "more" */
+ytd-expander#expander > #content:has(+ * + #more[hidden]) {
+  display: block !important;
+}
