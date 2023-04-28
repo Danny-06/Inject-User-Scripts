@@ -21,3 +21,19 @@ ytd-engagement-panel-section-list-renderer {
 ytd-expander#expander > #content:has(+ * + #more[hidden]) {
   display: block !important;
 }
+
+
+
+/* Fix some weird css added by YouTube that breaks comments panel */
+
+ytd-item-section-renderer[static-comments-header] {
+  flex-direction: column !important;
+}
+
+ytd-item-section-renderer[static-comments-header] #header.ytd-item-section-renderer {
+  background-color: transparent !important;
+}
+
+ytd-item-section-renderer[static-comments-header] #contents.ytd-item-section-renderer {
+  overscroll-behavior: auto !important;
+}
