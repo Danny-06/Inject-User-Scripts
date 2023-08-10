@@ -37,3 +37,8 @@ ytd-item-section-renderer[static-comments-header] #header.ytd-item-section-rende
 ytd-item-section-renderer[static-comments-header] #contents.ytd-item-section-renderer {
   overscroll-behavior: auto !important;
 }
+
+/* Add scrollbar back to comments panel */
+ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-comments-section"] ytd-section-list-renderer[engagement-panel] {
+  overflow: auto;
+}
