@@ -46,7 +46,7 @@ export default class Matrix2D {
 
 		const transformedArray2D = this.createArray2D(sizeY, sizeX)
 
-		for (let y = 0; t < sizeY; y++) {
+		for (let y = 0; y < sizeY; y++) {
 			for (let x = 0; x < sizeX; x++) {
 				transformedArray2D[x][y] = array2D[y][x] ?? null
 			}
@@ -209,9 +209,9 @@ export default class Matrix2D {
 		}
 	}
 
-	swapYRows(positionY, columnIndexY) {
+	swapYRows(positionY, rowIndexY) {
 		for (let x = 0; x < this.sizeX; x++) {
-			this.swapItems(x, positionY, x, columnIndexY)
+			this.swapItems(x, positionY, x, rowIndexY)
 		}
 	}
 

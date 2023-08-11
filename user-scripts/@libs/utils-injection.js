@@ -19,6 +19,7 @@ import * as _Dialogs from './libs/dialogs/dialogs.js'
 import * as _GeneratorUtils from './libs/generator-utils.js'
 import Calculator from './libs/calculator.js'
 import EventEmitter from './libs/event-emitter.js'
+import Matrix2D from './libs/matrix2d.mjs'
 
 
 const CanvasUtils = Object.freeze({..._CanvasUtils})
@@ -33,9 +34,8 @@ export {
   ArrayN, ZipManager, LocalDB,
   classMaker, CanvasUtils, Timeout, Interval,
   Binary, ChromeExtension, ListManager, ProxyUtils, DOMUtils, Dialogs, GeneratorUtils, Calculator,
-  EventEmitter
+  EventEmitter, Matrix2D
 }
-
 
 
 const {extensionId} = ChromeExtension
