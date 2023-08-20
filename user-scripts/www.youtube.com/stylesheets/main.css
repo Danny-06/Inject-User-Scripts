@@ -27,6 +27,11 @@ ytd-rich-item-renderer {
   user-select: none;
 }
 
+/* Fix height issue with player */
+#player-full-bleed-container > #player-container {
+  height: 100%;
+}
+
 
 /* Mostrar la parte de arriba de los videos al poner el ratón encima */
 .ytp-chrome-top > *,
