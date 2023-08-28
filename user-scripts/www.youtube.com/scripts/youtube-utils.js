@@ -609,6 +609,29 @@ export function createPlaylist(options) {
   })
 }
 
+/**
+ * 
+ * @param {{playlistId: string}} options 
+ * @returns {{
+ *  title: string,
+ *  description: string,
+ *  playlistId: string,
+ *  playlistURL: string,
+ *  videos: {
+ *    title: string,
+ *    url: string,
+ *    id: string,
+ *    length: string,
+ *    thumbnails: string[] | null
+ *  }[],
+ *  owner: {
+ *    name: string,
+ *    id: string
+ *  },
+ *  lastUpdated: string,
+ *  views: string
+ * }}
+ */
 export async function getPlaylistMetadata(options) {
   const {playlistId} = options
 
