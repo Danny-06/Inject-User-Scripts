@@ -1,58 +1,88 @@
-import { getAllElementsMapWithBracketsId, importTemplateAndCSS } from '../../dom-utils.js'
+import { useRef } from '../../../preact/hooks.mjs'
+import html from '../../../preact/htm/html.mjs'
+import { useSignal } from '../../../preact/signals.mjs'
+import DivShadow from '../../../preact/util-components/shadow-dom.js'
+import appendComponent from '../../../preact/util-functions/append-component.js'
+import useEffectOnce from '../../../preact/util-hooks/use-effect-once.js'
+import stylesheet from './confirm-dialog.css' assert {type: 'css'}
 
-let isOpened = false
 
-let dialogStoreReference
+function ConfirmDialog(props) {
+  const { message, onAccept, onCancel, onClose, ...attributes } = props
 
-const resetOpenState = () => isOpened = false
+  const isClosingSignal = useSignal(false)
+  const isClosing = isClosingSignal.value
 
-const [dialogTemplate, stylesheet] = await importTemplateAndCSS({
-  template: './confirm-dialog.html',
-  stylesheet: './confirm-dialog.css'
-}, import.meta.url)
+  const dialogOverlayRef = useRef(null)
+
+  useEffectOnce(() => {
+    const dialogOverlay = dialogOverlayRef.current
+
+    dialogOverlay.addEventListener('animationend', () => {
+      setTimeout(() => {
+        dialogOverlay.addEventListener('animationend', event => onClose(), {once: true})
+      })
+    }, {once: true})
+  })
+
+  return html`
+    <${DivShadow} ...${attributes} stylesheets=${[stylesheet]}>
+        <div ref=${dialogOverlayRef} class=${`dialog-menu-overlay ${isClosing ? 'closing' : ''}`}>
+            <div class=${`dialog-menu ${isClosing ? 'closing' : ''}`}>
+            <div class="message">${message}</div> 
+                <div class="buttons">
+                    <button class="accept"
+                      onClick=${() => {
+                        isClosingSignal.value = true
+
+                        onAccept()
+                      }}
+                    >Accept</button>
+                    <button class="cancel"
+                      onClick=${() => {
+                        isClosingSignal.value = true
+
+                        onCancel()
+                      }}
+                    >Cancel</button>
+                </div>
+            </div>
+        </div>
+    <//>
+  `
+}
+
+let isOpen = false
+
+let dialogWrapper = null
 
 export function showConfirmDialog(message = '(No message provided)') {
   // If the dialog is "opened" but the element is not in the DOM or
   // is not in the active document then reset the "opened" state
-  if (!dialogStoreReference || isOpened && (!dialogStoreReference.isConnected || dialogStoreReference.ownerDocument !== document)) {
-    resetOpenState()
+  if (!dialogWrapper || isOpen && (!dialogWrapper.isConnected || dialogWrapper.ownerDocument !== document)) {
+    isOpen = false
   }
 
-  if (isOpened) {
+  if (isOpen) {
     return Promise.reject(new Error(`The dialog is still opened`))
   }
 
-  isOpened = true
+  isOpen = true
 
-  const {firstElementChild: dialog} = dialogTemplate.clone(document)
+  return new Promise(resolve => {
+    dialogWrapper = appendComponent(
+      html`
+      <${ConfirmDialog} message=${message}
+        onAccept=${() => resolve(true)}
+        onCancel=${() => resolve(false)}
 
-  dialog.shadowRoot.adoptedStyleSheets = [stylesheet]
-
-  const mapId = getAllElementsMapWithBracketsId(dialog, {shadowRoot: true})
-
-
-  const {dialogMenu, message: msgDialog, acceptBtn, cancelBtn} = mapId
-
-  dialogStoreReference = dialogMenu
-
-
-  msgDialog.innerHTML = message
-
-  document.body.append(dialog)
-
-  const promiseResult = new Promise(resolve => {
-    acceptBtn.addEventListener('click', event => resolve(true))
-  
-    cancelBtn.addEventListener('click', event => resolve(false))
-  })
-
-  return promiseResult.finally(() => {
-    dialog.classList.add('closing')
-    dialogMenu.classList.add('closing')
-
-    dialog.addEventListener('animationend', event => {
-      resetOpenState()
-      dialog.remove()
-    })
+        onClose=${() => {
+          isOpen = false
+          dialogWrapper.remove()
+        }}
+      />
+      `,
+      document.body
+    )
   })
 }

@@ -1,4 +1,4 @@
-:host {
+.dialog-menu-overlay {
   all: revert;
 }
 
@@ -12,7 +12,7 @@ a:link {
   color: #06f;
 }
 
-:host {
+.dialog-menu-overlay {
   font-size: initial;
 
   position: fixed;
@@ -102,11 +102,11 @@ button:active {
   background-color: #eb5c5c;
 }
 
-:host {
+.dialog-menu-overlay {
   animation: overlay-display 0.3s ease-out 0s 1 normal forwards;
 }
 
-:host(.closing) {
+.dialog-menu-overlay.closing {
   animation: overlay-closing 0.3s ease-in 0s 1 normal forwards;
 }
 
