@@ -1,4 +1,9 @@
-import _, { buildElement as $ } from "../../@libs/libs/functional-dom/index.js";
+import { useRef } from '../../@libs/preact/hooks.mjs';
+import html from '../../@libs/preact/htm/html.mjs';
+import { useSignal } from '../../@libs/preact/signals.mjs';
+import DivShadow from '../../@libs/preact/util-components/shadow-dom.js';
+import appendComponent from '../../@libs/preact/util-functions/append-component.js';
+import useEffectOnce from '../../@libs/preact/util-hooks/use-effect-once.js';
 import { waitForSelector } from "../../@libs/utils-injection.js"
 
 const volumeSetter = Object.getOwnPropertyDescriptors(HTMLMediaElement.prototype).volume.set
@@ -14,17 +19,8 @@ let currentVideo
 const videoVolumeStep = 0.05
 
 
-function VolumeContainer() {
-  const volumeContainer = _.div()
-  const volumeCount = _.div()
-  const gainCount = _.div()
-
-  const shadowChildren = [
-    $(volumeContainer, {class: 'volume-container'},
-      $(volumeCount, {class: 'volume-count'}),
-      $(gainCount, {class: 'gain-count'}),
-    ),
-  ]
+function VolumeContainer(props) {
+  const { video } = props
 
   const css = // css
   `
@@ -92,21 +88,104 @@ function VolumeContainer() {
   const stylesheet = new CSSStyleSheet()
   stylesheet.replace(css)
 
-  const volumeContainerWrapper = _.$.div({class: 'volume-container-wrapper'},
-    {
-      children: shadowChildren,
-      adoptedStyleSheets: [stylesheet]
-    },
-  )
+  const containerRef = useRef(null)
 
-  return {
-    volumeContainerWrapper,
-    shadowChildren: {
-      volumeContainer,
-      volumeCount,
-      gainCount
+  const isVolumeChangingSignal = useSignal(false)
+  const isVolumeChanging = isVolumeChangingSignal.value
+
+  const volumeCountSignal = useSignal(null)
+  const volumeCount = volumeCountSignal.value
+
+  const gainCountSignal = useSignal()
+  const gainCount = gainCountSignal.value
+
+  useEffectOnce(() => {
+    let volumeCountTimeOut
+
+    const parent = containerRef.current.parentNode.host.parentElement
+
+    // Increase video volume with wheel
+    parent.addEventListener('wheel', event => {
+      event.preventDefault()
+
+      clearTimeout(volumeCountTimeOut)
+
+      isVolumeChangingSignal.value = true
+      volumeCountTimeOut = setTimeout(() => isVolumeChangingSignal.value = false, 500)
+
+      let volumeValue
+
+      if (event.deltaY < 0) {
+        if ((video.volume + videoVolumeStep) > 1) volumeValue = 1
+        else                                      volumeValue = (video.volume + videoVolumeStep).toFixed(2)
+      }
+      else
+      if (event.deltaY > 0) {
+        if ((video.volume - videoVolumeStep) < 0) volumeValue = 0
+        else                                      volumeValue = (video.volume - videoVolumeStep).toFixed(2)
+      }
+
+      volumeSetter.call(video, volumeValue)
+
+      const volumeValuePercent = Math.floor(volumeValue * 100)
+
+      volumeCountSignal.value = volumeValuePercent
+    })
+
+    // Increase video gain with Ctrl + Vertical Arrows
+
+    {
+      const audioCtx = new AudioContext();
+      const source = audioCtx.createMediaElementSource(video);
+      const gainNode = audioCtx.createGain();
+
+      source.connect(gainNode).connect(audioCtx.destination);
+
+      gainCountSignal.value = gainNode.gain.value
+
+
+      window.addEventListener('keydown', event => {
+        if (!event.ctrlKey) {
+          return
+        }
+
+        clearTimeout(volumeCountTimeOut)
+
+        isVolumeChangingSignal.value = true
+        volumeCountTimeOut = setTimeout(() => isVolumeChangingSignal.value = false, 500)
+
+        switch (event.key) {
+          case 'ArrowUp': {
+            gainNode.gain.value++
+            break
+          }
+          case 'ArrowDown': {
+            gainNode.gain.value--
+            break
+          }
+          case ' ': {
+            gainNode.gain.value = 1
+            break
+          }
+
+          default:
+            isVolumeChangingSignal.value = false
+        }
+
+        gainCountSignal.value = gainNode.gain.value
+      })
     }
-  }
+  })
+
+
+  return html`
+    <${DivShadow} class="volume-container-wrapper" stylesheets=${[stylesheet]}>
+        <div ref=${containerRef} class=${`volume-container ${isVolumeChanging ? 'full-opacity' : ''}`}>
+            <div class="volume-count">${volumeCount}</div>
+            <div class="gain-count">${gainCount}</div>
+        </div>
+    <//>
+  `
 }
 
 
@@ -120,96 +199,13 @@ window.addEventListener('youtube-navigate', async event => {
   const video = await waitForSelector('ytd-watch-flexy video')
 
   // Avoid executing the code more than once
-  if (currentVideo === video) return
+  if (currentVideo === video) {
+    return
+  }
+
   currentVideo = video
 
   const html5Container = await waitForSelector('ytd-watch-flexy .html5-video-container')
 
-  const {
-    volumeContainerWrapper,
-    shadowChildren: {volumeContainer, volumeCount, gainCount}
-  } = VolumeContainer()
-
-  volumeCount.innerHTML = Math.floor(video.volume.toFixed(2) * 100)
-
-  html5Container.append(volumeContainerWrapper)
-
-
-  let volumeCountTimeOut
-
-  // Increase video volume with wheel
-  html5Container.addEventListener('wheel', event => {
-    event.preventDefault()
-
-    clearTimeout(volumeCountTimeOut)
-
-    volumeContainer.classList.add('full-opacity')
-    volumeCountTimeOut = setTimeout(() => volumeContainer.classList.remove('full-opacity'), 500)
-
-    let volumeValue
-
-    if (event.deltaY < 0) {
-      if ((video.volume + videoVolumeStep) > 1) volumeValue = 1
-      else                                      volumeValue = (video.volume + videoVolumeStep).toFixed(2)
-    }
-    else
-    if (event.deltaY > 0) {
-      if ((video.volume - videoVolumeStep) < 0) volumeValue = 0
-      else                                      volumeValue = (video.volume - videoVolumeStep).toFixed(2)
-    }
-
-    volumeSetter.call(video, volumeValue)
-
-    const volumeValuePercent = Math.floor(volumeValue * 100)
-
-    volumeCount.innerHTML = volumeValuePercent
-  })
-
-  // Increase video gain with Ctrl + Vertical Arrows
-
-  ;(function() {
-    const audioCtx = new AudioContext();
-  
-    const source = audioCtx.createMediaElementSource(video);
-  
-    const gainNode = audioCtx.createGain();
-  
-    source.connect(gainNode).connect(audioCtx.destination);
-  
-    // const gainCount = volumeContainer.appendChild(createElement('div', {classes: ['gain-count'], properties:{innerHTML: gainNode.gain.value}}))
-
-    gainCount.innerHTML = gainNode.gain.value
-  
-  
-    window.addEventListener('keydown', event => {
-  
-      if (!event.ctrlKey) return
-  
-      clearTimeout(volumeCountTimeOut)
-  
-      volumeContainer.classList.add('full-opacity')
-      volumeCountTimeOut = setTimeout(() => volumeContainer.classList.remove('full-opacity'), 500)
-    
-      switch (event.key) {
-        case 'ArrowUp': {
-          gainNode.gain.value++
-          break
-        }
-        case 'ArrowDown': {
-          gainNode.gain.value--
-          break
-        }
-        case ' ': {
-          gainNode.gain.value = 1
-          break
-        }
-    
-        default:
-          volumeContainer.classList.remove('full-opacity')
-      }
-  
-      gainCount.innerHTML = gainNode.gain.value
-    
-    })
-  })()
+  appendComponent(html`<${VolumeContainer} video=${currentVideo} />`, html5Container)
 })
