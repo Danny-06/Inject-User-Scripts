@@ -3,6 +3,10 @@
     "include": ["chrome"]
   },
   "compilerOptions": {
-    "lib": ["ES2018", "DOM"]
-  }
+    "lib": ["ES2018", "DOM"],
+    "module": "ESNext",
+
+    "jsx": "react-jsx",
+		"jsxImportSource": "preact",
+  },
 }
