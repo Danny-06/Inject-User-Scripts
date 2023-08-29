@@ -40,6 +40,10 @@ export {
 
 const {extensionId} = ChromeExtension
 
+export function getZoom() {
+  const zoomScale = (visualViewport.width / screen.width) * (screen.width / (window.innerWidth * devicePixelRatio))
+  return 1 / zoomScale
+}
 
 export function getValueFromPropertyPath(obj, propertyPath) {
   if (propertyPath == null) return obj
