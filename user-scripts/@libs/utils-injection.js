@@ -14,7 +14,7 @@ import { ListManager } from './libs/array-utils.js'
 import * as _CanvasUtils from './libs/canvas-utils.js'
 import * as _ProxyUtils from './libs/proxy-libs.js'
 import * as _DOMUtils from './libs/dom-utils.js'
-import {waitForDocumentLoad} from './libs/dom-utils.js'
+import { waitForDocumentReady } from './libs/dom-utils.js'
 import * as _Dialogs from './libs/dialogs/dialogs.js'
 import * as _GeneratorUtils from './libs/generator-utils.js'
 import Calculator from './libs/calculator.js'
@@ -1209,7 +1209,7 @@ export function generateOverlayIframe() {
   const iframe = createElement('iframe', {properties: {srcdoc: '<!DOCTYPE html><style>html, body {width:100%; height: 100%; margin: 0; padding: 0;}</style>', style: 'border: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99999999999;'}})
   document.body.append(iframe)
 
-  waitForDocumentLoad(iframe, {skipReadyStateCheck: true}).then(iframe => {
+  waitForDocumentReady(iframe, {skipReadyStateCheck: true}).then(iframe => {
     // Append color-scheme meta tag to match the parent color-scheme and keep the iframe transparent
     const metaColorScheme = document.querySelector('meta[name="color-scheme"]')
 
@@ -1644,7 +1644,7 @@ export function generateFloatingIframe(addDefaults = true) {
     generateHTMLTemplate(iframe.contentDocument)
 
     // Wait for iframe load
-    waitForDocumentLoad(iframe)
+    waitForDocumentReady(iframe)
     .then(ifr => {
       const h1 = ifr.contentDocument?.querySelector('h1')
       if (h1) h1.innerHTML = 'Iframe Testing'

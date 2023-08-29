@@ -933,27 +933,28 @@ export function fillDeclarativeTemplate(template, obj) {
  * @param {{waitAgainForLoad: boolean}} options
  * @returns {Promise<Document|HTMLIFrameElement>}
  */
-export function waitForDocumentLoad(document, options = {}) {
+export function waitForDocumentReady(document, options = {}) {
+  const {waitAgainForLoad = null} = options
+
   return new Promise((resolve, reject) => {
-    const {waitAgainForLoad} = options
     let doc = document
 
     if (document instanceof HTMLIFrameElement) {
       if (document.contentDocument == null) {
         reject(new Error(`Cannot access 'iframe.contentDocument'`))
-        return
       }
 
       doc = document.contentDocument
-    } else if (!(document instanceof Document)) {
-       reject(new TypeError(`param must be either a Document or a HTMLIframeElement`))
-       return
+    }
+    else
+    if (!(document instanceof Document)) {
+       reject(new TypeError(`param must be either a Document or a HTMLIFrameElement`))
     }
 
     if (
-      doc.readyState === 'complete' &&
-      doc.location != null &&
-      doc.location.origin !== 'null'
+        doc.readyState === 'complete'
+        && doc.location != null
+        && doc.location.origin !== 'null'
     ) {
       resolve(document)
 
@@ -961,33 +962,31 @@ export function waitForDocumentLoad(document, options = {}) {
     }
 
     if (document instanceof HTMLIFrameElement) {
-      document.addEventListener('load',
-        event => {
-          if (typeof waitAgainForLoad === 'number') {
-            setTimeout(() => resolve(document), waitAgainForLoad);
+       document.addEventListener('load', event => {
+        if (typeof waitAgainForLoad === 'number') {
+          setTimeout(() => resolve(document), waitAgainForLoad)
+          return
+        }
 
-            document.addEventListener('load', event => resolve(document), {once: true},);
-            return;
-          }
+        resolve(document)
+      }, {once: true})
 
-          resolve(document);
-        },
-        {once: true},
-      );
-
-      return;
+     return
     }
 
     const listenerCallback = event => {
-      if (doc.readyState !== 'complete') return
+      if (doc.readyState !== 'complete') {
+        return
+      }
 
       doc.removeEventListener('readystatechange', listenerCallback)
 
       doc.addEventListener('DOMContentLoaded', event => {
         resolve(document)
-      }, {once: true})
+      })
     }
 
     doc.addEventListener('readystatechange', listenerCallback)
   })
 }
+
