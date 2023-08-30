@@ -1,5 +1,7 @@
 {
-  "scripts": [""],
+  "scripts": [
+    "main.mjs"
+  ],
   "stylesheets": [
     "main.css"
   ]

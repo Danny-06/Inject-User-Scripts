@@ -6,16 +6,16 @@ al aumentar el scroll horizontal */
 
 
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 5px;
+  width:  calc(10px * var(--visual-viewport-zoom-ratio));
+  height: calc(5px * var(--visual-viewport-zoom-ratio));
   background: #000;
-  border-radius: 10px;
+  border-radius: calc(10px * var(--visual-viewport-zoom-ratio));
 }
 
 ::-webkit-scrollbar-thumb {
   background: #69327b;
-  border-radius: 10px;
-  box-shadow: inset #a35fb9 0 0 5px 0;
+  border-radius: calc(10px * var(--visual-viewport-zoom-ratio));
+  box-shadow: inset #a35fb9 0 0 calc(5px * var(--visual-viewport-zoom-ratio)) 0;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -27,10 +27,10 @@ al aumentar el scroll horizontal */
 }
 
 ::-webkit-scrollbar-button:single-button {
-  width: 20px;
-  height: 20px;
+  width:  calc(20px * var(--visual-viewport-zoom-ratio));
+  height: calc(20px * var(--visual-viewport-zoom-ratio));
   background: #681e80;
-  box-shadow: inset #aa32d2 0 0 5px 0;
+  box-shadow: inset #aa32d2 0 0 calc(5px * var(--visual-viewport-zoom-ratio)) 0;
 }
 
 ::-webkit-scrollbar-button:hover {
@@ -41,19 +41,24 @@ al aumentar el scroll horizontal */
   background: #351041;
 }
 
+/* Hide extra buttons that appear when parent is a flex or grid container */
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
 
 ::-webkit-scrollbar-button:vertical:single-button:increment {
-  border-radius: 10px 10px 0 0;
+  border-radius: calc(10px * var(--visual-viewport-zoom-ratio)) calc(10px * var(--visual-viewport-zoom-ratio)) 0 0;
 }
 
 ::-webkit-scrollbar-button:vertical:single-button:decrement {
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 calc(10px * var(--visual-viewport-zoom-ratio)) calc(10px * var(--visual-viewport-zoom-ratio));
 }
 
 ::-webkit-scrollbar-button:horizontal:single-button:increment {
-  border-radius: 10px 0 0 10px;
+  border-radius: calc(10px * var(--visual-viewport-zoom-ratio)) 0 0 calc(10px * var(--visual-viewport-zoom-ratio));
 }
 
 ::-webkit-scrollbar-button:horizontal:single-button:decrement {
-  border-radius: 0 10px 10px 0;
+  border-radius: 0 calc(10px * var(--visual-viewport-zoom-ratio)) calc(10px * var(--visual-viewport-zoom-ratio)) 0;
 }
