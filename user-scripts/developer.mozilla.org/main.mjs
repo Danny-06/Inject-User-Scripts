@@ -9,7 +9,7 @@ async function changeLanguageMDN(language = 'en-US') {
 
   const list = await waitForSelector('ul.language-menu')
 
-  const langButton = list.querySelector(`button.submenu-item[name="${language}"]`)
+  const langButton = list.querySelector(`:scope > li > a.submenu-item[data-locale="${language}"]`)
 
   if (langButton) return langButton.click()
   buttonMenu.click()
