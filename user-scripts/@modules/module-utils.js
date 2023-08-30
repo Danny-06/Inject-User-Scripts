@@ -21,10 +21,10 @@ function templateRegex(strings, ...args) {
 
 
 /**
- * 
- * @param {string} value 
- * @param {string} match 
- * @returns 
+ *
+ * @param {string} value
+ * @param {string} match
+ * @returns
  */
 export function matchesDomain(value, match) {
   if (typeof value !== 'string') {
@@ -53,10 +53,6 @@ export function matchesDomain(value, match) {
   const regExpPort = /(:([0-9]{4}|\*))/
   const regExpPath = /((\/[a-zA-Z0-9*-]*)+)?$/
   const regExpURL = new RegExp(templateRegex`${regExpProtocol}://${regExpDomain}${regExpPort}?${regExpPath}`)
-
-  if (!regExpURL.test(match)) {
-    return false
-  }
 
   // Protocol
 
@@ -104,15 +100,50 @@ export function matchesDomain(value, match) {
 
   {
     const paths = match.match(regExpPath)?.[0] ?? null
-    matchParts.paths = paths !== '' && paths != null ? paths.split('/') : null
+    matchParts.paths = paths !== '' && paths != null ? paths.split('/') : '*'
   }
 
   {
     const paths = value.match(regExpPath)?.[0] ?? null
-    valueParts.paths = paths !== '' && paths != null ? paths.split('/') : null
+    valueParts.paths = paths !== '' && paths != null ? paths.split('/') : '*'
+  }
+
+  const regExpDomainOnly = /^[a-zA-Z0-9*]+(\.[a-zA-Z0-9*]+)+$/
+
+  if (regExpDomainOnly.test(match)) {
+    const domainValue = [...valueParts.domain]
+    let domainMatch = match.split('.')
+
+    if (domainMatch.length === domainValue.length + 1 && domainMatch[0] === '*') {
+      domainMatch = domainMatch.slice(1)
+    }
+    else
+    if (domainMatch.length !== domainValue.length) {
+      return false
+    }
+
+    for (let i = 0; i < domainMatch.length; i++) {
+      if (domainMatch[i] !== domainValue[i]) {
+        return false
+      }
+    }
+
+    return true
+  }
+
+  if (!regExpURL.test(match)) {
+    return false
   }
 
   for (const [key, matchValue] of Object.entries(matchParts)) {
+    if (valueParts[key] == null && matchParts[key] == null) {
+      continue
+    }
+
+    if (valueParts[key] != null && matchParts[key] == null) {
+      return false
+    }
+
     if (key !== 'paths' && key !== 'domain') {
       if (matchValue === '*') {
         continue
@@ -124,12 +155,8 @@ export function matchesDomain(value, match) {
     }
     else
     if (key === 'paths') {
-      if (valueParts.paths == null) {
-        if (matchParts.paths == null) {
-          continue
-        }
-
-        return false
+      if (matchValue === '*') {
+        continue
       }
 
       if (valueParts[key].length !== matchValue.length) {
@@ -150,6 +177,10 @@ export function matchesDomain(value, match) {
     }
     else
     if (key === 'domain') {
+      if (matchValue === '*') {
+        continue
+      }
+
       if (valueParts[key].length !== matchValue.length) {
         return false
       }
@@ -172,10 +203,15 @@ export function matchesDomain(value, match) {
 }
 
 /**
- * 
+ * `matchExpressions` can be a string like
+ * ```js
+ * 'www.example.com'
+ * '*.example.com'
+ * 'https://*.example.com'
+ * '*://*.example.com'
+ * '*://*.example.com/path/*'
+ * ```
  * @param {{matchExpressions: string | string[], modules: string[]}} options
- * @param {string|string[]} matchExpressions
- * @param {string[]} modules 
  * @returns
  */
 export function injectModulesWithDomainMatch(options) {
@@ -188,9 +224,9 @@ export function injectModulesWithDomainMatch(options) {
 
 
 /**
- * 
+ *
  * @param {string|string[]} matchExpressions
- * @param {{stylesheets: string[], scripts: string[]}} options 
+ * @param {{stylesheets: string[], scripts: string[]}} options
  * @returns
  */
 export function injectCodeWithDomainMatch(matchExpressions, options) {
@@ -200,7 +236,7 @@ export function injectCodeWithDomainMatch(matchExpressions, options) {
   }
   else
   if (typeof matchExpressions === 'string') {
-    if (!matchesDomain(location.hostname, matchExpressions)) return
+    if (!matchesDomain(location.href.replace(location.search, ''), matchExpressions)) return
   }
   else {
     throw new TypeError(`'matchExpressions' must be an array of strings or just a string`)
@@ -211,7 +247,7 @@ export function injectCodeWithDomainMatch(matchExpressions, options) {
 
 /**
  * @param {string} startPath
- * @param {{stylesheets: string[], scripts: string[]}} options 
+ * @param {{stylesheets: string[], scripts: string[]}} options
  * @returns
  */
 export function injectCode(startPath = null, options) {
@@ -231,8 +267,8 @@ export function injectCode(startPath = null, options) {
 }
 
 /**
- * 
- * @param {string[]} scriptsPath 
+ *
+ * @param {string[]} scriptsPath
  * @returns
  */
 export function injectScripts(scriptsPath) {
@@ -262,8 +298,8 @@ export function injectScripts(scriptsPath) {
 }
 
 /**
- * 
- * @param {string[]} scriptsPath 
+ *
+ * @param {string[]} scriptsPath
  * @returns
  */
  export function injectStyleSheets(styleSheetsPath) {
@@ -293,9 +329,9 @@ export function injectScripts(scriptsPath) {
 }
 
 /**
- * 
- * @param {string} initModuleScriptPath 
- * @returns 
+ *
+ * @param {string} initModuleScriptPath
+ * @returns
  */
 export function getModuleURL(initModuleScriptPath) {
   return initModuleScriptPath.slice(0, -'/init-module.mjs'.length).replace(getURL(''), '')
