@@ -13,7 +13,7 @@ injectModulesWithDomainMatch({
 
 
 injectModulesWithDomainMatch({
-  matchExpressions: ['twitter.com', 'mobile.twitter.com'],
+  matchExpressions: '*://*.twitter.com',
   modules: [
     'twitter-and-mobile'
   ]
@@ -22,9 +22,9 @@ injectModulesWithDomainMatch({
 
 injectModulesWithDomainMatch({
   matchExpressions: [
-    '*.google.*', 'netflix.com', 'clashroyale.com', 'reddit.com',
-    'stackoverflow.com', 'github.com', 'facebook.com', '*.instagram.com', 'w3schools.com',
-    'developer.mozilla.org', 'crunchyroll.com'
+    '*://*.google.*', '*://netflix.com', '*://clashroyale.com', '*://*.reddit.com',
+    '*://stackoverflow.com', '*://github.com', '*://*.facebook.com', '*://*.instagram.com', '*://*.w3schools.com',
+    '*://developer.mozilla.org', '*://*.crunchyroll.com'
   ],
   modules: [
     'general-custom-scrollbar'

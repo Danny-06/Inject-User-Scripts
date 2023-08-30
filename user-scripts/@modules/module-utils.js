@@ -1,6 +1,25 @@
 import { getURL } from '../@libs/chrome-extension-utils.js'
 import { createElement } from '../@libs/utils-injection.js'
 
+
+function regExpContentToString(regExp) {
+  return regExp.toString().slice(1, -1)
+}
+
+function templateRegex(strings, ...args) {
+  let regExpStringResult = ''
+
+  for (let i = 0; i < strings.length; i++) {
+    const string = strings[i]
+    const regExpString = regExpContentToString(args[i] ?? '')
+
+    regExpStringResult += `${string}${regExpString}`
+  }
+
+  return regExpStringResult
+}
+
+
 /**
  * 
  * @param {string} value 
@@ -16,134 +35,136 @@ export function matchesDomain(value, match) {
     throw new TypeError(`'match' must be a string`)
   }
 
-  if (match === '*') return true
-
-  let valueMatches = true
-
-  const valueParts = value.split('.')
-  const matchParts = match.split('.')
-
-  if (valueParts.length === 2) {
-    valueParts.unshift('')
-  }
-
-  if (matchParts.length === 2) {
-    matchParts.unshift('')
-  }
-
-  const [prefixP, domainP, sufixP] = valueParts
-  const [prefixM, domainM, sufixM] = matchParts
-
-  if (prefixM !== '*' && prefixP !== prefixM) {
-    valueMatches = false
-  }
-
-  if (domainP !== domainM) {
-    valueMatches = false
-  }
-
-  if (sufixM !== '*' && sufixP !== sufixM) {
-    valueMatches = false
-  }
-
-  return valueMatches
-}
-
-/**
- * 
- * @param {string} value 
- * @param {string} match 
- * @returns 
- */
-export function _matchesDomain(value, match) {
-  if (typeof value !== 'string') {
-    throw new TypeError(`'value' must be a string`)
-  }
-
-  if (typeof match !== 'string') {
-    throw new TypeError(`'match' must be a string`)
+  if (match === '*') {
+    return true
   }
 
   const matchParts = {
-    protocol: '*',
-    prefix:   '',
-    domain:   '',
-    sufix:    '',
-    port:     '',
+    protocol: null,
+    domain:   [],
+    port:     null,
     paths:    []
   }
 
-  const valueParts = {...matchParts}
+  const valueParts = structuredClone(matchParts)
+
+  const regExpProtocol = /^[a-zA-Z*-]+/
+  const regExpDomain = /[a-zA-Z0-9*]+(\.[a-zA-Z0-9*]+)+/
+  const regExpPort = /(:([0-9]{4}|\*))/
+  const regExpPath = /((\/[a-zA-Z0-9*-]*)+)?$/
+  const regExpURL = new RegExp(templateRegex`${regExpProtocol}://${regExpDomain}${regExpPort}?${regExpPath}`)
+
+  if (!regExpURL.test(match)) {
+    return false
+  }
 
   // Protocol
 
-  if (/^[a-zA-Z*]+:\/\//.test(match)) {
-    const protocol = match.slice(0, match.indexOf(':'))
-
+  {
+    const protocol = match.match(regExpProtocol)?.[0] ?? null
     matchParts.protocol = protocol
   }
 
-  if (/^[a-zA-Z]+:\/\//.test(value)) {
-    const protocol = value.slice(0, value.indexOf(':'))
-
+  {
+    const protocol = value.match(regExpProtocol)?.[0] ?? null
     valueParts.protocol = protocol
-  }
-
-
-  // Prefix
-
-  if (/^[a-zA-Z*]+:\/\/[a-zA-Z*]+\./.test(match)) {
-    const prefix = match.slice(match.indexOf('://') + 3, match.indexOf('.'))
-
-    matchParts.prefix = prefix
-  }
-  else
-  if (/^[a-zA-Z*]+\.[a-zA-Z*]+\.[a-zA-Z*]+/.test(match)) {
-    const prefix = match.slice(0, match.indexOf('.'))
-
-    matchParts.prefix = prefix
-  }
-
-  if (/^[a-zA-Z]+:\/\/[a-zA-Z]+\./.test(value)) {
-    const prefix = value.slice(value.indexOf('://') + 3, value.indexOf('.'))
-
-    valueParts.prefix = prefix
-  }
-  else
-  if (/^[a-zA-Z]+\.[a-zA-Z]+\.[a-zA-Z]+/.test(value)) {
-    const prefix = value.slice(0, value.indexOf('.'))
-
-    valueParts.prefix = prefix
   }
 
 
   // Domain
 
-  if (/^[a-zA-Z*]+:\/\/[a-zA-Z*]+\.[a-zA-Z*]+\.[a-zA-Z*]+/.test(match)) {
-    const domain = match.slice(match.indexOf('://') + 3, match.indexOf('.'))
 
-    matchParts.domain = domain
+  {
+    const domain = match.match(regExpDomain)?.[0] ?? null
+    matchParts.domain = domain.split('.')
   }
 
-  console.log('valueParts', valueParts)
-  console.log('matchParts', matchParts)
+  {
+    const domain = value.match(regExpDomain)?.[0] ?? null
+    valueParts.domain = domain.split('.')
 
+    if (matchParts.domain.length === valueParts.domain.length + 1 && matchParts.domain[0] === '*') {
+      matchParts.domain = matchParts.domain.slice(1)
+    }
+  }
+
+  // Port
+
+  {
+    const port = match.match(regExpPort)?.[0] ?? null
+    matchParts.port = port !== '' && port != null ? port.slice(1) : null
+  }
+
+  {
+    const port = value.match(regExpPort)?.[0] ?? null
+    valueParts.port = port !== '' && port != null ? port.slice(1) : null
+  }
+
+  // Path
+
+  {
+    const paths = match.match(regExpPath)?.[0] ?? null
+    matchParts.paths = paths !== '' && paths != null ? paths.split('/') : null
+  }
+
+  {
+    const paths = value.match(regExpPath)?.[0] ?? null
+    valueParts.paths = paths !== '' && paths != null ? paths.split('/') : null
+  }
 
   for (const [key, matchValue] of Object.entries(matchParts)) {
+    if (key !== 'paths' && key !== 'domain') {
+      if (matchValue === '*') {
+        continue
+      }
+
+      if (valueParts[key] !== matchValue) {
+        return false
+      }
+    }
+    else
     if (key === 'paths') {
-      const allPathMatch = matchValue.every((matchPath, index) => {
-        if (matchPath === '*') return true
+      if (valueParts.paths == null) {
+        if (matchParts.paths == null) {
+          continue
+        }
+
+        return false
+      }
+
+      if (valueParts[key].length !== matchValue.length) {
+        return false
+      }
+
+      const allPathsMatch = matchValue.every((matchPath, index) => {
+        if (matchPath === '*') {
+          return true
+        }
 
         return matchPath === valueParts[key][index]
       })
 
-      if (!allPathMatch) return false
+      if (!allPathsMatch) {
+        return false
+      }
     }
     else
-    if (matchValue === '*') continue
+    if (key === 'domain') {
+      if (valueParts[key].length !== matchValue.length) {
+        return false
+      }
 
-    if (valueParts[key] !== matchValue) {
-      return false
+      const allDomainMatch = matchValue.every((matchDomain, index) => {
+        if (matchDomain === '*') {
+          return true
+        }
+
+        return matchDomain === valueParts[key][index]
+      })
+
+      if (!allDomainMatch) {
+        return false
+      }
     }
   }
 
@@ -271,6 +292,11 @@ export function injectScripts(scriptsPath) {
 
 }
 
+/**
+ * 
+ * @param {string} initModuleScriptPath 
+ * @returns 
+ */
 export function getModuleURL(initModuleScriptPath) {
   return initModuleScriptPath.slice(0, -'/init-module.mjs'.length).replace(getURL(''), '')
 }
