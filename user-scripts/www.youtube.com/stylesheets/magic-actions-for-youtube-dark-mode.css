@@ -459,7 +459,7 @@ html ytd-app #masthead-container::after {
   box-shadow: inset 0px 4px 8px -3px rgba(0,0,0,1)!important
 }
 
-html .yt-simple-endpoint,html #title.ytd-metadata-row-renderer,html ytd-app .date.ytd-video-secondary-info-renderer,html ytd-app yt-icon.ytd-badge-supported-renderer {
+html .yt-simple-endpoint,html #title.ytd-metadata-row-renderer,html ytd-app .date.ytd-video-secondary-info-renderer,html ytd-app yt-icon.ytd-badge-supported-renderer, yt-icon-button yt-icon-shape {
   color: var(--yt-metadata-color)!important
 }
 
