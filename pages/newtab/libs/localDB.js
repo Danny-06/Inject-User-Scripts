@@ -32,6 +32,11 @@ export class LocalDB {
     })
   }
 
+  /**
+   * 
+   * @param {string} databaseName 
+   * @param {symbol} privateKey 
+   */
   constructor(databaseName, privateKey) {
     if (privateKey !== LocalDB.#privateSymbolToCreateInstance) {
       throw new Error(`Cannot make an instance of this class manually. Call the static method 'createLocalDB' instead`)
@@ -41,7 +46,6 @@ export class LocalDB {
 
     Object.defineProperty(this, 'request', {
       value: request,
-      writable: false,
       enumerable: true
     })
 
@@ -55,16 +59,24 @@ export class LocalDB {
 
       Object.defineProperty(this, 'database', {
         value: db,
-        writable: false,
         enumerable: true
       })
     })
   }
 
+  /**@type {IDBDatabase} */
+  database
+
+  /**
+   * 
+   * @param {string} key 
+   * @returns 
+   */
   getItem(key) {
     this.#throwErrorIfDatabaseIsDeleted()
 
     return new Promise((resolve, reject) => {
+      /**@type {IDBTransaction} */
       let transaction
 
       try {
@@ -87,10 +99,17 @@ export class LocalDB {
     })
   }
 
+  /**
+   * 
+   * @param {string} key 
+   * @param {any} value 
+   * @returns {any}
+   */
   setItem(key, value) {
     this.#throwErrorIfDatabaseIsDeleted()
 
     return new Promise((resolve, reject) => {
+      /**@type {IDBTransaction} */
       let transaction
 
       try {
@@ -113,6 +132,11 @@ export class LocalDB {
     })
   }
 
+  /**
+   * 
+   * @param {string} key 
+   * @returns 
+   */
   removeItem(key) {
     this.#throwErrorIfDatabaseIsDeleted()
 
