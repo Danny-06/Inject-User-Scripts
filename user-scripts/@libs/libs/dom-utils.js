@@ -929,6 +929,34 @@ export function fillDeclarativeTemplate(template, obj) {
 
 /**
  *
+ * @param {Element} node
+ * @param {Element} [parent]
+ * @returns {Promise<void>}
+ */
+export function waitForNodeConnected(node, parent = document.body) {
+  return new Promise(resolve => {
+    if (node.isConnected) {
+      resolve()
+      return
+    }
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
+
+    const mutationObserver = new MutationObserver((mutationList, observer) => {
+      for (const mutation of mutationList) {
+        if (Array.prototype.includes.call(mutation.addedNodes, node)) {
+          mutationObserver.disconnect()
+          resolve()
+        }
+      }
+    })
+
+    mutationObserver.observe(parent, {childList: true, subtree: true})
+  })
+}
+
+/**
+ *
  * @param {Document|HTMLIFrameElement} document
  * @param {{waitAgainForLoad: boolean}} options
  * @returns {Promise<Document|HTMLIFrameElement>}
