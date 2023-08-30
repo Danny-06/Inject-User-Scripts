@@ -40,13 +40,18 @@ export function matchesDomain(value, match) {
   }
 
   const matchParts = {
+    protocol: '*',
+    domain:   [],
+    port:     '*',
+    paths:    []
+  }
+
+  const valueParts = {
     protocol: null,
     domain:   [],
     port:     null,
     paths:    []
   }
-
-  const valueParts = structuredClone(matchParts)
 
   const regExpProtocol = /^[a-zA-Z*-]+/
   const regExpDomain = /[a-zA-Z0-9*]+(\.[a-zA-Z0-9*]+)+/
@@ -123,6 +128,10 @@ export function matchesDomain(value, match) {
     }
 
     for (let i = 0; i < domainMatch.length; i++) {
+      if (domainMatch[i] === '*') {
+        continue
+      }
+
       if (domainMatch[i] !== domainValue[i]) {
         return false
       }
