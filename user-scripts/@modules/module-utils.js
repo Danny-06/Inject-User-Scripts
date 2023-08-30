@@ -72,14 +72,14 @@ export function matchesDomain(value, match) {
 
   {
     const domain = match.match(regExpDomain)?.[0] ?? null
-    matchParts.domain = domain.split('.')
+    matchParts.domain = domain?.split('.') ?? null
   }
 
   {
     const domain = value.match(regExpDomain)?.[0] ?? null
-    valueParts.domain = domain.split('.')
+    valueParts.domain = domain?.split('.') ?? null
 
-    if (matchParts.domain.length === valueParts.domain.length + 1 && matchParts.domain[0] === '*') {
+    if (matchParts.domain != null && valueParts.domain != null && matchParts.domain.length === valueParts.domain.length + 1 && matchParts.domain[0] === '*') {
       matchParts.domain = matchParts.domain.slice(1)
     }
   }
@@ -110,7 +110,7 @@ export function matchesDomain(value, match) {
 
   const regExpDomainOnly = /^[a-zA-Z0-9*]+(\.[a-zA-Z0-9*]+)+$/
 
-  if (regExpDomainOnly.test(match)) {
+  if (valueParts.domain != null && regExpDomainOnly.test(match)) {
     const domainValue = [...valueParts.domain]
     let domainMatch = match.split('.')
 
