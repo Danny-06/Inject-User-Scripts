@@ -16,21 +16,21 @@ const mutationObserver = new MutationObserver(mutations => {
 })
 
 /**
- * Allows the creation of custom elements through any `HTMLElement` like a `<div>`.  
- * The class provided is invoked in the `element` and then its `prototype` is changed  
- * with the prototype of the `class`.  
- * 
- * To declare the `constructor` of the class it must be declared as `_constructor_`  
- * instead of the normal constructor to allow the function to invoke it in the `element`.  
- * 
- * Since the `element` is not an instance of the component is not posible to use `private properties`.  
- * For that reason, is recommended to replace them with properties that starts with an underscore.  
- * 
+ * Allows the creation of custom elements through any `HTMLElement` like a `<div>`.
+ * The class provided is invoked in the `element` and then its `prototype` is changed
+ * with the prototype of the `class`.
+ *
+ * To declare the `constructor` of the class it must be declared as `_constructor_`
+ * instead of the normal constructor to allow the function to invoke it in the `element`.
+ *
+ * Since the `element` is not an instance of the component is not posible to use `private properties`.
+ * For that reason, is recommended to replace them with properties that starts with an underscore.
+ *
  * @template T
- * @param {T.prototype extends HTMLElement ? T : never} classComponent 
+ * @param {T.prototype extends HTMLElement ? T : never} classComponent
  * @param {HTMLElement} [elementToApply=null]
  * @returns {InstanceType<T>}
- * 
+ *
  * @example
  * const component = createWebComponent(class MyComponent extends HTMLElement {
  *   _constructor_() {
@@ -88,8 +88,8 @@ export async function importText(url, baseURL = import.meta.url) {
 }
 
 /**
- * 
- * @param {string} url 
+ *
+ * @param {string} url
  * @returns {Promise<CSSStyleSheet>}
  */
 export async function importCSSModule(url, baseURL = import.meta.url) {
@@ -131,8 +131,8 @@ export function getStylesheetsURLListFromTree(documentFragment) {
 
 
 /**
- * 
- * @param {string} text 
+ *
+ * @param {string} text
  * @returns {CSSStyleSheet}
  */
 export function textToCSSModule(text) {
@@ -164,9 +164,9 @@ export async function importHTML(url, options = {}) {
 }
 
 /**
- * 
- * @param {string} htmlString 
- * @param {ParseHTMLOptions} options 
+ *
+ * @param {string} htmlString
+ * @param {ParseHTMLOptions} options
  * @returns {DocumentFragment}
  */
 export function parseHTML(htmlString, options = {}) {
@@ -217,8 +217,8 @@ export function parseXML(xmlString) {
 
 
 /**
- * 
- * @param {DocumentFragment | HTMLElement} documentFragment 
+ *
+ * @param {DocumentFragment | HTMLElement} documentFragment
  * @returns {HTMLTemplateElement[]}
  */
 export function queryDeclarativeTemplatesShadowDOM(documentFragment) {
@@ -233,8 +233,8 @@ export function queryDeclarativeTemplatesShadowDOM(documentFragment) {
 }
 
 /**
- * 
- * @param {HTMLElement} hostElement 
+ *
+ * @param {HTMLElement} hostElement
  * @returns {ShadowRoot}
  */
 export function parseDeclarativeShadowDOM(hostElement) {
@@ -301,9 +301,9 @@ export function parseMultipleDeclarativeShadowDOMAndAppendCSSModules(element, cs
 
 
 /**
- * 
- * @param {{template: string, stylesheet: string}} urlOptions 
- * @param {string} baseURL 
+ *
+ * @param {{template: string, stylesheet: string}} urlOptions
+ * @param {string} baseURL
  * @returns {[
  *   {
  *     documentFragment: Node,
@@ -324,9 +324,9 @@ export async function importTemplateAndCSS(urlOptions, baseURL) {
 }
 
 /**
- * 
- * @param {string} url 
- * @param {string} baseURL 
+ *
+ * @param {string} url
+ * @param {string} baseURL
  * @returns
  */
 export async function importTemplate(url, options) {
@@ -402,8 +402,8 @@ export function getAllShadowRootNodes(node) {
 
 
 /**
- * 
- * @param {Element | Document | DocumentFragment} node 
+ *
+ * @param {Element | Document | DocumentFragment} node
  * @param {boolean} removeBracketIds
  * @returns {{[key: string]: Element}}
  */
@@ -468,9 +468,9 @@ export function getElementsByAttribute(attr, options = {}) {
 
 /**
  * Append any attribute to an element even those with invalid characters
- * @param {Element} element 
- * @param {string} attrName 
- * @param {string} attrValue 
+ * @param {Element} element
+ * @param {string} attrName
+ * @param {string} attrValue
  * @returns {Attr}
  */
 export function setAttribute(element, attrName, attrValue = '') {
@@ -514,8 +514,8 @@ export function removeTokenFromDOMStringMapProperty(settings) {
 
 
 /**
- * 
- * @param {string} name 
+ *
+ * @param {string} name
  * @param {{
  *  id: string,
  *  classes: string[],
@@ -525,7 +525,7 @@ export function removeTokenFromDOMStringMapProperty(settings) {
  *  properties: {[key: string]: string},
  *  namespace: string,
  *  options: ElementCreationOptions
- * }} settings 
+ * }} settings
  * @returns {HTMLElement}
  */
 export function createElement(name = 'div', settings = {}) {
@@ -597,7 +597,7 @@ export function stringToValidInnerHTML(string) {
   const div = document.createElement('div')
 
   const trustedHTMLPolicy = window.trustedTypes ? trustedTypes.createPolicy('trustedHTML', {createHTML: string => string}) : null
-  
+
   div.innerHTML = trustedHTMLPolicy?.createHTML(string) ?? string
 
   return div.innerHTML
@@ -635,9 +635,9 @@ export function setStyleProperties(style, properties) {
 
 
 /**
- * 
- * @param {HTMLTemplateElement} template 
- * @param {{}} obj 
+ *
+ * @param {HTMLTemplateElement} template
+ * @param {{}} obj
  * @returns {DocumentFragment}
  */
 export function fillDeclarativeTemplate(template, obj) {
@@ -661,36 +661,36 @@ export function fillDeclarativeTemplate(template, obj) {
 
   function getElementsByAttribute(attr, options = {}) {
     const {startNode = document} = options
-  
+
     const nodeList = [...startNode.querySelectorAll('*')]
     return nodeList.filter(n => n.hasAttribute(attr))
   }
 
   function setAttribute(element, attrName, attrValue = '') {
     const trustedHTMLPolicy = window.trustedTypes ? trustedTypes.createPolicy('trustedHTML', {createHTML: string => string}) : {createHTML: string => string}
-  
+
     const div = document.createElement('div')
     div.innerHTML = trustedHTMLPolicy.createHTML(`<div ${attrName}="${attrValue}"></div>`)
-  
+
     const attribute = div.children[0].attributes[attrName].cloneNode()
-  
+
     element.attributes.setNamedItem(attribute)
-  
+
     return attribute
   }
 
   function getValueFromPropertyPath(obj, propertyPath) {
     if (propertyPath == null) return obj
-  
+
     const propertyPathSplit = propertyPath.split('.')
-  
+
     let valueHolder = obj
-  
+
     for (let k = 0; k < propertyPathSplit.length; k++) {
       const property = propertyPathSplit[k]
-  
+
       const isPrimitive = value => ['object', 'function'].every(type => typeof value !== type)
-  
+
       if (
         isPrimitive(valueHolder) && !(property in Object.getPrototypeOf(valueHolder)) ||
         !isPrimitive(valueHolder) && !(property in valueHolder)
@@ -698,10 +698,10 @@ export function fillDeclarativeTemplate(template, obj) {
         console.error(`PropertyPathError: property '${property}' does not exists in ${typeof valueHolder}`, typeof valueHolder === 'string' ? `'${valueHolder}'` : valueHolder, `from source ${typeof obj}`, typeof obj === 'string' ? `'${obj}'` : obj, `from the property path '${propertyPath}'`)
         return 'undefined'
       }
-  
+
       valueHolder = valueHolder[property]
     }
-  
+
     return valueHolder
   }
 
@@ -814,9 +814,9 @@ export function fillDeclarativeTemplate(template, obj) {
     const fistElement = loopElement
 
     // Read collection
-    
+
     let collection
-    
+
     switch (loopType) {
       case 'of': {
         if (objectToIterate[Symbol.iterator] instanceof Function) {
@@ -928,7 +928,7 @@ export function fillDeclarativeTemplate(template, obj) {
 
 
 /**
- * 
+ *
  * @param {Document|HTMLIFrameElement} document
  * @param {{waitAgainForLoad: boolean}} options
  * @returns {Promise<Document|HTMLIFrameElement>}
