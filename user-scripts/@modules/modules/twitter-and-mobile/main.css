@@ -50,16 +50,16 @@
 
 
 ::-webkit-scrollbar {
-  width:  var(--scrollbar-width, 10px);
-  height: var(--scrollbar-height, 5px);
+  width:  calc(var(--scrollbar-width, 10px) * var(--visual-viewport-zoom-ratio));
+  height: calc(var(--scrollbar-height, 5px) * var(--visual-viewport-zoom-ratio));
   background: var(--track-color, #0b1115);
-  border-radius: 10px;
+  border-radius: calc(10px * var(--visual-viewport-zoom-ratio));
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--thumb-color, #32577b);
-  border-radius: 10px;
-  box-shadow: inset var(--thumb-box-shadow-color, #5f93b9) 0 0 5px 0;
+  border-radius: calc(10px * var(--visual-viewport-zoom-ratio));
+  box-shadow: inset var(--thumb-box-shadow-color, #5f93b9) 0 0 calc(5px * var(--visual-viewport-zoom-ratio)) 0;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -70,11 +70,17 @@
   background: var(--thumb-active-color, #0b1e2f);
 }
 
+/* Hide extra buttons that appear when parent is a flex or grid container */
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+
 ::-webkit-scrollbar-button:single-button {
-  width: 20px;
-  height: 20px;
+  width: calc(var(--button-width, 20px) * var(--visual-viewport-zoom-ratio));
+  height: calc(var(--button-height, 20px) * var(--visual-viewport-zoom-ratio));
   background: var(--button-color, #1e4e80);
-  box-shadow: inset var(--button-box-shadow-color, #338ed2) 0 0 5px 0;
+  box-shadow: inset var(--button-box-shadow-color, #338ed2) 0 0 calc(5px * var(--visual-viewport-zoom-ratio)) 0;
 }
 
 ::-webkit-scrollbar-button:hover {
@@ -87,19 +93,19 @@
 
 
 ::-webkit-scrollbar-button:vertical:single-button:increment {
-  border-radius: 10px 10px 0 0;
+  border-radius: calc(10px * var(--visual-viewport-zoom-ratio)) calc(10px * var(--visual-viewport-zoom-ratio)) 0 0;
 }
 
 ::-webkit-scrollbar-button:vertical:single-button:decrement {
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 calc(10px * var(--visual-viewport-zoom-ratio)) calc(10px * var(--visual-viewport-zoom-ratio));
 }
 
 ::-webkit-scrollbar-button:horizontal:single-button:increment {
-  border-radius: 10px 0 0 10px;
+  border-radius: calc(10px * var(--visual-viewport-zoom-ratio)) 0 0 calc(10px * var(--visual-viewport-zoom-ratio));
 }
 
 ::-webkit-scrollbar-button:horizontal:single-button:decrement {
-  border-radius: 0 10px 10px 0;
+  border-radius: 0 calc(10px * var(--visual-viewport-zoom-ratio)) calc(10px * var(--visual-viewport-zoom-ratio)) 0;
 }
 
 ::-webkit-scrollbar-corner {

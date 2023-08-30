@@ -5,5 +5,8 @@ const modulePath = getModuleURL(import.meta.url)
 injectCode(modulePath, {
   stylesheets: [
     'custom-scrollbar.css'
+  ],
+  scripts: [
+    'main.mjs'
   ]
 })

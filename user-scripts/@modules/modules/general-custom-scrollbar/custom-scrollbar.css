@@ -4,7 +4,7 @@
   * {
     scrollbar-width: thin;
     scrollbar-color: #4262c2 #262e44;
-  } 
+  }
 }
 
 
@@ -36,16 +36,16 @@
 
 
 ::-webkit-scrollbar {
-  width:  var(--scrollbar-width, 10px);
-  height: var(--scrollbar-height, 5px);
+  width:  calc(var(--scrollbar-width, 10px) * var(--visual-viewport-zoom-ratio));
+  height: calc(var(--scrollbar-height, 5px) * var(--visual-viewport-zoom-ratio));
   background-color: var(--track-bg-color, #0b1115);
-  border-radius: 10px;
+  border-radius: calc(10px * var(--visual-viewport-zoom-ratio));
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: var(--thumb-color, #34373e);
-  border-radius: 10px;
-  box-shadow: inset var(--thumb-box-shadow-color, #969696) 0 0 5px 0;
+  border-radius: calc(10px * var(--visual-viewport-zoom-ratio));
+  box-shadow: inset var(--thumb-box-shadow-color, #969696) 0 0 calc(5px * var(--visual-viewport-zoom-ratio)) 0;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -63,10 +63,10 @@
 }
 
 ::-webkit-scrollbar-button:single-button {
-  width: var(--button-width, 20px);
-  height: var(--button-height, 20px);
+  width: calc(var(--button-width, 20px) * var(--visual-viewport-zoom-ratio));
+  height: calc(var(--button-height, 20px) * var(--visual-viewport-zoom-ratio));
   background-color: var(--button-color, #47484c);
-  box-shadow: inset var(--button-box-shadow-color, #bfbfbf) 0 0 5px 0;
+  box-shadow: inset var(--button-box-shadow-color, #bfbfbf) 0 0 calc(5px * var(--visual-viewport-zoom-ratio)) 0;
 }
 
 ::-webkit-scrollbar-button:hover {
@@ -79,19 +79,19 @@
 
 
 ::-webkit-scrollbar-button:vertical:single-button:increment {
-  border-radius: 10px 10px 0 0;
+  border-radius: calc(10px * var(--visual-viewport-zoom-ratio)) calc(10px * var(--visual-viewport-zoom-ratio)) 0 0;
 }
 
 ::-webkit-scrollbar-button:vertical:single-button:decrement {
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 calc(10px * var(--visual-viewport-zoom-ratio)) calc(10px * var(--visual-viewport-zoom-ratio));
 }
 
 ::-webkit-scrollbar-button:horizontal:single-button:increment {
-  border-radius: 10px 0 0 10px;
+  border-radius: calc(10px * var(--visual-viewport-zoom-ratio)) 0 0 calc(10px * var(--visual-viewport-zoom-ratio));
 }
 
 ::-webkit-scrollbar-button:horizontal:single-button:decrement {
-  border-radius: 0 10px 10px 0;
+  border-radius: 0 calc(10px * var(--visual-viewport-zoom-ratio)) calc(10px * var(--visual-viewport-zoom-ratio)) 0;
 }
 
 ::-webkit-scrollbar-corner {
