@@ -8,7 +8,8 @@
     "scripts/video-volume-wheel.mjs",
     "scripts/enlarge-avatar-thumbnails.mjs",
     "scripts/clone-yt-playlist.mjs",
-    "scripts/save-message-comment-onreload.mjs"
+    "scripts/save-message-comment-onreload.mjs",
+    // "scripts/list-of-playlists.mjs"
   ],
   "stylesheets": [
     "stylesheets/magic-actions-for-youtube-dark-mode.css",

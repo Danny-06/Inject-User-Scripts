@@ -4,3 +4,8 @@
   padding-bottom: 300px;
 }
  */
+
+ /* Hide video to hide its thubmnail while downloading Ladybug */
+ video#video {
+  visibility: hidden;
+}

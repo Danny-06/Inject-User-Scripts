@@ -1,13 +1,30 @@
-import { handleSelectorLifeCycle, waitForSelector, delay } from '../../@libs/utils-injection.js'
+import { waitForSelector, delay } from '../../@libs/utils-injection.js'
 import { calidad1080pAutomatica, ContextMenuManager as ctxM } from './youtube-utils.js'
 import * as youtubeUtils from './youtube-utils.js'
 import * as ctxMenu  from './resource-data/context-menu-options.js'
-import _, { buildElement as $ } from '../../@libs/libs/functional-dom/index.js'
 import { addEventListener } from '../../@libs/libs/event-utils.js'
 import { run } from '../../@libs/extension-methods/object-extension.js'
+import _ from '../../@libs/libs/functional-dom/index.js'
+// import html from '../../@libs/preact/htm/html.mjs'
+// import { render } from '../../@libs/preact/preact.mjs'
 
 window.youtubeUtils = youtubeUtils
 
+// Preact test with YT Playlist
+
+// const newWin = open()
+// const doc = newWin.document
+
+// const pl = await youtubeUtils.getPlaylistMetadata({playlistId: 'PL-lup7Y45rv6eLhFiO2qGtYKRHFV2l9cG'})
+
+// render(html`<${App} />`, doc.body)
+
+// function App(props) {
+
+//   return html`
+//     ${pl.videos.map((video, index) => html`<div>${index}. ${video.title}</div>`)}
+//   `
+// }
 
 function dispatchNavigateEvent() {
   const customEvent = new CustomEvent('youtube-navigate')
