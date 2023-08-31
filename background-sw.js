@@ -1,10 +1,16 @@
 import { parseJSONResponseWithComments } from './utils-extension.js'
 
 
+chrome.runtime.onInstalled.addListener((details) => {
+  chrome.storage.local.set({[EXTENSION_ENABLED]: true})
+})
+
 // Run only on page load when the content script send a message
 chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
 
-  if (data.type !== 'content-script') return
+  if (data.type !== 'content-script') {
+    return
+  }
 
   // Wrap the code in an async IIFE because async listener returns a Promise and that is not
   // supported yet what makes logging in the console an
@@ -13,7 +19,9 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
     const tabId = sender.tab.id
     const url   = sender.tab.url
 
-    if (!url) return
+    if (!url) {
+      return
+    }
 
     const extensionUrl = location.origin // chrome.runtime.getURL('').slice(0, -1)
     const domain       = new URL(url).hostname
