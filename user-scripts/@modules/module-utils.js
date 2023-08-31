@@ -25,7 +25,7 @@ function templateRegex(strings, ...args) {
  *
  * @param {string} value
  * @param {string} match
- * @returns
+ * @returns {boolean}
  */
 export function matchesDomain(value, match) {
   if (typeof value !== 'string') {
