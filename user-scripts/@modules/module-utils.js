@@ -228,7 +228,7 @@ export function matchesDomain(value, match) {
 export function injectModulesWithDomainMatch(options) {
   let {matchExpressions, modules} = options
 
-  modules = modules.map(moduleName => `@modules/modules/${moduleName}/init-module.mjs`)
+  modules = modules.map(moduleName => `@modules/modules/${moduleName}/@init-module.mjs`)
 
   injectCodeWithDomainMatch(matchExpressions, {scripts: modules})
 }
@@ -241,13 +241,15 @@ export function injectModulesWithDomainMatch(options) {
  * @returns
  */
 export function injectCodeWithDomainMatch(matchExpressions, options) {
+  const url = location.href.replace(location.search, '')
+
   if (Array.isArray(matchExpressions)) {
     if (matchExpressions.length === 0) return
-    if (matchExpressions.every(matchExpression => !matchesDomain(location.hostname, matchExpression))) return
+    if (matchExpressions.every(matchExpression => !matchesDomain(url, matchExpression))) return
   }
   else
   if (typeof matchExpressions === 'string') {
-    if (!matchesDomain(location.href.replace(location.search, ''), matchExpressions)) return
+    if (!matchesDomain(url, matchExpressions)) return
   }
   else {
     throw new TypeError(`'matchExpressions' must be an array of strings or just a string`)
@@ -257,6 +259,22 @@ export function injectCodeWithDomainMatch(matchExpressions, options) {
 }
 
 /**
+ * Used to inject the scripts and stylesheets of a module inside a `@init-module.mjs` file
+ * and also it's used internally by the `injectCodeWithDomainMatch()` function to inject the `@init-module.mjs` files
+ * ```js
+ * import { getModuleURL, injectCode } from '../../module-utils.js'
+ *
+ * const modulePath = getModuleURL(import.meta.url)
+ *
+ * injectCode(modulePath, {
+ *  scripts: [
+ *    'scripts/main.mjs'
+ *  ],
+ *  stylesheets: [
+ *    'stylesheets/main.css'
+ *  ]
+ * })
+ * ```
  * @param {string} startPath
  * @param {{stylesheets: string[], scripts: string[]}} options
  * @returns
