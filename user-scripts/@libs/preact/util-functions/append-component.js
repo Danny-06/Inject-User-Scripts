@@ -1,16 +1,23 @@
 import { createPortal } from '../compat.mjs'
 import { render } from '../preact.mjs'
 
+/**
+ * Render the component by appending it in the element specified
+ * without overwritting the existing children.
+ *
+ * It returns the first generated node on render of the component provided.
+ * @param {*} component
+ * @param {Element} node
+ * @returns {Element}
+ */
 export default function appendComponent(component, node) {
   const wrapper = document.createElement('div')
 
   render(createPortal(component, node), wrapper)
 
-  node.append(wrapper)
-
-  setTimeout(() => wrapper.remove())
-
-  return node
+  // When `render` is used with `createPortal`
+  // the element is already appended to the node
+  return node.lastElementChild
 }
 
 
