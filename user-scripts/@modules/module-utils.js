@@ -1,6 +1,7 @@
 import { getURL } from '../@libs/chrome-extension-utils.js'
 import { createElement } from '../@libs/utils-injection.js'
 
+const initModuleFile = '@init-module.mjs'
 
 function regExpContentToString(regExp) {
   return regExp.toString().slice(1, -1)
@@ -228,7 +229,7 @@ export function matchesDomain(value, match) {
 export function injectModulesWithDomainMatch(options) {
   let {matchExpressions, modules} = options
 
-  modules = modules.map(moduleName => `@modules/modules/${moduleName}/@init-module.mjs`)
+  modules = modules.map(moduleName => `@modules/modules/${moduleName}/${initModuleFile}`)
 
   injectCodeWithDomainMatch(matchExpressions, {scripts: modules})
 }
@@ -363,5 +364,5 @@ export function injectScripts(scriptsPath) {
  * @returns
  */
 export function getModuleURL(initModuleScriptPath) {
-  return initModuleScriptPath.slice(0, -'/init-module.mjs'.length).replace(getURL(''), '')
+  return initModuleScriptPath.slice(0, -`/${initModuleFile}`.length).replace(getURL(''), '')
 }
