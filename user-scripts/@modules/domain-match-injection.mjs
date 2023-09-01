@@ -30,3 +30,11 @@ injectModulesWithDomainMatch({
     'general-custom-scrollbar'
   ]
 })
+
+
+injectModulesWithDomainMatch({
+  matchExpressions: '*://developer.mozilla.org/*/play',
+  modules: [
+    'mdn-playground'
+  ]
+})
