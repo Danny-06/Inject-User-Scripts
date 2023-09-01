@@ -54,7 +54,7 @@ html.lqz3O,html.lqz3O body,html.lqz3O #player,html.lqz3O #player-legacy {
 }
 
 html.lqz3O select {
-  -webkit-appearance: none!important;
+  appearance: none!important;
   border: 1px solid!important
 }
 
@@ -74,10 +74,10 @@ html.lqz3O img::selection {
 }
 
 html.lqz3O body::-webkit-scrollbar,html.lqz3O #transcript-scrollbox::-webkit-scrollbar,html.lqz3O ul::-webkit-scrollbar,html.lqz3O ol::-webkit-scrollbar {
-  width: 10px!important;
-  height: 10px!important;
+  width: calc(10px * var(--visual-viewport-zoom-ratio))!important;
+  height: calc(10px * var(--visual-viewport-zoom-ratio))!important;
   background: #e1e1e1!important;
-  border: 1px solid rgba(0,0,0,.12)!important
+  border: calc(1px * var(--visual-viewport-zoom-ratio)) solid rgba(0,0,0,.12)!important
 }
 
 html:fullscreen body::-webkit-scrollbar,html.lqz3O body::-webkit-scrollbar-button,html.lqz3O #transcript-scrollbox::-webkit-scrollbar-button,html.lqz3O ul::-webkit-scrollbar-button,html.lqz3O ol::-webkit-scrollbar-button {
@@ -90,7 +90,7 @@ html.lqz3O body::-webkit-scrollbar-thumb,html.lqz3O #transcript-scrollbox::-webk
 }
 
 html.lqz3O body::-webkit-scrollbar-thumb,html.lqz3O #transcript-scrollbox::-webkit-scrollbar-thumb,html.lqz3O ul::-webkit-scrollbar-thumb,html.lqz3O ol::-webkit-scrollbar-thumb {
-  min-height: 28px!important;
+  min-height: calc(1px * var(--visual-viewport-zoom-ratio))!important;
   background: #b3b3b3!important
 }
 
@@ -107,9 +107,9 @@ html #player-api,html .html5-video-player,html button:focus {
   box-shadow: none!important
 }
 
-html #movie_player .html5-info-bar,html .ytp-chrome-top,html .ytp-gradient-top,html #movie_player .ytp-button-playlist,html #theater-background,html #dftvp,html .yt-pl-thumb-overlay,html .yt-pl-thumb-overlay-content,html .watch-playlist-collapsed .playlist-tray,html .appbar-guide-toggle .yt-uix-button-arrow,html .nvw {
-  /* display: none!important */
-}
+/* html #movie_player .html5-info-bar,html .ytp-chrome-top,html .ytp-gradient-top,html #movie_player .ytp-button-playlist,html #theater-background,html #dftvp,html .yt-pl-thumb-overlay,html .yt-pl-thumb-overlay-content,html .watch-playlist-collapsed .playlist-tray,html .appbar-guide-toggle .yt-uix-button-arrow,html .nvw {
+  display: none!important
+} */
 
 html #content .yt-card:nth-of-type(1n) {
   margin-top: 0!important
@@ -120,7 +120,7 @@ html .video-time,html .video-actions {
 }
 
 html select {
-  -webkit-appearance: none!important;
+  appearance: none!important;
   border: 1px solid!important
 }
 
@@ -132,9 +132,9 @@ html .lohp-video-metadata,html .caption-line,html .lohp-video-metadata .yt-user-
   color: #646464!important
 }
 
-html a,html .lohp-video-link,html .action-panel-content:hover a,html #watch7-sidebar .video-list-item a:hover .title,html .branded-page-related-channels h3 a:hover,html .category-header .category-title:hover,html .category-header .channel-count:hover,html .subscribable-content-username:hover,html .feed-item-container:hover .feed-item-header a,html .feed-item-container:hover a.yt-user-name,html .popupContent a,html .playlist-video-item .video-title,html .yt-lockup-title a,html .yt-lockup:hover a,html .vl li b,html .yt-lockup-mini:hover .yt-lockup-title,html .pl-video:hover a,html .comment-renderer-like-count,html .yt-uix-expander-head:not(.guide-view-more),html .comment-replies-renderer-paginator .load-more-text,html .yt-picker-content strong,html .comments .comment-entry:hover .thumb-title,html .comments .comment-entry:hover .vis-inspect-link,html .iv-card:hover .iv-card-primary-link,html a.yt-simple-endpoint.ytd-toggle-button-renderer [aria-pressed="true"],html .yt-simple-endpoint #text.style-default-active {
-  /* color: #6783ab!important */
-}
+/* html a,html .lohp-video-link,html .action-panel-content:hover a,html #watch7-sidebar .video-list-item a:hover .title,html .branded-page-related-channels h3 a:hover,html .category-header .category-title:hover,html .category-header .channel-count:hover,html .subscribable-content-username:hover,html .feed-item-container:hover .feed-item-header a,html .feed-item-container:hover a.yt-user-name,html .popupContent a,html .playlist-video-item .video-title,html .yt-lockup-title a,html .yt-lockup:hover a,html .vl li b,html .yt-lockup-mini:hover .yt-lockup-title,html .pl-video:hover a,html .comment-renderer-like-count,html .yt-uix-expander-head:not(.guide-view-more),html .comment-replies-renderer-paginator .load-more-text,html .yt-picker-content strong,html .comments .comment-entry:hover .thumb-title,html .comments .comment-entry:hover .vis-inspect-link,html .iv-card:hover .iv-card-primary-link,html a.yt-simple-endpoint.ytd-toggle-button-renderer [aria-pressed="true"],html .yt-simple-endpoint #text.style-default-active {
+  color: #6783ab!important
+} */
 
 html .comment-renderer-author-comment-badge.creator .comment-author-text,html .comment-renderer.channel-owner .comment-author-text,html .comments .channel-owner .comment-header .user-name {
   color: #222!important
@@ -313,11 +313,11 @@ html .yt-uix-tooltip-tip-content {
 }
 
 html #google-feedback-wizard,html .yt-copyright-index-anchors li,html .yt-creators-next,html #lg {
-  -webkit-filter: invert(90%) grayscale(100%)!important
+  filter: invert(90%) grayscale(100%)!important
 }
 
 html .yt-gb-shelf-paddle,html .yt-gb-preview .yt-uix-button-icon-next,html body .yt-gb-preview .yt-uix-button-icon-previous,html .yt-gb-preview .yt-uix-button-icon-previous,html body .yt-gb-preview .yt-uix-button-icon-next,html .compact-shelf .yt-uix-shelfslider-prev-arrow,html .compact-shelf .yt-uix-shelfslider-next-arrow,html .hitchhiker-enabled .addto-watch-later-button-sign-in img,html .yt-uix-button-icon-play-all,html .watch-pencil-icon .yt-uix-button-icon-pencil,html #creator-sidebar .creator-sidebar-bullet,html #masthead-search .search-btn-component .yt-uix-button-content,html .yt-uix-button-icon-comment-close,html .comment-action img,html .yt-uix-button-icon-comment-close,html .yt-uix-button-icon-action-panel-stats,html .yt-uix-button .yt-uix-button-icon-action-panel-transcript,html #hangout-popout-icon,html .yt-uix-button-arrow,html .yt-channel-title-autogenerated,html .channels-search .search-button .yt-uix-button-content,html .guide-management-plus-icon,html .yt-uix-button-subscribe-unbranded.ypc-enabled .yt-uix-button-icon-subscribe,html .lohp-blog-decoration,html #channel-search .show-search img,html #channel-search .yt-uix-button-icon-search,html .hitchhiker-enabled .yt-uix-button-icon-feed-item-action-menu,html #search-btn span,html .guide-management-settings-icon,html .yt-uix-button.guide-sort-button,html .yt-uix-button-icon-addto,html .yt-uix-button-icon-c4-editor-edit,html .nonprofit-download-playbook img,html .watch-actions-stats-rats .stats-chart-gviz,html .yt-uix-expander-arrow,html .dashboard-widget-handle,html .vm-list-view .vm-video-metrics img,html .yt-uix-button-icon-vm-beauty-view,html .yt-uix-button-icon-vm-beauty-view,html .yt-uix-button-icon-vm-list-view,html .vm-search-btn .yt-uix-button-content,html .channel-header .secondary-header-contents img,html #mid-title+img,html #vm-view-toggle .list-selected img,html #vm-view-toggle .grid img,html .yt-uix-button-icon-report-user,html .subscriptions-filter .filter-button .yt-uix-button-content,html #fl span,html #rd span,html #rl span,html .yt-uix-button-icon-upload-add,html .yt-uix-button-icon-upload-cancel,html .creator-editor-icon-captions,html .creator-editor-icon-annotate,html .creator-editor-icon-audio,html .creator-editor-icon-enhance,html .creator-editor-icon-edit,html img.audio-ui-add-audio,html .yt-search-field-search-button .yt-uix-button-content,html .yt-uix-button-icon-annotation-add,html .icon-annotation-add,html .yt-uix-button-icon-annotation-edit,html .icon-annotation-edit,html #watch7-subscription-container .channel-settings-link .yt-uix-button-icon-settings,html .video-likes-count img,html .video-dislikes-count img,html #insight button img,html #insight span img:not(.gwt-Image),html #quick-fixes-panel img,html #insight svg,html .dashboard-widget-analytics .section-sparkline img,html .GGNVMSPDGT,html img.storyboard-icon.video-icon,html img.storyboard-icon.audio-icon,html #storyboard .timeline-zoomslider .slider-icon,html .editor-tab-bar img,html button.project-menu-delete img,html .yt-creator-notifications .yt-creator-tip-status-icon .yt-creator-tip-status-icon-active,html .sharebox iframe,html #annotator-add-menu img,html .annotation-header img,html .yt-uix-button-icon-bell,html #comment-settings iframe,html .searchfield img.search-icon,html .track a:not(:hover) img,html .yt-uix-button-icon-gplus-message,html .iph-dialog-pointer-left,html .c4-button-opacity img,html .editor-tab-container img,html .subnav-flow-menu img,html li .gwt-Image,html .yt-uix-button-icon-gray_close,html .c4-checklist-module .checklist-item:hover .yt-close-img,html .ad-info-icon,html .pl-header-content img,html .addto-menu img,html .playlist-status,html #creator-sidebar [class*=icon]:not(.selected),html .add-widget-button,html .search-button .yt-uix-button-content,html .yt-uix-button-icon:not([class*=appbar]):not([class*=playlist]):not([class*=collection]):not([class*=promo]),html .search-icon,html .yt-help-icon,html #channel-header-view-as-link .header-action-icon,html .yt-uix-button-icon-action-panel-report,html .add-to-widget [class*=icon],html .yt-uix-button-icon-action-panel-transcript,html .subscription-manager-cell-header-icon,html .yt-uix-button-icon-privacy-private,html .autoplay-info-icon,html .sprite_delete,html .sprite_flag,html .sprite_approve,html .pl-header-title-icon,html .yt-uix-subscription-preferences-button:hover:before,html .action-panel-trigger:before,html .yt-uix-button:not([class*=subscribe]):not([class*=like-button-renderer-like-button-unclicked]):not([class*=like-button-renderer-like-button-clicked]):not(.yt-uix-playlistlike):before,html .like-button-renderer-like-button-unclicked:not(:active):before,html .comments .sprite_like,html .comments .sprite_dislike,html .comments .sprite_dropdown,html .sprite-like:not([data-action-on=""]),html .sprite-dislike:not([data-action-on=""]),html .vm-video-metric .yt-sprite,html .track-action-icon,html .comment-renderer-author-comment-badge.creator .yt-comment-author-verified-icon,html [class*="comment-replies-renderer-expander"]:after,html .yt-close-img,html .HPHGCHB-P-g a:not(:hover) img,html .creator-heart-big-unhearted,html .yt-uix-form-input-select-arrow {
-  -webkit-filter: invert(80%)!important
+  filter: invert(80%)!important
 }
 
 html .yt-uix-button-appbar,html #enhance-editor-link a,html #audio-ui-selection,html #insight button[role=button],html #insight button[role=listbox],html #audio-ui-featured-table-container thead td,html .vm-improve-video-close-button,html .vm-improve-video-button,html .vm-promote-video-close-button,html .vm-promote-video-button,html body .b,html .yt-uix-button-alert-info,html button.yt-uix-button-dark,html .watch-actions-stats-rats .stats-bragbar,html .watch-actions-stats-rats .stats-bragbar-filler,html body .yt-uix-button-default[disabled],html .yt-uix-button-primary,html .yt-uix-button-subscribe-unbranded,html .yt-uix-form-input-select,html select,html .yt-playall-link,html .flip.yt-uix-button-text:hover,html .yt-uix-button-subscribed-branded,html .site-center-aligned #masthead-positioner:hover #appbar-guide-button,html .yt-uix-button-panel:hover .creator-bar-item .yt-uix-button-text-dark,html .yt-uix-button-panel .creator-bar-item .yt-uix-button-text-dark:hover,html .yt-uix-button-default:not(.yt-dialog-close):not(.add-widget-button):not(.yt-uix-button-toggled):not(.yt-uix-button-link):not(.sprite-like):not(.sprite-dislike):not(#sb-button-notify),html .video-dds,html .topline {
@@ -372,10 +372,10 @@ html img::selection {
 }
 
 html body::-webkit-scrollbar,html .scrollable-comment-list::-webkit-scrollbar,html .scroll-content::-webkit-scrollbar,html #transcript-scrollbox::-webkit-scrollbar,html ul::-webkit-scrollbar,html ol::-webkit-scrollbar,html .project-menu-chooser::-webkit-scrollbar,html #yt-masthead-notifications-content::-webkit-scrollbar {
-  width: 10px!important;
-  height: 10px!important;
+  width: calc(10px * var(--visual-viewport-zoom-ratio))!important;
+  height: calc(10px * var(--visual-viewport-zoom-ratio))!important;
   background: #1e1e1e!important;
-  border: 1px solid #252525!important
+  border: calc(1px * var(--visual-viewport-zoom-ratio)) solid #252525!important
 }
 
 html body::-webkit-scrollbar-button,html .scrollable-comment-list::-webkit-scrollbar-button,html .scroll-content::-webkit-scrollbar-button,html #transcript-scrollbox::-webkit-scrollbar-button,html ul::-webkit-scrollbar-button,html ol::-webkit-scrollbar-button,html .project-menu-chooser::-webkit-scrollbar-button,html #yt-masthead-notifications-content::-webkit-scrollbar-button {
@@ -388,7 +388,7 @@ html body::-webkit-scrollbar-thumb,html .scrollable-comment-list::-webkit-scroll
 }
 
 html body::-webkit-scrollbar-thumb,html .scrollable-comment-list::-webkit-scrollbar-thumb,html .scroll-content::-webkit-scrollbar-thumb,html #transcript-scrollbox::-webkit-scrollbar-thumb,html ul::-webkit-scrollbar-thumb,html ol::-webkit-scrollbar-thumb,html .yt-scrollbar::-webkit-scrollbar-thumb,html .project-menu-chooser::-webkit-scrollbar-thumb,html #appbar-guide-menu::-webkit-scrollbar-thumb,html #yt-masthead-notifications-content::-webkit-scrollbar-thumb {
-  min-height: 28px!important;
+  min-height: calc(28px * var(--visual-viewport-zoom-ratio))!important;
   background: #4e4e4e!important
 }
 
@@ -936,7 +936,7 @@ html.lqFewc #lqN[on] {
   filter: invert(1)!important
 }
 
-@-webkit-keyframes lqJGq {
+@keyframes lqJGq {
   0% {
     transform: rotate(0deg)
   }
@@ -959,7 +959,7 @@ html.lqFewc #lqN[on] {
 }
 
 @media (orientation: portrait) {
-  @-webkit-keyframes lqOAhV {
+  @keyframes lqOAhV {
     0% {
       transform:translateY(-50%) rotate(0deg)
     }
@@ -970,7 +970,7 @@ html.lqFewc #lqN[on] {
   }
 }
 
-@-webkit-keyframes DM {
+@keyframes DM {
   0% {
     transform: scale(1)
   }
@@ -989,34 +989,34 @@ html.lqFewc #lqN[on] {
 }
 
 html:not(.lqFewc) video.lqPG521 {
-  -webkit-animation: lqJGq 7s linear infinite!important;
-  -webkit-clip-path: circle(33% at center)!important;
+  animation: lqJGq 7s linear infinite!important;
+  clip-path: circle(33% at center)!important;
   box-shadow: none!important
 }
 
 html.lqn5 video.lqPG521 {
-  -webkit-animation: lqJGq 7s linear infinite!important;
-  -webkit-clip-path: circle(33vh at center)!important;
+  animation: lqJGq 7s linear infinite!important;
+  clip-path: circle(33vh at center)!important;
   box-shadow: none!important
 }
 
 html.lqFewc video.lqPG521 {
-  -webkit-animation: lqOAhV 7s linear infinite!important
+  animation: lqOAhV 7s linear infinite!important
 }
 
 video.lqPG522 {
-  -webkit-animation: lqJGq 7s linear infinite!important;
-  -webkit-clip-path: polygon(50% 0%,41% 28%,23% 34%,35% 58%,33% 90%,49% 77%,66% 90%,64% 58%,76% 34%,58% 28%)!important;
+  animation: lqJGq 7s linear infinite!important;
+  clip-path: polygon(50% 0%,41% 28%,23% 34%,35% 58%,33% 90%,49% 77%,66% 90%,64% 58%,76% 34%,58% 28%)!important;
   box-shadow: none!important
 }
 
 html.lqFewc video.lqPG522 {
-  -webkit-animation: lqOAhV 7s linear infinite!important
+  animation: lqOAhV 7s linear infinite!important
 }
 
 html:not(.lqn5) video.lqPG523 {
   transform-origin: 50% 25%;
-  -webkit-animation: DM 7s linear infinite!important
+  animation: DM 7s linear infinite!important
 }
 
 html:not(.lqFewc) video.lqPG524 {
@@ -1092,9 +1092,9 @@ html.lql2SP .lqwvT {
 html.lql2SP .lqKqa {
   height: 3px;
   background: #339900;
-  -webkit-transform: scaleX(0);
-  -webkit-transform-origin: 0 0;
-  -webkit-transition: all 1s
+  transform: scaleX(0);
+  transform-origin: 0 0;
+  transition: all 1s
 }
 
 #lqEOg4 {
@@ -1752,10 +1752,10 @@ ytcp-settings-studio-default .ytcp-settings-studio-default,
 /* ScrollBar */
 
 :not(#guide-inner-content)::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: calc(10px * var(--visual-viewport-zoom-ratio));
+  height: calc(10px * var(--visual-viewport-zoom-ratio));
   background: #171717;
-  border: solid #292929 1px;
+  border: solid #292929 calc(1px * var(--visual-viewport-zoom-ratio));
 }
 
 :not(#guide-inner-content)::-webkit-scrollbar-track {
@@ -1766,7 +1766,7 @@ ytcp-settings-studio-default .ytcp-settings-studio-default,
 
 :not(#guide-inner-content)::-webkit-scrollbar-corner {
   background-color: #444;
-  box-shadow: inset #fff4 0 0 3px 0;
+  box-shadow: inset #fff4 0 0 calc(3px * var(--visual-viewport-zoom-ratio)) 0;
   border-radius: 0;
 }
 
@@ -1815,10 +1815,10 @@ tp-yt-paper-button > yt-formatted-string#text {
 }
 
 /* Botones de popup */
-#dismiss-button #text,
+/* #dismiss-button #text,
 #action-button #text {
-  /* color: inherit !important; */
-}
+  color: inherit !important;
+} */
 
 /* Botón de la barra de busqueda */
 #search-icon-legacy.ytd-searchbox:focus {
@@ -1839,9 +1839,9 @@ input[type="text"] {
 }
 
 /* Corregir error repentino de superposición de las miniaturas de los videos al hacerles 'hover' */
-ytd-rich-item-renderer.style-scope.ytd-rich-grid-renderer:hover {
-/*   z-index: 99; */
-}
+/* ytd-rich-item-renderer.style-scope.ytd-rich-grid-renderer:hover {
+  z-index: 99;
+} */
 
 /* Botón "Orderna Por" */
 #icon-label.yt-dropdown-menu,

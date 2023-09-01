@@ -1,4 +1,4 @@
-import { waitForSelector, delay } from '../../@libs/utils-injection.js'
+import { waitForSelector, delay, getZoom } from '../../@libs/utils-injection.js'
 import { calidad1080pAutomatica, ContextMenuManager as ctxM } from './youtube-utils.js'
 import * as youtubeUtils from './youtube-utils.js'
 import * as ctxMenu  from './resource-data/context-menu-options.js'
@@ -9,6 +9,15 @@ import _ from '../../@libs/libs/functional-dom/index.js'
 // import { render } from '../../@libs/preact/preact.mjs'
 
 window.youtubeUtils = youtubeUtils
+
+const onVisualViewportResize = event => {
+  document.documentElement.style.setProperty('--visual-viewport-zoom-ratio', 1 / getZoom())
+}
+
+onVisualViewportResize()
+
+visualViewport.addEventListener('resize', onVisualViewportResize)
+
 
 // Preact test with YT Playlist
 
