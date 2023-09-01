@@ -33,7 +33,7 @@ injectModulesWithDomainMatch({
 
 
 injectModulesWithDomainMatch({
-  matchExpressions: '*://developer.mozilla.org/*/play',
+  matchExpressions: 'developer.mozilla.org/*/play',
   modules: [
     'mdn-playground'
   ]

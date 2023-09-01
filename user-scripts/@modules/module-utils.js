@@ -58,12 +58,12 @@ export function matchesDomain(value, match) {
   const regExpDomain = /[a-zA-Z0-9*]+(\.[a-zA-Z0-9*]+)+/
   const regExpPort = /(:([0-9]{4}|\*))/
   const regExpPath = /((\/[a-zA-Z0-9*-]*)+)?$/
-  const regExpURL = new RegExp(templateRegex`${regExpProtocol}://${regExpDomain}${regExpPort}?${regExpPath}`)
+  const regExpURL = new RegExp(templateRegex`(${regExpProtocol}://)?${regExpDomain}${regExpPort}?${regExpPath}`)
 
   // Protocol
 
   {
-    const protocol = match.match(regExpProtocol)?.[0] ?? null
+    const protocol = match.match(new RegExp(templateRegex`${regExpProtocol}(?=://)`))?.[0] ?? '*'
     matchParts.protocol = protocol
   }
 
@@ -93,8 +93,8 @@ export function matchesDomain(value, match) {
   // Port
 
   {
-    const port = match.match(regExpPort)?.[0] ?? null
-    matchParts.port = port !== '' && port != null ? port.slice(1) : null
+    const port = match.match(regExpPort)?.[0] ?? ':*'
+    matchParts.port = port.slice(1)
   }
 
   {
@@ -112,33 +112,6 @@ export function matchesDomain(value, match) {
   {
     const paths = value.match(regExpPath)?.[0] ?? null
     valueParts.paths = paths !== '' && paths != null ? paths.split('/') : '*'
-  }
-
-  const regExpDomainOnly = /^[a-zA-Z0-9*]+(\.[a-zA-Z0-9*]+)+$/
-
-  if (valueParts.domain != null && regExpDomainOnly.test(match)) {
-    const domainValue = [...valueParts.domain]
-    let domainMatch = match.split('.')
-
-    if (domainMatch.length === domainValue.length + 1 && domainMatch[0] === '*') {
-      domainMatch = domainMatch.slice(1)
-    }
-    else
-    if (domainMatch.length !== domainValue.length) {
-      return false
-    }
-
-    for (let i = 0; i < domainMatch.length; i++) {
-      if (domainMatch[i] === '*') {
-        continue
-      }
-
-      if (domainMatch[i] !== domainValue[i]) {
-        return false
-      }
-    }
-
-    return true
   }
 
   if (!regExpURL.test(match)) {
