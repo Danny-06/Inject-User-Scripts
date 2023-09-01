@@ -188,8 +188,10 @@ export function matchesDomain(value, match) {
 /**
  * `matchExpressions` can be a string like
  * ```js
+ * '*'
  * 'www.example.com'
  * '*.example.com'
+ * '*.example.com/path/to/somewhere'
  * 'https://*.example.com'
  * '*://*.example.com'
  * '*://*.example.com/path/*'
