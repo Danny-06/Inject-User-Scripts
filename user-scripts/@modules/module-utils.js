@@ -222,7 +222,8 @@ export function matchesDomain(value, match) {
  * '*://*.example.com/path/*'
  * ```
  *
- * `modules` must be an array of the names of the modules
+ * `modules` must be an array of the names of the modules.  
+ *  You could also save modules in a subfolder if you need it.
  * @param {{matchExpressions: string | string[], modules: string[]}} options
  * @returns
  */
