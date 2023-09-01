@@ -42,3 +42,9 @@ ytd-item-section-renderer[static-comments-header] #contents.ytd-item-section-ren
 ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-comments-section"] ytd-section-list-renderer[engagement-panel] {
   overflow: auto;
 }
+
+
+/* Change the "new" label in videos from left position to right */
+ytd-compact-video-renderer ytd-badge-supported-renderer {
+  justify-content: flex-end;
+}
