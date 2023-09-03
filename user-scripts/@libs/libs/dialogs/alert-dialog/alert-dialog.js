@@ -29,7 +29,7 @@ function AlertDialog(props) {
     <${DivShadow} ...${attributes} stylesheets=${[stylesheet]}>
         <div ref=${dialogOverlayRef} class=${`dialog-menu-overlay ${isClosing ? 'closing' : ''}`}>
             <div class=${`dialog-menu ${isClosing ? 'closing' : ''}`}>
-                <div class="message">${message}</div>
+                <div class="message" dangerouslySetInnerHTML=${{__html: message}}></div>
                 <div class="buttons">
                     <button class="accept"
                       onClick=${() => {
