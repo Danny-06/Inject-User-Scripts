@@ -10,7 +10,7 @@ export default function DivShadow(props) {
 
   useEffectOnce(() => {
     const root = rootRef.current
-  
+
     root.attachShadow({mode: 'open'})
     root.shadowRoot.adoptedStyleSheets = [...stylesheets]
 
