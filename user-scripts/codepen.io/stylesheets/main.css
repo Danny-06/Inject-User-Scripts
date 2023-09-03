@@ -75,6 +75,13 @@ li.editor-dropdown-list-item > button:hover {
 
 
 /* Scrollbar */
-::-webkit-scrollbar{width: 10px;height: 5px;background: #000}
-::-webkit-scrollbar-thumb{background: #444857}
-::-webkit-scrollbar-corner{background: #444857}
+::-webkit-scrollbar {
+  width: calc(10px * var(--visual-viewport-zoom-ratio));
+  height: calc(5px * var(--visual-viewport-zoom-ratio));
+  background-color: #000;
+}
+
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-corner{
+  background-color: #444857
+}
