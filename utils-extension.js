@@ -1,10 +1,10 @@
 /**
- * 
+ * https://stackoverflow.com/questions/33483667/how-to-strip-json-comments-in-javascript/62945875#62945875
  * @param {string} jsonString 
  * @returns {string}
  */
 export function removeCommentsInJSON(jsonString) {
-  return jsonString.replace(/\/\*[^]*?\*\//g, '').replace(/\/\/.*/g, '')
+  return jsonString.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? "" : m)
 }
 
 /**
