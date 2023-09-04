@@ -57,7 +57,7 @@ export function matchesDomain(value, match) {
   const regExpProtocol = /^[a-zA-Z*-]+/
   const regExpDomain = /[a-zA-Z0-9*]+(\.[a-zA-Z0-9*]+)+/
   const regExpPort = /(:([0-9]{4}|\*))/
-  const regExpPath = /((\/[a-zA-Z0-9*-]*)+)?$/
+  const regExpPath = /((\/[a-zA-Z0-9*-]*)+)?/
   const regExpURL = new RegExp(templateRegex`(${regExpProtocol}://)?${regExpDomain}${regExpPort}?${regExpPath}`)
 
   // Protocol
@@ -218,7 +218,7 @@ export function injectModulesWithDomainMatch(options) {
  * @returns
  */
 export function injectCodeWithDomainMatch(matchExpressions, options) {
-  const url = location.href.replace(location.search, '')
+  const url = location.href
 
   if (Array.isArray(matchExpressions)) {
     if (matchExpressions.length === 0) return
