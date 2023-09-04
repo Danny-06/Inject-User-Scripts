@@ -9,6 +9,7 @@ injectCode(modulePath, {
   scripts: [
   'scripts/main.mjs',
   'scripts/fullscreen-editor.mjs',
-  'scripts/fullscreen-result.mjs'
+  'scripts/fullscreen-result.mjs',
+  'scripts/insert-code-from-url-params.mjs'
   ]
 })
