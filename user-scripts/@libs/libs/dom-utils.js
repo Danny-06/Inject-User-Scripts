@@ -205,6 +205,17 @@ export function parseHTML(htmlString, options = {}) {
   return mapId ? [documentFragment, nodesMapId] : documentFragment
 }
 
+/**
+ * 
+ * @param {string[]} strings 
+ * @param  {...any} args 
+ */
+export function html(strings, ...args) {
+  const joinedString = strings.reduce((acc, value, index) => acc + value + index < strings.length - 1 ? args[index] : '')
+
+  return parseHTML(joinedString)
+}
+
 export function parseHTMLDocument(htmlString) {
   const doc = new DOMParser().parseFromString(htmlString, 'text/html')
 
