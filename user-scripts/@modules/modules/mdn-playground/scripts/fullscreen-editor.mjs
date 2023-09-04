@@ -1,4 +1,4 @@
-import { toggleFullscreenElement } from './utils.js'
+import { toggleFullscreenElement } from '../utils.js'
 
 document.addEventListener('click', event => {
   if (!event.ctrlKey) {

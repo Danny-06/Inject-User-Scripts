@@ -4,11 +4,11 @@ const modulePath = getModuleURL(import.meta.url)
 
 injectCode(modulePath, {
   stylesheets: [
-    'main.css'
+    'styles/main.css'
   ],
   scripts: [
-  'main.mjs',
-  'fullscreen-editor.mjs',
-  'fullscreen-result.mjs'
+  'scripts/main.mjs',
+  'scripts/fullscreen-editor.mjs',
+  'scripts/fullscreen-result.mjs'
   ]
 })

@@ -1,5 +1,5 @@
-import { html } from '../../../@libs/libs/dom-utils.js'
-import { toggleFullscreenElement } from './utils.js'
+import { html } from '../../../../@libs/libs/dom-utils.js'
+import { toggleFullscreenElement } from '../utils.js'
 
 const playGroundContainer = document.querySelector('main.play.container')
 const iframePreview = playGroundContainer.querySelector(':scope > .preview > iframe')
