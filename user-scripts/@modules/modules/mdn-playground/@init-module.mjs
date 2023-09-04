@@ -7,6 +7,8 @@ injectCode(modulePath, {
     'main.css'
   ],
   scripts: [
-  'main.mjs'
+  'main.mjs',
+  'fullscreen-editor.mjs',
+  'fullscreen-result.mjs'
   ]
 })
