@@ -17,7 +17,7 @@ function templateRegex(strings, ...args) {
     regExpStringResult += `${string}${regExpString}`
   }
 
-  return regExpStringResult
+  return new RegExp(regExpStringResult)
 }
 
 
@@ -54,16 +54,16 @@ export function matchesDomain(value, match) {
     paths:    []
   }
 
-  const regExpProtocol = /^[a-zA-Z*-]+/
+  const regExpProtocol = /^[a-zA-Z*\-]+/
   const regExpDomain = /[a-zA-Z0-9*]+(\.[a-zA-Z0-9*]+)+/
   const regExpPort = /(:([0-9]{4}|\*))/
-  const regExpPath = /((\/[a-zA-Z0-9*-]*)+)?/
-  const regExpURL = new RegExp(templateRegex`(${regExpProtocol}://)?${regExpDomain}${regExpPort}?${regExpPath}`)
+  const regExpPath = /((\/[a-zA-Z0-9*\-]*)+)/
+  const regExpURL = templateRegex`(${regExpProtocol}://)?${regExpDomain}${regExpPort}?${regExpPath}?`
 
   // Protocol
 
   {
-    const protocol = match.match(new RegExp(templateRegex`${regExpProtocol}(?=://)`))?.[0] ?? '*'
+    const protocol = match.match(templateRegex`${regExpProtocol}(?=://)`)?.[0] ?? '*'
     matchParts.protocol = protocol
   }
 
@@ -105,13 +105,17 @@ export function matchesDomain(value, match) {
   // Path
 
   {
-    const paths = match.match(regExpPath)?.[0] ?? null
-    matchParts.paths = paths !== '' && paths != null ? paths.split('/') : '*'
-  }
+    const regExpFindPath = templateRegex`(?<=(${regExpDomain}(${regExpPort})?))${regExpPath}`
 
-  {
-    const paths = value.match(regExpPath)?.[0] ?? null
-    valueParts.paths = paths !== '' && paths != null ? paths.split('/') : '*'
+    {
+      const paths = match.match(regExpFindPath)?.[0] ?? null
+      matchParts.paths = paths !== '' && paths != null ? paths.split('/') : '*'
+    }
+
+    {
+      const paths = value.match(regExpFindPath)?.[0] ?? null
+      valueParts.paths = paths !== '' && paths != null ? paths.split('/') : '*'
+    }
   }
 
   if (!regExpURL.test(match)) {
