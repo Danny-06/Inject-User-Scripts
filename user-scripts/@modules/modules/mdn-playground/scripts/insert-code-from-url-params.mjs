@@ -22,6 +22,14 @@ const playGroundContainer = document.querySelector('main.play.container')
 const editors = playGroundContainer.querySelectorAll(':scope > .editors > .editor-container')
 const editorsContent = [...editors].map(editor => editor.querySelector(':scope .cm-content'))
 
-editorsContent[0].innerText = html
-editorsContent[1].innerText = css
-editorsContent[2].innerText = js
+if (html) {
+  editorsContent[0].innerText = html
+}
+
+if (css) {
+  editorsContent[1].innerText = css
+}
+
+if (js) {
+  editorsContent[2].innerText = js
+}
