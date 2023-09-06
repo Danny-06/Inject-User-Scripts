@@ -1,6 +1,6 @@
 import * as _ChromeExtension from './chrome-extension-utils.js'
 import MouseInfo from './libs/mouse-info.js'
-import KeyboardInfo from './libs/keyboard-info.js'
+import KeyboardInfo, { KeySequence } from './libs/keyboard-info.js'
 import { StringConversion } from './libs/string-conversion.js'
 import { StringImageConversion } from './libs/string-image-conversion.js'
 import { StorageHandler } from './libs/storage-handler.js'
@@ -31,7 +31,7 @@ const GeneratorUtils = Object.freeze({..._GeneratorUtils})
 const ChromeExtension = Object.freeze({..._ChromeExtension})
 
 export {
-  MouseInfo, KeyboardInfo, ScrollBox, StringConversion, StringImageConversion, StorageHandler,
+  MouseInfo, KeyboardInfo, KeySequence, ScrollBox, StringConversion, StringImageConversion, StorageHandler,
   ArrayN, ZipManager, LocalDB,
   classMaker, CanvasUtils, Timeout, Interval,
   Binary, ChromeExtension, ListManager, ProxyUtils, DOMUtils, Dialogs, GeneratorUtils, Calculator,
