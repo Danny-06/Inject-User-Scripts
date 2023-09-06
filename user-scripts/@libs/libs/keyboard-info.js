@@ -47,3 +47,64 @@ export default class KeyboardInfo {
   }
 
 }
+
+
+export class KeySequence {
+
+  /**
+   * 
+   * @param {KeyCode[]} matchKeySequence 
+   * @param {number} timeoutDuration 
+   * @param {number} options
+   */
+  constructor(matchKeySequence, timeoutDuration, options) {
+    this.#matchKeySequence = Object.freeze(structuredClone(matchKeySequence))
+    this.#currentKeySequence = []
+    this.#callbacks = new Set()
+
+    const {useKey} = options
+
+    window.addEventListener('keydown', event => {
+      clearTimeout(this.#resetTimeout)
+
+      this.#currentKeySequence.push(useKey ? event.key : event.code)
+
+      if (this.#sequenceMatches) {
+        this.#currentKeySequence = []
+
+        for (const callback of this.#callbacks) {
+          callback(this.#matchKeySequence)
+        }
+      }
+
+      this.#resetTimeout = setTimeout(() => {
+        this.#currentKeySequence = []
+      }, timeoutDuration)
+    })
+  }
+
+  get #sequenceMatches() {
+    const start = this.#currentKeySequence.length - this.#matchKeySequence.length
+
+    for (let i = start, j = 0; i < this.#currentKeySequence.length; i++, j++) {
+      if (this.#currentKeySequence[i] !== this.#matchKeySequence[j]) {
+        return false
+      }
+    }
+
+    return true
+  }
+
+  #matchKeySequence
+
+  #currentKeySequence
+
+  #resetTimeout
+
+  #callbacks
+
+  addListener(callback) {
+    this.#callbacks.add(callback)
+  }
+
+}
