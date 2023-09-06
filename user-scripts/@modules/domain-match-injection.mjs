@@ -24,7 +24,7 @@ injectModulesWithDomainMatch({
   matchExpressions: [
     '*.google.*', 'netflix.com', 'clashroyale.com', '*.reddit.com',
     'stackoverflow.com', 'github.com', '*.facebook.com', '*.instagram.com', '*.w3schools.com',
-    'developer.mozilla.org', '*.crunchyroll.com'
+    'developer.mozilla.org', '*.crunchyroll.com', '*.kotlinlang.org', 'developer.android.com'
   ],
   modules: [
     'general-custom-scrollbar'
