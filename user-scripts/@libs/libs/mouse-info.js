@@ -1,4 +1,4 @@
-export class MouseInfo {
+export default class MouseInfo {
 
   #abortController = new AbortController()
 

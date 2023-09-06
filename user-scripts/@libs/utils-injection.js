@@ -1,5 +1,5 @@
 import * as _ChromeExtension from './chrome-extension-utils.js'
-import { MouseInfo } from './libs/mouse-info.js'
+import MouseInfo from './libs/mouse-info.js'
 import { StringConversion } from './libs/string-conversion.js'
 import { StringImageConversion } from './libs/string-image-conversion.js'
 import { StorageHandler } from './libs/storage-handler.js'

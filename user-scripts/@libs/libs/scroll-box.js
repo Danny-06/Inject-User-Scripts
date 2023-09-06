@@ -1,4 +1,4 @@
-import { MouseInfo } from "./mouse-info.js"
+import MouseInfo from "./mouse-info.js"
 
 const mouse = new MouseInfo()
 
