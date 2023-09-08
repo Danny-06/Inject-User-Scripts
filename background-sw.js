@@ -1,5 +1,6 @@
 import { parseJSONResponseWithComments } from './utils-extension.js'
 
+const EXTENSION_ENABLED = 'EXTENSION_ENABLED'
 
 chrome.runtime.onInstalled.addListener((details) => {
   chrome.storage.local.set({[EXTENSION_ENABLED]: true})
@@ -58,6 +59,8 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
           script.src = `${extensionUrl}/${userScriptsFolder}/@modules/domain-match-injection.mjs`
 
           document.head ? document.head.append(script) : document.documentElement.append(script)
+
+          script.remove()
         })()
 
         // Inject code for the current domain
@@ -86,6 +89,8 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
           script.src = `${extensionUrl}/${userScriptsFolder}/${domain}/${scriptName}`
 
           document.head ? document.head.append(script) : document.documentElement.append(script)
+
+          script.remove()
         })
       }
     }

@@ -303,6 +303,8 @@ export function injectScripts(scriptsPath) {
     } else {
       document.documentElement.append(script)
     }
+
+    script.remove()
   })
 
 }
