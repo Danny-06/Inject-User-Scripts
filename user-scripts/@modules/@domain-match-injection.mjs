@@ -1,4 +1,4 @@
-import { injectModulesWithDomainMatch } from './module-utils.js'
+import { injectModulesWithDomainMatch } from './@module-utils.js'
 
 
 injectModulesWithDomainMatch({

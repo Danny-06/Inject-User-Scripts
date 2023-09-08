@@ -56,7 +56,7 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
 
           script.type = 'module'
           script.dataset.source = 'Chrome Extension - Modules'
-          script.src = `${extensionUrl}/${userScriptsFolder}/@modules/domain-match-injection.mjs`
+          script.src = `${extensionUrl}/${userScriptsFolder}/@modules/@domain-match-injection.mjs`
 
           document.head ? document.head.append(script) : document.documentElement.append(script)
 
