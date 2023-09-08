@@ -11,6 +11,7 @@ a:link {
 .dialog-menu-overlay {
   all: unset;
   display: block;
+  opacity: 0;
 
   font-size: initial;
 
@@ -86,70 +87,4 @@ button:active {
 
 .dialog-menu > .buttons > .accept:active {
   background-color: #00581e;
-}
-
-
-.dialog-menu-overlay {
-  animation: overlay-display 0.3s ease-out 0s 1 normal forwards;
-}
-
-.dialog-menu-overlay.closing {
-  animation: overlay-closing 0.3s ease-in 0s 1 normal forwards;
-}
-
-.dialog-menu {
-  animation: dialog-menu-display 0.3s ease-out 0s 1 normal forwards;
-}
-
-.dialog-menu.closing {
-  animation: dialog-menu-closing 0.3s ease-in 0s 1 normal forwards;
-} 
-
-
-@keyframes overlay-display {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes overlay-closing {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes dialog-menu-display {
-  0% {
-    transform: translateY(100px) scale(0.2);
-  }
-
-  50% {
-    transform: scale(0.2);
-  }
-
-  100% {
-    transform: none;
-  }
-}
-
-@keyframes dialog-menu-closing {
-  0% {
-    transform: none;
-  }
-
-  50% {
-    transform: scale(0.2);
-  }
-
-  100% {
-    transform: translateY(100px) scale(0.2);
-  }
 }

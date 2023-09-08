@@ -1,43 +1,71 @@
-import { useRef } from '../../../preact/hooks.mjs'
 import html from '../../../preact/htm/html.mjs'
-import { useSignal } from '../../../preact/signals.mjs'
 import DivShadow from '../../../preact/util-components/shadow-dom.js'
 import appendComponent from '../../../preact/util-functions/append-component.js'
 import useEffectOnce from '../../../preact/util-hooks/use-effect-once.js'
+import useRefCallback from '../../../preact/util-hooks/use-ref-callback.js'
 import stylesheet from './alert-dialog.css' assert {type: 'css'}
 
 
+/**
+ * 
+ * @param {{
+ *   message?: string,
+ *   onAccept?: () => void,
+ *   onClose?: () => void
+ * }} props 
+ * @returns 
+ */
 function AlertDialog(props) {
-  const { message, onAccept, onClose, ...attributes } = props
+  const dialogAnimation = useRefCallback((node, ref) => {
+    ref.current = node.animate({
+      transform: [
+        'translateY(100px) scale(0.2)',
+        'scale(0.2)',
+        'none'
+      ],
+      offset: [0, 0.5, 1]
+    }, {
+      duration: 350,
+      easing: 'ease-in',
+      fill: 'forwards'
+    })
 
-  const isClosingSignal = useSignal(false)
-  const isClosing = isClosingSignal.value
-
-  const dialogOverlayRef = useRef(null)
-
-  useEffectOnce(() => {
-    const dialogOverlay = dialogOverlayRef.current
-
-    dialogOverlay.addEventListener('animationend', () => {
-      setTimeout(() => {
-        dialogOverlay.addEventListener('animationend', event => onClose(), {once: true})
-      })
-    }, {once: true})
+    ref.current.cancel()
   })
 
-  return html`
-    <${DivShadow} ...${attributes} stylesheets=${[stylesheet]}>
-        <div ref=${dialogOverlayRef} class=${`dialog-menu-overlay ${isClosing ? 'closing' : ''}`}>
-            <div class=${`dialog-menu ${isClosing ? 'closing' : ''}`}>
-                <div class="message" dangerouslySetInnerHTML=${{__html: message}}></div>
-                <div class="buttons">
-                    <button class="accept"
-                      onClick=${() => {
-                        isClosingSignal.value = true
+  const dialogOverlayAnimation = useRefCallback((node, ref) => {
+    ref.current = node.animate({
+      opacity: [0, 1]
+    }, {
+      duration: 350,
+      easing: 'ease-out',
+      fill: 'forwards'
+    })
 
-                        onAccept()
-                      }}
-                    >Accept</button>
+    ref.current.cancel()
+  })
+
+  useEffectOnce(() => {
+    dialogAnimation.current.play()
+    dialogOverlayAnimation.current.play()
+  })
+
+  const onAccept = () => {
+    props.onAccept?.()
+
+    dialogAnimation.current.reverse()
+    dialogOverlayAnimation.current.reverse()
+
+    dialogAnimation.current.finished.then(() => props.onClose?.())
+  }
+
+  return html`
+    <${DivShadow} stylesheets=${[stylesheet]}>
+        <div class="dialog-menu-overlay" ref=${dialogOverlayAnimation.refCallback}>
+            <div class="dialog-menu" ref=${dialogAnimation.refCallback}>
+                <div class="message" dangerouslySetInnerHTML=${{__html: props.message}}></div>
+                <div class="buttons">
+                    <button class="accept" onClick=${onAccept}>Accept</button>
                 </div>
             </div>
         </div>

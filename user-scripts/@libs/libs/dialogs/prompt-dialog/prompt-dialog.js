@@ -1,54 +1,77 @@
 import { useRef } from '../../../preact/hooks.mjs'
 import html from '../../../preact/htm/html.mjs'
-import { useSignal } from '../../../preact/signals.mjs'
 import DivShadow from '../../../preact/util-components/shadow-dom.js'
 import appendComponent from '../../../preact/util-functions/append-component.js'
 import useEffectOnce from '../../../preact/util-hooks/use-effect-once.js'
+import useRefCallback from '../../../preact/util-hooks/use-ref-callback.js'
 import stylesheet from './prompt-dialog.css' assert {type: 'css'}
 
 
 function PromptDialog(props) {
-  const { message, defaultValue, onAccept, onCancel, onClose, ...attributes } = props
-
-  const isClosingSignal = useSignal(false)
-  const isClosing = isClosingSignal.value
-
-  const dialogOverlayRef = useRef(null)
   const textAreaRef = useRef(null)
 
-  useEffectOnce(() => {
-    const dialogOverlay = dialogOverlayRef.current
+  const dialogAnimation = useRefCallback((node, ref) => {
+    ref.current = node.animate({
+      transform: [
+        'translateY(100px) scale(0.2)',
+        'scale(0.2)',
+        'none'
+      ],
+      offset: [0, 0.5, 1]
+    }, {
+      duration: 350,
+      easing: 'ease-in',
+      fill: 'forwards'
+    })
 
-    dialogOverlay.addEventListener('animationend', () => {
-      setTimeout(() => {
-        dialogOverlay.addEventListener('animationend', event => onClose(), {once: true})
-      })
-    }, {once: true})
-
-    textAreaRef.current.addEventListener('keydown', event => event.stopPropagation())
+    ref.current.cancel()
   })
 
+  const dialogOverlayAnimation = useRefCallback((node, ref) => {
+    ref.current = node.animate({
+      opacity: [0, 1]
+    }, {
+      duration: 350,
+      easing: 'ease-out',
+      fill: 'forwards'
+    })
+
+    ref.current.cancel()
+  })
+
+  useEffectOnce(() => {
+    dialogAnimation.current.play()
+    dialogOverlayAnimation.current.play()
+  })
+
+  const onEnd = () => {
+    dialogAnimation.current.reverse()
+    dialogOverlayAnimation.current.reverse()
+
+    dialogAnimation.current.finished.then(() => props.onClose?.())
+  }
+
+  const onAccept = () => {
+    props.onAccept?.(textAreaRef.current.value)
+
+    onEnd()
+  }
+
+  const onCancel = () => {
+    props.onCancel?.(null)
+
+    onEnd()
+  }
+
   return html`
-    <${DivShadow} ...${attributes} stylesheets=${[stylesheet]}>
-        <div ref=${dialogOverlayRef} class=${`dialog-menu-overlay ${isClosing ? 'closing' : ''}`}>
-            <div class=${`dialog-menu ${isClosing ? 'closing' : ''}`}>
-                <div class="message" dangerouslySetInnerHTML=${{__html: message}}></div>
-                <textarea ref=${textAreaRef} class="input" value=${defaultValue} placeholder="(Type here)"></textarea>
+    <${DivShadow} stylesheets=${[stylesheet]}>
+        <div class="dialog-menu-overlay" ref=${dialogOverlayAnimation.refCallback}>
+            <div class="dialog-menu" ref=${dialogAnimation.refCallback}>
+                <div class="message" dangerouslySetInnerHTML=${{__html: props.message}}></div>
+                <textarea ref=${textAreaRef} class="input" value=${props.defaultValue} placeholder="(Type here)"></textarea>
                 <div class="buttons">
-                    <button class="accept"
-                      onClick=${() => {
-                        isClosingSignal.value = true
-
-                        onAccept(textAreaRef.current.value)
-                      }}
-                    >Accept</button>
-                    <button class="cancel"
-                      onClick=${() => {
-                        isClosingSignal.value = true
-
-                        onCancel(null)
-                      }}
-                    >Cancel</button>
+                    <button class="accept" onClick=${onAccept}>Accept</button>
+                    <button class="cancel" onClick=${onCancel}>Cancel</button>
                 </div>
             </div>
         </div>
