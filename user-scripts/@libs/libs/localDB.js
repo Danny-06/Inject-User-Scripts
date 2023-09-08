@@ -1,4 +1,4 @@
-export class LocalDB {
+export default class LocalDB {
 
   static #objectStoreName = 'table-key-value-pairs'
 

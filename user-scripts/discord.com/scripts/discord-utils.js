@@ -1,5 +1,6 @@
 import { createElement } from '../../@libs/libs/dom-utils.js'
-import { LocalDB, requestFile, StringConversion } from '../../@libs/utils-injection.js'
+import { requestFile, StringConversion } from '../../@libs/utils-injection.js'
+import LocalDB from '../../@libs/libs/localDB.js'
 
 
 function setChatBackgroundFromBlob(blob) {
