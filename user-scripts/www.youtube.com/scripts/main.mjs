@@ -5,8 +5,7 @@ import * as ctxMenu  from './resource-data/context-menu-options.js'
 import { addEventListener } from '../../@libs/libs/event-utils.js'
 import { run } from '../../@libs/extension-methods/object-extension.js'
 import _ from '../../@libs/libs/functional-dom/index.js'
-// import html from '../../@libs/preact/htm/html.mjs'
-// import { render } from '../../@libs/preact/preact.mjs'
+
 
 window.youtubeUtils = youtubeUtils
 
@@ -19,21 +18,6 @@ onVisualViewportResize()
 visualViewport.addEventListener('resize', onVisualViewportResize)
 
 
-// Preact test with YT Playlist
-
-// const newWin = open()
-// const doc = newWin.document
-
-// const pl = await youtubeUtils.getPlaylistMetadata({playlistId: 'PL-lup7Y45rv6eLhFiO2qGtYKRHFV2l9cG'})
-
-// render(html`<${App} />`, doc.body)
-
-// function App(props) {
-
-//   return html`
-//     ${pl.videos.map((video, index) => html`<div>${index}. ${video.title}</div>`)}
-//   `
-// }
 
 function dispatchNavigateEvent() {
   const customEvent = new CustomEvent('youtube-navigate')
@@ -55,10 +39,6 @@ setTimeout(() => {
 })
 
 window.addEventListener('youtube-load', event => {
-  if (location.pathname === '/watch') {
-    handleSecondaryInnerWatch().catch(console.error)
-  }
-
   openUncroppedBannerWithClick()
 })
 
@@ -66,6 +46,10 @@ window.addEventListener('youtube-load', event => {
 window.addEventListener('youtube-navigate', async event => {
   // Remove elements with id copy
   window.copy && [...window.copy].forEach(e => e.remove())
+
+  if (location.pathname === '/watch') {
+    handleSecondaryInnerWatch().catch(console.error)
+  }
 
 
   setLocationAttribute()
@@ -151,7 +135,13 @@ async function handleSecondaryInnerWatch() {
   initSecondaryTabs()
 
   function initSecondaryTabs() {
-    const shadow = secondaryInner.attachShadow({mode: 'open'})
+    let shadow
+
+    try {
+      shadow = secondaryInner.attachShadow({mode: 'open'})
+    } catch {
+      return
+    }
 
     const relatedBtn       = _.button({dataset: {id: 'related'}}, 'Related')
     const playlistBtn      = _.button({dataset: {id: 'playlist'}}, 'Playlist')
