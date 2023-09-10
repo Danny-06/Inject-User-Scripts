@@ -1,7 +1,7 @@
 import { useRef } from '../../@libs/preact/hooks.mjs';
 import html from '../../@libs/preact/htm/html.mjs';
 import { useSignal } from '../../@libs/preact/signals.mjs';
-import DivShadow from '../../@libs/preact/util-components/shadow-dom.js';
+import ShadowDOM from '../../@libs/preact/util-components/shadow-dom.js';
 import appendComponent from '../../@libs/preact/util-functions/append-component.js';
 import useEffectOnce from '../../@libs/preact/util-hooks/use-effect-once.js';
 import { waitForSelector } from "../../@libs/utils-injection.js"
@@ -179,7 +179,7 @@ function VolumeContainer(props) {
 
 
   return html`
-    <${DivShadow} class="volume-container-wrapper" stylesheets=${[stylesheet]}>
+    <${ShadowDOM} class="volume-container-wrapper" stylesheets=${[stylesheet]}>
         <div ref=${containerRef} class=${`volume-container ${isVolumeChanging ? 'full-opacity' : ''}`}>
             <div class="volume-count">${volumeCount}</div>
             <div class="gain-count">${gainCount}</div>

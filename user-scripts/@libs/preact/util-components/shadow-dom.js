@@ -3,7 +3,7 @@ import html from '../htm/html.mjs';
 import { Fragment, render } from '../preact.mjs';
 import useEffectOnce from '../util-hooks/use-effect-once.js';
 
-export default function DivShadow(props) {
+export default function ShadowDOM(props) {
   const { stylesheets = [], ...attributes } = props
 
   const rootRef = useRef(null)

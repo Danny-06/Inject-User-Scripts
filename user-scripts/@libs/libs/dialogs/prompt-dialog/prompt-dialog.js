@@ -1,6 +1,6 @@
 import { useRef } from '../../../preact/hooks.mjs'
 import html from '../../../preact/htm/html.mjs'
-import DivShadow from '../../../preact/util-components/shadow-dom.js'
+import ShadowDOM from '../../../preact/util-components/shadow-dom.js'
 import appendComponent from '../../../preact/util-functions/append-component.js'
 import useEffectOnce from '../../../preact/util-hooks/use-effect-once.js'
 import useRefCallback from '../../../preact/util-hooks/use-ref-callback.js'
@@ -64,7 +64,7 @@ function PromptDialog(props) {
   }
 
   return html`
-    <${DivShadow} stylesheets=${[stylesheet]}>
+    <${ShadowDOM} stylesheets=${[stylesheet]}>
         <div class="dialog-menu-overlay" ref=${dialogOverlayAnimation.refCallback}>
             <div class="dialog-menu" ref=${dialogAnimation.refCallback}>
                 <div class="message" dangerouslySetInnerHTML=${{__html: props.message}}></div>

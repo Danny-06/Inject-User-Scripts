@@ -2,7 +2,7 @@ import LocalDB from '../../@libs/libs/localDB.js'
 import html from '../../@libs/preact/htm/html.mjs'
 import { render } from '../../@libs/preact/preact.mjs'
 import { useSignal } from '../../@libs/preact/signals.mjs'
-import DivShadow from '../../@libs/preact/util-components/shadow-dom.js'
+import ShadowDOM from '../../@libs/preact/util-components/shadow-dom.js'
 import useEffectOnce from '../../@libs/preact/util-hooks/use-effect-once.js'
 
 
@@ -55,7 +55,7 @@ function ListOfPlaylists(props) {
   })
 
   return html`
-    <${DivShadow}>
+    <${ShadowDOM}>
       <style>
         :host {
           all: unset;
