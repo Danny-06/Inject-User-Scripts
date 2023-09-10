@@ -86,8 +86,6 @@ async function handleSecondaryInnerWatch() {
 
   const panelsContainer = secondaryInner.querySelector(':scope > #panels')
 
-  // panelsContainer.after(...panelsContainer.children)
-
   const panels = {
 
     get 'related'() {
@@ -135,6 +133,25 @@ async function handleSecondaryInnerWatch() {
   initSecondaryTabs()
 
   function initSecondaryTabs() {
+    const panelButtons = {
+      relatedBtn: _.button({dataset: {id: 'related'}}, 'Related'),
+      playlistBtn: _.button({dataset: {id: 'playlist'}}, 'Playlist'),
+      descriptionBtn: _.button({dataset: {id: 'description'}}, 'Description'),
+      commentsBtn: _.button({dataset: {id: 'comments'}}, 'Comments'),
+      chaptersBtn: _.button({dataset: {id: 'chapters'}}, 'Chapters'),
+      autoChaptersBtn: _.button({dataset: {id: 'auto-chapters'}}, 'Auto Chapters'),
+      transcriptionBtn: _.button({dataset: {id: 'transcription'}}, 'Transcription'),
+      liveChatBtn: _.button({dataset: {id: 'live-chat'}}, 'Live Chat'),
+
+      *[Symbol.iterator]() {
+        for (const key in this) {
+          if (this.hasOwnProperty(key)) {
+            yield this[key]
+          }
+        }
+      }
+    }
+
     let shadow
 
     try {
@@ -143,24 +160,15 @@ async function handleSecondaryInnerWatch() {
       return
     }
 
-    const relatedBtn       = _.button({dataset: {id: 'related'}}, 'Related')
-    const playlistBtn      = _.button({dataset: {id: 'playlist'}}, 'Playlist')
-    const descriptionBtn   = _.button({dataset: {id: 'description'}}, 'Description')
-    const commentsBtn      = _.button({dataset: {id: 'comments'}}, 'Comments')
-    const chaptersBtn      = _.button({dataset: {id: 'chapters'}}, 'Chapters')
-    const autoChaptersBtn  = _.button({dataset: {id: 'auto-chapters'}}, 'Auto Chapters')
-    const transcriptionBtn = _.button({dataset: {id: 'transcription'}}, 'Transcription')
-    const liveChatBtn      = _.button({dataset: {id: 'live-chat'}}, 'Live Chat')
-
     if (new URLSearchParams(location.search).get('list') == null) {
       panels.related.slot = 'active'
-      relatedBtn.classList.add('selected')
+      panelButtons.relatedBtn.classList.add('selected')
     } else {
       panels.playlist.slot = 'active'
-      playlistBtn.classList.add('selected')
+      panelButtons.playlistBtn.classList.add('selected')
     }
 
-    playlistBtn?.addEventListener('click', event => {
+    panelButtons.playlistBtn.addEventListener('click', event => {
       const ytdWatchFlexy = document.querySelector('ytd-watch-flexy')
 
       const playlistContainer = ytdWatchFlexy.querySelector('ytd-playlist-panel-renderer#playlist')
@@ -174,17 +182,6 @@ async function handleSecondaryInnerWatch() {
         playlistItemsContainer.scrollTop = selectedItem.offsetTop - selectedItem.offsetHeight - 150
       })
     })
-
-    const panelButtons = [
-      relatedBtn,
-      playlistBtn,
-      descriptionBtn,
-      commentsBtn,
-      chaptersBtn,
-      autoChaptersBtn,
-      transcriptionBtn,
-      liveChatBtn,
-    ]
 
 
     const style = _.style({}, // css
@@ -254,10 +251,13 @@ async function handleSecondaryInnerWatch() {
 
         _.div({class: 'title'}, 'Panels'),
         _.div({class: 'panel-buttons'},
-          panelButtons.filter(button => panels[button.dataset.id] != null)
+          [...panelButtons].filter(button => panels[button.dataset.id] != null)
         ),
         _.slot({attributes: {name: 'active'}}),
       )
+
+      const selectedBtnPanel = shadow.querySelector('.panel-buttons > button.selected')
+      setActiveSlot(selectedBtnPanel)
 
       // Show premiere date in description panel
       panels[run](panels => {
@@ -279,34 +279,32 @@ async function handleSecondaryInnerWatch() {
       })
     }, {runImmediately: true})
 
-    function setActiveSlot(event) {
+    function setActiveSlot(btn) {
       ;[...panels].forEach(panel => {
         // Hide all of the panels
         panel.removeAttribute('slot')
         panel.setAttribute('visibility', 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN')
       })
 
-      panelButtons.forEach(button => {
+      ;[...panelButtons].forEach(button => {
         button.classList.remove('selected')
       })
 
-      if (event == null) {
+      if (btn == null) {
         return
       }
 
-      const button = event.target
+      btn?.classList?.add('selected')
 
-      button?.classList?.add('selected')
-
-      panels[button.dataset.id].slot = 'active'
-      panels[button.dataset.id].setAttribute('visibility', 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED')
-      panels[button.dataset.id].style.order = '0'
+      panels[btn.dataset.id].slot = 'active'
+      panels[btn.dataset.id].setAttribute('visibility', 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED')
+      panels[btn.dataset.id].style.order = '0'
     }
 
     // Handle buttons click
 
-    panelButtons.forEach(panel => {
-      panel.addEventListener('click', setActiveSlot)
+    ;[...panelButtons].forEach(panelBtn => {
+      panelBtn.addEventListener('click', event => setActiveSlot(event.currentTarget))
     })
 
     // Handle "create clip" button
@@ -325,11 +323,7 @@ async function handleSecondaryInnerWatch() {
         return
       }
 
-      setActiveSlot({target:
-        {
-          dataset: {id: 'create-clip'}
-        }
-      })
+      setActiveSlot({dataset: {id: 'create-clip'}})
     })
   }
 }
