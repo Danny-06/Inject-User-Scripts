@@ -1,10 +1,10 @@
-import { useRef } from '../../@libs/preact/hooks.mjs';
-import html from '../../@libs/preact/htm/html.mjs';
-import { useSignal } from '../../@libs/preact/signals.mjs';
-import ShadowDOM from '../../@libs/preact/util-components/shadow-dom.js';
-import appendComponent from '../../@libs/preact/util-functions/append-component.js';
-import useEffectOnce from '../../@libs/preact/util-hooks/use-effect-once.js';
-import { waitForSelector } from "../../@libs/utils-injection.js"
+import { useRef } from '../../../../@libs/preact/hooks.mjs'
+import html from '../../../../@libs/preact/htm/html.mjs'
+import { useSignal } from '../../../../@libs/preact/signals.mjs'
+import ShadowDOM from '../../../../@libs/preact/util-components/shadow-dom.js'
+import appendComponent from '../../../../@libs/preact/util-functions/append-component.js'
+import useEffectOnce from '../../../../@libs/preact/util-hooks/use-effect-once.js'
+import { waitForSelector } from '../../../../@libs/libs/dom-utils.js'
 
 const volumeSetter = Object.getOwnPropertyDescriptors(HTMLMediaElement.prototype).volume.set
 

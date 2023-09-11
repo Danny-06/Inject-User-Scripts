@@ -1,3 +1,8 @@
+:root {
+  /* default value */
+  --visual-viewport-zoom-ratio: 1;
+}
+
 /* Extension for Chrome - Magic Actions for YouTube™ - www.mycinema.pro - Copyright 2019 Vlad and Serge Strukoff - All Rights Reserved. */
 html.lqz3O #content .player-api {
   background: none

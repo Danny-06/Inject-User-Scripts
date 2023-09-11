@@ -1,21 +1,24 @@
-import { createElement, setStyleProperties } from '../../@libs/libs/dom-utils.js';
-import MouseInfo from '../../@libs/libs/mouse-info.js';
-import { cssInlinePropertiesProxyWrapper } from '../../@libs/libs/proxy-libs.js';
-import { waitForSelector, delay, cutDecimals } from '../../@libs/utils-injection.js'
+import { createElement, setStyleProperties, waitForSelector } from '../../../../@libs/libs/dom-utils.js';
+import MouseInfo from '../../../../@libs/libs/mouse-info.js';
+import { cssInlinePropertiesProxyWrapper } from '../../../../@libs/libs/proxy-libs.js';
+import { cutDecimals, delay } from '../../../../@libs/utils-injection.js';
+
 
 const mouse = new MouseInfo()
 
-Executer().catch(console.error)
+main().catch(console.error)
 
 
 // window.addEventListener('load', Executer);
-document.addEventListener("yt-navigate-start", () => Executer().catch(console.error));
-document.addEventListener("yt-navigate-finish", () => Executer().catch(console.error));
+document.addEventListener("yt-navigate-start", () => main().catch(console.error));
+document.addEventListener("yt-navigate-finish", () => main().catch(console.error));
 
 
-async function Executer() {
+async function main() {
 
-  if (location.pathname !== '/watch') return
+  if (location.pathname !== '/watch') {
+    return
+  }
 
   let videos = [await waitForSelector('ytd-watch-flexy video')];
 
@@ -121,7 +124,9 @@ async function Executer() {
   videoOverlay.addEventListener('wheel', function (event) {
     event.preventDefault()
 
-    if (!event.ctrlKey) return
+    if (!event.ctrlKey) {
+      return
+    }
 
     // Rotar al presionar 'Shift'
     if (event.shiftKey) {

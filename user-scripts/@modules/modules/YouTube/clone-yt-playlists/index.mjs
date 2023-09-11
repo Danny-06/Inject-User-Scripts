@@ -1,14 +1,14 @@
-import { showAlertDialog, showConfirmDialog, showPromptDialog, showPopup } from '../../@libs/libs/dialogs/dialogs.js'
-import { parseHTML } from '../../@libs/libs/dom-utils.js'
-import { trimIndent } from '../../@libs/libs/string-utils.js'
-import { LocalDB, waitForSelector } from '../../@libs/utils-injection.js'
-import { cloneCurrentPlaylist } from './youtube-utils.js'
+import { showAlertDialog, showConfirmDialog, showPopup, showPromptDialog } from '../../../../@libs/libs/dialogs/dialogs.js'
+import { html, waitForSelector } from '../../../../@libs/libs/dom-utils.js'
+import LocalDB from '../../../../@libs/libs/local-db.js'
+import { trimIndent } from '../../../../@libs/libs/string-utils.js'
+import { cloneCurrentPlaylist } from '../youtube-utils.js'
+
 
 
 const storage = await LocalDB.createLocalDB('_personal-storage')
 
-const clonePlaylistButton = parseHTML(// html
-`
+const clonePlaylistButton = html`
 <fake-ytd-button-renderer class="style-scope ytd-menu-renderer style-default size-default" use-keyboard-focused="" button-renderer="true" is-icon-button="" has-no-text="">
     <a class="yt-simple-endpoint style-scope ytd-button-renderer" tabindex="-1">
         <yt-icon-button id="button" class="style-scope ytd-button-renderer style-default size-default">
@@ -31,20 +31,15 @@ const clonePlaylistButton = parseHTML(// html
         </tp-yt-paper-tooltip>
     </a>
 </ytd-button-renderer>
-`
-).firstElementChild
+`.firstElementChild
 
-if (location.pathname === '/playlist') {
-  main().catch(console.error)
-}
 
 
 window.addEventListener('yt-navigate-start', event => {
-  if (location.pathname !== '/playlist') return
-
   main().catch(console.error)
 })
 
+main().catch(reason => console.error(reason))
 
 async function main() {
   if (document.querySelector('fake-ytd-button-renderer')) return
@@ -80,7 +75,10 @@ async function main() {
 
       showConfirmDialog(`Do you want to open the playlist in a new tab?\n\n<a href="${url}">${url}</a>`)
       .then(accept => {
-        if (!accept) return
+        if (!accept) {
+          return
+        }
+
         window.open(url)
       })
     }

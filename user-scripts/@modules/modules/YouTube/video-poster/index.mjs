@@ -1,4 +1,4 @@
-import { waitForSelector } from '../../@libs/utils-injection.js'
+import { waitForSelector } from '../../../../@libs/libs/dom-utils.js'
 
 window.addEventListener('youtube-navigate', async event => {
   const ytdApp = await waitForSelector('ytd-app')
@@ -15,9 +15,6 @@ window.addEventListener('youtube-navigate', async event => {
     if (await canImageLoad(url)) {
       video.poster = url
       break
-    }
-    else {
-      continue
     }
   }
 })

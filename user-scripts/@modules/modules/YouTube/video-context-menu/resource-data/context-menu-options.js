@@ -1,6 +1,6 @@
-import { getBlobFromMedia } from '../../../@libs/libs/canvas-utils.js'
-import { cssInlinePropertiesProxyWrapper } from '../../../@libs/libs/proxy-libs.js'
-import { downloadFile, waitForSelector } from '../../../@libs/utils-injection.js'
+import { getBlobFromMedia } from '../../../../../@libs/libs/canvas-utils.js'
+import { cssInlinePropertiesProxyWrapper } from '../../../../../@libs/libs/proxy-libs.js'
+import { downloadFile, waitForSelector } from '../../../../../@libs/utils-injection.js'
 
 /**
  * @type {HTMLVideoElement}
@@ -28,7 +28,7 @@ export const copyVideoURL =  {
 
     navigator.clipboard.writeText(`https://www.youtube.com/watch?v=${videoId}`)
     .catch(() => {
-      showPopup(`Copy URL to clipboard filed.`)
+      showPopup(`Copy URL to clipboard failed.`)
     })
   }
 }

@@ -1,22 +1,4 @@
 {
-  "scripts": [
-    "scripts/main.mjs",
-    "scripts/video-poster.mjs",
-    "scripts/hide-video-ui.js",
-    "scripts/video-control.mjs",
-    "scripts/translate-search.mjs",
-    "scripts/video-volume-wheel.mjs",
-    "scripts/enlarge-avatar-thumbnails.mjs",
-    "scripts/clone-yt-playlist.mjs",
-    "scripts/save-message-comment-onreload.mjs",
-    // "scripts/list-of-playlists.mjs"
-  ],
-  "stylesheets": [
-    "stylesheets/magic-actions-for-youtube-dark-mode.css",
-    "stylesheets/main.css",
-    "stylesheets/video-control.css",
-    "stylesheets/fix-yt-new-ui.css",
-    "stylesheets/related-videos-self-scroll.css",
-    "stylesheets/hide-video-ui.css"
-  ]
+  "scripts": [],
+  "stylesheets": []
 }

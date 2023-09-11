@@ -1,6 +1,6 @@
-import { showPopup } from "../../@libs/libs/dialogs/dialogs.js"
-import { createElement, parseXML, turnStringIntoTrustedHTML } from "../../@libs/libs/dom-utils.js"
-import { waitForSelector, delay, promiseWrapper} from "../../@libs/utils-injection.js"
+import { showPopup } from "../../../@libs/libs/dialogs/dialogs.js"
+import { createElement, parseXML, turnStringIntoTrustedHTML } from "../../../@libs/libs/dom-utils.js"
+import { waitForSelector, delay, promiseWrapper} from "../../../@libs/utils-injection.js"
 
 export class ContextMenuManager {
 

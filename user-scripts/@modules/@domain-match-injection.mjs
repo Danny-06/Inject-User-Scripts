@@ -1,6 +1,5 @@
 import { injectModulesWithDomainMatch } from './@module-utils.js'
 
-
 injectModulesWithDomainMatch({
   matchExpressions: '*',
   modules: [
@@ -37,5 +36,13 @@ injectModulesWithDomainMatch({
   matchExpressions: 'developer.mozilla.org/*/play',
   modules: [
     'mdn-playground'
+  ]
+})
+
+
+injectModulesWithDomainMatch({
+  matchExpressions: 'youtube.com',
+  modules: [
+    'YouTube'
   ]
 })

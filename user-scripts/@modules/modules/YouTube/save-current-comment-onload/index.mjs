@@ -1,4 +1,5 @@
-import { waitForSelector, LocalDB } from '../../@libs/utils-injection.js'
+import { waitForSelector } from '../../../../@libs/libs/dom-utils.js'
+import LocalDB from '../../../../@libs/libs/local-db.js'
 
 /*
   Comments storage structure
@@ -13,7 +14,9 @@ const rootKey = 'comments-storage'
 const storage = await LocalDB.createLocalDB('_personal-storage')
 
 window.addEventListener('youtube-navigate', async event => {
-  if (location.pathname !== '/watch') return
+  if (location.pathname !== '/watch') {
+    return
+  }
 
   const section = await waitForSelector('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-comments-section"]')
 
@@ -27,13 +30,17 @@ window.addEventListener('youtube-navigate', async event => {
 
   commentBoxContainer.addEventListener('keyup', event => {
     const commentBoxInput = commentBoxContainer.querySelector('#contenteditable-root')
-    const comment         = commentBoxInput.textContent.replaceAll('\r', '')
+    const comment         = commentBoxInput.textContent.replaceAll('\r', '').trimEnd() + '\n'
 
     updateCurrentCommentStorage(comment)
   })
 
   window.addEventListener('click', event => {
-    if (!event.target.closest('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-comments-section"] ytd-comment-simplebox-renderer ytd-button-renderer:is(#submit-button, #cancel-button) button')) return
+    const submitOrCancelButtonSelector = 'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-comments-section"] ytd-comment-simplebox-renderer ytd-button-renderer:is(#submit-button, #cancel-button) button'
+
+    if (!event.target.closest(submitOrCancelButtonSelector)) {
+      return
+    }
 
     updateCurrentCommentStorage('')
   })

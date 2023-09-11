@@ -1,6 +1,4 @@
-import { waitForDocumentReady } from '../../@libs/libs/dom-utils.js'
-
-// Modificar titulos de las miniaturas de YouTube al nombre original
+import { waitForDocumentReady } from '../../../../@libs/libs/dom-utils.js'
 
 
 waitForDocumentReady(document)

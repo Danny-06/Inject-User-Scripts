@@ -1,9 +1,9 @@
-import LocalDB from '../../@libs/libs/localDB.js'
-import html from '../../@libs/preact/htm/html.mjs'
-import { render } from '../../@libs/preact/preact.mjs'
-import { useSignal } from '../../@libs/preact/signals.mjs'
-import ShadowDOM from '../../@libs/preact/util-components/shadow-dom.js'
-import useEffectOnce from '../../@libs/preact/util-hooks/use-effect-once.js'
+import LocalDB from '../../../../@libs/libs/local-db.js'
+import html from '../../../../@libs/preact/htm/html.mjs'
+import { render } from '../../../../@libs/preact/preact.mjs' 
+import { useSignal } from '../../../../@libs/preact/signals.mjs'
+import ShadowDOM from '../../../../@libs/preact/util-components/shadow-dom.js'
+import useEffectOnce from '../../../../@libs/preact/util-hooks/use-effect-once.js'
 
 
 /**

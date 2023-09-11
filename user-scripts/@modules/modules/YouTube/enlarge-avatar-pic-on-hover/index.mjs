@@ -1,7 +1,8 @@
-import { delay, waitForSelector, promiseWrapper as pw, createElement } from "../../@libs/utils-injection.js"
+import { createElement, waitForSelector } from '../../../../@libs/libs/dom-utils.js'
+import { delay, promiseWrapper as pw } from '../../../../@libs/utils-injection.js'
 
 
-  // Execute this script in the live chat iframe too
+// Execute this script in the live chat iframe too
 if (window === parent) {
   waitForSelector('ytd-watch-flexy #chatframe')
   .then(iframe => {
@@ -125,7 +126,9 @@ window.addEventListener('mouseover', async event => {
 
   const [, cancelError] = await pw(promiseDelay)
 
-  if (cancelError != null) return
+  if (cancelError != null) {
+    return
+  }
 
   thumbnailImg.removeAttribute('src')
   thumbnailContainer.classList.add('show')
