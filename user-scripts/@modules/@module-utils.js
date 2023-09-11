@@ -243,7 +243,7 @@ export function injectCodeWithDomainMatch(matchExpressions, options) {
  * Used to inject the scripts and stylesheets of a module inside a `@init-module.mjs` file
  * and also it's used internally by the `injectCodeWithDomainMatch()` function to inject the `@init-module.mjs` files
  * ```js
- * import { getModuleURL, injectCode } from '../../module-utils.js'
+ * import { getModuleURL, injectCode } from '../../@module-utils.js'
  *
  * const modulePath = getModuleURL(import.meta.url)
  *
