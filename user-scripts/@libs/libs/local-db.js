@@ -4,6 +4,12 @@ export default class LocalDB {
 
   static #privateSymbolToCreateInstance = Symbol('createInstance')
 
+  static async databaseExists(name) {
+    const databases = await indexedDB.databases()
+
+    return databases.filter(db => db.name === name).length > 0
+  }
+
   /**
    * @type {IDBDatabase}
    */
