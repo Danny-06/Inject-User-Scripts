@@ -13,7 +13,7 @@ export function removeCommentsInJSON(jsonString) {
  * @returns {string}
  */
 export function removeTrailingCommaInJSON(jsonString) {
-  return jsonString.replace(/(,)?(?=(\s)*(\]|\}))/, '')
+  return jsonString.replace(/(,)?(?=(\s)*(\]|\}))/g, '')
 }
 
 /**
@@ -21,10 +21,19 @@ export function removeTrailingCommaInJSON(jsonString) {
  * @param {Response} response 
  * @returns {Promise<object>}
  */
-export function parseJSONResponseWithComments(response) {
-  return response.text()
-  .then(text => removeCommentsInJSON(text))
-  .then(text => removeTrailingCommaInJSON(text))
-  .then(text => JSON.parse(text))
-  .catch(error => console.error(error))
+export async function parseJSONResponseWithComments(response) {
+  let text = await response.text()
+  text = removeCommentsInJSON(text)
+  text = removeTrailingCommaInJSON(text)
+
+  try {
+    const json = JSON.parse(text)
+  
+    return json
+  } catch (error) {
+    console.error(error)
+    console.log(text)
+
+    return null
+  }
 }
