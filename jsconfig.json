@@ -5,6 +5,7 @@
   "compilerOptions": {
     "lib": ["ES2018", "DOM"],
     "module": "ESNext",
+    "target": "ESNext",
 
     "jsx": "react-jsx",
 		"jsxImportSource": "preact",
