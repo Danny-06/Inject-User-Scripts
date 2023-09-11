@@ -38,6 +38,8 @@ export {
   EventEmitter, Matrix2D
 }
 
+export const waitForSelector = DOMUtils.waitForSelector
+
 
 const {extensionId} = ChromeExtension
 
@@ -1241,41 +1243,6 @@ export function downloadFile(file, name = null) {
   a.click()
 
   URL.revokeObjectURL(urlFile)
-}
-
-
-/**
- * Takes a selector as a parameter and return a Promise that resolves in the element when it exists in the DOM
- * @param {string} selector
- * @param {{node?: Element, checkOpposite?: boolean, useSetTimeout?: boolean, timeout?: number}} options
- * @returns {Promise<Element>}
- */
-export function waitForSelector(selector, options = {}) {
-
-  const {node = document, checkOpposite = false, useSetTimeout = false, timeout} = options
-
-  const callAsynchronously = useSetTimeout ?
-                             callback => setTimeout(callback, 1000 / 60) :
-                             requestAnimationFrame
-
-  const checkElement = checkOpposite ? element => !element : element => element
-
-  return new Promise((resolve, reject) => {
-
-    if (typeof timeout === 'number') {
-      setTimeout(reject, timeout, new Error(`Wait for selector operation cancelled. Timeout of ${timeout}ms finished`))
-    }
-
-    ;(function queryElement(selector, resolve) {
-      const element = node.querySelector(selector)
-
-      if (checkElement(element)) return resolve(element)
-
-      callAsynchronously(() => queryElement(selector, resolve))
-    })(selector, resolve)
-
-  })
-
 }
 
 
