@@ -257,11 +257,24 @@ export function injectCodeWithDomainMatch(matchExpressions, options) {
  * })
  * ```
  * @param {string} startPath
- * @param {{stylesheets: string[], scripts: string[]}} options
+ * @param {{matchExpressions?: string | string[], stylesheets: string[], scripts: string[]}} options
  * @returns
  */
 export function injectCode(startPath = null, options) {
-  let {scripts: scriptsPath = [], stylesheets: stylesheetsPath = []} = options
+  let {matchExpressions, scripts: scriptsPath = [], stylesheets: stylesheetsPath = []} = options
+
+  if (Array.isArray(matchExpressions)) {
+    if (matchExpressions.length === 0) return
+    if (matchExpressions.every(matchExpression => !matchesDomain(url, matchExpression))) return
+  }
+  else
+  if (typeof matchExpressions === 'string') {
+    if (!matchesDomain(url, matchExpressions)) return
+  }
+  else
+  if (matchExpressions != null) {
+    throw new TypeError(`'matchExpressions' must be an array of strings, just a string or left empty.`)
+  }
 
   if (typeof startPath === 'string') {
     if (Array.isArray(scriptsPath)) {
