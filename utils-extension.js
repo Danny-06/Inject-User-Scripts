@@ -27,9 +27,7 @@ export async function parseJSONResponseWithComments(response) {
   text = removeTrailingCommaInJSON(text)
 
   try {
-    const json = JSON.parse(text)
-  
-    return json
+    return JSON.parse(text)
   } catch (error) {
     console.error(error)
     console.log(text)
