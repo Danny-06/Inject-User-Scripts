@@ -1,6 +1,5 @@
 import { getURL } from '../@libs/chrome-extension-utils.js'
 import { createElement } from '../@libs/utils-injection.js'
-
 const initModuleFile = '@init-module.mjs'
 
 function regExpContentToString(regExp) {
@@ -85,8 +84,14 @@ export function matchesDomain(value, match) {
     const domain = value.match(regExpDomain)?.[0] ?? null
     valueParts.domain = domain?.split('.') ?? null
 
-    if (matchParts.domain != null && valueParts.domain != null && matchParts.domain.length === valueParts.domain.length + 1 && matchParts.domain[0] === '*') {
-      matchParts.domain = matchParts.domain.slice(1)
+    if (matchParts.domain != null && valueParts.domain != null) {
+      if (matchParts.domain.length === valueParts.domain.length + 1 && matchParts.domain[0] === '*') {
+        matchParts.domain = matchParts.domain.slice(1)
+      }
+      else
+      if (matchParts.domain.length === 2 && valueParts.domain.length === 3) {
+        valueParts.domain = valueParts.domain.slice(1)
+      }
     }
   }
 
@@ -262,6 +267,8 @@ export function injectCodeWithDomainMatch(matchExpressions, options) {
  */
 export function injectCode(startPath = null, options) {
   let {matchExpressions, scripts: scriptsPath = [], stylesheets: stylesheetsPath = []} = options
+
+  const url = location.href
 
   if (Array.isArray(matchExpressions)) {
     if (matchExpressions.length === 0) return
