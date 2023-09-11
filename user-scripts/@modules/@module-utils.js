@@ -262,13 +262,23 @@ export function injectCodeWithDomainMatch(matchExpressions, options) {
  * })
  * ```
  * @param {string} startPath
- * @param {{matchExpressions?: string | string[], stylesheets: string[], scripts: string[]}} options
+ * @param {{subModule?: string, matchExpressions?: string | string[], stylesheets: string[], scripts: string[]}} options
  * @returns
  */
 export function injectCode(startPath = null, options) {
-  let {matchExpressions, scripts: scriptsPath = [], stylesheets: stylesheetsPath = []} = options
+  let {subModule = null, matchExpressions, scripts: scriptsPath = [], stylesheets: stylesheetsPath = []} = options
 
   const url = location.href
+
+  let path = startPath
+
+  if (typeof subModule === 'string') {
+    path = `${path}/${subModule}`
+  }
+  else
+  if (subModule != null) {
+    throw new TypeError(`'subModule' must be a string or not specified.`)
+  }
 
   if (Array.isArray(matchExpressions)) {
     if (matchExpressions.length === 0) return
@@ -285,10 +295,10 @@ export function injectCode(startPath = null, options) {
 
   if (typeof startPath === 'string') {
     if (Array.isArray(scriptsPath)) {
-      scriptsPath     = scriptsPath.map(scriptName => `${startPath}/${scriptName}`)
+      scriptsPath     = scriptsPath.map(scriptName => `${path}/${scriptName}`)
     }
     if (Array.isArray(stylesheetsPath)) {
-      stylesheetsPath = stylesheetsPath.map(styleSheetName => `${startPath}/${styleSheetName}`)
+      stylesheetsPath = stylesheetsPath.map(styleSheetName => `${path}/${styleSheetName}`)
     }
   }
 
