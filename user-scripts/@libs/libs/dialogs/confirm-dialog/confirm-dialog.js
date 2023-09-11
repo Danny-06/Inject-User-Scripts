@@ -14,11 +14,11 @@ function ConfirmDialog(props) {
         'scale(0.2)',
         'none'
       ],
-      offset: [0, 0.5, 1]
+      // offset: [0, 0.5, 1]
     }, {
       duration: 350,
       easing: 'ease-in',
-      fill: 'forwards'
+      fill: 'both'
     })
 
     ref.current.cancel()
@@ -30,7 +30,7 @@ function ConfirmDialog(props) {
     }, {
       duration: 350,
       easing: 'ease-out',
-      fill: 'forwards'
+      fill: 'both'
     })
 
     ref.current.cancel()
