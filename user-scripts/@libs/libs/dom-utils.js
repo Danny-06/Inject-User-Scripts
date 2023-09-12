@@ -1048,11 +1048,13 @@ export function waitForDocumentReady(document, options = {}) {
     }
 
     const listenerCallback = event => {
-      if (doc.readyState !== 'complete') {
+      doc.removeEventListener('readystatechange', listenerCallback)
+
+      if (doc.readyState === 'complete') {
+        resolve(document)
+
         return
       }
-
-      doc.removeEventListener('readystatechange', listenerCallback)
 
       doc.addEventListener('DOMContentLoaded', event => {
         resolve(document)
@@ -1062,4 +1064,3 @@ export function waitForDocumentReady(document, options = {}) {
     doc.addEventListener('readystatechange', listenerCallback)
   })
 }
-
