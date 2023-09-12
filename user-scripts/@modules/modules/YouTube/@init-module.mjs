@@ -15,6 +15,14 @@ window.youtubeUtils = youtubeUtils
 const modulePath = getModuleURL(import.meta.url)
 
 injectCode(modulePath, {
+  subModule: '_handle-events',
+
+  scripts: [
+    'index.mjs'
+  ]
+})
+
+injectCode(modulePath, {
   subModule: '_general-styles',
 
   scripts: [
@@ -26,14 +34,6 @@ injectCode(modulePath, {
     'main.css',
     'magic-actions-for-youtube-dark-mode.css',
     'fix-yt-new-ui.css',
-  ]
-})
-
-injectCode(modulePath, {
-  subModule: '_handle-events',
-
-  scripts: [
-    'index.mjs'
   ]
 })
 
