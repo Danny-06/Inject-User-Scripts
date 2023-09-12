@@ -1009,6 +1009,10 @@ export function waitForNodeConnected(node, parent = document.body) {
 export function waitForDocumentReady(document, options = {}) {
   const {waitAgainForLoad = null} = options
 
+  if (document == null) {
+    throw new TypeError(`document cannot be null or undefined`)
+  }
+
   return new Promise((resolve, reject) => {
     let doc = document
 
@@ -1048,17 +1052,13 @@ export function waitForDocumentReady(document, options = {}) {
     }
 
     const listenerCallback = event => {
-      doc.removeEventListener('readystatechange', listenerCallback)
-
-      if (doc.readyState === 'complete') {
-        resolve(document)
-
+      if (doc.readyState !== 'complete') {
         return
       }
 
-      doc.addEventListener('DOMContentLoaded', event => {
-        resolve(document)
-      })
+      doc.removeEventListener('readystatechange', listenerCallback)
+
+      resolve(document)
     }
 
     doc.addEventListener('readystatechange', listenerCallback)
