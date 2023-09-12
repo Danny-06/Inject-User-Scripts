@@ -8,11 +8,14 @@ function dispatchLoadEvent() {
   window.dispatchEvent(customEvent)
 }
 
-window.addEventListener('yt-navigate-finish', event => {
-  dispatchNavigateEvent()
-})
 
-setTimeout(() => {
-  dispatchLoadEvent()
-  dispatchNavigateEvent()
-})
+window.addEventListener('yt-navigate-finish', event => {
+  setTimeout(() => {
+    dispatchLoadEvent()
+    dispatchNavigateEvent()
+  })
+
+  window.addEventListener('yt-navigate-finish', event => {
+    dispatchNavigateEvent()
+  })
+}, {once: true})
