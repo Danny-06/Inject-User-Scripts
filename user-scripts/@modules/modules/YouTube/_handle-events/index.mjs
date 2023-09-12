@@ -1,3 +1,5 @@
+import { waitForDocumentReady } from '../../../../@libs/libs/dom-utils.js'
+
 function dispatchNavigateEvent() {
   const customEvent = new CustomEvent('youtube-navigate')
   window.dispatchEvent(customEvent)
@@ -8,8 +10,7 @@ function dispatchLoadEvent() {
   window.dispatchEvent(customEvent)
 }
 
-
-window.addEventListener('yt-navigate-finish', event => {
+waitForDocumentReady(document).then(() => {
   setTimeout(() => {
     dispatchLoadEvent()
     dispatchNavigateEvent()
@@ -18,4 +19,4 @@ window.addEventListener('yt-navigate-finish', event => {
   window.addEventListener('yt-navigate-finish', event => {
     dispatchNavigateEvent()
   })
-}, {once: true})
+})
