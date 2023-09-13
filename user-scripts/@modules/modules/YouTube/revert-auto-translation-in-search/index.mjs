@@ -1,19 +1,10 @@
-import { waitForDocumentReady } from '../../../../@libs/libs/dom-utils.js'
+window.addEventListener('youtube-navigate', event => {
+  if (location.pathname !== '/results') {
+    return
+  }
 
-
-waitForDocumentReady(document)
-.then(() => {
-  if (location.pathname === '/results') revertAllVideoTitleTranslations()
+  revertAllVideoTitleTranslations()
 })
-
-window.addEventListener('yt-navigate-start', event => {
-  if (location.pathname === '/results') revertAllVideoTitleTranslations()
-})
-
-window.addEventListener('yt-navigate-finish', event => {
-  if (location.pathname === '/results') revertAllVideoTitleTranslations()
-})
-
 
 
 function revertAllVideoTitleTranslations() {
