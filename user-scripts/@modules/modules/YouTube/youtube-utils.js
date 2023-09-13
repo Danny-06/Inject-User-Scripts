@@ -612,7 +612,7 @@ export function createPlaylist(options) {
 /**
  * 
  * @param {{playlistId: string}} options 
- * @returns {{
+ * @returns {Promise<{
  *  title: string,
  *  description: string,
  *  playlistId: string,
@@ -630,7 +630,7 @@ export function createPlaylist(options) {
  *  },
  *  lastUpdated: string,
  *  views: string
- * }}
+ * }>}
  */
 export async function getPlaylistMetadata(options) {
   const {playlistId} = options
