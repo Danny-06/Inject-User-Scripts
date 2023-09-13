@@ -1,6 +1,3 @@
-// Avoid using any import to make the module run as soon as posible
-// to listen to YouTube events
-
 function dispatchNavigateEvent() {
   const customEvent = new CustomEvent('youtube-navigate')
   window.dispatchEvent(customEvent)
