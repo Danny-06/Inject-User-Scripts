@@ -30,7 +30,7 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
     // File and folder names
     const userScriptsFolder = 'user-scripts'
     const allURLSFolder = '@all-urls'
-    const settingsJSON = 'settings.json'
+    const settingsJSON = '@settings.json'
 
     // Get 'settings.json' from the current domain folder
     const settingsDomainUrl = `${extensionUrl}/${userScriptsFolder}/${domain}/${settingsJSON}`
