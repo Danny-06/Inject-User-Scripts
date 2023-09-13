@@ -325,7 +325,9 @@ export async function calidad1080pAutomatica(video) {
 export async function getCurrentPlaylistMetadata() {
   const playlistId = new URL(location.href).searchParams.get('list')
 
-  if (playlistId == null || playlistId == '') throw new Error(`Couldn't find 'playlistId'`)
+  if (playlistId == null || playlistId == '') {
+    throw new Error(`Couldn't find 'playlistId'`)
+  }
 
   const data = await getPlaylistMetadata({playlistId})
 
@@ -379,95 +381,85 @@ export async function appendVideosToCurrentPlaylist(options) {
   }
 }
 
-/**
- *
- * @param {string} src
- * @returns {Promise<HTMLIFrameElement>}
- */
-function createAndAppendIframe(src) {
-  return new Promise((resolve, reject) => {
-    const iframe = document.createElement('iframe')
-    iframe.src = src
-    iframe.style.width = '100vw'
-    iframe.style.height = '100vh'
-    iframe.style.visibility = 'hidden'
-    iframe.style.position = 'fixed'
+// /**
+//  *
+//  * @param {string} src
+//  * @returns {Promise<HTMLIFrameElement>}
+//  */
+// function createAndAppendIframe(src) {
+//   return new Promise((resolve, reject) => {
+//     const iframe = document.createElement('iframe')
+//     iframe.src = src
+//     iframe.style.width = '100vw'
+//     iframe.style.height = '100vh'
+//     iframe.style.visibility = 'hidden'
+//     iframe.style.position = 'fixed'
 
-    document.body.append(iframe)
+//     document.body.append(iframe)
 
-    iframe.addEventListener('load', event => {
-      resolve(iframe)
-    })
-  })
-}
+//     iframe.addEventListener('load', event => {
+//       resolve(iframe)
+//     })
+//   })
+// }
 
-export async function getPlaylistMetadataIframe(options = null) {
-  if (options == null) {
-    options = {}
+// export async function getPlaylistMetadataIframe(options = null) {
+//   if (options == null) {
+//     options = {}
 
-    if (options.playlistId == null) {
-      options = {
-        get playlistId() {
-          throw new Error(`A 'playlistId' must be specified`)
-        }
-      }
-    }
-  }
+//     if (options.playlistId == null) {
+//       options = {
+//         get playlistId() {
+//           throw new Error(`A 'playlistId' must be specified`)
+//         }
+//       }
+//     }
+//   }
 
-  const {playlistId} = options
+//   const {playlistId} = options
 
-  const iframe = await createAndAppendIframe(`https://www.youtube.com/playlist?list=${playlistId}`)
-  await delay(2000)
+//   const iframe = await createAndAppendIframe(`https://www.youtube.com/playlist?list=${playlistId}`)
+//   await delay(2000)
 
 
-  const win = iframe.contentWindow
-  const doc = iframe.contentDocument
+//   const win = iframe.contentWindow
+//   const doc = iframe.contentDocument
 
-  const dropdown = doc.querySelector('#button.dropdown-trigger > button')
-  dropdown.click()
+//   const dropdown = doc.querySelector('#button.dropdown-trigger > button')
+//   dropdown.click()
 
-  await delay(0)
+//   await delay(0)
 
-  const showHiddenVideosBtn = doc.querySelector(
-    `ytd-popup-container.ytd-app .ytd-menu-popup-renderer ytd-menu-navigation-item-renderer a[href="/playlist?list=${playlistId}"]`
-  )
-  showHiddenVideosBtn?.click()
+//   const showHiddenVideosBtn = doc.querySelector(
+//     `ytd-popup-container.ytd-app .ytd-menu-popup-renderer ytd-menu-navigation-item-renderer a[href="/playlist?list=${playlistId}"]`
+//   )
+//   showHiddenVideosBtn?.click()
 
-  await delay(0)
+//   await delay(0)
 
-  // const playlistSidebar = doc.querySelector('ytd-playlist-sidebar-renderer')
-  const playlistContainer = doc.querySelector('ytd-playlist-video-list-renderer')
-  const contents = playlistContainer.querySelector('#contents')
+//   // const playlistSidebar = doc.querySelector('ytd-playlist-sidebar-renderer')
+//   const playlistContainer = doc.querySelector('ytd-playlist-video-list-renderer')
+//   const contents = playlistContainer.querySelector('#contents')
 
-  // const playlistLength = parseInt(playlistSidebar.data.items[0].playlistSidebarPrimaryInfoRenderer.stats[0].runs[0].text)
+//   // const playlistLength = parseInt(playlistSidebar.data.items[0].playlistSidebarPrimaryInfoRenderer.stats[0].runs[0].text)
 
-  const listIsFinished = () => !contents.querySelector('ytd-playlist-video-list-renderer ytd-continuation-item-renderer')
-  const html = doc.documentElement
+//   const listIsFinished = () => !contents.querySelector('ytd-playlist-video-list-renderer ytd-continuation-item-renderer')
+//   const html = doc.documentElement
 
-  while (!listIsFinished()) {
-    html.scrollTop = html.scrollHeight
+//   while (!listIsFinished()) {
+//     html.scrollTop = html.scrollHeight
 
-    await delay(1000)
+//     await delay(1000)
 
-    console.log(listIsFinished())
-  }
+//     console.log(listIsFinished())
+//   }
 
-  const data = getCurrentPlaylistMetadata({doc: doc})
+//   const data = getCurrentPlaylistMetadata({doc: doc})
 
-  iframe.remove()
+//   iframe.remove()
 
-  return data
-}
-
-export async function clonePlaylistIframe(options) {
-  const {authorization, playlistId} = options
-
-  const data = await getPlaylistMetadata({playlistId})
-  const videoIds = data.videos.map(v => v.id)
-
-  return createPlaylist({authorization, videoIds})
-}
-
+//   return data
+// }
 
 
 /**
@@ -491,7 +483,7 @@ export function editPlaylist(options) {
   const API_KEY        = ytcfg?.data_?.INNERTUBE_API_KEY         ?? yt?.config_?.INNERTUBE_API_KEY
   const clientName     = ytcfg?.data_?.INNERTUBE_CLIENT_NAME     ?? yt?.config_?.INNERTUBE_CLIENT_NAME
   const clientVersion  = ytcfg?.data_?.INNERTUBE_CLIENT_VERSION  ?? yt?.config_?.INNERTUBE_CLIENT_VERSION
-  const googleAuthUser = ytcfg?.data_?.SESSION_INDEX           ?? yt?.config_?.SESSION_INDEX
+  const googleAuthUser = ytcfg?.data_?.SESSION_INDEX             ?? yt?.config_?.SESSION_INDEX
 
   const videoActions = {
     ADD_VIDEO: 'ACTION_ADD_VIDEO',
@@ -544,7 +536,7 @@ export function editPlaylist(options) {
       'x-goog-authuser': googleAuthUser,
 
       'cache-control': 'no-cache',
-      "content-type": 'application/json',
+      'content-type': 'application/json',
       pragma: 'no-cache'
     },
 
