@@ -60,7 +60,7 @@ async function handleSecondaryInnerWatch() {
 
   }
 
-  initSecondaryTabs()
+  initSecondaryTabs().catch(reason => console.error(reason))
 
   async function initSecondaryTabs() {
     await waitForSelectorMatch(secondaryInner, ':not(:empty)')
