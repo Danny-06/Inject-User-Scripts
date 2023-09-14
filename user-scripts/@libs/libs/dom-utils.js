@@ -120,13 +120,15 @@ export function waitForSelector(selector, options = {}) {
  * @returns {Promise<void>}
  */
 export function waitForSelectorMatch(node, selector, options) {
-  const {timeout = null} = options
+  const {timeout = null} = options ?? {}
 
-  if (timeout != null && typeof timeout !== 'number') {
-    throw new TypeError(`'timeout' must be a number`)
-  }
+  return new Promise((resolve, reject) => {
+    if (timeout != null && typeof timeout !== 'number') {
+      reject(new TypeError(`'timeout' must be a number`))
 
-  return new Promise((resolve) => {
+      return
+    }
+
     const timeoutId = setTimeout(() => {
       reject(new Error(`Timeout of ${timeout}ms reached.`))
     }, timeout)
