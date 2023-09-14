@@ -1,4 +1,4 @@
-import { waitForSelector } from '../../../../@libs/libs/dom-utils.js'
+import { waitForSelector, waitForSelectorMatch } from '../../../../@libs/libs/dom-utils.js'
 import { addEventListener } from '../../../../@libs/libs/event-utils.js'
 import _ from '../../../../@libs/libs/functional-dom/index.js'
 import { delay } from '../../../../@libs/utils-injection.js'
@@ -62,7 +62,9 @@ async function handleSecondaryInnerWatch() {
 
   initSecondaryTabs()
 
-  function initSecondaryTabs() {
+  async function initSecondaryTabs() {
+    await waitForSelectorMatch(secondaryInner, ':not(:empty)')
+
     const panelButtons = {
       relatedBtn: _.button({dataset: {id: 'related'}}, 'Related'),
       playlistBtn: _.button({dataset: {id: 'playlist'}}, 'Playlist'),
