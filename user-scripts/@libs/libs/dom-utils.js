@@ -27,7 +27,7 @@ const mutationObserver = new MutationObserver(mutations => {
  * For that reason, is recommended to replace them with properties that starts with an underscore.
  *
  * @template T
- * @param {T.prototype extends HTMLElement ? T : never} classComponent
+ * @param {new () => T} classComponent
  * @param {HTMLElement} [elementToApply=null]
  * @returns {InstanceType<T>}
  *
@@ -77,6 +77,7 @@ export function createWebComponent(classComponent, elementToApply = null) {
 
   return component
 }
+
 
 /**
  * Takes a selector as a parameter and return a Promise that resolves in the element when it exists in the DOM
