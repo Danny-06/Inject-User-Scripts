@@ -7,7 +7,7 @@ window.addEventListener('youtube-navigate', event => {
     return
   }
 
-  initCustomContextMenu()
+  initCustomContextMenu().catch(reason => console.error(reason))
 })
 
 async function initCustomContextMenu() {
