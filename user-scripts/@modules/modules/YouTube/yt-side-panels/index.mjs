@@ -22,7 +22,7 @@ async function handleSecondaryInnerWatch() {
       return secondaryInner.querySelector(':scope > #related')
     },
 
-    get 'playlist'(){
+    get 'playlist'() {
       return secondaryInner.querySelector(':scope > ytd-playlist-panel-renderer:not([hidden])')
     },
 
