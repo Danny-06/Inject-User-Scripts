@@ -112,6 +112,39 @@ export function waitForSelector(selector, options = {}) {
 
 }
 
+/**
+ * 
+ * @param {Element} node 
+ * @param {string} selector 
+ * @param {{timeout: number}} [options]
+ * @returns {Promise<void>}
+ */
+export function waitForSelectorMatch(node, selector, options) {
+  const {timeout = null} = options
+
+  if (timeout != null && typeof timeout !== 'number') {
+    throw new TypeError(`'timeout' must be a number`)
+  }
+
+  return new Promise((resolve) => {
+    const timeoutId = setTimeout(() => {
+      reject(new Error(`Timeout of ${timeout}ms reached.`))
+    }, timeout)
+
+    void function checkSelectorMatch() {
+      if (node.matches(selector)) {
+        clearTimeout(timeoutId)
+
+        resolve()
+
+        return
+      }
+
+      requestAnimationFrame(checkSelectorMatch)
+    }()
+  })
+}
+
 
 export async function importText(url, baseURL = import.meta.url) {
   const response = await fetch(new URL(url, baseURL).href)
