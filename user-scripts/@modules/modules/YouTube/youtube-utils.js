@@ -30,10 +30,12 @@ export class ContextMenuManager {
 
   /**
    * 
-   * @returns {Promise<HTMLDivElement>} Container for the custom ContextMenu items
+   * @returns {Promise<HTMLDivElement> | Promise<null>} Container for the custom ContextMenu items
    */
   static async initCustomContextMenuItems() {
-    if (this.#isContextMenuInitializing) return
+    if (this.#isContextMenuInitializing) {
+      return null
+    }
 
     this.#isContextMenuInitializing = true
 
