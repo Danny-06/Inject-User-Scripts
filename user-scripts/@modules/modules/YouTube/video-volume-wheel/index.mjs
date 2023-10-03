@@ -51,6 +51,7 @@ function VolumeContainer(props) {
     z-index: 999;
 
     pointer-events: none;
+    user-select: none;
     opacity: 0;
 
     display: flex;
