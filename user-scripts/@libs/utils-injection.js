@@ -76,7 +76,9 @@ export function getValueFromPropertyPath(obj, propertyPath) {
 
 
 export function createPublicPromise() {
+  /**@type {(value?: any) => void}*/
   let resolve
+  /**@type {(reason?: any) => void}*/
   let reject
 
   const promise = new Promise((resolveFunction, rejectFunction) => {
