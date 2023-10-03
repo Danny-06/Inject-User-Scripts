@@ -439,3 +439,11 @@ debido a que aumenta su altura por unos instantes */
 section.panels-3wFtMD {
   overflow: hidden;
 }
+
+
+/* Remove word wrap in codeblocks and add horizontal scroll */
+
+[class|="codeContainer"] > code {
+  white-space: pre;
+  overflow-x: auto;
+}
