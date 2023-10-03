@@ -1,11 +1,13 @@
 {
   "typeAcquisition": {
-    "include": ["chrome"]
+    "include": ["chrome"],
+    "exclude": ["core-js"]
   },
   "compilerOptions": {
     "lib": ["ES2018", "DOM"],
     "module": "ESNext",
     "target": "ESNext",
+    "strictNullChecks": true,
 
     "jsx": "react-jsx",
 		"jsxImportSource": "preact",
