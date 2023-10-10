@@ -120,26 +120,27 @@
 /* Discord Responsive con clases */
 
 [class*="content"] [class*="sidebar"],
-[class*="membersWrap"],
-[class*="membersWrap"] > [class*="members"] {
-	transition: width 0.5s, min-width 0.5s;
+section[class*="container"][class*="themed"] + [class*="content"] > [class|="container"]:nth-child(2) {
+	transition: width 0.5s;
 }
 
-/* Ocultar panel lateral derecho (Usuarios Conectados) */
-@media screen and (max-width: 1100px) {
-  [class*="membersWrap"],
-  [class*="membersWrap"] > [class*="members"] {
+section[class*="container"][class*="themed"] + [class*="content"] > [class|="container"]:nth-child(2),
+section[class*="container"][class*="themed"] + [class*="content"] > [class|="container"]:nth-child(2) {
+  flex-shrink: 0 !important;
+
+  width: 240px !important;
+
+  /* Ocultar panel lateral derecho (Usuarios Conectados) */
+  @media screen and (width <= 1100px) {
     width: 0 !important;
-    min-width: 0 !important;
   }
 }
 
-/* Ocultar panel lateral izquierdo (Canales del servidor) */
-@media screen and (max-width: 800px) {
- [class*="content"] [class*="sidebar"] {
-  	width: 0 !important;
-  }
+section[class*="container"][class*="themed"]:hover + [class*="content"] > [class|="container"]:nth-child(2),
+section[class*="container"][class*="themed"] + [class*="content"] > [class|="container"]:nth-child(2):hover {
+  width: 240px !important;
 }
+
 
 /* Hacer que el panel de la izquierda sea visible cuando se ponga el ratón
 encima de él o al ponerlo encima de de la lista de servidores */
@@ -148,16 +149,23 @@ nav:hover + div [class|="sidebar"] {
 	width: 240px !important;
 }
 
+[class*="content"] [class*="sidebar"] {
+  /* Ocultar panel lateral izquierdo (Canales del servidor) */
+  @media screen and (width <= 800px) {
+    width: 0 !important;
+  }
+}
+
 /* Hacer que el panel de miembros se muestre cuando
 se ponga el ratón encima del encabezado del canal
 (la barra de arriba donde se ve el nombre del canal) */
-section[class*="container"][class*="themed"]:hover
+/* section[class*="container"][class*="themed"]:hover
 + [class*="content"]
 :is([class*="membersWrap"], [class*="members"]),
 
 :is(aside[class*="membersWrap"], aside > [class*="members"]):hover {
   width: 240px !important;
-}
+} */
 /* Barra de estado de amigos
 sobreescribir estilo que oculta la barra a cierto ancho */
 [class*="nowPlayingColumn"] {
