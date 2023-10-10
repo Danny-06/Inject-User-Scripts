@@ -1,0 +1,13 @@
+.task-container {
+  align-items: stretch !important;
+
+  & > .task-content {
+    & > .tag {
+      flex-grow: 1;
+
+      & > .task-inside > .time {
+        right: 5rem;
+      }
+    }
+  }
+}
