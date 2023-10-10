@@ -2,6 +2,11 @@ export const lowerCaseToHyphen = string => string.split(/(?=[A-Z])/).map(str => 
 
 export const hyphenToLowerCase = string => string.split('-').map((str, index) => index !== 0 ? str[0].toUpperCase() + str.slice(1) : str).join('')
 
+/**
+ * 
+ * @param {string} string 
+ * @returns {string}
+ */
 export function trimIndent(string) {
   // Get indent
   const splitNewLine = string.split('\n')

@@ -21,6 +21,7 @@ import * as _GeneratorUtils from './libs/generator-utils.js'
 import Calculator from './libs/calculator.js'
 import EventEmitter from './libs/event-emitter.js'
 import Matrix2D from './libs/matrix2d.mjs'
+import { trimIndent } from './libs/string-utils.js'
 
 
 const CanvasUtils = Object.freeze({..._CanvasUtils})
@@ -1032,7 +1033,7 @@ ${color}
 
 export function generateHTMLTemplate(doc = document) {
   const css = // css
-  `
+  trimIndent(`
   /*# sourceURL=stylesheet.temp.css */
   @charset "UTF-8";
 
@@ -1162,10 +1163,10 @@ export function generateHTMLTemplate(doc = document) {
   .max-z-index {
     z-index: 2147483647;
   }
-  `.trimIndent()
+  `)
 
   const html = // html
-  `
+  trimIndent(`
   <!DOCTYPE html>
   <html lang="en">
       <head>
@@ -1183,7 +1184,7 @@ export function generateHTMLTemplate(doc = document) {
             if (event.button === 0) window.getSelection().empty()
           })
           </script>
-          <script type="module" src="chrome-extension://${extensionId}/user-scripts/@all-urls/scripts/main.mjs"></script>
+          <script type="module" src="chrome-extension://${extensionId}/user-scripts/@modules/modules/_injection-utils/@init-module.mjs"></script>
       </head>
       <body>
           <div id="app">
@@ -1193,7 +1194,7 @@ export function generateHTMLTemplate(doc = document) {
           </div>
       </body>
   </html>
-  `.trimIndent()
+  `)
 
 
   // Remove adoptedStyleSheets
@@ -1497,7 +1498,7 @@ export function generateFloatingIframe(addDefaults = true) {
     translateY(-50%)
     ;
 
-    background-color: #222;
+    background-color: #222 !important;
     box-shadow: 0 0 10px 0 #fff9;
 
     border-radius: 1em;
