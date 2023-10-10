@@ -252,7 +252,7 @@ export class ContextMenuManager {
  * Función que selecciona la calidad 1080p (o le que haya disponible más alta si esta no estuviera)
  * @param {HTMLVideoElement} video
  */
-export async function calidad1080pAutomatica(video) {
+export async function auto1080pQuality(video) {
   // if (video.readyState !== video.HAVE_ENOUGH_DATA) {
   //   await promisefyEvent(video, 'load')
   // }
@@ -265,25 +265,25 @@ export async function calidad1080pAutomatica(video) {
   await delay(500)
   settingsButton.click();
 
-  const menuOpciones = player.querySelector('.ytp-settings-menu .ytp-panel-menu')
+  const optionsMenu = player.querySelector('.ytp-settings-menu .ytp-panel-menu')
 
   await delay(1000)
 
   await waitForSelector('.ytp-settings-menu .ytp-panel-menu > :last-child:not(:first-child)', {node: player})
   await delay(500)
 
-  const botonCalidadVideo = menuOpciones.lastElementChild
-  botonCalidadVideo.click()
+  const qualityButton = optionsMenu.lastElementChild
+  qualityButton.click()
 
   await delay(500)
 
 
-  const menuOpcionesCalidad = player.querySelector('.ytp-quality-menu .ytp-panel-menu')
+  const optionsMenuQuality = player.querySelector('.ytp-quality-menu .ytp-panel-menu')
 
 
-  const opcionesCalidad = [...menuOpcionesCalidad.children]
+  const qualityOptions = [...optionsMenuQuality.children].filter(item => item.textContent.indexOf('Premium') === -1)
 
-  const resoluciones = [
+  const resolutions = [
     '1080p',
     '720p',
     '480p',
@@ -292,22 +292,24 @@ export async function calidad1080pAutomatica(video) {
     '144p'
   ]
 
-  try {
+  for (const option of qualityOptions) {
+    let shouldBreak = false
 
-    opcionesCalidad.forEach(opcion => {
+    for (const resolution of resolutions) {
+      if (option.textContent.startsWith(resolution)) {
+        option.click()
+        video.focus()
 
-      for (let i = 0; i < resoluciones.length; i++) {
-        if (opcion.textContent.includes(resoluciones[i])) {
-          opcion.click()
-          video.focus()
+        shouldBreak = true
 
-          throw `'opcionesCalidad.forEach' cancelled`
-        }
+        break
       }
+    }
 
-    })
-
-  } catch (error) {}
+    if (shouldBreak) {
+      break
+    }
+  }
 
   settingsButton.click()
   settingsButton.click()
