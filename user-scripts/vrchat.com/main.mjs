@@ -4,6 +4,10 @@ import { trimIndent } from '../@libs/libs/string-utils.js'
 
 document.querySelector('meta[name="theme-color"]')?.remove()
 
+if (location.pathname !== '/home') {
+  throw new Error(`Skip if is not '/home'`)
+}
+
 /**
  * @typedef VRChatUser
  * @property {string} id
