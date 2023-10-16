@@ -1,3 +1,5 @@
+import { createPublicPromise } from '../../../../@libs/utils-injection.js'
+
 function dispatchNavigateEvent() {
   const customEvent = new CustomEvent('youtube-navigate')
   window.dispatchEvent(customEvent)
@@ -7,6 +9,11 @@ function dispatchLoadEvent() {
   const customEvent = new CustomEvent('youtube-load')
   window.dispatchEvent(customEvent)
 }
+
+export const eventsInfo = {
+  waitForLoad: createPublicPromise()
+}
+
 
 /**
  * 
@@ -39,6 +46,8 @@ function addMultipleListeners(target, eventNames, callback, timeout = null) {
 }
 
 addMultipleListeners(window, ['load', 'yt-navigate-finish'], () => {
+  eventsInfo.waitForLoad.resolve()
+
   dispatchLoadEvent()
   dispatchNavigateEvent()
 
