@@ -14,8 +14,6 @@ window.addEventListener('youtube-navigate', async event => {
 async function handleSecondaryInnerWatch() {
   const secondaryInner = await waitForSelector('ytd-watch-flexy #secondary #secondary-inner')
 
-  const panelsContainer = secondaryInner.querySelector(':scope > #panels')
-
   const panels = {
 
     get 'related'() {
@@ -92,14 +90,6 @@ async function handleSecondaryInnerWatch() {
       return
     }
 
-    if (new URLSearchParams(location.search).get('list') == null) {
-      panels.related.slot = 'active'
-      panelButtons.relatedBtn.classList.add('selected')
-    } else {
-      panels.playlist.slot = 'active'
-      panelButtons.playlistBtn.classList.add('selected')
-    }
-
     panelButtons.playlistBtn.addEventListener('click', event => {
       const ytdWatchFlexy = document.querySelector('ytd-watch-flexy')
 
@@ -167,14 +157,28 @@ async function handleSecondaryInnerWatch() {
     )
 
     addEventListener(window, 'youtube-navigate', async event => {
-      await waitForSelector('ytd-watch-flexy #secondary #secondary-inner #panels')
-      await delay(500)
+      // await waitForSelector('ytd-watch-flexy #secondary #secondary-inner #panels')
+      // await delay(500)
+
+      const panelsContainer = secondaryInner.querySelector(':scope > #panels')
+
+      await delay(1000)
 
       const oldPanels = secondaryInner.querySelectorAll(':scope > ytd-engagement-panel-section-list-renderer')
 
-      oldPanels.forEach(panel => panel.remove())
+      for (const oldPanel of oldPanels) {
+        oldPanel.remove()
+      }
 
       panelsContainer.after(...panelsContainer.children)
+
+      if (new URLSearchParams(location.search).get('list') == null) {
+        panels.related.slot = 'active'
+        panelButtons.relatedBtn.classList.add('selected')
+      } else {
+        panels.playlist.slot = 'active'
+        panelButtons.playlistBtn.classList.add('selected')
+      }
 
       shadow.replaceChildren()
 
