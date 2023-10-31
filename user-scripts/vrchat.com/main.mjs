@@ -1,12 +1,9 @@
 import { showAlertDialog } from '../@libs/libs/dialogs/dialogs.js'
 import LocalDB from '../@libs/libs/local-db.js'
 import { trimIndent } from '../@libs/libs/string-utils.js'
+import { delay } from '../@libs/utils-injection.js'
 
 document.querySelector('meta[name="theme-color"]')?.remove()
-
-if (location.pathname !== '/home') {
-  throw new Error(`Skip if is not '/home'`)
-}
 
 /**
  * @typedef VRChatUser
@@ -28,6 +25,11 @@ if (location.pathname !== '/home') {
  * @property {string[]} tags
  * @property {string} travelingToLocation
  * @property {string} userIcon
+ */
+
+/**
+ * @typedef APIError
+ * @property {{message: string, status_code: number}} error
  */
 
 class VRChat {
@@ -59,8 +61,15 @@ class VRChat {
       }
 
       const response = await fetch(apiURL)
-    
-      return response.json()
+
+      /**@type {VRChatUser[] | APIError}*/
+      const data = response.json()
+
+      if ('error' in data) {
+        throw data.error
+      }
+
+      return data
     } catch (reason) {
       console.error(reason)
       throw new Error(`Couldn't request VRChat friends`)
@@ -110,44 +119,52 @@ class VRChat {
 }
 
 
-const vrChat = new VRChat()
+checkMissingFriends()
 
-const storage = await LocalDB.createLocalDB('_personal-storage')
+async function checkMissingFriends() {
+  if (location.pathname !== '/home') {
+    return
+  }
 
-const friendsKeyStorage = 'vrchat-friends'
-const lostFriendsKeyStorage = 'vrchat-lost-friends'
+  const vrChat = new VRChat()
+
+    const storage = await LocalDB.createLocalDB('_personal-storage')
+
+    const friendsKeyStorage = 'vrchat-friends'
+    const lostFriendsKeyStorage = 'vrchat-lost-friends'
 
 
-/**
- * @type {VRChatUser[]}
- */
-const lastSavedFriends = await storage.getItem(friendsKeyStorage)
+    /**
+     * @type {VRChatUser[]}
+     */
+    const lastSavedFriends = await storage.getItem(friendsKeyStorage) ?? []
 
-const currentFriends = await vrChat.getAllFriends()
+    const currentFriends = await vrChat.getAllFriends()
 
-const missingFriends = vrChat.getMissingFriends(lastSavedFriends, currentFriends)
+    const missingFriends = vrChat.getMissingFriends(lastSavedFriends, currentFriends)
 
-async function updateLostFriends() {
-  const lostFriends = await storage.getItem(lostFriendsKeyStorage) ?? []
+    storage.setItem(friendsKeyStorage, currentFriends)
 
-  await storage.setItem(lostFriendsKeyStorage, lostFriends.concat(missingFriends))
-}
+    async function updateLostFriends() {
+      const lostFriends = await storage.getItem(lostFriendsKeyStorage) ?? []
 
-console.log({lastSavedFriends, currentFriends, missingFriends})
-
-if (missingFriends.length > 0) {
-  updateLostFriends()
-
-  storage.setItem(friendsKeyStorage, currentFriends)
-
-  showAlertDialog(trimIndent(
-  `
-    You lost ${missingFriends.length} friends :(
-
-    ${
-      missingFriends
-      .map((friend, index) => `${index + 1}. <a target="_blank" href="${vrChat.getURLFromFriendId(friend.id)}">${friend.displayName}</a>`)
-      .join('\n')
+      await storage.setItem(lostFriendsKeyStorage, lostFriends.concat(missingFriends))
     }
-  `))
+
+    console.log({lastSavedFriends, currentFriends, missingFriends})
+
+    if (missingFriends.length > 0) {
+      updateLostFriends()
+
+      showAlertDialog(trimIndent(
+      `
+        You lost ${missingFriends.length} friends :(
+
+        ${
+          missingFriends
+          .map((friend, index) => `${index + 1}. <a target="_blank" href="${vrChat.getURLFromFriendId(friend.id)}">${friend.displayName}</a>`)
+          .join('\n')
+        }
+      `))
+    }
 }
