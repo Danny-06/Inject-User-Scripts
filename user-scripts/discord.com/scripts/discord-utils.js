@@ -127,7 +127,7 @@ export class ContextMenuManager {
     const item = createElement('div', {
       id,
 
-      classes: ['item-5ApiZt', 'labelContainer-35-WEd', 'colorDefault-2_rLdz'],
+      classes: ['item__183e8', 'labelContainer_bc2861', 'colorDefault__0b482'],
 
       properties: {
         role: 'menuitem',
@@ -152,17 +152,17 @@ export class ContextMenuManager {
       action?.(item, this.currentEvent)
     })
 
+    const focusedClasses = ['focused__27621']
+
     item.addEventListener('mouseenter', event => {
-      const focusedClass = 'focused-3LIdPu'
-
       this.menuElement
-      .querySelector(`.${focusedClass}`)
-      ?.classList.remove(focusedClass)
+      .querySelector(focusedClasses.map(className => `.${className}`).join(''))
+      ?.classList.remove(...focusedClasses)
 
-      item.classList.add(focusedClass)
+      item.classList.add(...focusedClasses)
     })
 
-    item.addEventListener('mouseleave', event => item.classList.remove(focusedClass))
+    item.addEventListener('mouseleave', event => item.classList.remove(...focusedClasses))
 
     this.itemsMap.set(item, options)
 

@@ -10,7 +10,7 @@
   --chat-bg-overlay-color: #000c;
 }
 
-[class|="messagesWrapper"] {
+[class^="messagesWrapper"] {
   --chat-bg-overlay: linear-gradient(var(--chat-bg-overlay-color), var(--chat-bg-overlay-color));
 
   background-image:
@@ -179,6 +179,7 @@ sobreescribir estilo que oculta la barra a cierto ancho */
 
 /* Chat Placeholder que aparece cuando se están cargando los mensajes */
 [class*="scrollerInner"] > [class*="wrapper"]:not( :is([class*="mentioned"], [class*="replying"]) ),
+[class*="scrollerInner"] > [class*="wrapper"] > [class*="wrapper"],
 [class*="scrollerInner"] > [class*="wrapper"] [class|="wrapper"][class*="cozy"]:not( :is([class*="mentioned"], [class*="replying"]) ) {
   background: transparent;
 }
@@ -357,7 +358,7 @@ permitiendonos ocultar el placeholder como el placeholder original */
 }
 
 /* Usar la etiqueta hermana del placeholder que tiene un atributo con el
-mismo texto que el placeholder y añadirl a la entrada de texto
+mismo texto que el placeholder y añadirala a la entrada de texto
 como pseudo elemento */
 [class*="placeholder"][class*="fontSize16Padding"]
 + [class*="markup"][class*="slateTextArea"][class*="fontSize16Padding"]::before {
@@ -454,4 +455,37 @@ section.panels-3wFtMD {
 [class|="codeContainer"] > code {
   white-space: pre;
   overflow-x: auto;
+}
+
+
+/* Context menu */
+
+[class^="menu"] {
+  color: var(--interactive-normal);
+
+  & > * > [role="group"] {
+
+    & > [class^="item"] {
+      /* padding-inline: 8px; */
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      column-gap: 0.5rem;
+
+      & > [class^="iconContainer"] {
+        width: 24px;
+      }
+    }
+  }  
+}
+
+
+[class^="message"] > [class^="contents"] > h3[class^="header"] {
+  overflow: visible;
+}
+
+
+[class^="lazyImg"] {
+  object-fit: contain !important;
 }
