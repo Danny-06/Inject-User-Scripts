@@ -3,6 +3,99 @@ import { requestFile, StringConversion } from '../../@libs/utils-injection.js'
 import LocalDB from '../../@libs/libs/local-db.js'
 
 
+export const api = {
+
+  getCurrentChatId() {
+    return location.href.slice(location.href.lastIndexOf('/') + 1)
+  },
+
+  async getChatMessages(options) {
+    const {authorization, chatId, limit, before, after} = options
+
+    const url = new URL(`https://discord.com/api/v9/channels/${chatId}/messages`)
+
+    if (typeof limit === 'string') {
+      url.searchParams.set('limit', limit)
+    }
+
+    if (typeof before === 'string') {
+      url.searchParams.set('before', before)
+    }
+    else
+    if (typeof after === 'string') {
+      url.searchParams.set('after', after)
+    }
+
+    const response = await fetch(url, {headers: {authorization}})
+
+    const data = await response.json()
+
+    return data
+  },
+
+  async getAllChatMessages(options) {
+    const {authorization, chatId, numberOfMessages = Infinity} = options
+
+    const messages = []
+
+    // defaults to 50, max 100
+    const limit = 100
+
+    let messagesLeft = numberOfMessages
+    let currentLimit
+    let before
+
+    while (messagesLeft > 0) {
+      if (messagesLeft > limit) {
+        currentLimit = limit
+        messagesLeft -= limit
+      }
+      else {
+        currentLimit = messagesLeft
+        messagesLeft = 0
+      }
+
+      const data = await this.getChatMessages({authorization, chatId, limit: currentLimit, before})
+
+      if (data.length === 0) {
+        break
+      }
+
+      messages.push(...data)
+
+      before = messages.at(-1).id
+    }
+
+    return messages
+  },
+
+  async getChatMessagesLength(options) {
+    const {authorization, chatId} = options
+
+    // defaults to 50, max 100
+    const limit = 100
+
+    let messagesLength = 0
+
+    let before
+
+    while (true) {
+      const data = await this.getChatMessages({authorization, chatId, limit, before})
+
+      if (data.length === 0) {
+        break
+      }
+
+      messagesLength += data.length
+
+      before = data.at(-1).id
+    }
+
+    return messagesLength
+  }
+
+}
+
 function setChatBackgroundFromBlob(blob) {
   if (!blob.type.startsWith('image/')) {
     throw new Error(`Blob must have a MIME Type of 'image/*`)

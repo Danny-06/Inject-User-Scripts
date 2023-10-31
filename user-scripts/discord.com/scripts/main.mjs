@@ -4,7 +4,7 @@ import * as discordUtils from './discord-utils.js'
 import { findUser, initChatBg } from './discord-utils.js'
 import * as ctxMenu from './resource-data/context-menu-options.js'
 
-window.discordUtils = discordUtils
+window.discordUtils = {...discordUtils}
 
 const query = selector => document.querySelector(selector)
 
