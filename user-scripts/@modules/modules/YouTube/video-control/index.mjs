@@ -150,9 +150,14 @@ async function main() {
 
     const scaleIncrement = s >= 1 ? s : 1
 
-    videoStyles.forEach(video => {
-      video['--scale'] = `${s - (event.deltaY * scaleIncrement) / 1000}`
-    })
+    for (const videoStyle of videoStyles) {
+      const oldValue = videoStyle['--scale']
+      videoStyle['--scale'] = `${s - (event.deltaY * scaleIncrement) / 1000}`
+
+      if (oldValue === videoStyle['--scale']) {
+        videoStyle['--scale'] = `${s - (event.deltaY * scaleIncrement) / 1000 + 0.1}`
+      }
+    }
   })
 
   videoOverlay.addEventListener('mousedown', function (event) {
