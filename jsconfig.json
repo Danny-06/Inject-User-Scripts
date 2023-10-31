@@ -4,7 +4,7 @@
     "exclude": ["core-js"]
   },
   "compilerOptions": {
-    "lib": ["ES2018", "DOM"],
+    "lib": ["ESNext", "DOM"],
     "module": "ESNext",
     "target": "ESNext",
     "strictNullChecks": true,
