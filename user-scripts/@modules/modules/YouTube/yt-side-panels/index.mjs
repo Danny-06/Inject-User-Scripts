@@ -160,9 +160,7 @@ async function handleSecondaryInnerWatch() {
       // await waitForSelector('ytd-watch-flexy #secondary #secondary-inner #panels')
       // await delay(500)
 
-      const panelsContainer = secondaryInner.querySelector(':scope > #panels')
-
-      await delay(1000)
+      const panelsContainer = await waitForSelector(':scope > #panels:has(:nth-child(2))', {node: secondaryInner})
 
       const oldPanels = secondaryInner.querySelectorAll(':scope > ytd-engagement-panel-section-list-renderer')
 
