@@ -452,8 +452,8 @@ section.panels-3wFtMD {
 
 /* Remove word wrap in codeblocks and add horizontal scroll */
 
-[class|="codeContainer"] > code {
-  white-space: pre;
+[class^="codeContainer"] > code {
+  white-space: pre !important;
   overflow-x: auto;
 }
 
