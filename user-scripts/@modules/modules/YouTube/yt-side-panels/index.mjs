@@ -52,6 +52,10 @@ async function handleSecondaryInnerWatch() {
       return secondaryInner.querySelector(':scope > [target-id="engagement-panel-clip-create"]')
     },
 
+    get 'live-chat'() {
+      return secondaryInner.querySelector(':scope > #chat-container:has(ytd-live-chat-frame)')
+    },
+
     *[Symbol.iterator]() {
       yield* Object.values(this).filter(element => element != null)
     }
@@ -68,6 +72,7 @@ async function handleSecondaryInnerWatch() {
       playlistBtn: _.button({dataset: {id: 'playlist'}}, 'Playlist'),
       descriptionBtn: _.button({dataset: {id: 'description'}}, 'Description'),
       commentsBtn: _.button({dataset: {id: 'comments'}}, 'Comments'),
+      liveChatBtn: _.button({dataset: {id: 'live-chat'}}, 'Live Chat'),
       chaptersBtn: _.button({dataset: {id: 'chapters'}}, 'Chapters'),
       autoChaptersBtn: _.button({dataset: {id: 'auto-chapters'}}, 'Auto Chapters'),
       transcriptionBtn: _.button({dataset: {id: 'transcription'}}, 'Transcription'),
