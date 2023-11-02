@@ -92,7 +92,26 @@ export const api = {
     }
 
     return messagesLength
-  }
+  },
+
+  async sendMessage(options) {
+    const {authorization, chatId, message} = options
+  
+    const body = {
+      content: message,
+    }
+  
+    const response = await fetch(`https://discord.com/api/v9/channels/${chatId}/messages`, {
+      method: 'POST',
+      headers: {
+        authorization,
+        'Content-Type': "application/json",
+      },
+      body: JSON.stringify(body)
+    })
+  
+    return response.json()
+  },
 
 }
 
