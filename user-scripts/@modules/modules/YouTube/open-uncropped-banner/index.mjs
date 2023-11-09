@@ -8,7 +8,7 @@ function openUncroppedBannerWithClick() {
     const banner = (() => {
       const target = event.target
 
-      return target.matches('tp-yt-app-header-layout .banner-visible-area')
+      return target.matches('tp-yt-app-header-layout .ytd-c4-tabbed-header-renderer')
         ? target
         : null
     })()
@@ -17,15 +17,8 @@ function openUncroppedBannerWithClick() {
       return
     }
 
-    const tabbedHeader = banner.closest('ytd-c4-tabbed-header-renderer')
-
-    if (tabbedHeader == null) {
-      console.error('Parent banner not found', location.pathname)
-      return
-    }
-
     const bannerURL = (() => {
-      let url = tabbedHeader.style
+      let url = getComputedStyle(banner)
                   .getPropertyValue('--yt-channel-banner')
                   .slice(
                     'url('.length,
