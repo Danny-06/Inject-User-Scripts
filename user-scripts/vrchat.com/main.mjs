@@ -63,7 +63,7 @@ class VRChat {
       const response = await fetch(apiURL)
 
       /**@type {VRChatUser[] | APIError}*/
-      const data = response.json()
+      const data = await response.json()
 
       if ('error' in data) {
         throw data.error
