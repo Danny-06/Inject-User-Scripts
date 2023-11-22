@@ -55,7 +55,7 @@ export class KeySequence {
    * 
    * @param {KeyCode[]} matchKeySequence 
    * @param {number} timeoutDuration 
-   * @param {number} options
+   * @param {{useKey: boolean}} options
    */
   constructor(matchKeySequence, timeoutDuration, options) {
     this.#matchKeySequence = Object.freeze(structuredClone(matchKeySequence))
