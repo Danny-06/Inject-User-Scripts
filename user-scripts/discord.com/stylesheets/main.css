@@ -489,3 +489,8 @@ section.panels-3wFtMD {
 [class^="lazyImg"] {
   object-fit: contain !important;
 }
+
+
+[class^="threadMessageAccessory"] {
+  height: auto !important;
+}
