@@ -1,3 +1,5 @@
+//@ts-check
+
 /**
  * @typedef EventOptions
  * 
@@ -19,12 +21,12 @@
  * @param {EventOptions} options 
  * @returns {() => void} Clean up callback to remove the listener
  */
-export function addEventListener(target, eventType, listener, options) {
+export function addEventListener(target, eventType, listener, options = {}) {
   const nativeEventOptions = {
-    capture: options.capture,
-    passive: options.passive,
-    once: options.once,
-    signal: options.signal,
+    capture: options?.capture,
+    passive: options?.passive,
+    once: options?.once,
+    signal: options?.signal,
   }
 
   target.addEventListener(eventType, listener, nativeEventOptions)
@@ -36,4 +38,20 @@ export function addEventListener(target, eventType, listener, options) {
   return () => {
     target.removeEventListener(eventType, listener, nativeEventOptions)
   }
+}
+
+
+/**
+ * 
+ * @template {new(eventName: string, eventInitDict?: EventInit | undefined) => Event} T
+ * @param {EventTarget} target 
+ * @param {T} EventConstructor 
+ * @param {ConstructorParameters<T>[0]} name 
+ * @param {ConstructorParameters<T>[1]} [init] 
+ * @returns {boolean}
+ */
+export function dispatchEvent(target, EventConstructor, name, init = undefined) {
+  const event = new EventConstructor(name, init)
+
+  return target.dispatchEvent(event)
 }
