@@ -1,8 +1,0 @@
-{
-  "scripts": [
-    "scripts/main.mjs"
-  ],
-  "stylesheets": [
-    "stylesheets/main.css"
-  ]
-}

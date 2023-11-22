@@ -46,3 +46,10 @@ injectModulesWithDomainMatch({
     'YouTube'
   ]
 })
+
+injectModulesWithDomainMatch({
+  matchExpressions: 'jsfiddle.net',
+  modules: [
+    'JSFiddle'
+  ]
+})
