@@ -1,6 +1,6 @@
 const privateConstructorKey = Symbol('#<NodeList> Constructor Key')
 
-class Node extends EventTarget {
+class Node {
 
   constructor() {
     if (Object.getPrototypeOf(this) === Node.prototype) {
