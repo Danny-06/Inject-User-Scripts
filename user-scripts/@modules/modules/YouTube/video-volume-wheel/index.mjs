@@ -6,6 +6,7 @@ import useEffectOnce from '../../../../@libs/preact/util-hooks/use-effect-once.j
 import { waitForSelector } from '../../../../@libs/libs/dom-utils.js'
 import { render } from '../../../../@libs/preact/preact.mjs'
 import { addEventListener } from '../../../../@libs/libs/event-utils.js'
+import { delay } from '../../../../@libs/utils-injection.js'
 
 const volumeSetter = Object.getOwnPropertyDescriptors(HTMLMediaElement.prototype).volume.set
 
@@ -27,15 +28,16 @@ function VolumeContainer(props) {
 
   window.addEventListener('youtube-navigate', async event => {
     if (location.pathname !== '/watch') return
-  
+
+    await delay(1000)
+
     /**
      * @type {HTMLVideoElement}
      */
-    const updatedVideo = await waitForSelector('ytd-watch-flexy video', {timeout: 1000})
+    const updatedVideo = await waitForSelector('ytd-watch-flexy video')
 
     videoSignal.value = updatedVideo
   })
-  
 
   const css = // css
   `
@@ -190,7 +192,7 @@ function VolumeContainer(props) {
     }
 
     return removeListener
-  }, [videoSignal.value])
+  }, [videoSignal])
 
 
   return html`
