@@ -17,27 +17,30 @@ Object.defineProperties(HTMLMediaElement.prototype, {
 })
 
 
-let currentVideo
 const videoVolumeStep = 0.05
 
 
+const video = new Proxy({}, {
+  get(target, property, receiver) {
+    const videoElement = document.querySelector('ytd-watch-flexy video')
+
+    const value = Reflect.get(videoElement, property)
+
+    if (typeof value === 'function') {
+      return value.bind(videoElement)
+    }
+
+    return value
+  },
+  set(target, property, value, receiver) {
+    const videoElement = document.querySelector('ytd-watch-flexy video')
+
+    return Reflect.set(videoElement, property, value)
+  }
+})
+
 function VolumeContainer(props) {
-  const { video: initialVideo } = props
-
-  const videoSignal = useSignal(initialVideo)
-
-  window.addEventListener('youtube-navigate', async event => {
-    if (location.pathname !== '/watch') return
-
-    await delay(1000)
-
-    /**
-     * @type {HTMLVideoElement}
-     */
-    const updatedVideo = await waitForSelector('ytd-watch-flexy video')
-
-    videoSignal.value = updatedVideo
-  })
+  const { video } = props
 
   const css = // css
   `
@@ -131,16 +134,16 @@ function VolumeContainer(props) {
       let volumeValue
 
       if (event.deltaY < 0) {
-        if ((videoSignal.value.volume + videoVolumeStep) > 1) volumeValue = 1
-        else                                      volumeValue = (videoSignal.value.volume + videoVolumeStep).toFixed(2)
+        if ((video.volume + videoVolumeStep) > 1) volumeValue = 1
+        else                                      volumeValue = (video.volume + videoVolumeStep).toFixed(2)
       }
       else
       if (event.deltaY > 0) {
-        if ((videoSignal.value.volume - videoVolumeStep) < 0) volumeValue = 0
-        else                                      volumeValue = (videoSignal.value.volume - videoVolumeStep).toFixed(2)
+        if ((video.volume - videoVolumeStep) < 0) volumeValue = 0
+        else                                      volumeValue = (video.volume - videoVolumeStep).toFixed(2)
       }
 
-      volumeSetter.call(videoSignal.value, volumeValue)
+      volumeSetter.call(video.valueOf(), volumeValue)
 
       const volumeValuePercent = Math.floor(volumeValue * 100)
 
@@ -151,7 +154,7 @@ function VolumeContainer(props) {
 
     {
       const audioCtx = new AudioContext();
-      const source = audioCtx.createMediaElementSource(videoSignal.value);
+      const source = audioCtx.createMediaElementSource(video.valueOf());
       const gainNode = audioCtx.createGain();
 
       source.connect(gainNode).connect(audioCtx.destination);
@@ -192,8 +195,7 @@ function VolumeContainer(props) {
     }
 
     return removeListener
-  }, [videoSignal])
-
+  }, [])
 
   return html`
     <${ShadowDOM} class="volume-container-wrapper" stylesheets=${[stylesheet]}>
@@ -213,16 +215,9 @@ window.addEventListener('youtube-navigate', async event => {
   /**
    * @type {HTMLVideoElement}
    */
-  const video = await waitForSelector('ytd-watch-flexy video', {timeout: 1000})
-
-  // Avoid executing the code more than once
-  if (currentVideo === video) {
-    return
-  }
-
-  currentVideo = video
+  // const video = await waitForSelector('ytd-watch-flexy video', {timeout: 1000})
 
   const html5Container = await waitForSelector('ytd-watch-flexy .html5-video-container')
 
-  render(html`<${VolumeContainer} video=${currentVideo} />`, html5Container)
+  render(html`<${VolumeContainer} video=${video} />`, html5Container)
 })
