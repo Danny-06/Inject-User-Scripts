@@ -295,7 +295,7 @@ export class ContextMenuManager {
 
 
 export async function getServerIcon() {
-  const serverImg = document.querySelector(`[data-list-id="guildsnav"] .listItem-3SmSlK .blobContainer-ikKyFs.selected-3c78Ai img`)
+  const serverImg = document.querySelector(`[data-list-id="guildsnav"] [class^="listItem"] [class^="blobContainer"][class*="selected"] img`)
 
   if (!serverImg) return null
 
@@ -319,7 +319,7 @@ export async function getServerIcon() {
 }
 
 export async function getServerBanner() {
-  const serverBanner = document.querySelector(`.sidebar-1tnWFu .bannerImage-ubW8K- img`)
+  const serverBanner = document.querySelector(`[class^="sidebar"] [class^="bannerImage"] img`)
 
   if (!serverBanner) return null
 

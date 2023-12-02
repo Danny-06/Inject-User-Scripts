@@ -49,12 +49,12 @@ export const getProfileImg = {
   ,
 
   condition(event) {
-    const profileImage = event.target.closest('img.avatar-2e8lTP.clickable-31pE3P')
+    const profileImage = event.target.closest('img[class^="avatar"]')
 
     return profileImage != null
   },
   async action(item, event) {
-    const profileImage = event.target.closest('img.avatar-2e8lTP.clickable-31pE3P')
+    const profileImage = event.target.closest('img[class^="avatar"]')
 
     if (!profileImage) return
 
@@ -125,7 +125,7 @@ export const getServerIcon = {
   ,
 
   condition(event) {
-    const imgServerIcon = document.querySelector(`[data-list-id="guildsnav"] .listItem-3SmSlK .blobContainer-ikKyFs.selected-3c78Ai img`)
+    const imgServerIcon = document.querySelector(`[data-list-id="guildsnav"] [class^="listItem"] [class^="blobContainer"][class*="selected"] img`)
     return imgServerIcon != null
   },
   async action(item) {
@@ -144,7 +144,7 @@ export const getServerBanner = {
   `
   ,
   condition(event) {
-    const imgServerBanner = document.querySelector(`.sidebar-1tnWFu .bannerImage-ubW8K- img`)
+    const imgServerBanner = document.querySelector(`[class^="sidebar"] [class^="bannerImage"] img`)
 
     return imgServerBanner != null
   },
