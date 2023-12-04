@@ -22,6 +22,7 @@ import Calculator from './libs/calculator.js'
 import EventEmitter from './libs/event-emitter.js'
 import Matrix2D from './libs/matrix2d.mjs'
 import { trimIndent } from './libs/string-utils.js'
+import PromiseSync, { getAsyncFuncFromGeneratorFunc } from './libs/promise-sync.js'
 
 
 const CanvasUtils = Object.freeze({..._CanvasUtils})
@@ -36,7 +37,7 @@ export {
   ArrayN, ZipManager, LocalDB,
   classMaker, CanvasUtils, Timeout, Interval,
   Binary, ChromeExtension, ListManager, ProxyUtils, DOMUtils, Dialogs, GeneratorUtils, Calculator,
-  EventEmitter, Matrix2D
+  EventEmitter, Matrix2D, PromiseSync, getAsyncFuncFromGeneratorFunc
 }
 
 export const waitForSelector = DOMUtils.waitForSelector
