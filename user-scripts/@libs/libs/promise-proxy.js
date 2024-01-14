@@ -57,7 +57,7 @@
  *
  * @type {PromiseProxyConstructor}
  */
-var PromiseProxy = function (executor) {
+const PromiseProxy = function (executor) {
   if (new.target == null) {
     throw new Error(`Cannot invoke constructor without new operator`)
   }
