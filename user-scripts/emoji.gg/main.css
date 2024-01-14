@@ -1,0 +1,4 @@
+/* Hide message about turning of adblock */
+#yousuck {
+  display: none !important;
+}
