@@ -1,0 +1,241 @@
+:root {
+  font-size: 1rem !important;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+#page-view {
+  position: static;
+
+  & > [class^="_olympic-result-page"] {
+    width: 100%;
+    height: 100%;
+    min-height: auto;
+
+    overflow: visible;
+
+    & > [class^="_result-page"] {
+      width: 100%;
+      height: 100%;
+
+      row-gap: 1rem;
+
+      & > * {
+        margin: 0;
+      }
+
+      & > [class^="_temp-container"] {
+        margin: 0;
+
+        & > [class^="_temp-title"] {
+          margin: 0;
+
+          object-fit: contain;
+          max-width: 600px;
+          width: 100%;
+          height: auto;
+
+          @media (width <= 500px) {
+            max-width: 300px;
+          }
+        }
+
+        & > [class^="_temp-result-container"] {
+          width: 100%;
+          height: 70vh;
+        }
+      }
+
+      & > [class^="_action-panel"] {
+        width: 100%;
+
+        & > [class^="_action-btn-group"] {
+
+          & > [class^="_action-btn-left-us"] {
+            object-fit: contain;
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+          }
+        }
+
+        & > [class^="_action-btn-tip-group"] {
+
+          & > [class^="_share-btn"] {
+            object-fit: contain;
+            max-width: 300px;
+            height: auto;
+          }
+
+          & > [class^="_back-to-index"] {
+            object-fit: contain;
+            max-width: 300px;
+            height: auto;
+          }
+        }
+      }
+
+      & > [class^="_ad-banner-container"] {
+        width: 100%;
+        padding: 1rem;
+
+        & > [class^="_ad-banner-container__title"],
+        & > [class^="_ad-banner-container__material-image"] {
+          margin: 0;
+          max-width: 400px;
+
+          width: 100%;
+          height: auto;
+
+          @media (width <= 500px) {
+            max-width: 250px;
+          }
+        }
+      }
+
+      & > [class^="_footer"] {
+        width: 100%;
+
+        & > [class^="_logo"] {
+          object-fit: contain;
+
+          max-width: 300px;
+          height: auto;
+        }
+
+        & > [class^="_feedback"] {
+          object-fit: contain;
+
+          max-width: 300px;
+          height: auto;
+        }
+      }
+    }
+  }
+}
+
+#page-container {
+  overflow: visible;
+
+  & > [class^="_indexSection"] {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.2rem;
+
+    & > * {
+      margin: 0;
+    }
+
+    & > [class^="_preview-container"] {
+      & > img {
+        max-width: 440px;
+        width: 100%;
+        height: auto;
+
+        object-fit: contain;
+      }
+    }
+
+    & > [class^="_action-panel"] {
+      & > #index-play-btn {
+        max-width: 300px;
+        width: 100%;
+      }
+    }
+
+    & > [class^="_footer"] {
+      position: static;
+
+      flex-grow: 1;
+
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      & > img {
+        position: static;
+
+        max-width: 300px;
+      }
+    }
+
+    & > ._modal_oston_1 {
+      width: 100%;
+      height: 100%;
+
+      & > :first-child {
+        position: relative;
+
+        width: 100%;
+        height: 100%;
+
+        & > [class^="_choose-container"] {
+
+          & > [class^="_choose-tip"] {
+            margin: 0;
+            margin-block: auto;
+
+            max-width: 400px;
+            width: 100%;
+            height: auto;
+
+            @media (width <= 500px) {
+              max-width: 300px;
+            }
+          }
+
+          & > [class^="_choose-actions"] {
+            margin-top: auto;
+            margin-bottom: 2rem;
+
+            & > img {
+              max-width: 300px;
+              width: 100%;
+              height: auto;
+              object-fit: contain;
+
+              @media (width <= 500px) {
+                max-width: 200px;
+              }
+            }
+          }
+        }
+
+        & > [class^="_loading-modal"] {
+          margin: 0;
+          position: absolute;
+
+          width: auto;
+
+          inset: 0;
+          margin: auto;
+
+          & > [class^="_lottie-container"] {
+            width: auto;
+            height: auto;
+          }
+
+          & > [class^="_loading-text"] {
+            font-size: unset;
+          }
+        }
+
+        & > [class^="_feedback-modal"] {
+          position: absolute;
+          inset: 0;
+          margin: auto;
+        }
+      }
+    }
+  }
+}
