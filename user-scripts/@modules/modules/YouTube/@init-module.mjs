@@ -65,12 +65,20 @@ injectCode(modulePath, {
 // })
 
 injectCode(modulePath, {
-  subModule: 'video-auto-1080p',
+  subModule: 'skip-ads',
 
   scripts: [
-    'index.mjs'
+    'main.mjs'
   ]
 })
+
+// injectCode(modulePath, {
+//   subModule: 'video-auto-1080p',
+
+//   scripts: [
+//     'index.mjs'
+//   ]
+// })
 
 injectCode(modulePath, {
   subModule: 'clone-yt-playlists',
