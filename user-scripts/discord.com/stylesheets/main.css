@@ -144,12 +144,12 @@ section[class*="container"][class*="themed"] + [class*="content"] > [class|="con
 
 /* Hacer que el panel de la izquierda sea visible cuando se ponga el ratón
 encima de él o al ponerlo encima de de la lista de servidores */
-[class*="content"] [class*="sidebar"]:hover,
-nav:hover + div [class|="sidebar"] {
+[class^="content"] > [class^="sidebar"]:hover,
+nav:hover + [class^="base"] > [class*="content"] > [class^="sidebar"] {
 	width: 240px !important;
 }
 
-[class*="content"] [class*="sidebar"] {
+[class^="content"] > [class^="sidebar"] {
   /* Ocultar panel lateral izquierdo (Canales del servidor) */
   @media screen and (width <= 800px) {
     width: 0 !important;
@@ -168,11 +168,17 @@ se ponga el ratón encima del encabezado del canal
 } */
 /* Barra de estado de amigos
 sobreescribir estilo que oculta la barra a cierto ancho */
-[class*="nowPlayingColumn"] {
-  /*display: flex !important;*/
-  min-width: 0 !important;
+[class^="container"]:has(> [class^="membersWrap"]) {
+
+  @media screen and (width <= 1000px) {
+    width: 0;
+  }
 }
 
+
+[class^="chat_"] > [class^="title"]:hover + [class^="content"] [class^="container"]:has(> [class^="membersWrap"]) {
+  width: auto;
+}
 
 
 
