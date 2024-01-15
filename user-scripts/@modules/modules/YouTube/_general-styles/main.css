@@ -276,3 +276,10 @@ ytd-rich-item-renderer.style-scope.ytd-rich-grid-row:has(ytd-in-feed-ad-layout-r
 .ytp-chapters-container {
   display: flex !important;
 }
+
+
+/* Hide ads */
+#player-ads,
+ytd-ad-slot-renderer {
+  display: none !important;
+}
