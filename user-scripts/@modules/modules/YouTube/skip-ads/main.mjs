@@ -30,6 +30,11 @@ window.addEventListener('youtube-navigate', async event => {
   video.addEventListener('loadeddata', dispatchYtVideoAdStart)
 })
 
+/**
+ * 
+ * @param {HTMLDivElement} ytVideo 
+ * @returns 
+ */
 function isVideoAd(ytVideo) {
   const ytPlayerParent = ytVideo.closest('.html5-video-player')
 

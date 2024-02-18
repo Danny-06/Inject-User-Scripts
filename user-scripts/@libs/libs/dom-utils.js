@@ -79,6 +79,29 @@ export function createWebComponent(classComponent, elementToApply = null) {
 }
 
 
+export function waitForFocus() {
+  return new Promise(resolve => {
+    if (document.hasFocus()) {
+      resolve()
+      return
+    }
+
+    const abortController = new AbortController()
+
+    document.addEventListener('visibilitychange', event => {
+      if (document.visibilityState !== 'visible') {
+        return
+      }
+
+      setTimeout(() => {
+        abortController.abort()
+        resolve()
+      }, 100)
+    }, {signal: abortController.signal})
+  })
+}
+
+
 /**
  * Takes a selector as a parameter and return a Promise that resolves in the element when it exists in the DOM
  * @param {string} selector

@@ -8,7 +8,7 @@ function openUncroppedBannerWithClick() {
     const banner = (() => {
       const target = event.target
 
-      return target.matches('tp-yt-app-header-layout .ytd-c4-tabbed-header-renderer')
+      return target.matches('tp-yt-app-header-layout .page-header-banner-image')
         ? target
         : null
     })()

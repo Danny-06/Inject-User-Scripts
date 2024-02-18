@@ -8,6 +8,7 @@
     "module": "ESNext",
     "target": "ESNext",
     "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true,
 
     "jsx": "react-jsx",
 		"jsxImportSource": "preact",
