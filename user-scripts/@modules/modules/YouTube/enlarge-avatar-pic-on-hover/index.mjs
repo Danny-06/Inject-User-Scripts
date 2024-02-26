@@ -1,13 +1,14 @@
-import { createElement, waitForSelector } from '../../../../@libs/libs/dom-utils.js'
+import { createElement, waitForDocumentReady, waitForSelector } from '../../../../@libs/libs/dom-utils.js'
 import { delay, promiseWrapper as pw } from '../../../../@libs/utils-injection.js'
 
 
 // Execute this script in the live chat iframe too
 if (window === parent) {
   waitForSelector('ytd-watch-flexy #chatframe')
-  .then(iframe => {
-    iframe.addEventListener('load', () => {
-      const newScript = document.createElement('script')
+  .then(async iframe => {
+    await waitForDocumentReady(iframe)
+
+    const newScript = document.createElement('script')
       newScript.src = import.meta.url
       newScript.type = 'module'
       newScript.dataset.source = 'Chrome Extension'
@@ -39,7 +40,6 @@ if (window === parent) {
 
         window.open(`https://youtube.com/channel/${channelID}`)
       })
-    })
   })
 }
 
