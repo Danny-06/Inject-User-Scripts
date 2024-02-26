@@ -18,7 +18,7 @@ if (window === parent) {
       // Making click on user name will open a new tab in his channel
       iframe.contentDocument.head.append((() => {
         const style = createElement('style', {properties: {
-          innerHTML: `
+          innerHTML: /*css*/`
           #author-name {
             cursor: pointer;
           }
