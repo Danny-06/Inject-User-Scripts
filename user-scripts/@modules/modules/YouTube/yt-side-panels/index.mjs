@@ -95,6 +95,43 @@ async function handleSecondaryInnerWatch() {
       return
     }
 
+    panelButtons.commentsBtn.addEventListener('dblclick', event => {
+      const commentsPanel = panels.comments
+
+      commentsPanel.classList.add('floating-panel')
+      document.body.append(commentsPanel)
+
+      /**
+       * 
+       * @param {HTMLElement} element 
+       * @param {number} x 
+       * @param {number} y 
+       * @returns 
+       */
+      function isPointerOnElement(element, x, y) {
+        if (
+          x < element.offsetLeft || x > element.offsetLeft + element.offsetWidth
+          || y < element.offsetTop ||  y > element.offsetHeight + element.offsetTop
+        ) {
+          return false
+        }
+
+        return true
+      }
+
+      /**@type {(event: PointerEvent) => void} */
+      const listener = innerEvent => {
+        if (!isPointerOnElement(commentsPanel, innerEvent.clientX, innerEvent.clientY)) {
+          commentsPanel.classList.remove('floating-panel')
+          secondaryInner.append(commentsPanel)
+
+          innerEvent.currentTarget.removeEventListener(listener, 'click')
+        }
+      }
+
+      commentsPanel.addEventListener('click', listener)
+    })
+
     panelButtons.playlistBtn.addEventListener('click', event => {
       const ytdWatchFlexy = document.querySelector('ytd-watch-flexy')
 
