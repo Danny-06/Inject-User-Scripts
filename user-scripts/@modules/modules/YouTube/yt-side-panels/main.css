@@ -67,7 +67,7 @@ html[data-pathname="/watch"] #secondary {
 }
 
 #masthead-container.ytd-app {
-  z-index: 99999;
+  z-index: 9999;
 }
 
 /* Fix z-index issue with lateral panel */
@@ -189,4 +189,57 @@ ytd-watch-flexy #columns > #primary ytd-comments {
 #primary-inner ytd-comments ytd-item-section-renderer ytd-comment-thread-renderer:has(> ytd-comment-renderer > #linked-comment-badge:not(:empty)),
 #primary-inner ytd-comments ytd-item-section-renderer ytd-comment-thread-renderer:has(> ytd-comment-renderer > #body > #main > #header > #pinned-comment-badge:not(:empty)) {
   display: block;
+}
+
+
+/* YT Floating Comment Panel */
+ytd-engagement-panel-section-list-renderer[target-id] {
+
+  &.floating-panel {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    margin-block: 30px;
+    z-index: 99999999;
+  
+    max-width: 1000px;
+  
+    border-radius: 12px;
+    overflow: visible;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      inset: 0;
+      transform: scale(2);
+      margin: auto;
+      background-color: #0008;
+      z-index: -1;
+      overflow: visible;
+    }
+
+    & > #header {
+      border-radius: inherit;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+      overflow: hidden;
+    }
+
+    & > #content {
+      background-color: inherit;
+    }
+  }
+
+  & > #content > ytd-section-list-renderer > #contents > ytd-comments > #sections > #contents {
+    padding-top: 20px;
+  }
+
+  & > #content > ytd-section-list-renderer > #contents > ytd-comments > #sections > #header {
+    box-shadow: #fff8 0 -1px 7px 0;
+  }
+}
+
+ytd-section-list-renderer[page-subtype="channels"] ytd-comments.ytd-section-list-renderer {
+  max-width: none;
 }

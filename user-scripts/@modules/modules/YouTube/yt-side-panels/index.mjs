@@ -99,7 +99,6 @@ async function handleSecondaryInnerWatch() {
       const commentsPanel = panels.comments
 
       commentsPanel.classList.add('floating-panel')
-      document.body.append(commentsPanel)
 
       /**
        * 
@@ -123,7 +122,6 @@ async function handleSecondaryInnerWatch() {
       const listener = innerEvent => {
         if (!isPointerOnElement(commentsPanel, innerEvent.clientX, innerEvent.clientY)) {
           commentsPanel.classList.remove('floating-panel')
-          secondaryInner.append(commentsPanel)
 
           innerEvent.currentTarget.removeEventListener(listener, 'click')
         }
