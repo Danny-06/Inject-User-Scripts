@@ -123,7 +123,7 @@ async function handleSecondaryInnerWatch() {
         if (!isPointerOnElement(commentsPanel, innerEvent.clientX, innerEvent.clientY)) {
           commentsPanel.classList.remove('floating-panel')
 
-          innerEvent.currentTarget.removeEventListener(listener, 'click')
+          innerEvent.currentTarget.removeEventListener('click', listener)
         }
       }
 
