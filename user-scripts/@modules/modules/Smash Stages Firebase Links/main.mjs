@@ -88,6 +88,22 @@ void async function() {
       dispatchNavigatePageEvent()
     })
   }
+
+  const dropdownSortMenu = shadowRoots.filter(shadowRoot => shadowRoot.host.nodeName === 'PAPER-DROPDOWN-MENU' && shadowRoot.host.label === 'Order by')[0]?.host
+
+  if (dropdownSortMenu) {
+    const paperListbox = dropdownSortMenu.querySelector(':scope > paper-listbox')
+
+    paperListbox.addEventListener('click', async event => {
+      if (event.target.nodeName !== 'PAPER-ITEM') {
+        return
+      }
+
+      await delay(500)
+
+      dispatchNavigatePageEvent()
+    })
+  }
 }()
 
 
