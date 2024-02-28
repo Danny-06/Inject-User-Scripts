@@ -47,41 +47,35 @@ void async function() {
 
   await waitForSelector('iron-selector > stage-item', {node: stagesContainerShadowRoot})
 
-  const stageItems = [...stagesContainerShadowRoot.querySelectorAll('iron-selector > stage-item')]
+  function dispatchNavigatePageEvent() {
+    const emptyLinks = stagesContainerShadowRoot.querySelectorAll('a:empty')
 
-  const event = new CustomEvent('navigation-page', {
-    detail: {stageItems}
-  })
+    for (const emptyLink of emptyLinks) {
+      emptyLink.remove()
+    }
 
-  window.dispatchEvent(event)
+    const stageItems = [...stagesContainerShadowRoot.querySelectorAll('iron-selector stage-item')]
+
+    const navigationPageEvent = new CustomEvent('navigation-page', {
+      detail: {stageItems}
+    })
+
+    window.dispatchEvent(navigationPageEvent)
+  }
+
+  dispatchNavigatePageEvent()
 
   const paginator = stagesContainerShadowRoot.querySelector('paginator-element')
 
-  if (!paginator) {
-    console.warn(`Couldn't find <paginator-element />`)
-
-    return
-  }
-
-  paginator.shadowRoot.addEventListener('click', async event => {
-    if (event.target.matches('.page:not(.iron-selected)')) {
-      await delay(0)
-
-      const emptyLinks = stagesContainerShadowRoot.querySelectorAll('a:empty')
-
-      for (const emptyLink of emptyLinks) {
-        emptyLink.remove()
+  if (paginator) {
+    paginator.shadowRoot.addEventListener('click', async event => {
+      if (event.target.matches('.page:not(.iron-selected)')) {
+        await delay(0)
+  
+        dispatchNavigatePageEvent()
       }
-
-      const stageItems = [...stagesContainerShadowRoot.querySelectorAll('iron-selector stage-item')]
-
-      const navigationPageEvent = new CustomEvent('navigation-page', {
-        detail: {stageItems}
-      })
-
-      window.dispatchEvent(navigationPageEvent)
-    }
-  }, {capture: true})
+    }, {capture: true})
+  }
 
   const searchInputShadowRoot = shadowRoots.filter(shadowRoot => shadowRoot.host.nodeName === 'IRON-INPUT' && shadowRoot.host.id === 'input-1')[0]
 
@@ -91,19 +85,7 @@ void async function() {
     input.addEventListener('input', async event => {
       await delay(0)
 
-      const emptyLinks = stagesContainerShadowRoot.querySelectorAll('a:empty')
-
-      for (const emptyLink of emptyLinks) {
-        emptyLink.remove()
-      }
-
-      const stageItems = [...stagesContainerShadowRoot.querySelectorAll('iron-selector stage-item')]
-
-      const navigationPageEvent = new CustomEvent('navigation-page', {
-        detail: {stageItems}
-      })
-
-      window.dispatchEvent(navigationPageEvent)
+      dispatchNavigatePageEvent()
     })
   }
 }()
