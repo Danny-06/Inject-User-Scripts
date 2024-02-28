@@ -220,6 +220,7 @@ ytd-engagement-panel-section-list-renderer[target-id] {
     }
 
     & > #header {
+      flex-shrink: 0;
       border-radius: inherit;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
