@@ -53,3 +53,10 @@ injectModulesWithDomainMatch({
     'JSFiddle'
   ]
 })
+
+injectModulesWithDomainMatch({
+  matchExpressions: 'https://smash-stages.firebaseapp.com/',
+  modules: [
+    'Smash Stages Firebase Links'
+  ]
+})
