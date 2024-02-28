@@ -63,7 +63,13 @@ void async function() {
     if (event.target.matches('.page:not(.iron-selected)')) {
       await delay(0)
 
-      const stageItems = [...stagesContainerShadowRoot.querySelectorAll('iron-selector :is(> stage-item, a > stage-item)')]
+      const emptyLinks = stagesContainerShadowRoot.querySelectorAll('a:empty')
+
+      for (const emptyLink of emptyLinks) {
+        emptyLink.remove()
+      }
+
+      const stageItems = [...stagesContainerShadowRoot.querySelectorAll('iron-selector stage-item')]
 
       const navigationPageEvent = new CustomEvent('navigation-page', {
         detail: {stageItems}
