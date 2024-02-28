@@ -104,6 +104,40 @@ void async function() {
       dispatchNavigatePageEvent()
     })
   }
+
+  const paperRadioGroup = stagesContainerShadowRoot.querySelector('paper-radio-group')
+
+  if (paperRadioGroup) {
+    for (const child of paperRadioGroup.children) {
+      child.addEventListener('click', async event => {
+        await delay(0)
+
+        dispatchNavigatePageEvent()
+      })
+    }
+  }
+
+  const paperCheckbox = stagesContainerShadowRoot.querySelector('paper-checkbox')
+
+  if (paperCheckbox) {
+    paperCheckbox.addEventListener('click', async event => {
+      await delay(0)
+
+      dispatchNavigatePageEvent()
+    })
+  }
+
+  // There are 2 buttons for NSFW, 1 to enable and another to disable
+  // They just toggle visibility instead of changing the text of a single button
+  const nswfButtons = [...stagesContainerShadowRoot.querySelectorAll('paper-button')].filter(btn => btn.innerText.includes('NSFW'))
+
+  for (const nswfButton of nswfButtons) {
+    nswfButton.addEventListener('click', async event => {
+      await delay(50)
+
+      dispatchNavigatePageEvent()
+    })
+  }
 }()
 
 
