@@ -230,7 +230,14 @@ ytd-engagement-panel-section-list-renderer[target-id] {
       background-color: inherit;
     }
   }
+}
 
+ytd-section-list-renderer[page-subtype="channels"] ytd-comments.ytd-section-list-renderer {
+  max-width: none;
+}
+
+
+ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-comments-section"] {
   & > #content > ytd-section-list-renderer > #contents > ytd-comments > #sections > #contents {
     padding-top: 20px;
   }
@@ -238,8 +245,21 @@ ytd-engagement-panel-section-list-renderer[target-id] {
   & > #content > ytd-section-list-renderer > #contents > ytd-comments > #sections > #header {
     box-shadow: #fff8 0 -1px 7px 0;
   }
+
+  & > #content > ytd-section-list-renderer > #contents > ytd-comments > #sections {
+    justify-content: flex-start;
+  }
 }
 
-ytd-section-list-renderer[page-subtype="channels"] ytd-comments.ytd-section-list-renderer {
-  max-width: none;
+ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-structured-description"] {
+
+  & > #content > ytd-structured-description-content-renderer {
+    padding-top: 20px;
+  }
+
+  & > #content > ytd-structured-description-content-renderer > #items > ytd-video-description-header-renderer > #shorts-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: normal;
+  }
 }

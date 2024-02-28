@@ -1,4 +1,6 @@
 import { waitForSelector } from '../../../../@libs/libs/dom-utils.js'
+import { eventsInfo } from '../_handle-events/index.mjs'
+
 
 /**
  * @type {HTMLVideoElement}

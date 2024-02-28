@@ -1,4 +1,4 @@
-import { waitForSelector, waitForSelectorMatch } from '../../../../@libs/libs/dom-utils.js'
+import { isPointerOnElement, waitForSelector, waitForSelectorMatch } from '../../../../@libs/libs/dom-utils.js'
 import { addEventListener } from '../../../../@libs/libs/event-utils.js'
 import _ from '../../../../@libs/libs/functional-dom/index.js'
 import { delay } from '../../../../@libs/utils-injection.js'
@@ -100,24 +100,6 @@ async function handleSecondaryInnerWatch() {
 
       commentsPanel.classList.add('floating-panel')
 
-      /**
-       * 
-       * @param {HTMLElement} element 
-       * @param {number} x 
-       * @param {number} y 
-       * @returns 
-       */
-      function isPointerOnElement(element, x, y) {
-        if (
-          x < element.offsetLeft || x > element.offsetLeft + element.offsetWidth
-          || y < element.offsetTop ||  y > element.offsetHeight + element.offsetTop
-        ) {
-          return false
-        }
-
-        return true
-      }
-
       /**@type {(event: PointerEvent) => void} */
       const listener = innerEvent => {
         if (!isPointerOnElement(commentsPanel, innerEvent.clientX, innerEvent.clientY)) {
@@ -128,6 +110,23 @@ async function handleSecondaryInnerWatch() {
       }
 
       commentsPanel.addEventListener('click', listener)
+    })
+
+    panelButtons.descriptionBtn.addEventListener('dblclick', event => {
+      const descriptionPanel = panels.description
+
+      descriptionPanel.classList.add('floating-panel')
+
+      /**@type {(event: PointerEvent) => void} */
+      const listener = innerEvent => {
+        if (!isPointerOnElement(descriptionPanel, innerEvent.clientX, innerEvent.clientY)) {
+          descriptionPanel.classList.remove('floating-panel')
+
+          innerEvent.currentTarget.removeEventListener('click', listener)
+        }
+      }
+
+      descriptionPanel.addEventListener('click', listener)
     })
 
     panelButtons.playlistBtn.addEventListener('click', event => {

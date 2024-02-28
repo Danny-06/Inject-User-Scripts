@@ -79,6 +79,25 @@ export function createWebComponent(classComponent, elementToApply = null) {
 }
 
 
+/**
+ * 
+ * @param {HTMLElement} element 
+ * @param {number} x 
+ * @param {number} y 
+ * @returns 
+ */
+export function isPointerOnElement(element, x, y) {
+  if (
+    x < element.offsetLeft || x > element.offsetLeft + element.offsetWidth
+    || y < element.offsetTop ||  y > element.offsetHeight + element.offsetTop
+  ) {
+    return false
+  }
+
+  return true
+}
+
+
 export function waitForFocus() {
   return new Promise(resolve => {
     if (document.hasFocus()) {
