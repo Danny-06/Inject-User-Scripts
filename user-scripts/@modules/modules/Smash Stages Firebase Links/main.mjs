@@ -1,10 +1,14 @@
+// Website: https://smash-stages.firebaseapp.com/
+// Github: https://github.com/Olmectron/Stage-Puncher/
+// https://gbatemp.net/threads/stage-puncher-a-web-app-for-sharing-ssbu-stages.537019/
+
 // Add real links to the stages instead of them being opened with JS
 
 import { getAllShadowRootNodes, waitForDocumentReady, waitForSelector } from '../../../@libs/libs/dom-utils.js'
 import { delay } from '../../../@libs/utils-injection.js'
 
 void async function() {
-  if (location.pathname !== '/') {
+  if (location.pathname !== '/' && location.pathname !== '/shared-stages') {
     return
   }
 
