@@ -263,4 +263,8 @@ ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-structure
     font-weight: bold;
     line-height: normal;
   }
+
+  & > #content > ytd-structured-description-content-renderer > #items > ytd-expandable-video-description-body-renderer > #expander {
+    font-size: 1.5rem;
+  }
 }
