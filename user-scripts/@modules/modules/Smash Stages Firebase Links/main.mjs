@@ -89,7 +89,26 @@ void async function() {
     })
   }
 
-  const dropdownSortMenu = shadowRoots.filter(shadowRoot => shadowRoot.host.nodeName === 'PAPER-DROPDOWN-MENU' && shadowRoot.host.label === 'Order by')[0]?.host
+  // There are 2 arrows instead of 1 to show each one depending on the state but only 1 shows
+  // until you click the 1st one which creates the other
+  const arrowUpBtn = stagesContainerShadowRoot.querySelector('paper-icon-button.orden-button[icon="icons:arrow-downward"]')
+
+  arrowUpBtn.shadowRoot.querySelector('iron-icon').addEventListener('click', async event => {
+    await delay(500)
+
+    dispatchNavigatePageEvent()
+  })
+
+  waitForSelector('paper-icon-button.orden-button[icon="icons:arrow-upward"]', {node: stagesContainerShadowRoot})
+  .then(arrowDownBtn => {
+    arrowDownBtn.shadowRoot.querySelector('iron-icon').addEventListener('click', async event => {
+      await delay(500)
+  
+      dispatchNavigatePageEvent()
+    })
+  })
+
+  const dropdownSortMenu = stagesContainerShadowRoot.querySelector('paper-dropdown-menu[label="Order by"]')
 
   if (dropdownSortMenu) {
     const paperListbox = dropdownSortMenu.querySelector(':scope > paper-listbox')
