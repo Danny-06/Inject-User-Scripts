@@ -6,10 +6,12 @@ async function getIsExtensionEnabled() {
 }
 
 
-
 // Make sure that the background code is only runned once per page load
 getIsExtensionEnabled().then(isEnabled => {
-  if (!isEnabled) return
+  if (!isEnabled) {
+    return
+  }
+
   chrome.runtime.sendMessage({type: 'content-script'})
 })
 

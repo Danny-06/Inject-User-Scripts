@@ -9,6 +9,7 @@
     "target": "ESNext",
     "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
+    // "checkJs": true,
 
     "jsx": "react-jsx",
 		"jsxImportSource": "preact",
