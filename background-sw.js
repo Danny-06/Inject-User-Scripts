@@ -16,11 +16,15 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
   // Wrap the code in an async IIFE because async listener returns a Promise and that is not
   // supported yet what makes logging in the console an
   // 'Unchecked runtime.lastError: The message port closed before a response was received'
-  (async function() {
+  void async function() {
+    if (!sender?.tab) {
+      return
+    }
+
     const tabId = sender.tab.id
     const url   = sender.tab.url
 
-    if (!url) {
+    if (tabId == null || !url) {
       return
     }
 
@@ -29,7 +33,6 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
 
     // File and folder names
     const userScriptsFolder = 'user-scripts'
-    const allURLSFolder = '@all-urls'
     const settingsJSON = '@settings.json'
 
     // Get 'settings.json' from the current domain folder
@@ -37,12 +40,16 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
     const settingsDomain    = await fetch(settingsDomainUrl).then(parseJSONResponseWithComments).catch(reason => ({scripts: null, stylesheets: null}))
 
 
+    /**@type {chrome.scripting.ScriptInjection<any[], any>} */
     const injectionSettings = {
-      target: {tabId},
+      target: {
+        tabId,
+        frameIds: [sender.frameId],
+      },
 
-      args: [{settingsDomain, extensionUrl, domain, userScriptsFolder, allURLSFolder}],
+      args: [{settingsDomain, extensionUrl, domain, userScriptsFolder}],
       func: async function(params) {
-        const {settingsDomain, extensionUrl, domain, userScriptsFolder, allURLSFolder} = params
+        const {settingsDomain, extensionUrl, domain, userScriptsFolder} = params
 
         // If the document is not an HTMLDocument (XMLDocument) then we need to create our own
         // to be able to create HTMLElements
@@ -105,7 +112,7 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
     // Send response to avoid the
     // 'Unchecked runtime.lastError: The message port closed before a response was received'
     sendResponse({})
-  })()
+  }()
 
   // Return true to indicate the response will be delayed
   return true
@@ -116,18 +123,32 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
 // Allow cross-fetch if the website dispatch the specific event
 // Handle messages sent from a web page
 chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
-
-  (async function() {
+  void async function() {
     if (data.type === 'cross-fetch-start') {
 
+      if (sender == null || sender.tab == null || sender.tab.id == null) {
+        return
+      }
+
+      /**@type {chrome.declarativeNetRequest.Rule} */
       const rule = {
+        id: -1,
         action: {
-          type: 'modifyHeaders',
+          type: chrome.declarativeNetRequest.RuleActionType.MODIFY_HEADERS,
           responseHeaders: [
-            {header: 'access-control-allow-origin', operation: 'set', value: '*'}
+            {
+              header: 'access-control-allow-origin',
+              operation: chrome.declarativeNetRequest.HeaderOperation.SET,
+              value: '*',
+            },
           ]
         },
-        condition: {urlFilter: '*', resourceTypes: ['xmlhttprequest']}
+        condition: {
+          urlFilter: '*',
+          resourceTypes: [
+            chrome.declarativeNetRequest.ResourceType.XMLHTTPREQUEST,
+          ],
+        },
       }
 
       const dynaminRules = await chrome.declarativeNetRequest.getDynamicRules()
@@ -141,6 +162,10 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
 
       await new Promise(resolve =>
         chrome.runtime.onMessage.addListener(d => {
+          if (sender == null || sender.tab == null || sender.tab.id == null) {
+            return
+          }
+
           if (d.type === 'cross-fetch-end' && d.timeId === data.timeId) {
             chrome.tabs.sendMessage(sender.tab.id, {type: 'bg-script-response', timeId: data.timeId})
             resolve()
@@ -153,7 +178,7 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
     }
 
     sendResponse({})
-  })()
+  }()
 
   return true
 

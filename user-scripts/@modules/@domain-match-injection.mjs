@@ -7,7 +7,8 @@ injectModulesWithDomainMatch({
     'handle-resources-view',
     'handle-shortener-url-add-services',
     'google-translate'
-  ]
+  ],
+  iframeInjection: 'BOTH',
 })
 
 
@@ -24,7 +25,7 @@ injectModulesWithDomainMatch({
     'www.google.*', 'netflix.com', 'clashroyale.com', '*.reddit.com',
     'stackoverflow.com', 'github.com', '*.facebook.com', '*.instagram.com', '*.w3schools.com',
     'developer.mozilla.org', '*.crunchyroll.com', '*.kotlinlang.org', 'developer.android.com',
-    'www.chess.com', 'web.dev', '*.proposals.es', 'linkedin.com'
+    'www.chess.com', 'web.dev', '*.proposals.es', 'linkedin.com', 'developer.chrome.com',
   ],
   modules: [
     'general-custom-scrollbar'

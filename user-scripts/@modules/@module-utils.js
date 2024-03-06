@@ -195,6 +195,13 @@ export function matchesDomain(value, match) {
 }
 
 /**
+ * @typedef InjectModulesOptions
+ * @property {string | string[]} matchExpressions
+ * @property {string[]} modules
+ * @property {'NO' | 'ONLY' | 'BOTH'} [iframeInjection=NO] Default value `'NO'`
+ */
+
+/**
  * `matchExpressions` can be a string like
  * ```js
  * '*'
@@ -208,15 +215,38 @@ export function matchesDomain(value, match) {
  *
  * `modules` must be an array of the names of the modules.  
  *  You could also save modules in a subfolder if you need it.
- * @param {{matchExpressions: string | string[], modules: string[]}} options
+ * @param {InjectModulesOptions} options
  * @returns
  */
 export function injectModulesWithDomainMatch(options) {
-  let {matchExpressions, modules} = options
+  let {matchExpressions, modules, iframeInjection = 'NO'} = options
 
   modules = modules.map(moduleName => `@modules/modules/${moduleName}/${initModuleFile}`)
 
-  injectCodeWithDomainMatch(matchExpressions, {scripts: modules})
+  switch (iframeInjection) {
+
+    case 'NO': {
+      if (window === window.top) {
+        injectCodeWithDomainMatch(matchExpressions, {scripts: modules})
+      }
+    }
+    break
+
+    case 'ONLY': {
+      if (window !== window.top) {
+        injectCodeWithDomainMatch(matchExpressions, {scripts: modules})
+      }
+    }
+    break
+
+    case 'BOTH': {
+      injectCodeWithDomainMatch(matchExpressions, {scripts: modules})
+    }
+    break
+
+  }
+
+  // injectCodeWithDomainMatch(matchExpressions, {scripts: modules})
 }
 
 
