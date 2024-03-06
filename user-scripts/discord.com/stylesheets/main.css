@@ -5,6 +5,15 @@
 }
 
 
+/* Disable `scrollbar-*` properties set by `discord.com` to allow the `::-webkit-scrollbar` to work */
+* {
+  scrollbar-width: auto !important;
+  scrollbar-color: auto !important;
+  scrollbar-gutter: auto !important;
+}
+
+
+
 /* Fondo de chat personalizado */
 :root {
   --chat-bg-overlay-color: #000c;
