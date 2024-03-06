@@ -1,10 +1,20 @@
 /* Firefox */
 
-@supports (scrollbar-width: thin) and (not selector(::-webkit-scrollbar)) {
+/* @supports (scrollbar-width: thin) and (not selector(::-webkit-scrollbar)) {
   * {
     scrollbar-width: thin;
     scrollbar-color: #4262c2 #262e44;
   }
+} */
+
+/*
+  With chromium now supporting the standard `scrollbar-*` properties it necesary to reset the values
+  specified by YouTube to allow `::-webkit-scrollbar` to work.
+*/
+* {
+  scrollbar-width: auto;
+  scrollbar-color: auto;
+  scrollbar-gutter: auto;
 }
 
 
