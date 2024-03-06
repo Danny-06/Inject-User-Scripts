@@ -15,7 +15,16 @@ window.addEventListener('youtube-navigate', async event => {
   video = await waitForSelector('ytd-app ytd-watch-flexy video')
 
   video.addEventListener('yt-video-ad-start', event => {
-    skipVideoAd(video)
+    // const ytPlayerParent = video.closest('.html5-video-player')
+
+    // const adsModule = ytPlayerParent.querySelector('.video-ads.ytp-ad-module')
+
+    // if (adsModule && adsModule.childElementCount !== 0) {
+    //   skipNonVideoAd()
+    // }
+    // else {
+      skipVideoAd(video)
+    // }
   })
 
   const dispatchYtVideoAdStart =  async event => {
@@ -50,6 +59,11 @@ function isVideoAd(ytVideo) {
 async function skipVideoAd(ytVideo) {
   ytVideo.currentTime += ytVideo.duration
 
+  const skipButton = await waitForSelector('.ytp-ad-skip-button-modern')
+  skipButton.click()
+}
+
+async function skipNonVideoAd() {
   const skipButton = await waitForSelector('.ytp-ad-skip-button-modern')
   skipButton.click()
 }
