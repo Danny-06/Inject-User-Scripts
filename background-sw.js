@@ -51,17 +51,22 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
 
         // Inject Modules
 
-        ;(function() {
+        void function() {
           const script = doc.createElement('script')
 
           script.type = 'module'
           script.dataset.source = 'Chrome Extension - Modules'
           script.src = `${extensionUrl}/${userScriptsFolder}/@modules/@domain-match-injection.mjs`
 
-          document.head ? document.head.append(script) : document.documentElement.append(script)
+          if (document.head) {
+            document.head.append(script)
+          }
+          else {
+            document.documentElement.append(script)
+          }
 
           script.remove()
-        })()
+        }()
 
         // Inject code for the current domain
 
