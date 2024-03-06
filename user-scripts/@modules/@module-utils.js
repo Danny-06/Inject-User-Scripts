@@ -283,12 +283,12 @@ export function injectCodeWithDomainMatch(matchExpressions, options) {
  * const modulePath = getModuleURL(import.meta.url)
  *
  * injectCode(modulePath, {
- *  scripts: [
- *    'scripts/main.mjs'
- *  ],
- *  stylesheets: [
- *    'stylesheets/main.css'
- *  ]
+ *   scripts: [
+ *     'scripts/main.mjs',
+ *   ],
+ *   stylesheets: [
+ *     'stylesheets/main.css',
+ *   ],
  * })
  * ```
  * @param {string} startPath
