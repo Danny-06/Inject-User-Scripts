@@ -1,5 +1,16 @@
 @charset "UTF-8";
 
+/*
+  With chromium now supporting the standard `scrollbar-*` properties it necesary to reset the values
+  specified by YouTube to allow `::-webkit-scrollbar` to work.
+*/
+* {
+  scrollbar-width: auto;
+  scrollbar-color: auto;
+  scrollbar-gutter: auto;
+}
+
+
 html, body {
   height: 100%;
 }
