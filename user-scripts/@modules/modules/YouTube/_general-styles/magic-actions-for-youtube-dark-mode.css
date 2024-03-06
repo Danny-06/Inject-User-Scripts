@@ -1760,15 +1760,19 @@ ytcp-settings-studio-default .ytcp-settings-studio-default,
   width: calc(10px * var(--visual-viewport-zoom-ratio));
   height: calc(10px * var(--visual-viewport-zoom-ratio));
   background: #171717;
-  border: solid #292929 calc(1px * var(--visual-viewport-zoom-ratio));
+  /* border: solid #292929 calc(1px * var(--visual-viewport-zoom-ratio)); */
+  border: none;
 }
 
 :not(#guide-inner-content)::-webkit-scrollbar-track {
   background-color: transparent;
 }
 
-:not(#guide-inner-content)::-webkit-scrollbar-thumb,
+:not(#guide-inner-content)::-webkit-scrollbar-thumb {
+  border: none;
+}
 
+:not(#guide-inner-content)::-webkit-scrollbar-thumb,
 :not(#guide-inner-content)::-webkit-scrollbar-corner {
   background-color: #444;
   box-shadow: inset #fff4 0 0 calc(3px * var(--visual-viewport-zoom-ratio)) 0;
