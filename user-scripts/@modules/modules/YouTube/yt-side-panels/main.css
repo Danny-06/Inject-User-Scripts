@@ -256,6 +256,7 @@ ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-structure
 
   & > #content > ytd-structured-description-content-renderer {
     padding-top: 20px;
+    overscroll-behavior: contain;
   }
 
   & > #content > ytd-structured-description-content-renderer > #items > ytd-video-description-header-renderer > #shorts-title {
