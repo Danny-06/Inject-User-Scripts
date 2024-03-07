@@ -245,8 +245,6 @@ export function injectModulesWithDomainMatch(options) {
     break
 
   }
-
-  // injectCodeWithDomainMatch(matchExpressions, {scripts: modules})
 }
 
 
