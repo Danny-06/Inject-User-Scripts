@@ -11,6 +11,14 @@ injectModulesWithDomainMatch({
   iframeInjection: 'BOTH',
 })
 
+injectModulesWithDomainMatch({
+  matchExpressions: '*',
+  modules: [
+    'iframe-communication'
+  ],
+  iframeInjection: 'BOTH',
+})
+
 
 injectModulesWithDomainMatch({
   matchExpressions: '*.twitter.com',

@@ -23,7 +23,7 @@ import EventEmitter from './libs/event-emitter.js'
 import Matrix2D from './libs/matrix2d.mjs'
 import { trimIndent } from './libs/string-utils.js'
 import PromiseProxy, { getAsyncFuncFromGeneratorFunc } from './libs/promise-proxy.js'
-
+import { runTaskInFrame } from './iframe-communication.mjs'
 
 const CanvasUtils = Object.freeze({..._CanvasUtils})
 const ProxyUtils = Object.freeze({..._ProxyUtils})
@@ -37,7 +37,7 @@ export {
   ArrayN, ZipManager, LocalDB,
   classMaker, CanvasUtils, Timeout, Interval,
   Binary, ChromeExtension, ListManager, ProxyUtils, DOMUtils, Dialogs, GeneratorUtils, Calculator,
-  EventEmitter, Matrix2D, PromiseProxy, getAsyncFuncFromGeneratorFunc
+  EventEmitter, Matrix2D, PromiseProxy, getAsyncFuncFromGeneratorFunc, runTaskInFrame
 }
 
 export const waitForSelector = DOMUtils.waitForSelector
