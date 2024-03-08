@@ -200,7 +200,7 @@ export default class Matrix2D {
 	}
 
 	translateYRowTo(positionY, positionYTo) {
-		this.translateXColumn(positionY, positionYTo - positionY)
+		this.translateYRow(positionY, positionYTo - positionY)
 	}
 
 	swapXColumns(positionX, columnIndexX) {
