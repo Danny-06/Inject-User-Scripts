@@ -147,7 +147,7 @@ export function createElement(name = 'div', settings = {}) {
   if (id != null)      element.id = id
   if (Array.isArray(classes)) element.classList.add(...classes)
 
-  if (style != null) setStyleProperties(element.style, style)
+  if (style != null) DOMUtils.setStyleProperties(element.style, style)
 
   if (element.dataset != null) {
     for (const [property, value] of Object.entries(dataset ?? {})) {
@@ -539,7 +539,7 @@ export function readFileAs(blob, mode, encoding = 'UTF-8') {
   const reader = new FileReader();
   reader[readerMode](blob, encoding);
 
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     reader.onloadend = event => {
       resolve(reader.result)
     }
