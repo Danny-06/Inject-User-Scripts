@@ -22,7 +22,7 @@ const videoVolumeStep = 0.05
 
 const video = new Proxy({}, {
   get(target, property, receiver) {
-    const videoElement = document.querySelector('ytd-watch-flexy video')
+    const videoElement = document.querySelector(':is(ytd-watch-flexy, #player) video')
 
     const value = Reflect.get(videoElement, property)
 
@@ -210,14 +210,16 @@ function VolumeContainer(props) {
 
 
 window.addEventListener('youtube-navigate', async event => {
-  if (location.pathname !== '/watch') return
+  if (!location.pathname.startsWith('/watch') && !location.pathname.startsWith('/embed')) {
+    return
+  }
 
   /**
    * @type {HTMLVideoElement}
    */
   // const video = await waitForSelector('ytd-watch-flexy video', {timeout: 1000})
 
-  const html5Container = await waitForSelector('ytd-watch-flexy .html5-video-container')
+  const html5Container = await waitForSelector(':is(ytd-watch-flexy, #player) .html5-video-container')
 
   render(html`<${VolumeContainer} video=${video} />`, html5Container)
 })

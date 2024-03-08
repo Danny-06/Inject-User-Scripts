@@ -6,6 +6,10 @@ window.addEventListener('youtube-navigate', event => {
 })
 
 async function handlePlaylistAutoScroll() {
+  if (location.pathname.startsWith('/embed')) {
+    return
+  }
+
   const ytdWatchFlexy = document.querySelector('ytd-watch-flexy')
 
   const playlistContainer = await waitForSelector('ytd-playlist-panel-renderer#playlist', {node: ytdWatchFlexy})
