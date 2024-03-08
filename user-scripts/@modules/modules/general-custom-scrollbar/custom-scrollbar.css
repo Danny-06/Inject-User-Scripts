@@ -12,9 +12,9 @@
   specified by YouTube to allow `::-webkit-scrollbar` to work.
 */
 :root, * {
-  scrollbar-width: auto;
-  scrollbar-color: auto;
-  scrollbar-gutter: auto;
+  scrollbar-width: auto !important;
+  scrollbar-color: auto !important;
+  scrollbar-gutter: auto !important;
 }
 
 
