@@ -60,8 +60,13 @@
  * @typedef {{[key: string]: unknown} & T} ComponentData
  */
 
+const HTMLNamespaceURI = 'http://www.w3.org/1999/xhtml'
+const SVGNamespaceURI = 'http://www.w3.org/2000/svg'
+const MathMLNamespaceURI = 'http://www.w3.org/1998/Math/MathML'
+
+
 /**
- * @typedef {UnionOrType<'http://www.w3.org/1999/xhtml' | 'http://www.w3.org/2000/svg' | 'http://www.w3.org/1998/Math/MathML', string>?} NamespaceURI
+ * @typedef {UnionOrType<typeof HTMLNamespaceURI | typeof SVGNamespaceURI | typeof MathMLNamespaceURI, string>?} NamespaceURI
  */
 
 /**
@@ -101,7 +106,7 @@
  * @param {T} tagName 
  * @param {O?} [options] 
  * @param {...Child} children 
- * @returns {O['namespaceURI'] extends 'http://www.w3.org/1999/xhtml' ? (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement) : O['namespaceURI'] extends 'http://www.w3.org/2000/svg' ? (T extends keyof SVGElementTagNameMap ? SVGElementTagNameMap[T] : SVGElement) : O['namespaceURI'] extends 'http://www.w3.org/1998/Math/MathML' ? (T extends keyof MathMLElementTagNameMap ? MathMLElementTagNameMap[T] : MathMLElement) :  O['namespaceURI'] extends string ? Element : (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement)}
+ * @returns {O['namespaceURI'] extends typeof HTMLNamespaceURI ? (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLUnknownElement) : O['namespaceURI'] extends typeof SVGNamespaceURI ? (T extends keyof SVGElementTagNameMap ? SVGElementTagNameMap[T] : SVGElement) : O['namespaceURI'] extends typeof MathMLNamespaceURI ? (T extends keyof MathMLElementTagNameMap ? MathMLElementTagNameMap[T] : MathMLElement) :  O['namespaceURI'] extends string ? Element : (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLUnknownElement)}
  */
 export function createElement(tagName, options, ...children) {
   const { attr, prop, on } = options ?? {}
@@ -125,8 +130,14 @@ export function createElement(tagName, options, ...children) {
     element.addEventListener(eventName, listener, options ?? undefined)
   }
 
-  //@ts-ignore
-  element.append(...children)
+  for (const child of children) {
+    if (child == null) {
+      continue
+    }
+
+    //@ts-ignore
+    element.append(child)
+  }
 
   //@ts-ignore
   return element
@@ -139,16 +150,31 @@ export function createElement(tagName, options, ...children) {
  * @param  {T} tagName 
  * @param {XOR<O, Child>?} [optionsOrChild] 
  * @param  {...Child} children 
- * @returns {O['namespaceURI'] extends 'http://www.w3.org/1999/xhtml' ? (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement) : O['namespaceURI'] extends 'http://www.w3.org/2000/svg' ? (T extends keyof SVGElementTagNameMap ? SVGElementTagNameMap[T] : SVGElement) : O['namespaceURI'] extends 'http://www.w3.org/1998/Math/MathML' ? (T extends keyof MathMLElementTagNameMap ? MathMLElementTagNameMap[T] : MathMLElement) :  O['namespaceURI'] extends string ? Element : (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement)}
+ * @returns {O['namespaceURI'] extends typeof HTMLNamespaceURI ? (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLUnknownElement) : O['namespaceURI'] extends typeof SVGNamespaceURI ? (T extends keyof SVGElementTagNameMap ? SVGElementTagNameMap[T] : SVGElement) : O['namespaceURI'] extends typeof MathMLNamespaceURI ? (T extends keyof MathMLElementTagNameMap ? MathMLElementTagNameMap[T] : MathMLElement) :  O['namespaceURI'] extends string ? Element : (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLUnknownElement)}
  */
 export function createElementPrimitive(tagName, optionsOrChild, ...children) {
-  if (typeof optionsOrChild === 'object' && optionsOrChild !== null && !(optionsOrChild instanceof Node) && (Object.getPrototypeOf(optionsOrChild) == null || optionsOrChild instanceof Object)) {
+  if (isOptions(optionsOrChild)) {
     //@ts-ignore
     return createElement(tagName, optionsOrChild, ...children)
   }
 
   //@ts-ignore
   return createElement(tagName, null, ...[optionsOrChild, ...children])
+}
+
+/**
+ * @param {XOR<CreateElementOptions, unknown> | null | undefined} options 
+ */
+function isOptions(options) {
+  if (options == null) {
+    return false
+  }
+
+  if (typeof options !== 'object') {
+    return false
+  }
+
+  return Object.getPrototypeOf(options) === null || Object.getPrototypeOf(options) === Object
 }
 
 /**
@@ -160,6 +186,8 @@ export function createElementPrimitive(tagName, optionsOrChild, ...children) {
  * {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element}
  */
 export const DOMPrimitives = {
+
+  namespaceURI: HTMLNamespaceURI,
 
   /**
    * 
@@ -210,6 +238,8 @@ export const DOMPrimitives = {
 
   },
 
+  noscript() {},
+
   base() {
 
   },
@@ -250,13 +280,31 @@ export const DOMPrimitives = {
 
   pre() {},
 
+  code() {},
+
+  var() {},
+
   hr() {},
 
   br() {},
 
+  wbr() {},
+
   strong() {},
 
   em() {},
+
+  b() {},
+
+  i() {},
+
+  del() {},
+
+  ins() {},
+
+  s() {},
+
+  u() {},
 
   q() {},
 
@@ -266,13 +314,159 @@ export const DOMPrimitives = {
 
   abbr() {},
 
-  del() {},
-
-  ins() {},
-
   time() {},
 
+  data() {},
+
+  kbd() {},
+
   mark() {},
+
+  dfn() {},
+
+  dl() {},
+
+  dt() {},
+
+  dd() {},
+
+  samp() {},
+
+  small() {},
+
+  sub() {},
+
+  sup() {},
+
+  bdi() {},
+
+  bdo() {},
+
+  address() {},
+
+  article() {},
+
+  header() {},
+
+  nav() {},
+
+  main() {},
+
+  section() {},
+
+  aside() {},
+
+  footer() {},
+
+  hgroup() {},
+
+  search() {},
+
+  img() {},
+
+  picture() {},
+
+  map() {},
+
+  area() {},
+
+  video() {},
+
+  audio() {},
+
+  track() {},
+
+  source() {},
+
+  canvas() {},
+
+  iframe() {},
+
+  embed() {},
+
+  object() {},
+
+  portal() {},
+
+  figure() {},
+
+  figcaption() {},
+
+  // LIST
+
+  ul() {},
+
+  ol() {},
+
+  menu() {},
+
+  li() {},
+
+  // TABLE
+
+  table() {},
+
+  caption() {},
+
+  col() {},
+
+  colgroupd() {},
+
+  thead() {},
+
+  tbody() {},
+
+  tfoot() {},
+
+  tr() {},
+
+  th() {},
+
+  td() {},
+
+  // FORM
+
+  form() {},
+
+  button() {},
+
+  input() {},
+
+  textarea() {},
+
+  label() {},
+
+  select() {},
+
+  option() {},
+
+  optgroup() {},
+
+  output() {},
+
+  fieldset() {},
+
+  legend() {},
+
+  progress() {},
+
+  meter() {},
+
+  // WEB COMPONENTS
+
+  slot() {},
+
+  template() {},
+
+  // INTERACTIVE ELEMENTS
+
+  details() {},
+
+  summary() {},
+
+  dialog() {},
+
+  // RUBY
 
   ruby() {},
 
@@ -280,7 +474,76 @@ export const DOMPrimitives = {
 
   rt() {},
 
-  svg() {},
+}
+
+
+// https://developer.mozilla.org/en-US/docs/Web/SVG/Element
+
+
+export const SVGPrimitives = Object.freeze({
+
+  namespaceURI: SVGNamespaceURI,
+
+  /**
+   * @template {UnionOrType<keyof SVGElementTagNameMap, string>} T
+   * @param {T} tagName
+   * @param {XOR<CreateElementOptions, Child>?} [optionsOrChild] 
+   * @param  {...Child} children 
+   * @returns {T extends keyof SVGElementTagNameMap ? SVGElementTagNameMap[T] : SVGElement}
+   */
+  createSVGElement(tagName, optionsOrChild, ...children) {
+    if (isOptions(optionsOrChild)) {
+      //@ts-ignore
+      optionsOrChild.namespaceURI = this.namespaceURI
+    }
+
+    //@ts-ignore
+    return createElementPrimitive(tagName, optionsOrChild, ...children)
+  },
+
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  svg(optionsOrChild, ...children) {
+    return this.createSVGElement('svg', optionsOrChild, ...children)
+  },
+
+})
+
+
+// https://developer.mozilla.org/en-US/docs/Web/MathML/Element
+
+export const MathMLPrimitives = {
+
+  namespaceURI: MathMLNamespaceURI,
+
+  /**
+   * @template {UnionOrType<keyof MathMLElementTagNameMap, string>} T
+   * @param {T} tagName
+   * @param {XOR<CreateElementOptions, Child>?} [optionsOrChild] 
+   * @param  {...Child} children 
+   * @returns {T extends keyof MathMLElementTagNameMap ? MathMLElementTagNameMap[T] : MathMLElement}
+   */
+  createMathMLElement(tagName, optionsOrChild, ...children) {
+    if (isOptions(optionsOrChild)) {
+      //@ts-ignore
+      optionsOrChild.namespaceURI = this.namespaceURI
+    }
+
+    //@ts-ignore
+    return createElementPrimitive(tagName, optionsOrChild, ...children)
+  },
+
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  math(optionsOrChild, ...children) {
+    return this.createMathMLElement('math', optionsOrChild, ...children)
+  },
 
 }
 
