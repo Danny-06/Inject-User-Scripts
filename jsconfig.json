@@ -9,6 +9,7 @@
     "target": "ESNext",
     "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
+    "noImplicitAny": false,
     // "checkJs": true,
 
     "jsx": "react-jsx",
