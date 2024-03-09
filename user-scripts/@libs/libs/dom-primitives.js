@@ -36,7 +36,7 @@
  */
 
 /**
- * @typedef {UnionOrType<keyof HTMLElementTagNameMap, string>} TagName
+ * @typedef {UnionOrType<keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap | keyof MathMLElementTagNameMap, string>} TagName
  */
 
 
@@ -61,7 +61,12 @@
  */
 
 /**
+ * @typedef {UnionOrType<'http://www.w3.org/1999/xhtml' | 'http://www.w3.org/2000/svg' | 'http://www.w3.org/1998/Math/MathML', string>?} NamespaceURI
+ */
+
+/**
  * @typedef CreateElementOptions
+ * @property {NamespaceURI} [namespaceURI]
  * @property {ElementAttributes?} [attr]
  * @property {ElementProperties?} [prop]
  * @property {ElementListeners?} [on]
@@ -92,16 +97,19 @@
 /**
  * Create element.
  * @template {TagName} T
+ * @template {CreateElementOptions} O
  * @param {T} tagName 
- * @param {CreateElementOptions?} [options] 
+ * @param {O?} [options] 
  * @param {...Child} children 
- * @returns {T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement}
+ * @returns {O['namespaceURI'] extends 'http://www.w3.org/1999/xhtml' ? (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement) : O['namespaceURI'] extends 'http://www.w3.org/2000/svg' ? (T extends keyof SVGElementTagNameMap ? SVGElementTagNameMap[T] : SVGElement) : O['namespaceURI'] extends 'http://www.w3.org/1998/Math/MathML' ? (T extends keyof MathMLElementTagNameMap ? MathMLElementTagNameMap[T] : MathMLElement) :  O['namespaceURI'] extends string ? Element : (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement)}
  */
 export function createElement(tagName, options, ...children) {
-  //@ts-ignore
-  const element = document.createElement(tagName)
-
   const { attr, prop, on } = options ?? {}
+
+  const namespaceURI = options?.namespaceURI ?? 'http://www.w3.org/1999/xhtml'
+
+  //@ts-ignore
+  const element = document.createElementNS(namespaceURI, tagName)
 
   for (const [name, value] of Object.entries(attr ?? {})) {
     element.setAttribute(name, String(value))
@@ -119,7 +127,7 @@ export function createElement(tagName, options, ...children) {
 
   //@ts-ignore
   element.append(...children)
-  
+
   //@ts-ignore
   return element
 }
@@ -127,20 +135,30 @@ export function createElement(tagName, options, ...children) {
 
 /**
  * @template {TagName} T
+ * @template {CreateElementOptions} O
  * @param  {T} tagName 
- * @param {XOR<CreateElementOptions, Child>} [optionsOrChild] 
+ * @param {XOR<O, Child>?} [optionsOrChild] 
  * @param  {...Child} children 
- * @returns {T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement}
+ * @returns {O['namespaceURI'] extends 'http://www.w3.org/1999/xhtml' ? (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement) : O['namespaceURI'] extends 'http://www.w3.org/2000/svg' ? (T extends keyof SVGElementTagNameMap ? SVGElementTagNameMap[T] : SVGElement) : O['namespaceURI'] extends 'http://www.w3.org/1998/Math/MathML' ? (T extends keyof MathMLElementTagNameMap ? MathMLElementTagNameMap[T] : MathMLElement) :  O['namespaceURI'] extends string ? Element : (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement)}
  */
 export function createElementPrimitive(tagName, optionsOrChild, ...children) {
   if (typeof optionsOrChild === 'object' && optionsOrChild !== null && !(optionsOrChild instanceof Node) && (Object.getPrototypeOf(optionsOrChild) == null || optionsOrChild instanceof Object)) {
+    //@ts-ignore
     return createElement(tagName, optionsOrChild, ...children)
   }
 
+  //@ts-ignore
   return createElement(tagName, null, ...[optionsOrChild, ...children])
 }
 
+/**
+ * @typedef {Omit<CreateElementOptions, 'namespaceURI'>} CreateElementPrimitiveOptions
+ */
 
+
+/**
+ * {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element}
+ */
 export const DOMPrimitives = {
 
   /**
@@ -156,9 +174,49 @@ export const DOMPrimitives = {
     return fragment
   },
 
+  ShadowRoot() {
+
+  },
+
+  html() {
+
+  },
+
+  head() {
+
+  },
+
+  body() {
+
+  },
+
+  meta() {
+
+  },
+
+  title() {
+
+  },
+
+  style() {
+
+  },
+
+  link() {
+
+  },
+
+  script() {
+
+  },
+
+  base() {
+
+  },
+
   /**
    * 
-   * @param {XOR<CreateElementOptions, Child>} [optionsOrChild] 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
    * @param  {...Child} children 
    */
   div(optionsOrChild, ...children) {
@@ -167,15 +225,64 @@ export const DOMPrimitives = {
 
   /**
    * 
-   * @param {XOR<CreateElementOptions, Child>} [optionsOrChild] 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
    * @param  {...Child} children 
    */
   span(optionsOrChild, ...children) {
     return createElementPrimitive('span', optionsOrChild, ...children)
   },
 
-}
+  p() {},
 
+  h1() {},
+
+  h2() {},
+
+  h3() {},
+
+  h4() {},
+
+  h5() {},
+
+  h6() {},
+
+  a() {},
+
+  pre() {},
+
+  hr() {},
+
+  br() {},
+
+  strong() {},
+
+  em() {},
+
+  q() {},
+
+  blockquote() {},
+
+  cite() {},
+
+  abbr() {},
+
+  del() {},
+
+  ins() {},
+
+  time() {},
+
+  mark() {},
+
+  ruby() {},
+
+  rp() {},
+
+  rt() {},
+
+  svg() {},
+
+}
 
 const { div } = DOMPrimitives
 
