@@ -185,7 +185,7 @@ function isOptions(options) {
 /**
  * {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element}
  */
-export const DOMPrimitives = {
+export const DOMPrimitives = Object.freeze({
 
   namespaceURI: HTMLNamespaceURI,
 
@@ -474,12 +474,13 @@ export const DOMPrimitives = {
 
   rt() {},
 
-}
+})
 
 
-// https://developer.mozilla.org/en-US/docs/Web/SVG/Element
 
-
+/**
+ * {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Element}
+ */
 export const SVGPrimitives = Object.freeze({
 
   namespaceURI: SVGNamespaceURI,
@@ -501,6 +502,8 @@ export const SVGPrimitives = Object.freeze({
     return createElementPrimitive(tagName, optionsOrChild, ...children)
   },
 
+  // CONTAINER ELEMENTS
+
   /**
    * 
    * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
@@ -510,12 +513,135 @@ export const SVGPrimitives = Object.freeze({
     return this.createSVGElement('svg', optionsOrChild, ...children)
   },
 
+  a() {},
+
+  animate() {},
+
+  animateMotion() {},
+
+  animateTransform() {},
+
+  circle() {},
+
+  clipPath() {},
+
+  defs() {},
+
+  desc() {},
+
+  ellipse() {},
+
+  feBlend() {},
+
+  feColorMatrix() {},
+
+  feComposite() {},
+
+  feConvolveMatrix() {},
+
+  feDiffuseLighting() {},
+
+  feDisplacementMap() {},
+
+  feDistantLight() {},
+
+  feDropShadow() {},
+
+  feFlood() {},
+
+  feFuncR() {},
+
+  feFuncG() {},
+
+  feFuncB() {},
+
+  feFuncA() {},
+
+  feGaussianBlur() {},
+
+  feImage() {},
+
+  feMerge() {},
+
+  feMergeNode() {},
+
+  feMorphology() {},
+
+  feOffset() {},
+
+  fePointLight() {},
+
+  feSpecularLighting() {},
+
+  feSpotLight() {},
+
+  feTitle() {},
+
+  feTurbulence() {},
+
+  filter() {},
+
+  foreignObject() {},
+
+  g() {},
+
+  image() {},
+
+  line() {},
+
+  linearGradient() {},
+
+  marker() {},
+
+  mask() {},
+
+  metadata() {},
+
+  mpath() {},
+
+  path() {},
+
+  pattern() {},
+
+  polygon() {},
+
+  polyline() {},
+
+  radialGradient() {},
+
+  rect() {},
+
+  script() {},
+
+  set() {},
+
+  stop() {},
+
+  style() {},
+
+  switch() {},
+
+  symbol() {},
+
+  text() {},
+
+  textPath() {},
+
+  title() {},
+
+  tspan() {},
+
+  use() {},
+
+  view() {},
+
 })
 
 
-// https://developer.mozilla.org/en-US/docs/Web/MathML/Element
-
-export const MathMLPrimitives = {
+/**
+ * {@link https://developer.mozilla.org/en-US/docs/Web/MathML/Element}
+ */
+export const MathMLPrimitives = Object.freeze({
 
   namespaceURI: MathMLNamespaceURI,
 
@@ -536,6 +662,8 @@ export const MathMLPrimitives = {
     return createElementPrimitive(tagName, optionsOrChild, ...children)
   },
 
+  // TOP-LEVEL ELEMENTS
+
   /**
    * 
    * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
@@ -545,7 +673,77 @@ export const MathMLPrimitives = {
     return this.createMathMLElement('math', optionsOrChild, ...children)
   },
 
-}
+  // TOKEN ELEMENTS
+
+  mi() {},
+
+  mn() {},
+
+  mo() {},
+
+  ms() {},
+
+  mspace() {},
+
+  mtext() {},
+
+  // GENERAL LAYOUT
+
+  merror() {},
+
+  mfrac() {},
+
+  mpadded() {},
+
+  mphantom() {},
+
+  mroot() {},
+
+  mrow() {},
+
+  msqrt() {},
+
+  mstyle() {},
+
+  // SCRIPT AND LIMIT ELEMENTS
+
+  mmultiscripts() {},
+
+  mover() {},
+
+  mprescripts() {},
+
+  msub() {},
+
+  msubsup() {},
+
+  msup() {},
+
+  munder() {},
+
+  munderover() {},
+
+  // TABULAR MATH
+
+  mtable() {},
+
+  mtd() {},
+
+  mtr() {},
+
+  // UNCATEGORIZED ELEMENTS
+
+  maction() {},
+
+  // SEMANTIC ANNOTATIONS
+
+  annotation() {},
+
+  annotation_xml() {},
+
+  semantics() {},
+
+})
 
 const { div } = DOMPrimitives
 
