@@ -1,12 +1,6 @@
-import { useEffect, useRef } from '../../../../@libs/preact/hooks.mjs'
-import html from '../../../../@libs/preact/htm/html.mjs'
-import { useSignal } from '../../../../@libs/preact/signals.mjs'
-import ShadowDOM from '../../../../@libs/preact/util-components/shadow-dom.js'
-import useEffectOnce from '../../../../@libs/preact/util-hooks/use-effect-once.js'
 import { waitForSelector } from '../../../../@libs/libs/dom-utils.js'
-import { render } from '../../../../@libs/preact/preact.mjs'
 import { addEventListener } from '../../../../@libs/libs/event-utils.js'
-import { delay } from '../../../../@libs/utils-injection.js'
+import { DOMPrimitives } from '../../../../@libs/libs/dom-primitives.js'
 
 const volumeSetter = Object.getOwnPropertyDescriptors(HTMLMediaElement.prototype).volume.set
 
@@ -33,14 +27,29 @@ const video = new Proxy({}, {
     return value
   },
   set(target, property, value, receiver) {
-    const videoElement = document.querySelector('ytd-watch-flexy video')
+    const videoElement = document.querySelector(':is(ytd-watch-flexy, #player) video')
 
     return Reflect.set(videoElement, property, value)
   }
 })
 
-function VolumeContainer(props) {
-  const { video } = props
+function VolumeContainer(options) {
+  const { video } = options.data
+
+  const audioCtx = new AudioContext()
+  let source
+
+  // If AudioContext is already attached to the video element
+  // an error will be thrown
+  try {
+    source = audioCtx.createMediaElementSource(video.valueOf());
+  } catch {
+    return null
+  }
+
+  const gainNode = audioCtx.createGain();
+
+  source.connect(gainNode).connect(audioCtx.destination);
 
   const css = // css
   `
@@ -109,29 +118,51 @@ function VolumeContainer(props) {
   const stylesheet = new CSSStyleSheet()
   stylesheet.replace(css)
 
-  const containerRef = useRef(null)
+  const { div, ShadowRoot } = DOMPrimitives
 
-  const isVolumeChangingSignal = useSignal(false)
+  const componentRender = (
+    div({attr: {class: 'volume-container-wrapper'}},
+      ShadowRoot({adoptedStyleSheets: stylesheet},
+        div({attr: {class: 'volume-container'}},
+          div({attr: {class: 'volume-count'}}, 0),
+          div({attr: {class: 'gain-count'}}, 1),
+        )
+      )
+    )
+  )
 
-  const volumeCountSignal = useSignal(null)
+  const volumeContainer = componentRender.shadowRoot.querySelector('.volume-container')
+  const volumeCount = componentRender.shadowRoot.querySelector('.volume-count')
+  const volumeGainCount = componentRender.shadowRoot.querySelector('.gain-count')
 
-  const gainCountSignal = useSignal()
+  let volumeValue = 0.5
+  let volumeValuePercent
+  let volumeGain
+  let isVolumeChanging = false
 
-  useEffect(() => {
-    let volumeCountTimeOut
+  let volumeCountTimeOut
 
-    const parent = containerRef.current.parentNode.host.parentElement
+  function updateUI() {
+    clearTimeout(volumeCountTimeOut)
 
-    // Increase video volume with wheel
-    const removeListener = addEventListener(parent, 'wheel', event => {
+    if (isVolumeChanging) {
+      volumeContainer.classList.add('full-opacity')
+    }
+
+    volumeCountTimeOut = setTimeout(() => volumeContainer.classList.remove('full-opacity'), 500)
+
+    volumeCount.innerText = volumeValuePercent
+    volumeGainCount.innerText = volumeGain
+  }
+
+  // Wait for the element to be conected on the document
+  setTimeout(() => {
+    addEventListener(componentRender.parentElement, 'wheel', event => {
       event.preventDefault()
 
-      clearTimeout(volumeCountTimeOut)
-
-      isVolumeChangingSignal.value = true
-      volumeCountTimeOut = setTimeout(() => isVolumeChangingSignal.value = false, 500)
-
-      let volumeValue
+      if (event.isTrusted) {
+        isVolumeChanging = true
+      }
 
       if (event.deltaY < 0) {
         if ((video.volume + videoVolumeStep) > 1) volumeValue = 1
@@ -145,66 +176,54 @@ function VolumeContainer(props) {
 
       volumeSetter.call(video.valueOf(), volumeValue)
 
-      const volumeValuePercent = Math.floor(volumeValue * 100)
+      volumeValuePercent = Math.floor(volumeValue * 100)
 
-      volumeCountSignal.value = volumeValuePercent
-    })
+      updateUI()
 
-    // Increase video gain with Ctrl + Vertical Arrows
+      isVolumeChanging = false
+    }, {runImmediately: true})
+  })
 
-    {
-      const audioCtx = new AudioContext();
-      const source = audioCtx.createMediaElementSource(video.valueOf());
-      const gainNode = audioCtx.createGain();
+  volumeGain = gainNode.gain.value
 
-      source.connect(gainNode).connect(audioCtx.destination);
-
-      gainCountSignal.value = gainNode.gain.value
-
-
-      window.addEventListener('keydown', event => {
-        if (!event.ctrlKey) {
-          return
-        }
-
-        clearTimeout(volumeCountTimeOut)
-
-        isVolumeChangingSignal.value = true
-        volumeCountTimeOut = setTimeout(() => isVolumeChangingSignal.value = false, 500)
-
-        switch (event.key) {
-          case 'ArrowUp': {
-            gainNode.gain.value++
-            break
-          }
-          case 'ArrowDown': {
-            gainNode.gain.value--
-            break
-          }
-          case ' ': {
-            gainNode.gain.value = 1
-            break
-          }
-
-          default:
-            isVolumeChangingSignal.value = false
-        }
-
-        gainCountSignal.value = gainNode.gain.value
-      })
+  window.addEventListener('keydown', event => {
+    if (!event.ctrlKey || event.repeat) {
+      return
     }
 
-    return removeListener
-  }, [])
+    isVolumeChanging = true
 
-  return html`
-    <${ShadowDOM} class="volume-container-wrapper" stylesheets=${[stylesheet]}>
-        <div ref=${containerRef} class=${`volume-container ${isVolumeChangingSignal.value ? 'full-opacity' : ''}`}>
-            <div class="volume-count">${volumeCountSignal.value}</div>
-            <div class="gain-count">${gainCountSignal.value}</div>
-        </div>
-    <//>
-  `
+    switch (event.code) {
+      case 'ArrowUp': {
+        gainNode.gain.value++
+      }
+      break
+
+      case 'ArrowDown': {
+        gainNode.gain.value--
+      }
+      break
+
+      case 'Space': {
+        gainNode.gain.value = 1
+
+        video.valueOf().addEventListener(video.paused ? 'play': 'pause', event => event.preventDefault(), {once: true})
+      }
+      break
+
+      default: {
+        isVolumeChanging = false
+      }
+    }
+
+    volumeGain = gainNode.gain.value
+
+    updateUI()
+
+    isVolumeChanging = false
+  })
+
+  return componentRender
 }
 
 
@@ -214,12 +233,14 @@ window.addEventListener('youtube-navigate', async event => {
     return
   }
 
-  /**
-   * @type {HTMLVideoElement}
-   */
+  // /**
+  //  * @type {HTMLVideoElement}
+  //  */
   // const video = await waitForSelector('ytd-watch-flexy video', {timeout: 1000})
 
   const html5Container = await waitForSelector(':is(ytd-watch-flexy, #player) .html5-video-container')
 
-  render(html`<${VolumeContainer} video=${video} />`, html5Container)
+  html5Container.append(
+    VolumeContainer({data: {video}}) ?? ''
+  )
 })
