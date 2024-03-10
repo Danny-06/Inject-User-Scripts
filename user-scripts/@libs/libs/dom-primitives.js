@@ -2192,19 +2192,3 @@ export const MathMLPrimitives = Object.freeze({
   },
 
 })
-
-
-const { div, span, ShadowRoot } = DOMPrimitives
-
-const component = (
-  div({prop: {innerHTML: '', sos: 2}, attr: {class: 'card'}, on: {click: event => {}}},
-    ShadowRoot(
-      span(),
-    ),
-    div('Hello'),
-    div(),
-  )
-)
-
-
-document.body.prepend(component)
