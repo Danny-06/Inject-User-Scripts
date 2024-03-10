@@ -139,6 +139,11 @@ export function createElement(tagName, options, ...children) {
 
     const shadowRoot = element.attachShadow({mode: options.mode ?? 'open'})
 
+    //@ts-ignore
+    shadowRoot.append(children[0])
+
+    children.shift()
+
     if (options.adoptedStyleSheets) {
       if (Array.isArray(options.adoptedStyleSheets)) {
         shadowRoot.adoptedStyleSheets = [...options.adoptedStyleSheets]
@@ -193,7 +198,7 @@ function isOptions(options) {
     return false
   }
 
-  return Object.getPrototypeOf(options) === null || Object.getPrototypeOf(options) === Object
+  return Object.getPrototypeOf(options) === null || Object.getPrototypeOf(options) === Object.prototype
 }
 
 /**
@@ -249,18 +254,22 @@ export const DOMPrimitives = Object.freeze({
   },
 
   /**
-   * 
+   * It must be the 1st child of an element,  
+   * otherwise it is treated as a normal {@link DocumentFragment}.
    * @param {XOR<ShadowRootOptions, Child>} [optionsOrChild] 
    * @param  {...Child} children 
    * @returns {DocumentFragment & {[(typeof DOMPrimitives)['entitites'][SHADOW_ROOT]]: ShadowRootOptions}}
    */
   ShadowRoot(optionsOrChild, ...children) {
-    const fragment = this.Fragment(...children)
+    const fragment = isOptions(optionsOrChild)
+    ? DOMPrimitives.Fragment(...children)
+    //@ts-ignore
+    : DOMPrimitives.Fragment(...[optionsOrChild, ...children])
 
-    fragment[this.entities.SHADOW_ROOT] = {mode: 'open'}
+    fragment[DOMPrimitives.entities.SHADOW_ROOT] = {mode: 'open'}
 
     if (isOptions(optionsOrChild)) {
-      fragment[this.entities.SHADOW_ROOT] = {...fragment[this.entities.SHADOW_ROOT], optionsOrChild}
+      fragment[DOMPrimitives.entities.SHADOW_ROOT] = {...fragment[DOMPrimitives.entities.SHADOW_ROOT], optionsOrChild}
     }
 
     return fragment
@@ -1306,7 +1315,7 @@ export const SVGPrimitives = Object.freeze({
   createSVGElement(tagName, optionsOrChild, ...children) {
     if (isOptions(optionsOrChild)) {
       //@ts-ignore
-      optionsOrChild.namespaceURI = this.namespaceURI
+      optionsOrChild.namespaceURI = SVGPrimitives.namespaceURI
     }
 
     //@ts-ignore
@@ -1319,7 +1328,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   svg(optionsOrChild, ...children) {
-    return this.createSVGElement('svg', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('svg', optionsOrChild, ...children)
   },
 
   /**
@@ -1328,7 +1337,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   a(optionsOrChild, ...children) {
-    return this.createSVGElement('a', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('a', optionsOrChild, ...children)
   },
 
   /**
@@ -1337,7 +1346,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   animate(optionsOrChild, ...children) {
-    return this.createSVGElement('animate', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('animate', optionsOrChild, ...children)
   },
 
   /**
@@ -1346,7 +1355,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   animateMotion(optionsOrChild, ...children) {
-    return this.createSVGElement('animateMotion', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('animateMotion', optionsOrChild, ...children)
   },
 
   /**
@@ -1355,7 +1364,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   animateTransform(optionsOrChild, ...children) {
-    return this.createSVGElement('animateTransform', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('animateTransform', optionsOrChild, ...children)
   },
 
   /**
@@ -1364,7 +1373,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   circle(optionsOrChild, ...children) {
-    return this.createSVGElement('circle', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('circle', optionsOrChild, ...children)
   },
 
   /**
@@ -1373,7 +1382,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   clipPath(optionsOrChild, ...children) {
-    return this.createSVGElement('clipPath', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('clipPath', optionsOrChild, ...children)
   },
 
   /**
@@ -1382,7 +1391,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   defs(optionsOrChild, ...children) {
-    return this.createSVGElement('defs', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('defs', optionsOrChild, ...children)
   },
 
   /**
@@ -1391,7 +1400,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   desc(optionsOrChild, ...children) {
-    return this.createSVGElement('desc', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('desc', optionsOrChild, ...children)
   },
 
   /**
@@ -1400,7 +1409,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   ellipse(optionsOrChild, ...children) {
-    return this.createSVGElement('ellipse', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('ellipse', optionsOrChild, ...children)
   },
 
   /**
@@ -1409,7 +1418,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feBlend(optionsOrChild, ...children) {
-    return this.createSVGElement('feBlend', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feBlend', optionsOrChild, ...children)
   },
 
   /**
@@ -1418,7 +1427,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feColorMatrix(optionsOrChild, ...children) {
-    return this.createSVGElement('feColorMatrix', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feColorMatrix', optionsOrChild, ...children)
   },
 
   /**
@@ -1427,7 +1436,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feComposite(optionsOrChild, ...children) {
-    return this.createSVGElement('feComposite', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feComposite', optionsOrChild, ...children)
   },
 
   /**
@@ -1436,7 +1445,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feConvolveMatrix(optionsOrChild, ...children) {
-    return this.createSVGElement('feConvolveMatrix', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feConvolveMatrix', optionsOrChild, ...children)
   },
 
   /**
@@ -1445,7 +1454,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feDiffuseLighting(optionsOrChild, ...children) {
-    return this.createSVGElement('feDiffuseLighting', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feDiffuseLighting', optionsOrChild, ...children)
   },
 
   /**
@@ -1454,7 +1463,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feDisplacementMap(optionsOrChild, ...children) {
-    return this.createSVGElement('feDisplacementMap', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feDisplacementMap', optionsOrChild, ...children)
   },
 
   /**
@@ -1463,7 +1472,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feDistantLight(optionsOrChild, ...children) {
-    return this.createSVGElement('feDistantLight', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feDistantLight', optionsOrChild, ...children)
   },
 
   /**
@@ -1472,7 +1481,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feDropShadow(optionsOrChild, ...children) {
-    return this.createSVGElement('feDropShadow', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feDropShadow', optionsOrChild, ...children)
   },
 
   /**
@@ -1481,7 +1490,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feFlood(optionsOrChild, ...children) {
-    return this.createSVGElement('feFlood', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feFlood', optionsOrChild, ...children)
   },
 
   /**
@@ -1490,7 +1499,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feFuncR(optionsOrChild, ...children) {
-    return this.createSVGElement('feFuncR', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feFuncR', optionsOrChild, ...children)
   },
 
   /**
@@ -1499,7 +1508,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feFuncG(optionsOrChild, ...children) {
-    return this.createSVGElement('feFuncG', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feFuncG', optionsOrChild, ...children)
   },
 
   /**
@@ -1508,7 +1517,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feFuncB(optionsOrChild, ...children) {
-    return this.createSVGElement('feFuncB', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feFuncB', optionsOrChild, ...children)
   },
 
   /**
@@ -1517,7 +1526,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feFuncA(optionsOrChild, ...children) {
-    return this.createSVGElement('feFuncA', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feFuncA', optionsOrChild, ...children)
   },
 
   /**
@@ -1526,7 +1535,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feGaussianBlur(optionsOrChild, ...children) {
-    return this.createSVGElement('feGaussianBlur', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feGaussianBlur', optionsOrChild, ...children)
   },
 
   /**
@@ -1535,7 +1544,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feImage(optionsOrChild, ...children) {
-    return this.createSVGElement('feImage', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feImage', optionsOrChild, ...children)
   },
 
   /**
@@ -1544,7 +1553,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feMerge(optionsOrChild, ...children) {
-    return this.createSVGElement('feMerge', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feMerge', optionsOrChild, ...children)
   },
 
   /**
@@ -1553,7 +1562,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feMergeNode(optionsOrChild, ...children) {
-    return this.createSVGElement('feMergeNode', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feMergeNode', optionsOrChild, ...children)
   },
 
   /**
@@ -1562,7 +1571,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feMorphology(optionsOrChild, ...children) {
-    return this.createSVGElement('feMorphology', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feMorphology', optionsOrChild, ...children)
   },
 
   /**
@@ -1571,7 +1580,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feOffset(optionsOrChild, ...children) {
-    return this.createSVGElement('feOffset', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feOffset', optionsOrChild, ...children)
   },
 
   /**
@@ -1580,7 +1589,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   fePointLight(optionsOrChild, ...children) {
-    return this.createSVGElement('fePointLight', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('fePointLight', optionsOrChild, ...children)
   },
 
   /**
@@ -1589,7 +1598,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feSpecularLighting(optionsOrChild, ...children) {
-    return this.createSVGElement('feSpecularLighting', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feSpecularLighting', optionsOrChild, ...children)
   },
 
   /**
@@ -1598,7 +1607,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feSpotLight(optionsOrChild, ...children) {
-    return this.createSVGElement('feSpotLight', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feSpotLight', optionsOrChild, ...children)
   },
 
   /**
@@ -1607,7 +1616,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feTitle(optionsOrChild, ...children) {
-    return this.createSVGElement('feTitle', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feTitle', optionsOrChild, ...children)
   },
 
   /**
@@ -1616,7 +1625,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   feTurbulence(optionsOrChild, ...children) {
-    return this.createSVGElement('feTurbulence', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('feTurbulence', optionsOrChild, ...children)
   },
 
   /**
@@ -1625,7 +1634,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   filter(optionsOrChild, ...children) {
-    return this.createSVGElement('filter', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('filter', optionsOrChild, ...children)
   },
 
   /**
@@ -1634,7 +1643,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   foreignObject(optionsOrChild, ...children) {
-    return this.createSVGElement('foreignObject', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('foreignObject', optionsOrChild, ...children)
   },
 
   /**
@@ -1643,7 +1652,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   g(optionsOrChild, ...children) {
-    return this.createSVGElement('g', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('g', optionsOrChild, ...children)
   },
 
   /**
@@ -1652,7 +1661,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   image(optionsOrChild, ...children) {
-    return this.createSVGElement('image', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('image', optionsOrChild, ...children)
   },
 
   /**
@@ -1661,7 +1670,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   line(optionsOrChild, ...children) {
-    return this.createSVGElement('line', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('line', optionsOrChild, ...children)
   },
 
   /**
@@ -1670,7 +1679,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   linearGradient(optionsOrChild, ...children) {
-    return this.createSVGElement('linearGradient', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('linearGradient', optionsOrChild, ...children)
   },
 
   /**
@@ -1679,7 +1688,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   marker(optionsOrChild, ...children) {
-    return this.createSVGElement('marker', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('marker', optionsOrChild, ...children)
   },
 
   /**
@@ -1688,7 +1697,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mask(optionsOrChild, ...children) {
-    return this.createSVGElement('mask', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('mask', optionsOrChild, ...children)
   },
 
   /**
@@ -1697,7 +1706,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   metadata(optionsOrChild, ...children) {
-    return this.createSVGElement('metadata', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('metadata', optionsOrChild, ...children)
   },
 
   /**
@@ -1706,7 +1715,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mpath(optionsOrChild, ...children) {
-    return this.createSVGElement('mpath', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('mpath', optionsOrChild, ...children)
   },
 
   /**
@@ -1715,7 +1724,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   path(optionsOrChild, ...children) {
-    return this.createSVGElement('path', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('path', optionsOrChild, ...children)
   },
 
   /**
@@ -1724,7 +1733,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   pattern(optionsOrChild, ...children) {
-    return this.createSVGElement('pattern', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('pattern', optionsOrChild, ...children)
   },
 
   /**
@@ -1733,7 +1742,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   polygon(optionsOrChild, ...children) {
-    return this.createSVGElement('polygon', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('polygon', optionsOrChild, ...children)
   },
 
   /**
@@ -1742,7 +1751,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   polyline(optionsOrChild, ...children) {
-    return this.createSVGElement('polyline', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('polyline', optionsOrChild, ...children)
   },
 
   /**
@@ -1751,7 +1760,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   radialGradient(optionsOrChild, ...children) {
-    return this.createSVGElement('radialGradient', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('radialGradient', optionsOrChild, ...children)
   },
 
   /**
@@ -1760,7 +1769,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   rect(optionsOrChild, ...children) {
-    return this.createSVGElement('rect', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('rect', optionsOrChild, ...children)
   },
 
   /**
@@ -1769,7 +1778,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   script(optionsOrChild, ...children) {
-    return this.createSVGElement('script', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('script', optionsOrChild, ...children)
   },
 
   /**
@@ -1778,7 +1787,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   set(optionsOrChild, ...children) {
-    return this.createSVGElement('set', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('set', optionsOrChild, ...children)
   },
 
   /**
@@ -1787,7 +1796,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   stop(optionsOrChild, ...children) {
-    return this.createSVGElement('stop', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('stop', optionsOrChild, ...children)
   },
 
   /**
@@ -1796,7 +1805,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   style(optionsOrChild, ...children) {
-    return this.createSVGElement('style', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('style', optionsOrChild, ...children)
   },
 
   /**
@@ -1805,7 +1814,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   switch(optionsOrChild, ...children) {
-    return this.createSVGElement('switch', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('switch', optionsOrChild, ...children)
   },
 
   /**
@@ -1814,7 +1823,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   symbol(optionsOrChild, ...children) {
-    return this.createSVGElement('symbol', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('symbol', optionsOrChild, ...children)
   },
 
   /**
@@ -1823,7 +1832,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   text(optionsOrChild, ...children) {
-    return this.createSVGElement('text', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('text', optionsOrChild, ...children)
   },
 
   /**
@@ -1832,7 +1841,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   textPath(optionsOrChild, ...children) {
-    return this.createSVGElement('textPath', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('textPath', optionsOrChild, ...children)
   },
 
   /**
@@ -1841,7 +1850,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   title(optionsOrChild, ...children) {
-    return this.createSVGElement('title', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('title', optionsOrChild, ...children)
   },
 
   /**
@@ -1850,7 +1859,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   tspan(optionsOrChild, ...children) {
-    return this.createSVGElement('tspan', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('tspan', optionsOrChild, ...children)
   },
 
   /**
@@ -1859,7 +1868,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   use(optionsOrChild, ...children) {
-    return this.createSVGElement('use', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('use', optionsOrChild, ...children)
   },
 
   /**
@@ -1868,7 +1877,7 @@ export const SVGPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   view(optionsOrChild, ...children) {
-    return this.createSVGElement('view', optionsOrChild, ...children)
+    return SVGPrimitives.createSVGElement('view', optionsOrChild, ...children)
   },
 
 })
@@ -1891,7 +1900,7 @@ export const MathMLPrimitives = Object.freeze({
   createMathMLElement(tagName, optionsOrChild, ...children) {
     if (isOptions(optionsOrChild)) {
       //@ts-ignore
-      optionsOrChild.namespaceURI = this.namespaceURI
+      optionsOrChild.namespaceURI = MathMLPrimitives.namespaceURI
     }
 
     //@ts-ignore
@@ -1906,7 +1915,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   math(optionsOrChild, ...children) {
-    return this.createMathMLElement('math', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('math', optionsOrChild, ...children)
   },
 
   // TOKEN ELEMENTS
@@ -1917,7 +1926,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mi(optionsOrChild, ...children) {
-    return this.createMathMLElement('mi', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('mi', optionsOrChild, ...children)
   },
 
   /**
@@ -1926,7 +1935,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mn(optionsOrChild, ...children) {
-    return this.createMathMLElement('mn', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('mn', optionsOrChild, ...children)
   },
 
   /**
@@ -1935,7 +1944,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mo(optionsOrChild, ...children) {
-    return this.createMathMLElement('mo', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('mo', optionsOrChild, ...children)
   },
 
   /**
@@ -1944,7 +1953,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   ms(optionsOrChild, ...children) {
-    return this.createMathMLElement('ms', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('ms', optionsOrChild, ...children)
   },
 
   /**
@@ -1953,7 +1962,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mspace(optionsOrChild, ...children) {
-    return this.createMathMLElement('mspace', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('mspace', optionsOrChild, ...children)
   },
 
   /**
@@ -1962,7 +1971,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mtext(optionsOrChild, ...children) {
-    return this.createMathMLElement('mtext', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('mtext', optionsOrChild, ...children)
   },
 
   // GENERAL LAYOUT
@@ -1973,7 +1982,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   merror(optionsOrChild, ...children) {
-    return this.createMathMLElement('merror', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('merror', optionsOrChild, ...children)
   },
 
   /**
@@ -1982,7 +1991,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mfrac(optionsOrChild, ...children) {
-    return this.createMathMLElement('mfrac', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('mfrac', optionsOrChild, ...children)
   },
 
   /**
@@ -1991,7 +2000,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mpadded(optionsOrChild, ...children) {
-    return this.createMathMLElement('mpadded', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('mpadded', optionsOrChild, ...children)
   },
 
   /**
@@ -2000,7 +2009,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mphantom(optionsOrChild, ...children) {
-    return this.createMathMLElement('mphantom', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('mphantom', optionsOrChild, ...children)
   },
 
   /**
@@ -2009,7 +2018,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mroot(optionsOrChild, ...children) {
-    return this.createMathMLElement('mroot', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('mroot', optionsOrChild, ...children)
   },
 
   /**
@@ -2018,7 +2027,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mrow(optionsOrChild, ...children) {
-    return this.createMathMLElement('mrow', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('mrow', optionsOrChild, ...children)
   },
 
   /**
@@ -2027,7 +2036,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   msqrt(optionsOrChild, ...children) {
-    return this.createMathMLElement('msqrt', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('msqrt', optionsOrChild, ...children)
   },
 
   /**
@@ -2036,7 +2045,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mstyle(optionsOrChild, ...children) {
-    return this.createMathMLElement('mstyle', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('mstyle', optionsOrChild, ...children)
   },
 
   // SCRIPT AND LIMIT ELEMENTS
@@ -2047,7 +2056,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mmultiscripts(optionsOrChild, ...children) {
-    return this.createMathMLElement('mmultiscripts', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('mmultiscripts', optionsOrChild, ...children)
   },
 
   /**
@@ -2056,7 +2065,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mover(optionsOrChild, ...children) {
-    return this.createMathMLElement('mover', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('mover', optionsOrChild, ...children)
   },
 
   /**
@@ -2065,7 +2074,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mprescripts(optionsOrChild, ...children) {
-    return this.createMathMLElement('mprescripts', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('mprescripts', optionsOrChild, ...children)
   },
 
   /**
@@ -2074,7 +2083,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   msub(optionsOrChild, ...children) {
-    return this.createMathMLElement('msub', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('msub', optionsOrChild, ...children)
   },
 
   /**
@@ -2083,7 +2092,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   msubsup(optionsOrChild, ...children) {
-    return this.createMathMLElement('msubsup', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('msubsup', optionsOrChild, ...children)
   },
 
   /**
@@ -2092,7 +2101,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   msup(optionsOrChild, ...children) {
-    return this.createMathMLElement('msup', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('msup', optionsOrChild, ...children)
   },
 
   /**
@@ -2101,7 +2110,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   munder(optionsOrChild, ...children) {
-    return this.createMathMLElement('munder', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('munder', optionsOrChild, ...children)
   },
 
   /**
@@ -2110,7 +2119,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   munderover(optionsOrChild, ...children) {
-    return this.createMathMLElement('munderover', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('munderover', optionsOrChild, ...children)
   },
 
   // TABULAR MATH
@@ -2121,7 +2130,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mtable(optionsOrChild, ...children) {
-    return this.createMathMLElement('mtable', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('mtable', optionsOrChild, ...children)
   },
 
   /**
@@ -2130,7 +2139,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mtr(optionsOrChild, ...children) {
-    return this.createMathMLElement('mtr', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('mtr', optionsOrChild, ...children)
   },
 
   /**
@@ -2139,7 +2148,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   mtd(optionsOrChild, ...children) {
-    return this.createMathMLElement('mtd', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('mtd', optionsOrChild, ...children)
   },
 
   // UNCATEGORIZED ELEMENTS
@@ -2150,7 +2159,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   maction(optionsOrChild, ...children) {
-    return this.createMathMLElement('maction', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('maction', optionsOrChild, ...children)
   },
 
   // SEMANTIC ANNOTATIONS
@@ -2161,7 +2170,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   annotation(optionsOrChild, ...children) {
-    return this.createMathMLElement('annotation', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('annotation', optionsOrChild, ...children)
   },
 
   /**
@@ -2170,7 +2179,7 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   annotation_xml(optionsOrChild, ...children) {
-    return this.createMathMLElement('annotation_xml', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('annotation_xml', optionsOrChild, ...children)
   },
 
   /**
@@ -2179,17 +2188,23 @@ export const MathMLPrimitives = Object.freeze({
    * @param  {...Child} children 
    */
   semantics(optionsOrChild, ...children) {
-    return this.createMathMLElement('semantics', optionsOrChild, ...children)
+    return MathMLPrimitives.createMathMLElement('semantics', optionsOrChild, ...children)
   },
 
 })
 
-const { div } = DOMPrimitives
 
-div({prop: {innerHTML: '', sos: 2}, attr: {class: 'card'}, on: {click: event => {}}},
-  // shadowRoot({},
-  //   span(),
-  // ),
-  div('Hello'),
-  div(),
+const { div, span, ShadowRoot } = DOMPrimitives
+
+const component = (
+  div({prop: {innerHTML: '', sos: 2}, attr: {class: 'card'}, on: {click: event => {}}},
+    ShadowRoot(
+      span(),
+    ),
+    div('Hello'),
+    div(),
+  )
 )
+
+
+document.body.prepend(component)
