@@ -196,8 +196,14 @@ export const DOMPrimitives = Object.freeze({
   Fragment(...children) {
     const fragment = new DocumentFragment()
 
-    //@ts-ignore
-    fragment.append(...children)
+    for (const child of children) {
+      if (child == null) {
+        continue
+      }
+
+      //@ts-ignore
+      fragment.append(child)
+    }
 
     return fragment
   },
@@ -1254,8 +1260,6 @@ export const SVGPrimitives = Object.freeze({
     return createElementPrimitive(tagName, optionsOrChild, ...children)
   },
 
-  // CONTAINER ELEMENTS
-
   /**
    * 
    * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
@@ -1265,127 +1269,554 @@ export const SVGPrimitives = Object.freeze({
     return this.createSVGElement('svg', optionsOrChild, ...children)
   },
 
-  a() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  a(optionsOrChild, ...children) {
+    return this.createSVGElement('a', optionsOrChild, ...children)
+  },
 
-  animate() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  animate(optionsOrChild, ...children) {
+    return this.createSVGElement('animate', optionsOrChild, ...children)
+  },
 
-  animateMotion() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  animateMotion(optionsOrChild, ...children) {
+    return this.createSVGElement('animateMotion', optionsOrChild, ...children)
+  },
 
-  animateTransform() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  animateTransform(optionsOrChild, ...children) {
+    return this.createSVGElement('animateTransform', optionsOrChild, ...children)
+  },
 
-  circle() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  circle(optionsOrChild, ...children) {
+    return this.createSVGElement('circle', optionsOrChild, ...children)
+  },
 
-  clipPath() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  clipPath(optionsOrChild, ...children) {
+    return this.createSVGElement('clipPath', optionsOrChild, ...children)
+  },
 
-  defs() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  defs(optionsOrChild, ...children) {
+    return this.createSVGElement('defs', optionsOrChild, ...children)
+  },
 
-  desc() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  desc(optionsOrChild, ...children) {
+    return this.createSVGElement('desc', optionsOrChild, ...children)
+  },
 
-  ellipse() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  ellipse(optionsOrChild, ...children) {
+    return this.createSVGElement('ellipse', optionsOrChild, ...children)
+  },
 
-  feBlend() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feBlend(optionsOrChild, ...children) {
+    return this.createSVGElement('feBlend', optionsOrChild, ...children)
+  },
 
-  feColorMatrix() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feColorMatrix(optionsOrChild, ...children) {
+    return this.createSVGElement('feColorMatrix', optionsOrChild, ...children)
+  },
 
-  feComposite() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feComposite(optionsOrChild, ...children) {
+    return this.createSVGElement('feComposite', optionsOrChild, ...children)
+  },
 
-  feConvolveMatrix() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feConvolveMatrix(optionsOrChild, ...children) {
+    return this.createSVGElement('feConvolveMatrix', optionsOrChild, ...children)
+  },
 
-  feDiffuseLighting() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feDiffuseLighting(optionsOrChild, ...children) {
+    return this.createSVGElement('feDiffuseLighting', optionsOrChild, ...children)
+  },
 
-  feDisplacementMap() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feDisplacementMap(optionsOrChild, ...children) {
+    return this.createSVGElement('feDisplacementMap', optionsOrChild, ...children)
+  },
 
-  feDistantLight() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feDistantLight(optionsOrChild, ...children) {
+    return this.createSVGElement('feDistantLight', optionsOrChild, ...children)
+  },
 
-  feDropShadow() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feDropShadow(optionsOrChild, ...children) {
+    return this.createSVGElement('feDropShadow', optionsOrChild, ...children)
+  },
 
-  feFlood() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feFlood(optionsOrChild, ...children) {
+    return this.createSVGElement('feFlood', optionsOrChild, ...children)
+  },
 
-  feFuncR() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feFuncR(optionsOrChild, ...children) {
+    return this.createSVGElement('feFuncR', optionsOrChild, ...children)
+  },
 
-  feFuncG() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feFuncG(optionsOrChild, ...children) {
+    return this.createSVGElement('feFuncG', optionsOrChild, ...children)
+  },
 
-  feFuncB() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feFuncB(optionsOrChild, ...children) {
+    return this.createSVGElement('feFuncB', optionsOrChild, ...children)
+  },
 
-  feFuncA() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feFuncA(optionsOrChild, ...children) {
+    return this.createSVGElement('feFuncA', optionsOrChild, ...children)
+  },
 
-  feGaussianBlur() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feGaussianBlur(optionsOrChild, ...children) {
+    return this.createSVGElement('feGaussianBlur', optionsOrChild, ...children)
+  },
 
-  feImage() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feImage(optionsOrChild, ...children) {
+    return this.createSVGElement('feImage', optionsOrChild, ...children)
+  },
 
-  feMerge() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feMerge(optionsOrChild, ...children) {
+    return this.createSVGElement('feMerge', optionsOrChild, ...children)
+  },
 
-  feMergeNode() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feMergeNode(optionsOrChild, ...children) {
+    return this.createSVGElement('feMergeNode', optionsOrChild, ...children)
+  },
 
-  feMorphology() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feMorphology(optionsOrChild, ...children) {
+    return this.createSVGElement('feMorphology', optionsOrChild, ...children)
+  },
 
-  feOffset() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feOffset(optionsOrChild, ...children) {
+    return this.createSVGElement('feOffset', optionsOrChild, ...children)
+  },
 
-  fePointLight() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  fePointLight(optionsOrChild, ...children) {
+    return this.createSVGElement('fePointLight', optionsOrChild, ...children)
+  },
 
-  feSpecularLighting() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feSpecularLighting(optionsOrChild, ...children) {
+    return this.createSVGElement('feSpecularLighting', optionsOrChild, ...children)
+  },
 
-  feSpotLight() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feSpotLight(optionsOrChild, ...children) {
+    return this.createSVGElement('feSpotLight', optionsOrChild, ...children)
+  },
 
-  feTitle() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feTitle(optionsOrChild, ...children) {
+    return this.createSVGElement('feTitle', optionsOrChild, ...children)
+  },
 
-  feTurbulence() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  feTurbulence(optionsOrChild, ...children) {
+    return this.createSVGElement('feTurbulence', optionsOrChild, ...children)
+  },
 
-  filter() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  filter(optionsOrChild, ...children) {
+    return this.createSVGElement('filter', optionsOrChild, ...children)
+  },
 
-  foreignObject() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  foreignObject(optionsOrChild, ...children) {
+    return this.createSVGElement('foreignObject', optionsOrChild, ...children)
+  },
 
-  g() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  g(optionsOrChild, ...children) {
+    return this.createSVGElement('g', optionsOrChild, ...children)
+  },
 
-  image() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  image(optionsOrChild, ...children) {
+    return this.createSVGElement('image', optionsOrChild, ...children)
+  },
 
-  line() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  line(optionsOrChild, ...children) {
+    return this.createSVGElement('line', optionsOrChild, ...children)
+  },
 
-  linearGradient() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  linearGradient(optionsOrChild, ...children) {
+    return this.createSVGElement('linearGradient', optionsOrChild, ...children)
+  },
 
-  marker() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  marker(optionsOrChild, ...children) {
+    return this.createSVGElement('marker', optionsOrChild, ...children)
+  },
 
-  mask() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mask(optionsOrChild, ...children) {
+    return this.createSVGElement('mask', optionsOrChild, ...children)
+  },
 
-  metadata() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  metadata(optionsOrChild, ...children) {
+    return this.createSVGElement('metadata', optionsOrChild, ...children)
+  },
 
-  mpath() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mpath(optionsOrChild, ...children) {
+    return this.createSVGElement('mpath', optionsOrChild, ...children)
+  },
 
-  path() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  path(optionsOrChild, ...children) {
+    return this.createSVGElement('path', optionsOrChild, ...children)
+  },
 
-  pattern() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  pattern(optionsOrChild, ...children) {
+    return this.createSVGElement('pattern', optionsOrChild, ...children)
+  },
 
-  polygon() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  polygon(optionsOrChild, ...children) {
+    return this.createSVGElement('polygon', optionsOrChild, ...children)
+  },
 
-  polyline() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  polyline(optionsOrChild, ...children) {
+    return this.createSVGElement('polyline', optionsOrChild, ...children)
+  },
 
-  radialGradient() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  radialGradient(optionsOrChild, ...children) {
+    return this.createSVGElement('radialGradient', optionsOrChild, ...children)
+  },
 
-  rect() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  rect(optionsOrChild, ...children) {
+    return this.createSVGElement('rect', optionsOrChild, ...children)
+  },
 
-  script() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  script(optionsOrChild, ...children) {
+    return this.createSVGElement('script', optionsOrChild, ...children)
+  },
 
-  set() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  set(optionsOrChild, ...children) {
+    return this.createSVGElement('set', optionsOrChild, ...children)
+  },
 
-  stop() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  stop(optionsOrChild, ...children) {
+    return this.createSVGElement('stop', optionsOrChild, ...children)
+  },
 
-  style() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  style(optionsOrChild, ...children) {
+    return this.createSVGElement('style', optionsOrChild, ...children)
+  },
 
-  switch() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  switch(optionsOrChild, ...children) {
+    return this.createSVGElement('switch', optionsOrChild, ...children)
+  },
 
-  symbol() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  symbol(optionsOrChild, ...children) {
+    return this.createSVGElement('symbol', optionsOrChild, ...children)
+  },
 
-  text() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  text(optionsOrChild, ...children) {
+    return this.createSVGElement('text', optionsOrChild, ...children)
+  },
 
-  textPath() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  textPath(optionsOrChild, ...children) {
+    return this.createSVGElement('textPath', optionsOrChild, ...children)
+  },
 
-  title() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  title(optionsOrChild, ...children) {
+    return this.createSVGElement('title', optionsOrChild, ...children)
+  },
 
-  tspan() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  tspan(optionsOrChild, ...children) {
+    return this.createSVGElement('tspan', optionsOrChild, ...children)
+  },
 
-  use() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  use(optionsOrChild, ...children) {
+    return this.createSVGElement('use', optionsOrChild, ...children)
+  },
 
-  view() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  view(optionsOrChild, ...children) {
+    return this.createSVGElement('view', optionsOrChild, ...children)
+  },
 
 })
 
