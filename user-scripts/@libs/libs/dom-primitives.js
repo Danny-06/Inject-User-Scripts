@@ -130,6 +130,25 @@ export function createElement(tagName, options, ...children) {
     element.addEventListener(eventName, listener, options ?? undefined)
   }
 
+  if (DOMPrimitives.entities.isShadowRoot(children[0])) {
+   /**
+    * @type {ShadowRootOptions}
+    */
+   //@ts-ignore
+    const options = children[0][DOMPrimitives.entities.SHADOW_ROOT]
+
+    const shadowRoot = element.attachShadow({mode: options.mode ?? 'open'})
+
+    if (options.adoptedStyleSheets) {
+      if (Array.isArray(options.adoptedStyleSheets)) {
+        shadowRoot.adoptedStyleSheets = [...options.adoptedStyleSheets]
+      }
+      else {
+        shadowRoot.adoptedStyleSheets = [options.adoptedStyleSheets]
+      }
+    }
+  }
+
   for (const child of children) {
     if (child == null) {
       continue
@@ -181,6 +200,12 @@ function isOptions(options) {
  * @typedef {Omit<CreateElementOptions, 'namespaceURI'>} CreateElementPrimitiveOptions
  */
 
+/**
+ * @typedef ShadowRootOptions
+ * @property {'open' | 'closed' | null} [mode="open"]
+ * @property {ArrayOrSingle<CSSStyleSheet>?} [adoptedStyleSheets]
+ */
+
 
 /**
  * {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element}
@@ -188,6 +213,21 @@ function isOptions(options) {
 export const DOMPrimitives = Object.freeze({
 
   namespaceURI: HTMLNamespaceURI,
+
+  entities: {
+
+    SHADOW_ROOT: Symbol('shadow-root'),
+
+    /**
+     * 
+     * @param {Child} shadowRoot 
+     * @returns {ShadowRoot is DocumentFragment & {[key: (typeof DOMPrimitives)['entities']['SHADOW_ROOT']]: ShadowRootOptions}}
+     */
+    isShadowRoot(shadowRoot) {
+      return shadowRoot != null && shadowRoot instanceof DocumentFragment && Object.hasOwn(shadowRoot, DOMPrimitives.entities.SHADOW_ROOT)
+    },
+
+  },
 
   /**
    * 
@@ -208,8 +248,22 @@ export const DOMPrimitives = Object.freeze({
     return fragment
   },
 
-  ShadowRoot() {
+  /**
+   * 
+   * @param {XOR<ShadowRootOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   * @returns {DocumentFragment & {[(typeof DOMPrimitives)['entitites'][SHADOW_ROOT]]: ShadowRootOptions}}
+   */
+  ShadowRoot(optionsOrChild, ...children) {
+    const fragment = this.Fragment(...children)
 
+    fragment[this.entities.SHADOW_ROOT] = {mode: 'open'}
+
+    if (isOptions(optionsOrChild)) {
+      fragment[this.entities.SHADOW_ROOT] = {...fragment[this.entities.SHADOW_ROOT], optionsOrChild}
+    }
+
+    return fragment
   },
 
   /**
@@ -1233,7 +1287,6 @@ export const DOMPrimitives = Object.freeze({
   },
 
 })
-
 
 
 /**
