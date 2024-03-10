@@ -40,6 +40,8 @@ export {
   EventEmitter, Matrix2D, PromiseProxy, getAsyncFuncFromGeneratorFunc, runTaskInFrame
 }
 
+export * as DOMPrimitivesModule from './libs/dom-primitives.js'
+
 export const waitForSelector = DOMUtils.waitForSelector
 
 
