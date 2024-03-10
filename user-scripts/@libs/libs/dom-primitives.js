@@ -269,7 +269,8 @@ export const DOMPrimitives = Object.freeze({
     fragment[DOMPrimitives.entities.SHADOW_ROOT] = {mode: 'open'}
 
     if (isOptions(optionsOrChild)) {
-      fragment[DOMPrimitives.entities.SHADOW_ROOT] = {...fragment[DOMPrimitives.entities.SHADOW_ROOT], optionsOrChild}
+      //@ts-ignore
+      fragment[DOMPrimitives.entities.SHADOW_ROOT] = {...fragment[DOMPrimitives.entities.SHADOW_ROOT], ...optionsOrChild}
     }
 
     return fragment
