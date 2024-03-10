@@ -207,6 +207,7 @@ function VolumeContainer(options) {
       case 'Space': {
         gainNode.gain.value = 1
 
+        // Prevent playing/pausing the video when reseting the gain value
         video.valueOf().addEventListener(video.paused ? 'play': 'pause', event => event.preventDefault(), {once: true})
       }
       break
