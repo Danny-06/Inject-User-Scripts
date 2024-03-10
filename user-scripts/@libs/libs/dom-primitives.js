@@ -1858,73 +1858,276 @@ export const MathMLPrimitives = Object.freeze({
 
   // TOKEN ELEMENTS
 
-  mi() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mi(optionsOrChild, ...children) {
+    return this.createMathMLElement('mi', optionsOrChild, ...children)
+  },
 
-  mn() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mn(optionsOrChild, ...children) {
+    return this.createMathMLElement('mn', optionsOrChild, ...children)
+  },
 
-  mo() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mo(optionsOrChild, ...children) {
+    return this.createMathMLElement('mo', optionsOrChild, ...children)
+  },
 
-  ms() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  ms(optionsOrChild, ...children) {
+    return this.createMathMLElement('ms', optionsOrChild, ...children)
+  },
 
-  mspace() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mspace(optionsOrChild, ...children) {
+    return this.createMathMLElement('mspace', optionsOrChild, ...children)
+  },
 
-  mtext() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mtext(optionsOrChild, ...children) {
+    return this.createMathMLElement('mtext', optionsOrChild, ...children)
+  },
 
   // GENERAL LAYOUT
 
-  merror() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  merror(optionsOrChild, ...children) {
+    return this.createMathMLElement('merror', optionsOrChild, ...children)
+  },
 
-  mfrac() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mfrac(optionsOrChild, ...children) {
+    return this.createMathMLElement('mfrac', optionsOrChild, ...children)
+  },
 
-  mpadded() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mpadded(optionsOrChild, ...children) {
+    return this.createMathMLElement('mpadded', optionsOrChild, ...children)
+  },
 
-  mphantom() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mphantom(optionsOrChild, ...children) {
+    return this.createMathMLElement('mphantom', optionsOrChild, ...children)
+  },
 
-  mroot() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mroot(optionsOrChild, ...children) {
+    return this.createMathMLElement('mroot', optionsOrChild, ...children)
+  },
 
-  mrow() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mrow(optionsOrChild, ...children) {
+    return this.createMathMLElement('mrow', optionsOrChild, ...children)
+  },
 
-  msqrt() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  msqrt(optionsOrChild, ...children) {
+    return this.createMathMLElement('msqrt', optionsOrChild, ...children)
+  },
 
-  mstyle() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mstyle(optionsOrChild, ...children) {
+    return this.createMathMLElement('mstyle', optionsOrChild, ...children)
+  },
 
   // SCRIPT AND LIMIT ELEMENTS
 
-  mmultiscripts() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mmultiscripts(optionsOrChild, ...children) {
+    return this.createMathMLElement('mmultiscripts', optionsOrChild, ...children)
+  },
 
-  mover() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mover(optionsOrChild, ...children) {
+    return this.createMathMLElement('mover', optionsOrChild, ...children)
+  },
 
-  mprescripts() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mprescripts(optionsOrChild, ...children) {
+    return this.createMathMLElement('mprescripts', optionsOrChild, ...children)
+  },
 
-  msub() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  msub(optionsOrChild, ...children) {
+    return this.createMathMLElement('msub', optionsOrChild, ...children)
+  },
 
-  msubsup() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  msubsup(optionsOrChild, ...children) {
+    return this.createMathMLElement('msubsup', optionsOrChild, ...children)
+  },
 
-  msup() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  msup(optionsOrChild, ...children) {
+    return this.createMathMLElement('msup', optionsOrChild, ...children)
+  },
 
-  munder() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  munder(optionsOrChild, ...children) {
+    return this.createMathMLElement('munder', optionsOrChild, ...children)
+  },
 
-  munderover() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  munderover(optionsOrChild, ...children) {
+    return this.createMathMLElement('munderover', optionsOrChild, ...children)
+  },
 
   // TABULAR MATH
 
-  mtable() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mtable(optionsOrChild, ...children) {
+    return this.createMathMLElement('mtable', optionsOrChild, ...children)
+  },
 
-  mtd() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mtr(optionsOrChild, ...children) {
+    return this.createMathMLElement('mtr', optionsOrChild, ...children)
+  },
 
-  mtr() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  mtd(optionsOrChild, ...children) {
+    return this.createMathMLElement('mtd', optionsOrChild, ...children)
+  },
 
   // UNCATEGORIZED ELEMENTS
 
-  maction() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  maction(optionsOrChild, ...children) {
+    return this.createMathMLElement('maction', optionsOrChild, ...children)
+  },
 
   // SEMANTIC ANNOTATIONS
 
-  annotation() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  annotation(optionsOrChild, ...children) {
+    return this.createMathMLElement('annotation', optionsOrChild, ...children)
+  },
 
-  annotation_xml() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  annotation_xml(optionsOrChild, ...children) {
+    return this.createMathMLElement('annotation_xml', optionsOrChild, ...children)
+  },
 
-  semantics() {},
+  /**
+   * 
+   * @param {XOR<CreateElementPrimitiveOptions, Child>} [optionsOrChild] 
+   * @param  {...Child} children 
+   */
+  semantics(optionsOrChild, ...children) {
+    return this.createMathMLElement('semantics', optionsOrChild, ...children)
+  },
 
 })
 
