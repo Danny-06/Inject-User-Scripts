@@ -120,111 +120,116 @@ function VolumeContainer(options) {
 
   const { div, ShadowRoot } = DOMPrimitives
 
-  const componentRender = (
-    div({attr: {class: 'volume-container-wrapper'}},
-      ShadowRoot({adoptedStyleSheets: stylesheet},
-        div({attr: {class: 'volume-container'}},
-          div({attr: {class: 'volume-count'}}, 0),
-          div({attr: {class: 'gain-count'}}, 1),
-        )
-      )
-    )
-  )
+  /**
+   * 
+   * @param {HTMLElement} componentRoot 
+   */
+  function componentEffect(componentRoot) {
+    const volumeContainer = componentRoot.shadowRoot.querySelector('.volume-container')
+    const volumeCount = componentRoot.shadowRoot.querySelector('.volume-count')
+    const volumeGainCount = componentRoot.shadowRoot.querySelector('.gain-count')
 
-  const volumeContainer = componentRender.shadowRoot.querySelector('.volume-container')
-  const volumeCount = componentRender.shadowRoot.querySelector('.volume-count')
-  const volumeGainCount = componentRender.shadowRoot.querySelector('.gain-count')
+    let volumeValue = 0.5
+    let volumeValuePercent = () => Math.floor(volumeValue * 100)
+    let volumeGain = () => gainNode.gain.value
+    let isVolumeChanging = false
 
-  let volumeValue = 0.5
-  let volumeValuePercent
-  let volumeGain
-  let isVolumeChanging = false
+    let volumeCountTimeOut
 
-  let volumeCountTimeOut
+    function updateUI() {
+      clearTimeout(volumeCountTimeOut)
 
-  function updateUI() {
-    clearTimeout(volumeCountTimeOut)
+      if (isVolumeChanging) {
+        volumeContainer.classList.add('full-opacity')
+      }
 
-    if (isVolumeChanging) {
-      volumeContainer.classList.add('full-opacity')
+      volumeCountTimeOut = setTimeout(() => volumeContainer.classList.remove('full-opacity'), 500)
+
+      volumeCount.innerText = volumeValuePercent()
+      volumeGainCount.innerText = volumeGain()
     }
 
-    volumeCountTimeOut = setTimeout(() => volumeContainer.classList.remove('full-opacity'), 500)
+    // Wait for the element to be conected on the document
+    setTimeout(() => {
+      addEventListener(componentRoot.parentElement, 'wheel', event => {
+        event.preventDefault()
 
-    volumeCount.innerText = volumeValuePercent
-    volumeGainCount.innerText = volumeGain
-  }
+        if (event.isTrusted) {
+          isVolumeChanging = true
+        }
 
-  // Wait for the element to be conected on the document
-  setTimeout(() => {
-    addEventListener(componentRender.parentElement, 'wheel', event => {
-      event.preventDefault()
+        if (event.deltaY < 0) {
+          if ((video.volume + videoVolumeStep) > 1) volumeValue = 1
+          else                                      volumeValue = (video.volume + videoVolumeStep).toFixed(2)
+        }
+        else
+        if (event.deltaY > 0) {
+          if ((video.volume - videoVolumeStep) < 0) volumeValue = 0
+          else                                      volumeValue = (video.volume - videoVolumeStep).toFixed(2)
+        }
 
-      if (event.isTrusted) {
-        isVolumeChanging = true
+        volumeSetter.call(video.valueOf(), volumeValue)
+
+        updateUI()
+
+        isVolumeChanging = false
+      }, {runImmediately: true})
+    })
+
+    window.addEventListener('keydown', event => {
+      if (!event.ctrlKey || event.repeat) {
+        return
       }
 
-      if (event.deltaY < 0) {
-        if ((video.volume + videoVolumeStep) > 1) volumeValue = 1
-        else                                      volumeValue = (video.volume + videoVolumeStep).toFixed(2)
-      }
-      else
-      if (event.deltaY > 0) {
-        if ((video.volume - videoVolumeStep) < 0) volumeValue = 0
-        else                                      volumeValue = (video.volume - videoVolumeStep).toFixed(2)
-      }
+      isVolumeChanging = true
 
-      volumeSetter.call(video.valueOf(), volumeValue)
+      switch (event.code) {
+        case 'ArrowUp': {
+          gainNode.gain.value++
+        }
+        break
 
-      volumeValuePercent = Math.floor(volumeValue * 100)
+        case 'ArrowDown': {
+          gainNode.gain.value--
+        }
+        break
+
+        case 'Space': {
+          gainNode.gain.value = 1
+
+          // Prevent playing/pausing the video when reseting the gain value
+          video.valueOf()
+          .addEventListener(
+            video.paused ? 'play': 'pause',
+            event => {
+              event.target.pause()
+            },
+            {once: true}
+          )
+        }
+        break
+
+        default: {
+          isVolumeChanging = false
+        }
+      }
 
       updateUI()
 
       isVolumeChanging = false
-    }, {runImmediately: true})
-  })
+    })
+  }
 
-  volumeGain = gainNode.gain.value
-
-  window.addEventListener('keydown', event => {
-    if (!event.ctrlKey || event.repeat) {
-      return
-    }
-
-    isVolumeChanging = true
-
-    switch (event.code) {
-      case 'ArrowUp': {
-        gainNode.gain.value++
-      }
-      break
-
-      case 'ArrowDown': {
-        gainNode.gain.value--
-      }
-      break
-
-      case 'Space': {
-        gainNode.gain.value = 1
-
-        // Prevent playing/pausing the video when reseting the gain value
-        video.valueOf().addEventListener(video.paused ? 'play': 'pause', event => event.preventDefault(), {once: true})
-      }
-      break
-
-      default: {
-        isVolumeChanging = false
-      }
-    }
-
-    volumeGain = gainNode.gain.value
-
-    updateUI()
-
-    isVolumeChanging = false
-  })
-
-  return componentRender
+  return (
+    div({run: componentEffect, attr: {class: 'volume-container-wrapper'}},
+      ShadowRoot({adoptedStyleSheets: stylesheet},
+        div({attr: {class: 'volume-container'}},
+          div({attr: {class: 'volume-count'}}, 0),
+          div({attr: {class: 'gain-count'}}, 1),
+        ),
+      ),
+    )
+  )
 }
 
 
