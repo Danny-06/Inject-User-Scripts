@@ -52,7 +52,7 @@
 
 /**
  * @template T
- * @typedef {CreateElementOptions & {data?: ComponentData<T>?}} CreateElementComponentOptions
+ * @typedef {CreateElementOptions<T> & {data?: ComponentData<T>?}} CreateElementComponentOptions
  */
 
 /**
@@ -70,8 +70,10 @@ const MathMLNamespaceURI = 'http://www.w3.org/1998/Math/MathML'
  */
 
 /**
+ * @template T
  * @typedef CreateElementOptions
  * @property {NamespaceURI} [namespaceURI]
+ * @property {RunCallback<T>?} [run]
  * @property {ElementAttributes?} [attr]
  * @property {ElementProperties?} [prop]
  * @property {ElementListeners?} [on]
@@ -93,6 +95,11 @@ const MathMLNamespaceURI = 'http://www.w3.org/1998/Math/MathML'
  * @typedef {{[key: string]: GenericEventListener | [GenericEventListener, AddEventListenerOptions | null | undefined]}} ElementListeners
  */
 
+/**
+ * @template T
+ * @typedef {(element: T) => void} RunCallback
+ */
+
 
 /**
  * @typedef {null | Primitive | CharacterData | HTMLElement | DocumentFragment} Child
@@ -102,17 +109,21 @@ const MathMLNamespaceURI = 'http://www.w3.org/1998/Math/MathML'
 /**
  * Create element.
  * @template {TagName} T
- * @template {CreateElementOptions} O
+ * @template {O['namespaceURI'] extends typeof HTMLNamespaceURI ? (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLUnknownElement) : O['namespaceURI'] extends typeof SVGNamespaceURI ? (T extends keyof SVGElementTagNameMap ? SVGElementTagNameMap[T] : SVGElement) : O['namespaceURI'] extends typeof MathMLNamespaceURI ? (T extends keyof MathMLElementTagNameMap ? MathMLElementTagNameMap[T] : MathMLElement) :  O['namespaceURI'] extends string ? Element : (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLUnknownElement)} Return
+ * @template {CreateElementOptions<Return>} O
  * @param {T} tagName 
  * @param {O?} [options] 
  * @param {...Child} children 
- * @returns {O['namespaceURI'] extends typeof HTMLNamespaceURI ? (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLUnknownElement) : O['namespaceURI'] extends typeof SVGNamespaceURI ? (T extends keyof SVGElementTagNameMap ? SVGElementTagNameMap[T] : SVGElement) : O['namespaceURI'] extends typeof MathMLNamespaceURI ? (T extends keyof MathMLElementTagNameMap ? MathMLElementTagNameMap[T] : MathMLElement) :  O['namespaceURI'] extends string ? Element : (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLUnknownElement)}
+ * @returns {Return}
  */
 export function createElement(tagName, options, ...children) {
-  const { attr, prop, on } = options ?? {}
+  const { run, attr, prop, on } = options ?? {}
 
   const namespaceURI = options?.namespaceURI ?? 'http://www.w3.org/1999/xhtml'
 
+  /**
+   * @type {Element}
+   */
   //@ts-ignore
   const element = document.createElementNS(namespaceURI, tagName)
 
@@ -164,17 +175,21 @@ export function createElement(tagName, options, ...children) {
   }
 
   //@ts-ignore
+  run?.(element)
+
+  //@ts-ignore
   return element
 }
 
 
 /**
  * @template {TagName} T
- * @template {CreateElementOptions} O
+ * @template {O['namespaceURI'] extends typeof HTMLNamespaceURI ? (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLUnknownElement) : O['namespaceURI'] extends typeof SVGNamespaceURI ? (T extends keyof SVGElementTagNameMap ? SVGElementTagNameMap[T] : SVGElement) : O['namespaceURI'] extends typeof MathMLNamespaceURI ? (T extends keyof MathMLElementTagNameMap ? MathMLElementTagNameMap[T] : MathMLElement) :  O['namespaceURI'] extends string ? Element : (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLUnknownElement)} Return
+ * @template {CreateElementOptions<Return>} O
  * @param  {T} tagName 
  * @param {XOR<O, Child>?} [optionsOrChild] 
  * @param  {...Child} children 
- * @returns {O['namespaceURI'] extends typeof HTMLNamespaceURI ? (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLUnknownElement) : O['namespaceURI'] extends typeof SVGNamespaceURI ? (T extends keyof SVGElementTagNameMap ? SVGElementTagNameMap[T] : SVGElement) : O['namespaceURI'] extends typeof MathMLNamespaceURI ? (T extends keyof MathMLElementTagNameMap ? MathMLElementTagNameMap[T] : MathMLElement) :  O['namespaceURI'] extends string ? Element : (T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLUnknownElement)}
+ * @returns {Return}
  */
 export function createElementPrimitive(tagName, optionsOrChild, ...children) {
   if (isOptions(optionsOrChild)) {
@@ -187,7 +202,7 @@ export function createElementPrimitive(tagName, optionsOrChild, ...children) {
 }
 
 /**
- * @param {XOR<CreateElementOptions, unknown> | null | undefined} options 
+ * @param {XOR<CreateElementOptions<Node>, unknown> | null | undefined} options 
  */
 function isOptions(options) {
   if (options == null) {
@@ -202,7 +217,7 @@ function isOptions(options) {
 }
 
 /**
- * @typedef {Omit<CreateElementOptions, 'namespaceURI'>} CreateElementPrimitiveOptions
+ * @typedef {Omit<CreateElementOptions<Node>, 'namespaceURI'>} CreateElementPrimitiveOptions
  */
 
 /**
@@ -1308,10 +1323,11 @@ export const SVGPrimitives = Object.freeze({
 
   /**
    * @template {UnionOrType<keyof SVGElementTagNameMap, string>} T
+   * @template {T extends keyof SVGElementTagNameMap ? SVGElementTagNameMap[T] : SVGElement} Return
    * @param {T} tagName
-   * @param {XOR<CreateElementOptions, Child>?} [optionsOrChild] 
+   * @param {XOR<CreateElementOptions<Return>, Child>?} [optionsOrChild] 
    * @param  {...Child} children 
-   * @returns {T extends keyof SVGElementTagNameMap ? SVGElementTagNameMap[T] : SVGElement}
+   * @returns {Return}
    */
   createSVGElement(tagName, optionsOrChild, ...children) {
     if (isOptions(optionsOrChild)) {
@@ -1893,10 +1909,11 @@ export const MathMLPrimitives = Object.freeze({
 
   /**
    * @template {UnionOrType<keyof MathMLElementTagNameMap, string>} T
+   * @template {T extends keyof MathMLElementTagNameMap ? MathMLElementTagNameMap[T] : MathMLElement} Return
    * @param {T} tagName
-   * @param {XOR<CreateElementOptions, Child>?} [optionsOrChild] 
+   * @param {XOR<CreateElementOptions<Return>, Child>?} [optionsOrChild] 
    * @param  {...Child} children 
-   * @returns {T extends keyof MathMLElementTagNameMap ? MathMLElementTagNameMap[T] : MathMLElement}
+   * @returns {Return}
    */
   createMathMLElement(tagName, optionsOrChild, ...children) {
     if (isOptions(optionsOrChild)) {
