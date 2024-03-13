@@ -1,3 +1,16 @@
+void function() {
+  // Always remove text selection when the user clicks on any part of the document
+  // This is to avoid those annoying times when you want to remove the selection when clicking not selectable elements
+  window.addEventListener('mousedown', event => {
+      if (event.button === 0) window.getSelection().empty()
+  }, {capture: true})
+
+  window.addEventListener('touchstart', event => {
+      window.getSelection().empty()
+  }, {capture: true})
+}()
+
+
 const tab = await getCurrentTab()
 
 const domain = tab.url ? new URL(tab.url).hostname : `Can't access this page`
