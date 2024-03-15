@@ -495,9 +495,16 @@ export const DOMPrimitives = Object.freeze({
   /**
    * 
    * @param {string?} [title] 
+   * @param {Element?} [rootElement] 
    */
-  HTMLDocument(title) {
-    return document.implementation.createHTMLDocument(title ?? undefined)
+  HTMLDocument(title, rootElement) {
+    const doc = document.implementation.createHTMLDocument(title ?? undefined)
+
+    if (rootElement) {
+      doc.append(rootElement)
+    }
+
+    return doc
   },
 
   /**
