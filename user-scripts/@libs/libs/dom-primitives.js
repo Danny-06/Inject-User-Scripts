@@ -80,11 +80,11 @@ const MathMLNamespaceURI = 'http://www.w3.org/1998/Math/MathML'
  */
 
 /**
- * @typedef {{[key: string]: unknown}} ElementProperties
+ * @typedef {{[key: string]: XOR<unknown, Signal<unknown>>}} ElementProperties
  */
 
 /**
- * @typedef {{[key: string]: null | Primitive}} ElementAttributes
+ * @typedef {{[key: string]: null | Primitive | Signal<Primitive>}} ElementAttributes
  */
 
 /**
@@ -102,7 +102,12 @@ const MathMLNamespaceURI = 'http://www.w3.org/1998/Math/MathML'
 
 
 /**
- * @typedef {null | Primitive | CharacterData | HTMLElement | DocumentFragment} Child
+ * @typedef {null | Primitive | CharacterData | HTMLElement | DocumentFragment} ChildValues
+ */
+
+
+/**
+ * @typedef {ChildValues | Signal<ChildValues>} Child
  */
 
 
@@ -128,11 +133,21 @@ export function createElement(tagName, options, ...children) {
   const element = document.createElementNS(namespaceURI, tagName)
 
   for (const [name, value] of Object.entries(attr ?? {})) {
-    element.setAttribute(name, String(value))
+    if (typeof value !== 'function') {
+      element.setAttribute(name, String(value))
+    }
+    else {
+      value.addListener(() => element.setAttribute(name, String(value())))
+    }
   }
 
   for (const [property, value] of Object.entries(prop ?? {})) {
-    element[property] = value
+    if (typeof value !== 'function') {
+      element[property] = value
+    }
+    else {
+      value.addListener(() => element[property] = value())
+    }
   }
 
   for (const [eventName, listenerOrTuple] of Object.entries(on ?? {})) {
@@ -170,8 +185,22 @@ export function createElement(tagName, options, ...children) {
       continue
     }
 
-    //@ts-ignore
-    element.append(child)
+    if (typeof child !== 'function') {
+      //@ts-ignore
+      element.append(child)
+    }
+    else {
+      let slot = DOMPrimitives.valueToNode(child() ?? document.createComment(''))
+      //@ts-ignore
+      element.append(slot)
+
+      child.addListener(() => {
+        const newChild = DOMPrimitives.valueToNode(child() ?? document.createComment(''))
+        // @ts-ignore
+        slot.replaceWith(newChild)
+        slot = newChild
+      })
+    }
   }
 
   //@ts-ignore
@@ -228,6 +257,117 @@ function isOptions(options) {
 
 
 /**
+ * @template T
+ * @typedef {((value?: T) => T) & SignalConstructor} Signal
+ */
+
+
+/**
+ * 
+ * @param {Signal<unknown>} signal 
+ * @returns 
+ */
+// @ts-ignore
+function SignalConstructor(signal) {
+  Object.setPrototypeOf(signal, SignalConstructor.prototype)
+
+  signal[SignalConstructor.symbols.LISTENERS] = new Set()
+
+  return signal
+}
+
+SignalConstructor.symbols = {
+  LISTENERS: Symbol('listeners-slot')
+}
+
+SignalConstructor.prototype = {
+
+  constructor: SignalConstructor,
+
+  /**
+   * 
+   * @param {() => void} listener 
+   */
+  addListener(listener) {
+    const listeners = this[SignalConstructor.symbols.LISTENERS]
+    listeners.add(listener)
+  },
+
+  emit() {
+    const listeners = this[SignalConstructor.symbols.LISTENERS]
+
+    try {
+      for (const listener of listeners) {
+        listener()
+      }
+    } catch (reason) {
+      console.error(reason)
+    }
+  },
+
+  /**
+   * @template T
+   * @param {() => T} derivedCallback 
+   * @returns {Signal<T>}
+   */
+  createDerivedSignal(derivedCallback) {
+    //@ts-ignore
+    return createDerivedSignal(this, derivedCallback)
+  }
+
+}
+
+/**
+ * 
+ * @template T
+ * @param {T} initialValue 
+ * @returns {Signal<T>}
+ */
+export function createSignal(initialValue) {
+  let value = initialValue
+ 
+  /**
+   * @type {Signal<T>}
+   */
+  //@ts-ignore
+  const signal = SignalConstructor((...args) => {
+    if (args.length === 0) {
+      return value
+    }
+
+    //@ts-ignore
+    value = args[0]
+
+    signal.emit()
+
+    return value
+  })
+
+  return signal
+}
+
+/**
+   * @template T
+   * @param {ArrayOrSingle<Signal<T>>} singalOrSignals 
+   * @param {() => T} derivedCallback 
+   * @returns {Signal<T>}
+   */
+export function createDerivedSignal(singalOrSignals, derivedCallback) {
+  const signals = Array.isArray(singalOrSignals) ? singalOrSignals : [singalOrSignals]
+  
+  //@ts-ignore
+  const derivedSignal = SignalConstructor(derivedCallback)
+
+  for (const signal of signals) {
+    signal.addListener(() => derivedSignal.emit())
+  }
+
+  //@ts-ignore
+  return derivedSignal
+}
+
+
+/**
  * {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element}
  */
 export const DOMPrimitives = Object.freeze({
@@ -269,6 +409,17 @@ export const DOMPrimitives = Object.freeze({
   },
 
   /**
+   * 
+   * @param {unknown} value 
+   */
+  valueToNode(value) {
+    //@ts-ignore
+    const fragment = DOMPrimitives.Fragment(value)
+
+    return fragment.firstChild
+  },
+
+  /**
    * It must be the 1st child of an element,  
    * otherwise it is treated as a normal {@link DocumentFragment}.
    * @param {XOR<ShadowRootOptions, Child>} [optionsOrChild] 
@@ -289,6 +440,84 @@ export const DOMPrimitives = Object.freeze({
     }
 
     return fragment
+  },
+
+  /**
+   * 
+   * @param {boolean | Signal<boolean>} condition 
+   * @param {() => Omit<Child, null | undefined>} ifCallback 
+   * @param {(() => Omit<Child, null | undefined>)?} [elseCallback] 
+   */
+  If(condition, ifCallback, elseCallback) {
+    if (typeof condition === 'function') {
+      let currentConditionValue = condition()
+      let slot = currentConditionValue ? ifCallback() : (elseCallback?.() ?? document.createComment('placeholder'))
+      if (!(slot instanceof Node)) {
+        //@ts-ignore
+        slot = DOMPrimitives.valueToNode(slot)
+      }
+
+      condition.addListener(() => {
+        if (currentConditionValue === condition()) {
+          return
+        }
+
+        currentConditionValue = condition()
+
+        let newChild = currentConditionValue ? ifCallback() : (elseCallback?.() ?? document.createComment('placeholder'))
+        if (!(newChild instanceof Node)) {
+          //@ts-ignore
+          newChild = DOMPrimitives.valueToNode(newChild)
+        }
+
+        //@ts-ignore
+        slot.replaceWith(newChild)
+
+        slot = newChild
+      })
+
+      return slot
+    }
+
+    return condition ? ifCallback() : elseCallback?.()
+  },
+
+  /**
+   * 
+   * @param {Primitive | null} value 
+   * @returns {Comment}
+   */
+  Comment(value) {
+    //@ts-ignore
+    return document.createComment(value ?? '')
+  },
+
+  /**
+   * 
+   * @param {string?} [title] 
+   */
+  HTMLDocument(title) {
+    return document.implementation.createHTMLDocument(title ?? undefined)
+  },
+
+  /**
+   * 
+   * @param {string?} [namespace] 
+   * @param {string?} [qualifiedName] 
+   * @param {DocumentType?} [doctype] 
+   */
+  Document(namespace, qualifiedName, doctype) {
+    return document.implementation.createDocument(namespace ?? '', qualifiedName ?? '', doctype)
+  },
+
+  /**
+   * 
+   * @param {string} qualifiedName 
+   * @param {string?} [publicId] 
+   * @param {string?} [systemId] 
+   */
+  Doctype(qualifiedName, publicId, systemId) {
+    return document.implementation.createDocumentType(qualifiedName, publicId ?? '', systemId ?? '')
   },
 
   /**

@@ -1,6 +1,6 @@
 import { waitForSelector } from '../../../../@libs/libs/dom-utils.js'
 import { addEventListener } from '../../../../@libs/libs/event-utils.js'
-import { DOMPrimitives } from '../../../../@libs/libs/dom-primitives.js'
+import { DOMPrimitives, createSignal } from '../../../../@libs/libs/dom-primitives.js'
 
 const volumeSetter = Object.getOwnPropertyDescriptors(HTMLMediaElement.prototype).volume.set
 
@@ -42,14 +42,14 @@ function VolumeContainer(options) {
   // If AudioContext is already attached to the video element
   // an error will be thrown
   try {
-    source = audioCtx.createMediaElementSource(video.valueOf());
+    source = audioCtx.createMediaElementSource(video.valueOf())
   } catch {
     return null
   }
 
-  const gainNode = audioCtx.createGain();
+  const gainNode = audioCtx.createGain()
 
-  source.connect(gainNode).connect(audioCtx.destination);
+  source.connect(gainNode).connect(audioCtx.destination)
 
   const css = // css
   `
@@ -118,7 +118,10 @@ function VolumeContainer(options) {
   const stylesheet = new CSSStyleSheet()
   stylesheet.replace(css)
 
-  const { div, ShadowRoot } = DOMPrimitives
+  const volumeValue = createSignal(0.5)
+  const volumeValuePercent = volumeValue.createDerivedSignal(() => Math.floor(volumeValue() * 100))
+  const volumeGain = createSignal(gainNode.gain.value)
+  const isVolumeChanging = createSignal(false)
 
   /**
    * 
@@ -126,27 +129,17 @@ function VolumeContainer(options) {
    */
   function componentEffect(componentRoot) {
     const volumeContainer = componentRoot.shadowRoot.querySelector('.volume-container')
-    const volumeCount = componentRoot.shadowRoot.querySelector('.volume-count')
-    const volumeGainCount = componentRoot.shadowRoot.querySelector('.gain-count')
-
-    let volumeValue = 0.5
-    let volumeValuePercent = () => Math.floor(volumeValue * 100)
-    let volumeGain = () => gainNode.gain.value
-    let isVolumeChanging = false
 
     let volumeCountTimeOut
 
     function updateUI() {
       clearTimeout(volumeCountTimeOut)
 
-      if (isVolumeChanging) {
+      if (isVolumeChanging()) {
         volumeContainer.classList.add('full-opacity')
       }
 
       volumeCountTimeOut = setTimeout(() => volumeContainer.classList.remove('full-opacity'), 500)
-
-      volumeCount.innerText = volumeValuePercent()
-      volumeGainCount.innerText = volumeGain()
     }
 
     // Wait for the element to be conected on the document
@@ -155,24 +148,24 @@ function VolumeContainer(options) {
         event.preventDefault()
 
         if (event.isTrusted) {
-          isVolumeChanging = true
+          isVolumeChanging(true)
         }
 
         if (event.deltaY < 0) {
-          if ((video.volume + videoVolumeStep) > 1) volumeValue = 1
-          else                                      volumeValue = (video.volume + videoVolumeStep).toFixed(2)
+          if ((video.volume + videoVolumeStep) > 1) volumeValue(1)
+          else                                      volumeValue((video.volume + videoVolumeStep).toFixed(2))
         }
         else
         if (event.deltaY > 0) {
-          if ((video.volume - videoVolumeStep) < 0) volumeValue = 0
-          else                                      volumeValue = (video.volume - videoVolumeStep).toFixed(2)
+          if ((video.volume - videoVolumeStep) < 0) volumeValue(0)
+          else                                      volumeValue((video.volume - videoVolumeStep).toFixed(2))
         }
 
-        volumeSetter.call(video.valueOf(), volumeValue)
+        volumeSetter.call(video.valueOf(), volumeValue())
 
         updateUI()
 
-        isVolumeChanging = false
+        isVolumeChanging(false)
       }, {runImmediately: true})
     })
 
@@ -181,7 +174,7 @@ function VolumeContainer(options) {
         return
       }
 
-      isVolumeChanging = true
+      isVolumeChanging(true)
 
       switch (event.code) {
         case 'ArrowUp': {
@@ -202,7 +195,12 @@ function VolumeContainer(options) {
           .addEventListener(
             video.paused ? 'play': 'pause',
             event => {
-              event.target.pause()
+              if (video.paused) {
+                video.play()
+              }
+              else {
+                video.pause()
+              }
             },
             {once: true}
           )
@@ -210,23 +208,37 @@ function VolumeContainer(options) {
         break
 
         default: {
-          isVolumeChanging = false
+          isVolumeChanging(false)
         }
       }
 
+      volumeGain(gainNode.gain.value)
+
       updateUI()
 
-      isVolumeChanging = false
-    })
+      isVolumeChanging(false)
+    }, {capture: true})
   }
+
+  const { div, ShadowRoot } = DOMPrimitives
 
   return (
     div({run: componentEffect, attr: {class: 'volume-container-wrapper'}},
       ShadowRoot({adoptedStyleSheets: stylesheet},
         div({attr: {class: 'volume-container'}},
-          div({attr: {class: 'volume-count'}}, 0),
-          div({attr: {class: 'gain-count'}}, 1),
+          div({attr: {class: 'volume-count'}}, volumeValuePercent),
+          div({attr: {class: 'gain-count'}}, volumeGain),
         ),
+        // Switch(matchingExpression,
+        //   [
+        //     value1, () => div(),
+        //     value2, () => span(),
+        //   ],
+        //   () => defaultTag()
+        // ),
+        // For(items, (item, index, array) => div(item.value)),
+        // Repeat(length, (index) => div()),
+        // Range({initialValue: 0, step: 1, until: 10}, () => div()),
       ),
     )
   )
