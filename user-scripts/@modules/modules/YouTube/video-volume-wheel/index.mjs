@@ -239,6 +239,10 @@ function VolumeContainer(options) {
         // For(items, (item, index, array) => div(item.value)),
         // Repeat(length, (index) => div()),
         // Range({initialValue: 0, step: 1, until: 10}, () => div()),
+        // Catch(
+        //   () => Component(),
+        //   () => OptionalFallback(),
+        // ),
       ),
     )
   )
