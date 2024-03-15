@@ -501,13 +501,18 @@ export const DOMPrimitives = Object.freeze({
   },
 
   /**
-   * 
-   * @param {string?} [namespace] 
-   * @param {string?} [qualifiedName] 
-   * @param {DocumentType?} [doctype] 
+   * @param {{namespace?: string?, qualifiedName?: string?, doctype?: DocumentType?}} options
+   * @param {Element?} [rootElement] 
    */
-  Document(namespace, qualifiedName, doctype) {
-    return document.implementation.createDocument(namespace ?? '', qualifiedName ?? '', doctype)
+  Document(options, rootElement) {
+    const { namespace, qualifiedName, doctype } = options
+    const doc = document.implementation.createDocument(namespace ?? '', qualifiedName ?? '', doctype)
+
+    if (rootElement) {
+      doc.append(rootElement)
+    }
+
+    return doc
   },
 
   /**
