@@ -247,7 +247,7 @@ function VolumeContainer(options) {
 
 
 window.addEventListener('youtube-navigate', async event => {
-  if (!location.pathname.startsWith('/watch') && !location.pathname.startsWith('/embed')) {
+  if (location.pathname !== '/watch' && location.pathname !== '/embed') {
     return
   }
 
