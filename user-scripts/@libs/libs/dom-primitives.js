@@ -493,30 +493,52 @@ export const DOMPrimitives = Object.freeze({
   },
 
   /**
-   * 
-   * @param {string?} [title] 
+   * @param {string | Element | null} [titleOrRootElement] 
    * @param {Element?} [rootElement] 
    */
-  HTMLDocument(title, rootElement) {
-    const doc = document.implementation.createHTMLDocument(title ?? undefined)
+  HTMLDocument(titleOrRootElement, rootElement) {
+    let doc
+    let root
 
-    if (rootElement) {
-      doc.append(rootElement)
+    if (titleOrRootElement instanceof Element) {
+      doc = document.implementation.createHTMLDocument()
+      root = titleOrRootElement
+    }
+    else {
+      doc = document.implementation.createHTMLDocument(titleOrRootElement ?? undefined)
+      root = rootElement
+    }
+
+
+    doc.firstElementChild?.remove()
+
+    if (root) {
+      doc.append(root)
     }
 
     return doc
   },
 
   /**
-   * @param {{namespace?: string?, qualifiedName?: string?, doctype?: DocumentType?}} options
+   * @param {{namespace?: string?, qualifiedName?: string?, doctype?: DocumentType?} | Element | null} optionsOrRootElement
    * @param {Element?} [rootElement] 
    */
-  Document(options, rootElement) {
-    const { namespace, qualifiedName, doctype } = options
-    const doc = document.implementation.createDocument(namespace ?? '', qualifiedName ?? '', doctype)
+  Document(optionsOrRootElement, rootElement) {
+    let doc
+    let root
 
-    if (rootElement) {
-      doc.append(rootElement)
+    if (optionsOrRootElement instanceof Element) {
+      doc = document.implementation.createDocument('', '', null)
+      root = optionsOrRootElement
+    }
+    else {
+      const { namespace, qualifiedName, doctype } = optionsOrRootElement ?? {}
+      doc = document.implementation.createDocument(namespace ?? '', qualifiedName ?? '', doctype)
+      root = rootElement
+    }
+
+    if (root) {
+      doc.append(root)
     }
 
     return doc
