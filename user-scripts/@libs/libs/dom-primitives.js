@@ -493,22 +493,22 @@ export const DOMPrimitives = Object.freeze({
   },
 
   /**
-   * @param {string | Element | null} [titleOrRootElement] 
+   * @param {{title?: string?} | Element | null} [optionsOrRootElement] 
    * @param {Element?} [rootElement] 
    */
-  HTMLDocument(titleOrRootElement, rootElement) {
+  HTMLDocument(optionsOrRootElement, rootElement) {
     let doc
     let root
 
-    if (titleOrRootElement instanceof Element) {
+    if (optionsOrRootElement instanceof Element) {
       doc = document.implementation.createHTMLDocument()
-      root = titleOrRootElement
+      root = optionsOrRootElement
     }
     else {
-      doc = document.implementation.createHTMLDocument(titleOrRootElement ?? undefined)
+      const { title } = optionsOrRootElement ?? {}
+      doc = document.implementation.createHTMLDocument(title ?? undefined)
       root = rootElement
     }
-
 
     doc.firstElementChild?.remove()
 
@@ -518,6 +518,8 @@ export const DOMPrimitives = Object.freeze({
 
     return doc
   },
+
+  // TODO: allow documents to have a `run` function just like elements have and maybe doctype too
 
   /**
    * @param {{namespace?: string?, qualifiedName?: string?, doctype?: DocumentType?} | Element | null} optionsOrRootElement
@@ -545,13 +547,13 @@ export const DOMPrimitives = Object.freeze({
   },
 
   /**
-   * 
-   * @param {string} qualifiedName 
-   * @param {string?} [publicId] 
-   * @param {string?} [systemId] 
+   * @param {{qualifiedName?: string?, publicId?: string?, systemId?: string}?} [options]
    */
-  Doctype(qualifiedName, publicId, systemId) {
-    return document.implementation.createDocumentType(qualifiedName, publicId ?? '', systemId ?? '')
+  Doctype(options) {
+    const { qualifiedName, publicId, systemId } = options ?? {}
+    const doctype = document.implementation.createDocumentType(qualifiedName ?? 'not-defined', publicId ?? '', systemId ?? '')
+
+    return doctype
   },
 
   /**
