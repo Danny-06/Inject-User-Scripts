@@ -522,7 +522,7 @@ export const DOMPrimitives = Object.freeze({
   // TODO: allow documents to have a `run` function just like elements have and maybe doctype too
 
   /**
-   * @param {{namespace?: string?, qualifiedName?: string?, doctype?: DocumentType?} | Element | null} optionsOrRootElement
+   * @param {{namespace?: string?, qualifiedName?: string?, doctype?: DocumentType?} | Element | null} [optionsOrRootElement]
    * @param {Element?} [rootElement] 
    */
   Document(optionsOrRootElement, rootElement) {
