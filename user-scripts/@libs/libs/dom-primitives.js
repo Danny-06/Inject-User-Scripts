@@ -504,6 +504,7 @@ export const DOMPrimitives = Object.freeze(new class {
    * @param {((caseValue: undefined) => Child)?} [defaultPredicate] 
    */
   Switch(matchingExpression, cases, defaultPredicate) {
+    // TODO: Maybe add support for `Signal` of matchingExpression
     const casesMap = new Map(cases)
 
     const casePredicate = casesMap.get(matchingExpression)
@@ -529,14 +530,14 @@ export const DOMPrimitives = Object.freeze(new class {
     }
   }
 
-
   /**
    * 
-   * @param {Iterable<unknown>} iterable 
-   * @param {(item: unknown) => Child} predicate 
+   * @template T
+   * @param {Iterable<T>} iterable 
+   * @param {(item: T) => Child} predicate 
    */
   For(iterable, predicate) {
-    // TODO: Maybe add support for `Signal<Iterable<unknown>>`
+    // TODO: Maybe add support for `Signal<Iterable<T>>`
     const fragment = DOMPrimitives.Fragment()
 
     for (const item of iterable) {

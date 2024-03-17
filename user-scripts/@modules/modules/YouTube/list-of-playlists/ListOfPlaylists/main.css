@@ -1,0 +1,36 @@
+:host {
+  all: initial;
+  display: block;
+
+  color: #fff;
+  font-family: Arial;
+}
+
+:host, * {
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: inherit;
+}
+
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  z-index: 9999;
+
+  display: flex;
+
+  background-color: #0008;
+}
+
+.list-of-playlist {
+  margin: auto;
+
+  width: 500px;
+  height: 500px;
+
+  background-color: #06f;
+}

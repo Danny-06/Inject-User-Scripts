@@ -56,13 +56,13 @@ injectCode(modulePath, {
   ]
 })
 
-// injectCode(modulePath, {
-//   subModule: 'list-of-playlists',
+injectCode(modulePath, {
+  subModule: 'list-of-playlists',
 
-//   scripts: [
-//     'index.mjs'
-//   ]
-// })
+  scripts: [
+    'main.mjs'
+  ]
+})
 
 injectCode(modulePath, {
   subModule: 'skip-ads',
