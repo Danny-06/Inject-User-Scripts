@@ -74,6 +74,7 @@ const MathMLNamespaceURI = 'http://www.w3.org/1998/Math/MathML'
  * @typedef CreateElementOptions
  * @property {NamespaceURI} [namespaceURI]
  * @property {RunCallback<T>?} [run]
+ * @property {boolean?} [dispatchTreeCompleted]
  * @property {ElementAttributes?} [attr]
  * @property {ElementProperties?} [prop]
  * @property {ElementListeners?} [on]
@@ -110,6 +111,11 @@ const MathMLNamespaceURI = 'http://www.w3.org/1998/Math/MathML'
  * @typedef {ChildValues | Signal<ChildValues>} Child
  */
 
+/**
+* @type {Set<(node: Node) => void>}
+*/
+const treeCompletedCallbacks = new Set()
+
 
 /**
  * Create element.
@@ -122,7 +128,7 @@ const MathMLNamespaceURI = 'http://www.w3.org/1998/Math/MathML'
  * @returns {Return}
  */
 export function createElement(tagName, options, ...children) {
-  const { run, attr, prop, on } = options ?? {}
+  const { run, dispatchTreeCompleted, attr, prop, on } = options ?? {}
 
   const namespaceURI = options?.namespaceURI ?? 'http://www.w3.org/1999/xhtml'
 
@@ -171,12 +177,9 @@ export function createElement(tagName, options, ...children) {
     children.shift()
 
     if (options.adoptedStyleSheets) {
-      if (Array.isArray(options.adoptedStyleSheets)) {
-        shadowRoot.adoptedStyleSheets = [...options.adoptedStyleSheets]
-      }
-      else {
-        shadowRoot.adoptedStyleSheets = [options.adoptedStyleSheets]
-      }
+      shadowRoot.adoptedStyleSheets = Array.isArray(options.adoptedStyleSheets)
+      ? [...options.adoptedStyleSheets]
+      : [options.adoptedStyleSheets]
     }
   }
 
@@ -205,6 +208,10 @@ export function createElement(tagName, options, ...children) {
 
   //@ts-ignore
   run?.(element)
+
+  if (dispatchTreeCompleted) {
+    
+  }
 
   //@ts-ignore
   return element
@@ -370,13 +377,13 @@ export function createDerivedSignal(singalOrSignals, derivedCallback) {
 /**
  * {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element}
  */
-export const DOMPrimitives = Object.freeze({
+export const DOMPrimitives = Object.freeze(new class {
 
-  namespaceURI: HTMLNamespaceURI,
+  namespaceURI = HTMLNamespaceURI
 
-  entities: {
+  entities = new class {
 
-    SHADOW_ROOT: Symbol('shadow-root'),
+    SHADOW_ROOT = Symbol('shadow-root')
 
     /**
      * 
@@ -385,9 +392,17 @@ export const DOMPrimitives = Object.freeze({
      */
     isShadowRoot(shadowRoot) {
       return shadowRoot != null && shadowRoot instanceof DocumentFragment && Object.hasOwn(shadowRoot, DOMPrimitives.entities.SHADOW_ROOT)
-    },
+    }
 
-  },
+  }
+
+  /**
+   * 
+   * @param {(node: Node) => void} callback 
+   */
+  onTreeCompleted(callback) {
+    treeCompletedCallbacks.add(callback)
+  }
 
   /**
    * 
@@ -406,7 +421,7 @@ export const DOMPrimitives = Object.freeze({
     }
 
     return fragment
-  },
+  }
 
   /**
    * 
@@ -417,7 +432,7 @@ export const DOMPrimitives = Object.freeze({
     const fragment = DOMPrimitives.Fragment(value)
 
     return fragment.firstChild
-  },
+  }
 
   /**
    * It must be the 1st child of an element,  
@@ -440,13 +455,13 @@ export const DOMPrimitives = Object.freeze({
     }
 
     return fragment
-  },
+  }
 
   /**
    * 
    * @param {boolean | Signal<boolean>} condition 
-   * @param {() => Omit<Child, null | undefined>} ifCallback 
-   * @param {(() => Omit<Child, null | undefined>)?} [elseCallback] 
+   * @param {() => Exclude<Child, null | undefined>} ifCallback 
+   * @param {(() => Exclude<Child, null | undefined>)?} [elseCallback] 
    */
   If(condition, ifCallback, elseCallback) {
     if (typeof condition === 'function') {
@@ -480,7 +495,96 @@ export const DOMPrimitives = Object.freeze({
     }
 
     return condition ? ifCallback() : elseCallback?.()
-  },
+  }
+
+  /**
+   * 
+   * @param {unknown} matchingExpression 
+   * @param {Array<[unknown, (caseValue: unknown) => Child]>} cases 
+   * @param {((caseValue: undefined) => Child)?} [defaultPredicate] 
+   */
+  Switch(matchingExpression, cases, defaultPredicate) {
+    const casesMap = new Map(cases)
+
+    const casePredicate = casesMap.get(matchingExpression)
+
+    if (casePredicate) {
+      return casePredicate(matchingExpression)
+    }
+    else {
+      return defaultPredicate?.(undefined)
+    }
+  }
+
+  /**
+   * 
+   * @param {() => Child} tryCallback 
+   * @param {((reason: unknown) => Child)?} [catchCallback] 
+   */
+  Catch(tryCallback, catchCallback) {
+    try {
+      return tryCallback()
+    } catch (reason) {
+      return catchCallback?.(reason)
+    }
+  }
+
+
+  /**
+   * 
+   * @param {Iterable<unknown>} iterable 
+   * @param {(item: unknown) => Child} predicate 
+   */
+  For(iterable, predicate) {
+    // TODO: Maybe add support for `Signal<Iterable<unknown>>`
+    const fragment = DOMPrimitives.Fragment()
+
+    for (const item of iterable) {
+      const child = predicate(item)
+
+      if (child == null) {
+        continue
+      }
+
+      //@ts-ignore
+      fragment.append(child)
+    }
+
+    return fragment
+  }
+
+  /**
+   * 
+   * @param {number} length 
+   * @param {() => Child} predicate 
+   */
+  Repeat(length, predicate) {
+    if (length < 0) {
+      throw new TypeError(`length must be a positive number`)
+    }
+
+    return DOMPrimitives.For(Array.from({length}), predicate)
+  }
+
+  /**
+   * 
+   * @param {{from: number, step: number, to: number}} options 
+   * @param {(index: number, from: number, step: number, to: number) => Child} predicate 
+   */
+  Range(options, predicate) {
+    const fragment = DOMPrimitives.Fragment()
+
+    const { from, step, to } = options
+
+    for (let index = from; index <= to; index += step) {
+      const child = predicate(index, from, step, to)
+
+      //@ts-ignore
+      fragment.append(child)
+    }
+
+    return fragment
+  }
 
   /**
    * 
@@ -490,24 +594,30 @@ export const DOMPrimitives = Object.freeze({
   Comment(value) {
     //@ts-ignore
     return document.createComment(value ?? '')
-  },
+  }
 
   /**
-   * @param {{title?: string?} | Element | null} [optionsOrRootElement] 
+   * @param {{run?: ((document: HTMLDocument) => void)?, dispatchTreeCompleted?: boolean?, title?: string?, adoptedStyleSheets?: ArrayOrSingle<CSSStyleSheet>?} | Element | null} [optionsOrRootElement] 
    * @param {Element?} [rootElement] 
    */
   HTMLDocument(optionsOrRootElement, rootElement) {
     let doc
     let root
 
+    const options = !(optionsOrRootElement instanceof Element) ? optionsOrRootElement : null 
+
     if (optionsOrRootElement instanceof Element) {
       doc = document.implementation.createHTMLDocument()
       root = optionsOrRootElement
     }
     else {
-      const { title } = optionsOrRootElement ?? {}
+      const { title, adoptedStyleSheets } = options ?? {}
       doc = document.implementation.createHTMLDocument(title ?? undefined)
       root = rootElement
+
+      if (adoptedStyleSheets) {
+        doc.adoptedStyleSheets = Array.isArray(adoptedStyleSheets) ? [...adoptedStyleSheets] : [adoptedStyleSheets]
+      }
     }
 
     doc.firstElementChild?.remove()
@@ -516,16 +626,29 @@ export const DOMPrimitives = Object.freeze({
       doc.append(root)
     }
 
+    if (options?.run) {
+      options.run(doc)
+    }
+
+    if (options?.dispatchTreeCompleted) {
+      for (const treeCompletedCallback of treeCompletedCallbacks) {
+        treeCompletedCallback(doc)
+      }
+
+      treeCompletedCallbacks.clear()
+    }
+
     return doc
-  },
+  }
 
   // TODO: allow documents to have a `run` function just like elements have and maybe doctype too
+  // TODO: Maybe add `Portal()`?
 
   /**
-   * @param {{namespace?: string?, qualifiedName?: string?, doctype?: DocumentType?} | Element | null} [optionsOrRootElement]
+   * @param {{run?: ((docuemnt: XMLDocument) => void)?, namespace?: string?, qualifiedName?: string?, doctype?: DocumentType?} | Element | null} [optionsOrRootElement]
    * @param {Element?} [rootElement] 
    */
-  Document(optionsOrRootElement, rootElement) {
+  XMLDocument(optionsOrRootElement, rootElement) {
     let doc
     let root
 
@@ -543,8 +666,12 @@ export const DOMPrimitives = Object.freeze({
       doc.append(root)
     }
 
+    if (optionsOrRootElement != null && !(optionsOrRootElement instanceof Element) && optionsOrRootElement.run) {
+      optionsOrRootElement.run(doc)
+    }
+
     return doc
-  },
+  }
 
   /**
    * @param {{qualifiedName?: string?, publicId?: string?, systemId?: string}?} [options]
@@ -554,7 +681,7 @@ export const DOMPrimitives = Object.freeze({
     const doctype = document.implementation.createDocumentType(qualifiedName ?? 'not-defined', publicId ?? '', systemId ?? '')
 
     return doctype
-  },
+  }
 
   /**
    * 
@@ -563,7 +690,7 @@ export const DOMPrimitives = Object.freeze({
    */
   html(optionsOrChild, ...children) {
     return createElementPrimitive('html', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -572,7 +699,7 @@ export const DOMPrimitives = Object.freeze({
    */
   head(optionsOrChild, ...children) {
     return createElementPrimitive('head', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -581,7 +708,7 @@ export const DOMPrimitives = Object.freeze({
    */
   body(optionsOrChild, ...children) {
     return createElementPrimitive('body', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -590,7 +717,7 @@ export const DOMPrimitives = Object.freeze({
    */
   meta(optionsOrChild, ...children) {
     return createElementPrimitive('meta', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -599,7 +726,7 @@ export const DOMPrimitives = Object.freeze({
    */
   title(optionsOrChild, ...children) {
     return createElementPrimitive('title', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -608,7 +735,7 @@ export const DOMPrimitives = Object.freeze({
    */
   style(optionsOrChild, ...children) {
     return createElementPrimitive('style', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -617,7 +744,7 @@ export const DOMPrimitives = Object.freeze({
    */
   link(optionsOrChild, ...children) {
     return createElementPrimitive('link', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -626,7 +753,7 @@ export const DOMPrimitives = Object.freeze({
    */
   script(optionsOrChild, ...children) {
     return createElementPrimitive('script', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -635,7 +762,7 @@ export const DOMPrimitives = Object.freeze({
    */
   noscript(optionsOrChild, ...children) {
     return createElementPrimitive('noscript', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -644,7 +771,7 @@ export const DOMPrimitives = Object.freeze({
    */
   base(optionsOrChild, ...children) {
     return createElementPrimitive('base', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -653,7 +780,7 @@ export const DOMPrimitives = Object.freeze({
    */
   div(optionsOrChild, ...children) {
     return createElementPrimitive('div', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -662,7 +789,7 @@ export const DOMPrimitives = Object.freeze({
    */
   span(optionsOrChild, ...children) {
     return createElementPrimitive('span', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -671,7 +798,7 @@ export const DOMPrimitives = Object.freeze({
    */
   p(optionsOrChild, ...children) {
     return createElementPrimitive('p', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -680,7 +807,7 @@ export const DOMPrimitives = Object.freeze({
    */
   h1(optionsOrChild, ...children) {
     return createElementPrimitive('h1', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -689,7 +816,7 @@ export const DOMPrimitives = Object.freeze({
    */
   h2(optionsOrChild, ...children) {
     return createElementPrimitive('h2', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -698,7 +825,7 @@ export const DOMPrimitives = Object.freeze({
    */
   h3(optionsOrChild, ...children) {
     return createElementPrimitive('h3', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -707,7 +834,7 @@ export const DOMPrimitives = Object.freeze({
    */
   h4(optionsOrChild, ...children) {
     return createElementPrimitive('h4', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -716,7 +843,7 @@ export const DOMPrimitives = Object.freeze({
    */
   h5(optionsOrChild, ...children) {
     return createElementPrimitive('h5', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -725,7 +852,7 @@ export const DOMPrimitives = Object.freeze({
    */
   h6(optionsOrChild, ...children) {
     return createElementPrimitive('h6', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -734,7 +861,7 @@ export const DOMPrimitives = Object.freeze({
    */
   a(optionsOrChild, ...children) {
     return createElementPrimitive('a', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -743,7 +870,7 @@ export const DOMPrimitives = Object.freeze({
    */
   pre(optionsOrChild, ...children) {
     return createElementPrimitive('pre', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -752,7 +879,7 @@ export const DOMPrimitives = Object.freeze({
    */
   code(optionsOrChild, ...children) {
     return createElementPrimitive('code', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -761,7 +888,7 @@ export const DOMPrimitives = Object.freeze({
    */
   var(optionsOrChild, ...children) {
     return createElementPrimitive('var', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -770,7 +897,7 @@ export const DOMPrimitives = Object.freeze({
    */
   hr(optionsOrChild, ...children) {
     return createElementPrimitive('hr', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -779,7 +906,7 @@ export const DOMPrimitives = Object.freeze({
    */
   br(optionsOrChild, ...children) {
     return createElementPrimitive('br', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -788,7 +915,7 @@ export const DOMPrimitives = Object.freeze({
    */
   wbr(optionsOrChild, ...children) {
     return createElementPrimitive('wbr', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -797,7 +924,7 @@ export const DOMPrimitives = Object.freeze({
    */
   strong(optionsOrChild, ...children) {
     return createElementPrimitive('strong', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -806,7 +933,7 @@ export const DOMPrimitives = Object.freeze({
    */
   em(optionsOrChild, ...children) {
     return createElementPrimitive('em', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -815,7 +942,7 @@ export const DOMPrimitives = Object.freeze({
    */
   b(optionsOrChild, ...children) {
     return createElementPrimitive('b', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -824,7 +951,7 @@ export const DOMPrimitives = Object.freeze({
    */
   i(optionsOrChild, ...children) {
     return createElementPrimitive('i', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -833,7 +960,7 @@ export const DOMPrimitives = Object.freeze({
    */
   del(optionsOrChild, ...children) {
     return createElementPrimitive('del', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -842,7 +969,7 @@ export const DOMPrimitives = Object.freeze({
    */
   ins(optionsOrChild, ...children) {
     return createElementPrimitive('ins', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -851,7 +978,7 @@ export const DOMPrimitives = Object.freeze({
    */
   s(optionsOrChild, ...children) {
     return createElementPrimitive('s', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -860,7 +987,7 @@ export const DOMPrimitives = Object.freeze({
    */
   u(optionsOrChild, ...children) {
     return createElementPrimitive('u', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -869,7 +996,7 @@ export const DOMPrimitives = Object.freeze({
    */
   q(optionsOrChild, ...children) {
     return createElementPrimitive('q', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -878,7 +1005,7 @@ export const DOMPrimitives = Object.freeze({
    */
   blockquote(optionsOrChild, ...children) {
     return createElementPrimitive('blockquote', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -887,7 +1014,7 @@ export const DOMPrimitives = Object.freeze({
    */
   cite(optionsOrChild, ...children) {
     return createElementPrimitive('cite', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -896,7 +1023,7 @@ export const DOMPrimitives = Object.freeze({
    */
   abbr(optionsOrChild, ...children) {
     return createElementPrimitive('abbr', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -905,7 +1032,7 @@ export const DOMPrimitives = Object.freeze({
    */
   time(optionsOrChild, ...children) {
     return createElementPrimitive('time', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -914,7 +1041,7 @@ export const DOMPrimitives = Object.freeze({
    */
   data(optionsOrChild, ...children) {
     return createElementPrimitive('data', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -923,7 +1050,7 @@ export const DOMPrimitives = Object.freeze({
    */
   kbd(optionsOrChild, ...children) {
     return createElementPrimitive('kbd', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -932,7 +1059,7 @@ export const DOMPrimitives = Object.freeze({
    */
   mark(optionsOrChild, ...children) {
     return createElementPrimitive('mark', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -941,7 +1068,7 @@ export const DOMPrimitives = Object.freeze({
    */
   dfn(optionsOrChild, ...children) {
     return createElementPrimitive('dfn', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -950,7 +1077,7 @@ export const DOMPrimitives = Object.freeze({
    */
   dl(optionsOrChild, ...children) {
     return createElementPrimitive('dl', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -959,7 +1086,7 @@ export const DOMPrimitives = Object.freeze({
    */
   dt(optionsOrChild, ...children) {
     return createElementPrimitive('dt', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -968,7 +1095,7 @@ export const DOMPrimitives = Object.freeze({
    */
   dd(optionsOrChild, ...children) {
     return createElementPrimitive('dd', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -977,7 +1104,7 @@ export const DOMPrimitives = Object.freeze({
    */
   samp(optionsOrChild, ...children) {
     return createElementPrimitive('samp', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -986,7 +1113,7 @@ export const DOMPrimitives = Object.freeze({
    */
   small(optionsOrChild, ...children) {
     return createElementPrimitive('small', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -995,7 +1122,7 @@ export const DOMPrimitives = Object.freeze({
    */
   sub(optionsOrChild, ...children) {
     return createElementPrimitive('sub', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1004,7 +1131,7 @@ export const DOMPrimitives = Object.freeze({
    */
   sup(optionsOrChild, ...children) {
     return createElementPrimitive('sup', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1013,7 +1140,7 @@ export const DOMPrimitives = Object.freeze({
    */
   bdi(optionsOrChild, ...children) {
     return createElementPrimitive('bdi', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1022,7 +1149,7 @@ export const DOMPrimitives = Object.freeze({
    */
   bdo(optionsOrChild, ...children) {
     return createElementPrimitive('bdo', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1031,7 +1158,7 @@ export const DOMPrimitives = Object.freeze({
    */
   address(optionsOrChild, ...children) {
     return createElementPrimitive('address', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1040,7 +1167,7 @@ export const DOMPrimitives = Object.freeze({
    */
   article(optionsOrChild, ...children) {
     return createElementPrimitive('article', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1049,7 +1176,7 @@ export const DOMPrimitives = Object.freeze({
    */
   header(optionsOrChild, ...children) {
     return createElementPrimitive('header', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1058,7 +1185,7 @@ export const DOMPrimitives = Object.freeze({
    */
   nav(optionsOrChild, ...children) {
     return createElementPrimitive('nav', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1067,7 +1194,7 @@ export const DOMPrimitives = Object.freeze({
    */
   main(optionsOrChild, ...children) {
     return createElementPrimitive('main', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1076,7 +1203,7 @@ export const DOMPrimitives = Object.freeze({
    */
   section(optionsOrChild, ...children) {
     return createElementPrimitive('section', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1085,7 +1212,7 @@ export const DOMPrimitives = Object.freeze({
    */
   aside(optionsOrChild, ...children) {
     return createElementPrimitive('aside', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1094,7 +1221,7 @@ export const DOMPrimitives = Object.freeze({
    */
   footer(optionsOrChild, ...children) {
     return createElementPrimitive('footer', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1103,7 +1230,7 @@ export const DOMPrimitives = Object.freeze({
    */
   hgroup(optionsOrChild, ...children) {
     return createElementPrimitive('hgroup', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1112,7 +1239,7 @@ export const DOMPrimitives = Object.freeze({
    */
   search(optionsOrChild, ...children) {
     return createElementPrimitive('search', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1121,7 +1248,7 @@ export const DOMPrimitives = Object.freeze({
    */
   img(optionsOrChild, ...children) {
     return createElementPrimitive('img', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1130,7 +1257,7 @@ export const DOMPrimitives = Object.freeze({
    */
   picture(optionsOrChild, ...children) {
     return createElementPrimitive('picture', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1139,7 +1266,7 @@ export const DOMPrimitives = Object.freeze({
    */
   map(optionsOrChild, ...children) {
     return createElementPrimitive('map', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1148,7 +1275,7 @@ export const DOMPrimitives = Object.freeze({
    */
   area(optionsOrChild, ...children) {
     return createElementPrimitive('area', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1157,7 +1284,7 @@ export const DOMPrimitives = Object.freeze({
    */
   video(optionsOrChild, ...children) {
     return createElementPrimitive('video', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1166,7 +1293,7 @@ export const DOMPrimitives = Object.freeze({
    */
   audio(optionsOrChild, ...children) {
     return createElementPrimitive('audio', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1175,7 +1302,7 @@ export const DOMPrimitives = Object.freeze({
    */
   track(optionsOrChild, ...children) {
     return createElementPrimitive('track', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1184,7 +1311,7 @@ export const DOMPrimitives = Object.freeze({
    */
   source(optionsOrChild, ...children) {
     return createElementPrimitive('source', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1193,7 +1320,7 @@ export const DOMPrimitives = Object.freeze({
    */
   canvas(optionsOrChild, ...children) {
     return createElementPrimitive('canvas', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1202,7 +1329,7 @@ export const DOMPrimitives = Object.freeze({
    */
   iframe(optionsOrChild, ...children) {
     return createElementPrimitive('iframe', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1211,7 +1338,7 @@ export const DOMPrimitives = Object.freeze({
    */
   embed(optionsOrChild, ...children) {
     return createElementPrimitive('embed', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1220,7 +1347,7 @@ export const DOMPrimitives = Object.freeze({
    */
   object(optionsOrChild, ...children) {
     return createElementPrimitive('object', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1229,7 +1356,7 @@ export const DOMPrimitives = Object.freeze({
    */
   portal(optionsOrChild, ...children) {
     return createElementPrimitive('portal', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1238,7 +1365,7 @@ export const DOMPrimitives = Object.freeze({
    */
   figure(optionsOrChild, ...children) {
     return createElementPrimitive('figure', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1247,7 +1374,7 @@ export const DOMPrimitives = Object.freeze({
    */
   figcaption(optionsOrChild, ...children) {
     return createElementPrimitive('figcaption', optionsOrChild, ...children)
-  },
+  }
 
   // LIST
 
@@ -1258,7 +1385,7 @@ export const DOMPrimitives = Object.freeze({
    */
   ul(optionsOrChild, ...children) {
     return createElementPrimitive('ul', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1267,7 +1394,7 @@ export const DOMPrimitives = Object.freeze({
    */
   ol(optionsOrChild, ...children) {
     return createElementPrimitive('ol', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1276,7 +1403,7 @@ export const DOMPrimitives = Object.freeze({
    */
   menu(optionsOrChild, ...children) {
     return createElementPrimitive('menu', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1285,7 +1412,7 @@ export const DOMPrimitives = Object.freeze({
    */
   li(optionsOrChild, ...children) {
     return createElementPrimitive('li', optionsOrChild, ...children)
-  },
+  }
 
   // TABLE
 
@@ -1296,7 +1423,7 @@ export const DOMPrimitives = Object.freeze({
    */
   table(optionsOrChild, ...children) {
     return createElementPrimitive('table', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1305,7 +1432,7 @@ export const DOMPrimitives = Object.freeze({
    */
   caption(optionsOrChild, ...children) {
     return createElementPrimitive('caption', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1314,7 +1441,7 @@ export const DOMPrimitives = Object.freeze({
    */
   col(optionsOrChild, ...children) {
     return createElementPrimitive('col', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1323,7 +1450,7 @@ export const DOMPrimitives = Object.freeze({
    */
   colgroup(optionsOrChild, ...children) {
     return createElementPrimitive('colgroup', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1332,7 +1459,7 @@ export const DOMPrimitives = Object.freeze({
    */
   thead(optionsOrChild, ...children) {
     return createElementPrimitive('thead', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1341,7 +1468,7 @@ export const DOMPrimitives = Object.freeze({
    */
   tbody(optionsOrChild, ...children) {
     return createElementPrimitive('tbody', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1350,7 +1477,7 @@ export const DOMPrimitives = Object.freeze({
    */
   tfoot(optionsOrChild, ...children) {
     return createElementPrimitive('tfoot', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1359,7 +1486,7 @@ export const DOMPrimitives = Object.freeze({
    */
   tr(optionsOrChild, ...children) {
     return createElementPrimitive('tr', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1368,7 +1495,7 @@ export const DOMPrimitives = Object.freeze({
    */
   th(optionsOrChild, ...children) {
     return createElementPrimitive('th', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1377,7 +1504,7 @@ export const DOMPrimitives = Object.freeze({
    */
   td(optionsOrChild, ...children) {
     return createElementPrimitive('td', optionsOrChild, ...children)
-  },
+  }
 
   // FORM
 
@@ -1388,7 +1515,7 @@ export const DOMPrimitives = Object.freeze({
    */
   form(optionsOrChild, ...children) {
     return createElementPrimitive('form', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1397,7 +1524,7 @@ export const DOMPrimitives = Object.freeze({
    */
   button(optionsOrChild, ...children) {
     return createElementPrimitive('button', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1406,7 +1533,7 @@ export const DOMPrimitives = Object.freeze({
    */
   input(optionsOrChild, ...children) {
     return createElementPrimitive('input', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1415,7 +1542,7 @@ export const DOMPrimitives = Object.freeze({
    */
   textarea(optionsOrChild, ...children) {
     return createElementPrimitive('textarea', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1424,7 +1551,7 @@ export const DOMPrimitives = Object.freeze({
    */
   label(optionsOrChild, ...children) {
     return createElementPrimitive('label', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1433,7 +1560,7 @@ export const DOMPrimitives = Object.freeze({
    */
   select(optionsOrChild, ...children) {
     return createElementPrimitive('select', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1442,7 +1569,7 @@ export const DOMPrimitives = Object.freeze({
    */
   option(optionsOrChild, ...children) {
     return createElementPrimitive('option', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1451,7 +1578,7 @@ export const DOMPrimitives = Object.freeze({
    */
   optgroup(optionsOrChild, ...children) {
     return createElementPrimitive('optgroup', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1460,7 +1587,7 @@ export const DOMPrimitives = Object.freeze({
    */
   output(optionsOrChild, ...children) {
     return createElementPrimitive('output', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1469,7 +1596,7 @@ export const DOMPrimitives = Object.freeze({
    */
   fieldset(optionsOrChild, ...children) {
     return createElementPrimitive('fieldset', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1478,7 +1605,7 @@ export const DOMPrimitives = Object.freeze({
    */
   legend(optionsOrChild, ...children) {
     return createElementPrimitive('legend', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1487,7 +1614,7 @@ export const DOMPrimitives = Object.freeze({
    */
   progress(optionsOrChild, ...children) {
     return createElementPrimitive('progress', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1496,7 +1623,7 @@ export const DOMPrimitives = Object.freeze({
    */
   meter(optionsOrChild, ...children) {
     return createElementPrimitive('meter', optionsOrChild, ...children)
-  },
+  }
 
   // WEB COMPONENTS
 
@@ -1507,7 +1634,7 @@ export const DOMPrimitives = Object.freeze({
    */
   slot(optionsOrChild, ...children) {
     return createElementPrimitive('slot', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1516,7 +1643,7 @@ export const DOMPrimitives = Object.freeze({
    */
   template(optionsOrChild, ...children) {
     return createElementPrimitive('template', optionsOrChild, ...children)
-  },
+  }
 
   // INTERACTIVE ELEMENTS
 
@@ -1527,7 +1654,7 @@ export const DOMPrimitives = Object.freeze({
    */
   details(optionsOrChild, ...children) {
     return createElementPrimitive('details', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1536,7 +1663,7 @@ export const DOMPrimitives = Object.freeze({
    */
   summary(optionsOrChild, ...children) {
     return createElementPrimitive('summary', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1545,7 +1672,7 @@ export const DOMPrimitives = Object.freeze({
    */
   dialog(optionsOrChild, ...children) {
     return createElementPrimitive('dialog', optionsOrChild, ...children)
-  },
+  }
 
   // RUBY
 
@@ -1556,7 +1683,7 @@ export const DOMPrimitives = Object.freeze({
    */
   ruby(optionsOrChild, ...children) {
     return createElementPrimitive('ruby', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1565,7 +1692,7 @@ export const DOMPrimitives = Object.freeze({
    */
   rp(optionsOrChild, ...children) {
     return createElementPrimitive('rp', optionsOrChild, ...children)
-  },
+  }
 
   /**
    * 
@@ -1574,7 +1701,7 @@ export const DOMPrimitives = Object.freeze({
    */
   rt(optionsOrChild, ...children) {
     return createElementPrimitive('rt', optionsOrChild, ...children)
-  },
+  }
 
 })
 
