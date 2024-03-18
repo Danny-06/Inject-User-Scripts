@@ -22,14 +22,14 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
     }
 
     const tabId = sender.tab.id
-    const url   = sender.tab.url
+    const frameURL = sender.url
 
-    if (tabId == null || !url) {
+    if (tabId == null || !frameURL) {
       return
     }
 
     const extensionUrl = location.origin // chrome.runtime.getURL('').slice(0, -1)
-    const domain       = new URL(url).hostname
+    const domain       = new URL(frameURL).hostname
 
     // File and folder names
     const userScriptsFolder = 'user-scripts'
