@@ -1,5 +1,3 @@
-const MESSAGE_TYPE = 'frame-communication'
-
 /**
  * @typedef {typeof MESSAGE_TYPE} MessageType
  */
@@ -9,6 +7,7 @@ const MESSAGE_TYPE = 'frame-communication'
  * @property {MessageType} type
  * @property {number} id
  * @property {string} stringifiedCallback
+ * @property {string} stringifiedSharedFunctions
  * @property {unknown[]} args
  */
 
@@ -27,14 +26,17 @@ const MESSAGE_TYPE = 'frame-communication'
  * @typedef {(event: MessageEvent<CommunicationDataReceived>) => void} CommunicationMessageReceivedListener
  */
 
+const MESSAGE_TYPE = 'frame-communication'
+
 const scriptNonce = document.querySelector('script[nonce]')?.nonce
+
 
 /**
  * 
  * @param {string} scriptContent
  * @returns {HTMLScriptElement} 
  */
-function createScriptForTaskFromString(scriptContent) {
+function createScriptForTaskFromString(scriptContent, stringifiedSharedFunctions) {
   const script = document.createElement('script')
 
   if (scriptNonce) {
@@ -53,7 +55,7 @@ function createScriptForTaskFromString(scriptContent) {
 
       const task = new Promise((resolve, reject) => {
         try {
-          const value = (${scriptContent})(...args)
+          const value = (${scriptContent})((args ?? []), ${stringifiedSharedFunctions})
           resolve(value)
         } catch (reason) {
           reject(reason)
@@ -75,14 +77,14 @@ function createScriptForTaskFromString(scriptContent) {
  * @type {(event: MessageEvent<CommunicationDataSent | CommunicationDataReceived>) => void}
  */
 const messageFromOtherFramesListener = event => {
-  const { stringifiedCallback, args } = event.data
+  const { stringifiedCallback, args, stringifiedSharedFunctions } = event.data
 
   // If it doesn't contain this property, it is a message answer to `runTaskInFrame()`
   if (typeof stringifiedCallback !== 'string') {
     return
   }
 
-  const script = createScriptForTaskFromString(stringifiedCallback)
+  const script = createScriptForTaskFromString(stringifiedCallback, stringifiedSharedFunctions)
 
   document.head.append(script)
 
@@ -107,16 +109,34 @@ window.addEventListener('message', messageFromOtherFramesListener)
 /**
  * @typedef RunTaskOptions
  * @property {(...args: unknown[]) => unknown} callback
- * @property {unknown[]} args
+ * @property {unknown[]} [args] Array of transferable object to pass to the callback
+ * @property {{[key: string]: (...args: unknown[]) => unknown}} [sharedFunctions] 
  */
 
 /**
  * 
  * @param {Window} frameWindow 
  * @param {RunTaskOptions} options 
+ * @returns {Promise<unknown>}
  */
 export function runTaskInFrame(frameWindow, options = {}) {
-  const { callback, args = [] } = options
+  const { callback, args = [], sharedFunctions = {} } = options
+
+  const sharedFunctionsToString = (() => {
+    if (!sharedFunctions || typeof sharedFunctions !== 'object') {
+      return {}
+    }
+
+    let result = '{'
+
+    for (const key in sharedFunctions) {
+      result += `${key}: ${sharedFunctions[key].toString()},`
+    }
+
+    result += '}'
+
+    return result
+  })()
 
   return new Promise((resolve, reject) => {
     /**@type {CommunicationDataSent} */
@@ -124,6 +144,7 @@ export function runTaskInFrame(frameWindow, options = {}) {
       type: MESSAGE_TYPE,
       id: performance.now(),
       stringifiedCallback: String(callback),
+      stringifiedSharedFunctions: sharedFunctionsToString,
       args,
     }
 

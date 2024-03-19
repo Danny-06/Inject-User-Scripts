@@ -35,3 +35,21 @@ export async function parseJSONResponseWithComments(response) {
     return null
   }
 }
+
+
+/**
+ * 
+ * @param {Blob} blob 
+ * @returns {Promise<string>}
+ */
+export async function blobToBase64(blob) {
+  const fileReader = new FileReader()
+
+  fileReader.readAsDataURL(blob)
+
+  return new Promise((resolve, reject) => {
+    fileReader.addEventListener('load', event => resolve(fileReader.result))
+
+    fileReader.addEventListener('error', event => reject(fileReader.error))
+  })
+}

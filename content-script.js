@@ -18,11 +18,11 @@ getIsExtensionEnabled().then(isEnabled => {
 
 // Send messages from background script to web page
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  window.dispatchEvent(new CustomEvent(`extension:${chrome.runtime.id}`, {detail: message}))
+  window.dispatchEvent(new CustomEvent(`extension-response:${chrome.runtime.id}`, {detail: message}))
   sendResponse({})
 })
 
 // Send message from web page to bakground script
-window.addEventListener(`extension:${chrome.runtime.id}`, event => {
+window.addEventListener(`extension-request:${chrome.runtime.id}`, event => {
   chrome.runtime.sendMessage(event.detail)
 })

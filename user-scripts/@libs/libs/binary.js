@@ -224,3 +224,28 @@ export class Binary {
   }
 
 }
+
+/**
+ * 
+ * @param {string} base64DataURI 
+ * @returns 
+ */
+export function base64DataURIToBlob(base64DataURI) {
+  const parts = base64DataURI.split(';base64,')
+
+  const type = parts[0].split(':')
+
+  const base64 = parts[1]
+
+  const decodedString = atob(base64)
+
+  const typedArray = new Uint8Array(decodedString.length)
+
+  for (let i = 0; i < typedArray.length; i++) {
+    typedArray[i] = decodedString[i].charCodeAt(0)
+  }
+
+  const blob = new Blob([typedArray], {type})
+
+  return blob
+}

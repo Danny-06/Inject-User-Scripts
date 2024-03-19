@@ -1,4 +1,4 @@
-import { parseJSONResponseWithComments } from './utils-extension.js'
+import { blobToBase64, parseJSONResponseWithComments } from './utils-extension.js'
 
 const EXTENSION_ENABLED = 'EXTENSION_ENABLED'
 
@@ -123,58 +123,23 @@ chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
 // Allow cross-fetch if the website dispatch the specific event
 // Handle messages sent from a web page
 chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
+
   void async function() {
-    if (data.type === 'cross-fetch-start') {
+    if (data?.message?.action === 'cross-fetch-as-base64') {
 
       if (sender == null || sender.tab == null || sender.tab.id == null) {
         return
       }
 
-      /**@type {chrome.declarativeNetRequest.Rule} */
-      const rule = {
-        id: -1,
-        action: {
-          type: chrome.declarativeNetRequest.RuleActionType.MODIFY_HEADERS,
-          responseHeaders: [
-            {
-              header: 'access-control-allow-origin',
-              operation: chrome.declarativeNetRequest.HeaderOperation.SET,
-              value: '*',
-            },
-          ]
-        },
-        condition: {
-          urlFilter: '*',
-          resourceTypes: [
-            chrome.declarativeNetRequest.ResourceType.XMLHTTPREQUEST,
-          ],
-        },
-      }
+      const [ url, options ] = data.message.args
 
-      const dynaminRules = await chrome.declarativeNetRequest.getDynamicRules()
-      let id = Math.max(...dynaminRules.map(rule => rule.id)) + 1
+      const response = await fetch(url, options).catch(reason => null)
 
-      if (!isFinite(id)) id = 1
+      const blob = await response.blob()
 
-      await chrome.declarativeNetRequest.updateDynamicRules({addRules: [{...rule, id}]})
+      const base64Blob = await blobToBase64(blob)
 
-      chrome.tabs.sendMessage(sender.tab.id, {type: 'bg-script-response', timeId: data.timeId})
-
-      await new Promise(resolve =>
-        chrome.runtime.onMessage.addListener(d => {
-          if (sender == null || sender.tab == null || sender.tab.id == null) {
-            return
-          }
-
-          if (d.type === 'cross-fetch-end' && d.timeId === data.timeId) {
-            chrome.tabs.sendMessage(sender.tab.id, {type: 'bg-script-response', timeId: data.timeId})
-            resolve()
-          }
-        })
-      )
-
-      await chrome.declarativeNetRequest.updateDynamicRules({removeRuleIds: [id]})
-
+      chrome.tabs.sendMessage(sender.tab.id, {type: 'bg-script-response', data: base64Blob, timeId: data.timeId})
     }
 
     sendResponse({})

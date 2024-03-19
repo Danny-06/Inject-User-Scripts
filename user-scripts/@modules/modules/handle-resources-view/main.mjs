@@ -74,7 +74,7 @@ function changeBgImage(callback) {
   const inputColor = doc.createElement('input')
   inputColor.type = 'color'
 
-  const color = document.body.style.backgroundColor.replace('rgb(', '').replace(')', '').split(', ').map(n => parseInt(n))
+  const color = document.body.style.backgroundColor === '' ? [0, 0, 0] : document.body.style.backgroundColor.replace('rgb(', '').replace(')', '').split(', ').map(n => parseInt(n))
 
   inputColor.value = `#${decimalToHex(...color, 255).join('').slice(0, -2)}`
   inputColor.style.position = 'fixed'

@@ -434,6 +434,8 @@ export const DOMPrimitives = Object.freeze(new class {
     return fragment.firstChild
   }
 
+  // TODO: Add `run` function to ShadowRoot
+
   /**
    * It must be the 1st child of an element,  
    * otherwise it is treated as a normal {@link DocumentFragment}.

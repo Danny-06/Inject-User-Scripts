@@ -1,3 +1,5 @@
+import { base64DataURIToBlob } from './libs/binary.js'
+
 export const extensionId = import.meta.url.match(/(?<=(chrome-extension:\/\/))[a-z]*(?=(\/))/)[0]
 
 /**
@@ -23,8 +25,8 @@ export function getURL(path) {
 export function sendMessage(message, timeIdParam) {
   // Indentify background-script response with 'perfomance.now()'
   const timeId = timeIdParam ?? performance.now()
-  const detail = {...message, timeId}
-  const customEvent = new CustomEvent(`extension:${extensionId}`, {detail})
+  const detail = {message, timeId}
+  const customEvent = new CustomEvent(`extension-request:${extensionId}`, {detail})
 
   window.dispatchEvent(customEvent)
 
@@ -32,26 +34,41 @@ export function sendMessage(message, timeIdParam) {
 
     const abortController = new AbortController()
 
-    window.addEventListener(`extension:${extensionId}`, event => {
-      const message = event.detail
-      if (message.type !== 'bg-script-response' || message.timeId !== timeId) return
+    window.addEventListener(`extension-response:${extensionId}`, event => {
+      const response = event.detail
+      if (response.type !== 'bg-script-response' || response.timeId !== timeId) {
+        return
+      }
 
       abortController.abort()
-      resolve({message: event.message, timeId})
+      resolve({response: response.data, timeId})
     }, {signal: abortController.signal})
 
   })
 }
 
 /**
- * Allows cross origin requests with 'fetch' by setting temporaly the 'Access-Control-Allow-Origin' header to '*'
+ * 
+ * @param {Parameters<fetch>[0]} url 
+ * @param {Parameters<fetch>[1]} options 
  */
- export async function crossFetch(url, options = null) {
-  const {timeId} = await sendMessage({type: 'cross-fetch-start'})
+export async function crossFetchAsBase64DataURI(url, options) {
+  const message = await sendMessage({action: 'cross-fetch-as-base64', args: [url, options]})
 
-  const response = await fetch(url, options).catch(() => null)
-
-  sendMessage({type: 'cross-fetch-end'}, timeId)
+  const { response } = message
 
   return response
+}
+
+/**
+ * 
+ * @param {Parameters<fetch>[0]} url 
+ * @param {Parameters<fetch>[1]} options 
+ */
+export async function crossFetchAsBlob(url, options) {
+  const base64DataURI = await crossFetchAsBase64DataURI(url, options)
+
+  const blob = base64DataURIToBlob(base64DataURI)
+
+  return blob
 }
