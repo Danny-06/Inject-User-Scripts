@@ -171,3 +171,114 @@ export function runTaskInFrame(frameWindow, options = {}) {
     window.addEventListener('message', messageListener)
   })
 }
+
+if (window !== window.top && location.protocol === 'chrome-extension:') {
+  window.addEventListener('message', async event => {
+    const { type, args } = event.data
+
+    if (type !== 'cross-fetch-request') {
+      return
+    }
+
+    const [input, init, options] = args
+
+    window.fetch(input, init)
+    .then(response => {
+      switch (options?.format) {
+
+        case 'text': {
+          return response.text()
+        }
+
+        case 'blob': {
+          return response.blob()
+        }
+
+        case 'arrayBuffer': {
+          return response.arrayBuffer()
+        }
+
+        case 'json': {
+          return response.json()
+        }
+
+        default: {
+          return response.blob()
+        }
+      }
+    })
+    .then(
+      value => window.top.postMessage({type: 'cross-fetch-response', value}, {targetOrigin: '*'}),
+      reason =>  window.top.postMessage({type: 'cross-fetch-response', reason}, {targetOrigin: '*'}),
+    )
+  })
+}
+
+/**
+ * @typedef {boolean | string | number} JSONPrimitive
+ */
+
+/**
+ * @typedef {{[key: string]: JSONPrimitive | JSONObject | JSONArray} | null} JSONObject
+ */
+
+/**
+ * @typedef {Array<JSONPrimitive | JSONObject>} JSONArray
+ */
+
+/**
+ * @typedef {JSONPrimitive | JSONObject | JSONArray} JSONData
+ */
+
+/**
+ * 
+ * @template {'text' | 'blob' | 'arrayBuffer' | 'json' | undefined | null} T
+ * @param {Parameters<typeof fetch>[0]} input 
+ * @param {Parameters<typeof fetch>[1]} [init] 
+ * @param {{format?: T}} [options] Default format is `'blob'`
+ * @returns {Promise<T extends string ? (T extends 'text' ? string : T extends 'blob' ? Blob : T extends 'arrayBuffer' ? ArrayBuffer : T extends 'json' ? JSONData : never) : Blob>}
+ */
+export async function crossFetch(input, init, options) {
+  // The srcdoc iframe is injected by the content-script
+  const iframe = document.createElement('iframe')
+
+  Object.assign(iframe, {
+    src: new URL('./cross-fetch-iframe-communication.html', import.meta.url),
+  })
+
+  Object.assign(iframe.style, {
+    display: 'none',
+  })
+
+  document.body.append(iframe)
+
+  await new Promise(resolve => {
+    iframe.addEventListener('load', event => {
+      resolve()
+    })
+  })
+
+  return new Promise((resolve, reject) => {
+    iframe.contentWindow.postMessage({type: 'cross-fetch-request', args: [input, init, options]}, {targetOrigin: '*'})
+
+    const abortController = new AbortController()
+
+    window.addEventListener('message', event => {
+      const { type, value, reason } = event.data
+
+      if (type !== 'cross-fetch-response') {
+        return
+      }
+
+      if (reason) {
+        reject(reason)
+      }
+      else {
+        resolve(value)
+      }
+
+      abortController.abort()
+    }, {signal: abortController.signal})
+  })
+  .finally(() => iframe.remove())
+}
