@@ -233,7 +233,7 @@ export class Binary {
 export function base64DataURIToBlob(base64DataURI) {
   const parts = base64DataURI.split(';base64,')
 
-  const type = parts[0].split(':')
+  const type = parts[0].split(':')[1]
 
   const base64 = parts[1]
 

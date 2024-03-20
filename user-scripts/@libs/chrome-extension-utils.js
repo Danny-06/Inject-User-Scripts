@@ -20,6 +20,7 @@ export function getURL(path) {
 /**
  * 
  * @param {{message: any, timeId: number}} message 
+ * @param {number | string} [timeIdParam] 
  * @returns 
  */
 export function sendMessage(message, timeIdParam) {
@@ -50,7 +51,7 @@ export function sendMessage(message, timeIdParam) {
 /**
  * 
  * @param {Parameters<fetch>[0]} url 
- * @param {Parameters<fetch>[1]} options 
+ * @param {Parameters<fetch>[1]} [options] 
  */
 export async function crossFetchAsBase64DataURI(url, options) {
   const message = await sendMessage({action: 'cross-fetch-as-base64', args: [url, options]})
@@ -63,7 +64,7 @@ export async function crossFetchAsBase64DataURI(url, options) {
 /**
  * 
  * @param {Parameters<fetch>[0]} url 
- * @param {Parameters<fetch>[1]} options 
+ * @param {Parameters<fetch>[1]} [options] 
  */
 export async function crossFetchAsBlob(url, options) {
   const base64DataURI = await crossFetchAsBase64DataURI(url, options)
